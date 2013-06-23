@@ -10,6 +10,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 FileEncoding, UTF-8
 
 #Include <winos>
+#Include <tfs>
 #include <vistaswitcher>
 
 if (%0% > 0) {
@@ -43,10 +44,11 @@ CapsLock & right::desktops_right(%Desktop%)
 CapsLock & left::desktops_left(%Desktop%) 
 
 ; language switching
-CapsLock & k::tfs_switch_korean(GetKeyState("shift"))
-CapsLock & c::tfs_switch_chinese(GetKeyState("shift"))
-CapsLock & g::tfs_switch_german(GetKeyState("shift"))
-CapsLock & e::tfs_switch_english(GetKeyState("shift"))
+CapsLock & k::tfs_switch("korean", GetKeyState("shift"))
+CapsLock & c::tfs_switch("chinese", GetKeyState("shift"))
+CapsLock & g::tfs_switch("german", GetKeyState("shift"))
+CapsLock & e::tfs_switch("english", GetKeyState("shift"))
+CapsLock::tfs_toggle_language()
 
 #UseHook OFF
 
