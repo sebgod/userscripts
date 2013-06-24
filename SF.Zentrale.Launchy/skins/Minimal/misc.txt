@@ -1,0 +1,7 @@
+icon = 100,100,100,100
+
+dropPathColor = 0,0,0
+dropPathFamily = Myriad 
+dropPathSize = 7
+dropPathWeight = 1
+dropPathItalics = 0
