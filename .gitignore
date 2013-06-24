@@ -1,5 +1,7 @@
 homebin/www.nirsoft.net/
 homebin/live.sysinternals.com/
+*.db
+*-icon-cache
 
 #################
 ## Eclipse
