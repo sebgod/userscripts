@@ -20,7 +20,7 @@ namespace SF.Zentrale.LaunchyPlugin
         private const string TelIco = "tel.ico";
         private const string TelCat = "tel:";
 
-        private const string PluginName = "Go-Y#";
+        private const string PluginName = "Sorpetaler";
 
         private IPluginHost _pluginHost;
         private ICatItemFactory _catItemFactory;

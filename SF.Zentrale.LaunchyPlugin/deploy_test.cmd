@@ -6,8 +6,6 @@ pushd bin\Debug
 set outdir=%cd%
 popd
 
-taskkill /F /IM "Launchy.exe"
-
 pushd ..\SF.Zentrale.Launchy\plugins
 
 copy /Y "%outdir%\icons\*.*" icons
@@ -18,3 +16,5 @@ popd
 endlocal
 
 popd
+
+exit 0
