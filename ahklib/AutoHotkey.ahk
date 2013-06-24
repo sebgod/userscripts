@@ -9,15 +9,15 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 FileEncoding, UTF-8
 
-#Include <winos>
-#Include <tfs>
-#include <vistaswitcher>
-
 if (%0% > 0) {
 	Desktop := %1%
 } else {
 	Desktop := 0
 }
+
+#Include <winos>
+#Include <tfs>
+#include <vistaswitcher>
 
 desktops_seticon(%Desktop%)
 
@@ -36,6 +36,10 @@ Esc::send, exit{Enter}
 
 #IfWinActive ahk_class VirtualConsoleClass
 Esc::send, exit{Enter}
+#IfWinActive
+
+#IfWinActive ahk_class ahk_class CalcFrame
+Esc::send, !{F4}
 #IfWinActive
 
 ; Sysinternals desktop movement
