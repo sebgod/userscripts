@@ -16,6 +16,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private const string NicknameField = "mailNickname";
         private const string GivenNameField = "givenName";
         private const string SurnameField = "sn";
+        private const string DisplayNameField = "displayName";
 
         private static readonly string[] TelephoneNumberFieldTypes = new []
             {
@@ -51,38 +52,44 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 name = numberOrName;
             }
 
+            var duplicates = new HashSet<Uri>();
+            IEnumerable<PhoneNumber> phoneNumberQuery;
+
             if (number != null)
             {
-                var queryByNumber =
+                phoneNumberQuery =
                     ADConnector.FindADEntries(TelephoneNumberField, number)
                                .Cast<SearchResult>()
-                               .SelectMany(searchResult => ParsePhoneNumbers(searchResult, TelephoneNumberField));
-
-                foreach (var phoneNumber in queryByNumber)
-                {
-                    yield return phoneNumber;
-                }
+                               .SelectMany(searchResult => ParsePhoneNumbers(duplicates, searchResult, TelephoneNumberField));
             }
             else if (!string.IsNullOrEmpty(name))
             {
                 if (name.IndexOf(' ') < 0)
-                {
-                    var phoneNumbersByNamesAndTypes =
+                    phoneNumberQuery =
                         from nameType in SingleValuedNameFieldTypes
                         from SearchResult searchResult in ADConnector.FindADEntries(nameType, name)
                         from numberType in TelephoneNumberFieldTypes
-                        from phoneNumber in ParsePhoneNumbers(searchResult, numberType)
+                        from phoneNumber in ParsePhoneNumbers(duplicates, searchResult, numberType)
                         select phoneNumber;
+                else
+                    phoneNumberQuery =
+                        from numberType in TelephoneNumberFieldTypes
+                        from SearchResult searchResult in ADConnector.FindADEntries(DisplayNameField, name)
+                        from phoneNumber in ParsePhoneNumbers(duplicates, searchResult, numberType)
+                        select phoneNumber;
+            }
+            else
+            {
+                yield break;
+            }
 
-                    foreach (var phoneNumber in phoneNumbersByNamesAndTypes)
-                    {
-                        yield return phoneNumber;
-                    }
-                }
+            foreach (var phoneNumber in phoneNumberQuery)
+            {
+                yield return phoneNumber;
             }
         }
 
-        public static IEnumerable<PhoneNumber> ParsePhoneNumbers(SearchResult searchResult, string numberType)
+        public static IEnumerable<PhoneNumber> ParsePhoneNumbers(HashSet<Uri> duplicates, SearchResult searchResult, string numberType)
         {
             var propertyCollection = searchResult.Properties[numberType];
             var count = propertyCollection.Count;
@@ -91,11 +98,14 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 yield break;
             }
 
-            var displayName = searchResult.Properties["displayName"][0].ToString();
+            var displayName = searchResult.Properties[DisplayNameField][0].ToString();
             for (var i = 0; i < count; i++)
             {
                 var propertyValue = propertyCollection[i].ToString();
-                yield return new PhoneNumber(displayName, propertyValue);   
+                var phoneNumber =  new PhoneNumber(displayName, propertyValue);
+
+                if (duplicates.Add(phoneNumber.Uri))
+                    yield return phoneNumber;
             }
         }
     }
