@@ -15,7 +15,7 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
         {
             var builder = new StringBuilder(@this.Length);
 
-            foreach (var t in @this.Where(char.IsDigit))
+            foreach (var t in @this.Where(c => char.IsDigit(c) || c == '+'))
             {
                 builder.Append(t);
             }

@@ -47,48 +47,52 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 );
         }
 
-        public IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField, PhoneBookEntryField entryField, string userInput, bool fuzzy = true)
+        public IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField, 
+            IEnumerable<PhoneBookEntryField> entryFields, string userInput, bool fuzzy = true)
         {
-            var searchResults = this.adConnectorComponent1.FindADEntries(ADField(searchField), userInput, fuzzy);
-
+            var searchResults = adConnectorComponent1.FindADEntries(ADField(searchField), userInput, fuzzy);
+            var phoneBookEntryFields = entryFields as PhoneBookEntryField[] ?? entryFields.ToArray();
             foreach (SearchResult searchResult in searchResults)
             {
-                var propertyCollection = searchResult.Properties[ADField(entryField)];
-                var count = propertyCollection.Count;
-                if (propertyCollection == null || count == 0)
+                foreach (var entryField in phoneBookEntryFields)
                 {
-                    yield break;
-                }
+                    var propertyCollection = searchResult.Properties[ADField(entryField)];
+                    var count = propertyCollection.Count;
+                    if (count == 0)
+                    {
+                        yield break;
+                    }
 
-                var name = ParseName(searchResult);
-                for (var i = 0; i < count; i++)
-                {
-                    var propertyValue = propertyCollection[i].ToString();
-                    var phoneNumber = new PhoneNumber(name, propertyValue, entryField);
+                    var name = ParseName(searchResult);
+                    for (var i = 0; i < count; i++)
+                    {
+                        var propertyValue = propertyCollection[i].ToString();
+                        var phoneNumber = new PhoneNumber(name, propertyValue, entryField);
 
-                    if (duplicates.Add(phoneNumber.Uri))
-                        yield return phoneNumber;
+                        if (duplicates.Add(phoneNumber.Uri))
+                            yield return phoneNumber;
+                    }
                 }
             }
         }
 
-        private static readonly PhoneBookEntryField[] _supportedPhoneNumberFields = new[]{
+        private static readonly PhoneBookEntryField[] SupportedPhoneNumberFieldsArray = new[]{
                 PhoneBookEntryField.BusinessPhoneNumber,
                 PhoneBookEntryField.BusinessMobilePhone
         };
         public IEnumerable<PhoneBookEntryField> SupportedPhoneNumberFields
         {
-            get { return _supportedPhoneNumberFields; }
+            get { return SupportedPhoneNumberFieldsArray; }
         }
 
-        private static readonly PhoneBookEntryField[] _supportedNameFields = new[]{
+        private static readonly PhoneBookEntryField[] SupportedNameFieldsArray = new[]{
                 PhoneBookEntryField.Nickname,
                 PhoneBookEntryField.GivenName,
                 PhoneBookEntryField.Surname
         };
         public IEnumerable<PhoneBookEntryField> SupportedNameFields
         {
-            get { return _supportedNameFields; }
+            get { return SupportedNameFieldsArray; }
         }
     }
 }
