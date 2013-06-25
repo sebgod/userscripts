@@ -17,34 +17,26 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private readonly string _tscNumber;
         private readonly string _icon;
         private readonly Uri _uri;
-        private readonly PhoneNumberType _numberType;
-        private readonly bool _mobile;
+        private readonly PhoneBookEntryField _entryField;
 
-        public PhoneNumber(PersonName personName, string tscNumber, PhoneNumberType numberType = PhoneNumberType.Office, bool mobile = false, string icon = null)
+        public PhoneNumber(PersonName personName, string tscNumber, PhoneBookEntryField entryField, string icon = null)
         {
             _personName = personName;
             _tscNumber = tscNumber;
             _uri = new Uri(TelProtocol + _tscNumber);
-            _numberType = numberType;
-            _mobile = mobile;
+            _entryField = entryField;
 
             if (icon != null)
                 _icon = icon;
             else
             {
-                switch (numberType)
+                switch (_entryField)
                 {
-                    case PhoneNumberType.Home:
-                        _icon = mobile ? TelMobileHomeIcon : TelHomeIcon;
-                        break;
-
-                    case PhoneNumberType.Office:
-                        _icon = mobile ? TelMobileOfficeIcon : TelOffice;
-                        break;
-
-                    default:
-                        _icon = DefaultIcon;
-                        break;
+                    case PhoneBookEntryField.PrivateMobilePhone: _icon = TelMobileHomeIcon; break;
+                    case PhoneBookEntryField.PrivatePhoneNumber: _icon = TelHomeIcon; break;
+                    case PhoneBookEntryField.BusinessMobilePhone: _icon = TelMobileOfficeIcon; break;
+                    case PhoneBookEntryField.BusinessPhoneNumber: _icon = TelOffice; break;
+                    default: _icon = DefaultIcon; break;
                 }
             }
         }
@@ -69,14 +61,9 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             get { return _personName.DisplayName; }
         }
 
-        public PhoneNumberType NumberType
+        public PhoneBookEntryField EntryField
         {
-            get { return _numberType; }    
-        }
-
-        public bool IsMobile
-        {
-            get { return _mobile; }
+            get { return _entryField; }    
         }
 
         public string Icon

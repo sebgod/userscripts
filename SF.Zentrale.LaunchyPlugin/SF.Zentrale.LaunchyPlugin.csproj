@@ -78,6 +78,12 @@
     <Compile Include="Infrastructure\LoggingHelper.cs" />
     <Compile Include="Infrastructure\SearchResultEx.cs" />
     <Compile Include="Infrastructure\StringHelper.cs" />
+    <Compile Include="Telephone\ADPhoneConnectorComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Telephone\ADPhoneConnectorComponent.Designer.cs">
+      <DependentUpon>ADPhoneConnectorComponent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Telephone\IUriObject.cs" />
     <Compile Include="Telephone\PersonName.cs" />
     <Compile Include="Telephone\PhoneNumber.cs" />
@@ -102,6 +108,9 @@
     <EmbeddedResource Include="OptionsWidget.resx">
       <SubType>Designer</SubType>
       <DependentUpon>OptionsWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Telephone\ADPhoneConnectorComponent.resx">
+      <DependentUpon>ADPhoneConnectorComponent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

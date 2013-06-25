@@ -4,7 +4,7 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
 {
     public static class SearchResultEx
     {
-        public static string ParseSingleValuedStrignField(this SearchResult searchResult, string property)
+        public static string ParseSingleValuedStringField(this SearchResult searchResult, string property)
         {
             var collection = searchResult.Properties[property];
             if (collection == null || collection.Count == 0)
