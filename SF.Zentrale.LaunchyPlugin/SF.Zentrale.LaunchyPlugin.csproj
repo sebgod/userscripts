@@ -81,6 +81,7 @@
     <Compile Include="Telephone\IUriObject.cs" />
     <Compile Include="Telephone\Name.cs" />
     <Compile Include="Telephone\PhoneNumber.cs" />
+    <Compile Include="Telephone\PhoneNumberType.cs" />
     <Compile Include="Telephone\TelephoneSystemController.cs" />
     <Compile Include="WindowManagement\WindowNameMatcher.cs" />
     <Compile Include="OptionsWidget.cs">
@@ -120,6 +121,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\tel.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\tel_home.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\tel_mobile_home.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\tel_mobile_office.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\tel_office.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\windows.ico">

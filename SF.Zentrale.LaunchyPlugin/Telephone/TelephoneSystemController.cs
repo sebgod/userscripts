@@ -18,10 +18,24 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private const string SurnameField = "sn";
         private const string DisplayNameField = "displayName";
 
-        private static readonly string[] TelephoneNumberFieldTypes = new []
+        internal struct NumberFieldType
+        {
+            public readonly string Name;
+            public readonly bool Mobile;
+            public readonly PhoneNumberType NumberType;
+
+            public NumberFieldType(string name, bool mobile = false, PhoneNumberType numberType = PhoneNumberType.Unknown)
             {
-                TelephoneNumberField,
-                MobileField
+                Name = name;
+                Mobile = mobile;
+                NumberType = numberType;
+            }
+        }
+
+        private static readonly NumberFieldType[] TelephoneNumberFieldTypes = new[]
+            {
+                new NumberFieldType(TelephoneNumberField, numberType: PhoneNumberType.Office),
+                new NumberFieldType(MobileField, numberType: PhoneNumberType.Office, mobile: true)
             };
 
         private static readonly string[] SingleValuedNameFieldTypes = new[]
@@ -31,7 +45,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 SurnameField
             };
 
-        
+
         private static Name ParseName(SearchResult result)
         {
             return new Name(surname: result.ParseSingleValuedStrignField(DisplayNameField),
@@ -69,7 +83,9 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 phoneNumberQuery =
                     ADConnector.FindADEntries(TelephoneNumberField, number)
                                .Cast<SearchResult>()
-                               .SelectMany(searchResult => ParsePhoneNumbers(duplicates, searchResult, TelephoneNumberField));
+                               .SelectMany(
+                                   searchResult =>
+                                   ParsePhoneNumbers(duplicates, searchResult, new NumberFieldType(TelephoneNumberField)));
             }
             else if (!string.IsNullOrEmpty(name))
             {
@@ -100,9 +116,9 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             }
         }
 
-        public static IEnumerable<PhoneNumber> ParsePhoneNumbers(HashSet<Uri> duplicates, SearchResult searchResult, string numberType)
+        public static IEnumerable<PhoneNumber> ParsePhoneNumbers(HashSet<Uri> duplicates, SearchResult searchResult, NumberFieldType numberFieldType)
         {
-            var propertyCollection = searchResult.Properties[numberType];
+            var propertyCollection = searchResult.Properties[numberFieldType.Name];
             var count = propertyCollection.Count;
             if (propertyCollection == null || count == 0)
             {
@@ -113,7 +129,8 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             for (var i = 0; i < count; i++)
             {
                 var propertyValue = propertyCollection[i].ToString();
-                var phoneNumber =  new PhoneNumber(name, propertyValue);
+                var phoneNumber = new PhoneNumber(name, propertyValue, numberType: numberFieldType.NumberType,
+                                                  mobile: numberFieldType.Mobile);
 
                 if (duplicates.Add(phoneNumber.Uri))
                     yield return phoneNumber;

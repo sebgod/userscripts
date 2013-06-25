@@ -16,9 +16,6 @@ namespace SF.Zentrale.LaunchyPlugin
     {
         private const string FocusIco = "windows.ico";
         private const string FocusCat = "focus:";
-
-        private const string TelIco = "tel.ico";
-
         private const string PluginName = "Sorpetaler";
 
         private IPluginHost _pluginHost;
@@ -141,7 +138,7 @@ namespace SF.Zentrale.LaunchyPlugin
         public void getCatalog(List<ICatItem> catalogItems)
         {
             catalogItems.Add(_catItemFactory.createCatItem(FocusCat, "Focus", getID(), getIcon(FocusIco)));
-            catalogItems.Add(_catItemFactory.createCatItem(PhoneNumber.TelProtocol, "Telefon", getID(), getIcon(TelIco)));
+            catalogItems.Add(_catItemFactory.createCatItem(PhoneNumber.TelProtocol, "Telefon", getID(), getIcon(PhoneNumber.DefaultIcon)));
         }
 
         public void launchItem(List<IInputData> inputDataList, ICatItem item)
