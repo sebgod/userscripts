@@ -18,7 +18,6 @@ namespace SF.Zentrale.LaunchyPlugin
         private const string FocusCat = "focus:";
 
         private const string TelIco = "tel.ico";
-        private const string TelCat = "tel:";
 
         private const string PluginName = "Sorpetaler";
 
@@ -47,7 +46,7 @@ namespace SF.Zentrale.LaunchyPlugin
             _iconPath = _launchyPaths.getIconsPath();
             _id = _pluginHost.hash(_name);
             _focusLabel = _pluginHost.hash(FocusCat);
-            _telLabel = _pluginHost.hash(TelCat);
+            _telLabel = _pluginHost.hash(PhoneNumber.TelProtocol);
         }
 
         public uint getID()
@@ -128,8 +127,8 @@ namespace SF.Zentrale.LaunchyPlugin
         {
             var phoneInput = inputDataList[0].getText();
 
-            if (!phoneInput.StartsWith(TelCat) && inputDataList.Count == 2)
-                phoneInput = TelCat + inputDataList[1].getText();
+            if (!phoneInput.StartsWith(PhoneNumber.TelProtocol) && inputDataList.Count == 2)
+                phoneInput = PhoneNumber.TelProtocol + inputDataList[1].getText();
 
             PhoneNumber phoneNumber;
             if (TelephoneSystemController.TryParsePhoneNumber(phoneInput, out phoneNumber))
@@ -142,7 +141,7 @@ namespace SF.Zentrale.LaunchyPlugin
         public void getCatalog(List<ICatItem> catalogItems)
         {
             catalogItems.Add(_catItemFactory.createCatItem(FocusCat, "Focus", getID(), getIcon(FocusIco)));
-            catalogItems.Add(_catItemFactory.createCatItem(TelCat, "Telefon", getID(), getIcon(TelIco)));
+            catalogItems.Add(_catItemFactory.createCatItem(PhoneNumber.TelProtocol, "Telefon", getID(), getIcon(TelIco)));
         }
 
         public void launchItem(List<IInputData> inputDataList, ICatItem item)

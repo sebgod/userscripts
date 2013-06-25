@@ -3,13 +3,19 @@ using SF.Zentrale.LaunchyPlugin.Infrastructure;
 
 namespace SF.Zentrale.LaunchyPlugin.Telephone
 {
-    class PhoneNumber
+    public class PhoneNumber
     {
+        public const string TelProtocol = "tel:";
+
+        private readonly string _displayName;
+        private readonly string _tscNumber;
         private readonly Uri _uri;
 
-        public PhoneNumber(Uri uri)
+        public PhoneNumber(string displayName, string tscNumber)
         {
-            _uri = uri;
+            _displayName = displayName;
+            _tscNumber = tscNumber;
+            _uri = new Uri(TelProtocol + _tscNumber);
         }
 
         public Uri Uri
@@ -24,7 +30,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         public string TelephoneSystemCompliantNumber
         {
-            get { return _uri.GetComponents(UriComponents.Path, UriFormat.Unescaped); }
+            get { return _tscNumber; }
         }
 
         public string CanonicalNumber
@@ -34,15 +40,12 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         public string CalleeDisplayName
         {
-            get { return null; }
+            get { return _displayName; }
         }
 
         public override string ToString()
         {
-            var calleDisplayName = CalleeDisplayName;
-            var canonNumber = CanonicalNumber;
-
-            return calleDisplayName.AddSpaceIfNotEmpty() + canonNumber;
+            return CalleeDisplayName.AddSpaceIfNotEmpty() + CanonicalNumber;
         }
     }
 }

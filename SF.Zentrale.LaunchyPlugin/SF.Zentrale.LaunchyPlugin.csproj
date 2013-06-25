@@ -63,11 +63,18 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\ADConnectorComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\ADConnectorComponent.Designer.cs">
+      <DependentUpon>ADConnectorComponent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\LoggingHelper.cs" />
     <Compile Include="Infrastructure\StringHelper.cs" />
     <Compile Include="Telephone\PhoneNumber.cs" />
@@ -85,6 +92,9 @@
     <Compile Include="WindowManagement\WindowsDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Infrastructure\ADConnectorComponent.resx">
+      <DependentUpon>ADConnectorComponent.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OptionsWidget.resx">
       <SubType>Designer</SubType>
       <DependentUpon>OptionsWidget.cs</DependentUpon>
@@ -112,9 +122,6 @@
     <Content Include="icons\windows.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="deploy_test.cmd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

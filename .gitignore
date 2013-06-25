@@ -4,7 +4,7 @@ homebin/tidy.exe
 homebin/api/
 *.db
 *-icon-cache
-
+SF.Zentrale.Launchy/plugins/Sorpetaler.dll
 
 #################
 ## Eclipse
