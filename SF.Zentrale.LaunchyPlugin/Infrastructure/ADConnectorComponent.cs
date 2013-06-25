@@ -17,11 +17,11 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
             InitializeComponent();
         }
 
-        public bool TryFindADUserByNumber(string number, out SearchResult adEntry)
+        public SearchResultCollection FindADEntries(string field, string value, bool fuzzy = true)
         {
-            dsPhoneNumbers.Filter = string.Format("(telephoneNumber={0})", number);
-            adEntry = dsPhoneNumbers.FindOne();
-            return adEntry != null;
+            dsPhoneNumbers.Filter = string.Format("({0}={1}{2})", field, value,
+                                                  value.Length >= 2 && (value.IndexOf('*') < 0 || fuzzy) ? "*" : "");
+            return dsPhoneNumbers.FindAll();
         }
     }
 }

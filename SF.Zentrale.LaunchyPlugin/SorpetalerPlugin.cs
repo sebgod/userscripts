@@ -130,12 +130,12 @@ namespace SF.Zentrale.LaunchyPlugin
             if (!phoneInput.StartsWith(PhoneNumber.TelProtocol) && inputDataList.Count == 2)
                 phoneInput = PhoneNumber.TelProtocol + inputDataList[1].getText();
 
-            PhoneNumber phoneNumber;
-            if (TelephoneSystemController.TryParsePhoneNumber(phoneInput, out phoneNumber))
-            {
-                resultsList.Add(_catItemFactory.createCatItem(phoneNumber.UriString, phoneNumber.ToString(), getID(),
-                                                              getIcon(TelIco)));
-            }
+            resultsList.AddRange(TelephoneSystemController.ParsePhoneNumbers(phoneInput).Select(UriObjectToCatItem));
+        }
+
+        private ICatItem UriObjectToCatItem(IUriObject phoneNumber)
+        {
+            return _catItemFactory.createCatItem(phoneNumber.UriToString(), phoneNumber.ToString(), getID(), getIcon(phoneNumber.Icon));
         }
 
         public void getCatalog(List<ICatItem> catalogItems)
