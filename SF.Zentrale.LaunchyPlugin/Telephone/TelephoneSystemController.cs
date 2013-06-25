@@ -46,9 +46,9 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             };
 
 
-        private static Name ParseName(SearchResult result)
+        private static PersonName ParseName(SearchResult result)
         {
-            return new Name(surname: result.ParseSingleValuedStrignField(DisplayNameField),
+            return new PersonName(surname: result.ParseSingleValuedStrignField(DisplayNameField),
                             givenName: result.ParseSingleValuedStrignField(GivenNameField),
                             displayName: result.ParseSingleValuedStrignField(DisplayNameField)
                 );

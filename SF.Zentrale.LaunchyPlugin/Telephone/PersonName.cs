@@ -2,14 +2,14 @@
 
 namespace SF.Zentrale.LaunchyPlugin.Telephone
 {
-    public class Name
+    public class PersonName
     {
         private readonly string _title;
         private readonly string _displayName;
         private readonly string _givenName;
         private readonly string _surname;
 
-        public Name(string title = null, string surname = null, string givenName = null, string displayName = null)
+        public PersonName(string title = null, string surname = null, string givenName = null, string displayName = null)
         {
             _title = string.IsNullOrEmpty(title) ? null : title;
             _surname = string.IsNullOrEmpty(surname) ? null : surname;

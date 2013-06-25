@@ -79,7 +79,7 @@
     <Compile Include="Infrastructure\SearchResultEx.cs" />
     <Compile Include="Infrastructure\StringHelper.cs" />
     <Compile Include="Telephone\IUriObject.cs" />
-    <Compile Include="Telephone\Name.cs" />
+    <Compile Include="Telephone\PersonName.cs" />
     <Compile Include="Telephone\PhoneNumber.cs" />
     <Compile Include="Telephone\PhoneNumberType.cs" />
     <Compile Include="Telephone\TelephoneSystemController.cs" />

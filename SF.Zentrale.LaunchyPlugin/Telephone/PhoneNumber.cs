@@ -13,16 +13,16 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         const string TelHomeIcon = "tel_home.ico";
         const string TelOffice = "tel_office.ico";
 
-        private readonly Name _name;
+        private readonly PersonName _personName;
         private readonly string _tscNumber;
         private readonly string _icon;
         private readonly Uri _uri;
         private readonly PhoneNumberType _numberType;
         private readonly bool _mobile;
 
-        public PhoneNumber(Name name, string tscNumber, PhoneNumberType numberType = PhoneNumberType.Office, bool mobile = false, string icon = null)
+        public PhoneNumber(PersonName personName, string tscNumber, PhoneNumberType numberType = PhoneNumberType.Office, bool mobile = false, string icon = null)
         {
-            _name = name;
+            _personName = personName;
             _tscNumber = tscNumber;
             _uri = new Uri(TelProtocol + _tscNumber);
             _numberType = numberType;
@@ -66,7 +66,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         public string CalleeDisplayName
         {
-            get { return _name.DisplayName; }
+            get { return _personName.DisplayName; }
         }
 
         public PhoneNumberType NumberType
