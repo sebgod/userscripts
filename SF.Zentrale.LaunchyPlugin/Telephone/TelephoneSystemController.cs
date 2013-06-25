@@ -36,13 +36,13 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             if (!Uri.TryCreate(phoneInput, UriKind.Absolute, out uri)) yield break;
 
             var numberOrName = uri.GetComponents(UriComponents.Path, UriFormat.Unescaped).Trim();
-            var startsWithPlus = numberOrName.Length > 0 && numberOrName[0] == '+';
+            var startsWithPlusOrParen = numberOrName.Length > 0 && "+(".IndexOf(numberOrName[0]) >= 0;
             var startsWithDigit = char.IsDigit(numberOrName, 0);
 
             string number, name;
-            if (startsWithDigit || startsWithPlus)
+            if (startsWithDigit || startsWithPlusOrParen)
             {
-                number = (startsWithPlus ? "00" + numberOrName : numberOrName).CleanupNumber();
+                number = (startsWithPlusOrParen ? "00" + numberOrName : numberOrName).CleanupNumber();
                 name = null;
             }
             else
