@@ -31,6 +31,15 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 SurnameField
             };
 
+        
+        private static Name ParseName(SearchResult result)
+        {
+            return new Name(surname: result.ParseSingleValuedStrignField(DisplayNameField),
+                            givenName: result.ParseSingleValuedStrignField(GivenNameField),
+                            displayName: result.ParseSingleValuedStrignField(DisplayNameField)
+                );
+        }
+
         public static IEnumerable<PhoneNumber> ParsePhoneNumbers(string phoneInput)
         {
             Uri uri;
@@ -77,6 +86,8 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                         from SearchResult searchResult in ADConnector.FindADEntries(DisplayNameField, name)
                         from phoneNumber in ParsePhoneNumbers(duplicates, searchResult, numberType)
                         select phoneNumber;
+
+                // TODO: Blackberry like Suche
             }
             else
             {
@@ -98,11 +109,11 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 yield break;
             }
 
-            var displayName = searchResult.Properties[DisplayNameField][0].ToString();
+            var name = ParseName(searchResult);
             for (var i = 0; i < count; i++)
             {
                 var propertyValue = propertyCollection[i].ToString();
-                var phoneNumber =  new PhoneNumber(displayName, propertyValue);
+                var phoneNumber =  new PhoneNumber(name, propertyValue);
 
                 if (duplicates.Add(phoneNumber.Uri))
                     yield return phoneNumber;

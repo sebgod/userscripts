@@ -7,14 +7,14 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
     {
         public const string TelProtocol = "tel:";
 
-        private readonly string _displayName;
+        private readonly Name _name;
         private readonly string _tscNumber;
         private readonly string _icon;
         private readonly Uri _uri;
 
-        public PhoneNumber(string displayName, string tscNumber, string icon = TelProtocol)
+        public PhoneNumber(Name name, string tscNumber, string icon = TelProtocol)
         {
-            _displayName = displayName;
+            _name = name;
             _tscNumber = tscNumber;
             _uri = new Uri(TelProtocol + _tscNumber);
             _icon = icon;
@@ -37,7 +37,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         public string CalleeDisplayName
         {
-            get { return _displayName; }
+            get { return _name.DisplayName; }
         }
 
         public string Icon

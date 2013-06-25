@@ -40,7 +40,8 @@
             "mailNickname",
             "mail",
             "distinguishedName",
-            "displayName"});
+            "displayName",
+            "mobile"});
             this.dsPhoneNumbers.SearchRoot = this.directoryEntry1;
             this.dsPhoneNumbers.SearchScope = System.DirectoryServices.SearchScope.OneLevel;
             this.dsPhoneNumbers.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");

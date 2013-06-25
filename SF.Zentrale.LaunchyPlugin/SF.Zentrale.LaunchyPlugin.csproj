@@ -76,8 +76,10 @@
       <DependentUpon>ADConnectorComponent.cs</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\LoggingHelper.cs" />
+    <Compile Include="Infrastructure\SearchResultEx.cs" />
     <Compile Include="Infrastructure\StringHelper.cs" />
     <Compile Include="Telephone\IUriObject.cs" />
+    <Compile Include="Telephone\Name.cs" />
     <Compile Include="Telephone\PhoneNumber.cs" />
     <Compile Include="Telephone\TelephoneSystemController.cs" />
     <Compile Include="WindowManagement\WindowNameMatcher.cs" />
