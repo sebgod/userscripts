@@ -2,7 +2,7 @@ homebin/www.nirsoft.net/
 homebin/live.sysinternals.com/
 homebin/tidy.exe
 homebin/api/
-*.db
+SF.Zentrale.Launchy/*.db
 *-icon-cache
 SF.Zentrale.Launchy/plugins/Sorpetaler.dll
 
