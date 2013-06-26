@@ -26,13 +26,16 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             if (!Uri.TryCreate(phoneInput, UriKind.Absolute, out uri)) yield break;
 
             var numberOrName = uri.GetComponents(UriComponents.Path, UriFormat.Unescaped).Trim();
-            var startsWithPlusOrParen = numberOrName.Length > 0 && "+(".IndexOf(numberOrName[0]) >= 0;
+            if (numberOrName.Length == 0) yield break;
+
+            var startsWithPlusOrParen = "+(".IndexOf(numberOrName[0]) >= 0;
             var startsWithDigit = char.IsDigit(numberOrName, 0);
+            var endsWithDigit = char.IsDigit(numberOrName, numberOrName.Length - 1);
 
             var duplicates = new HashSet<Uri>();
             IEnumerable<PhoneNumber> phoneNumberQuery;
 
-            if (startsWithDigit || startsWithPlusOrParen)
+            if ((startsWithDigit || startsWithPlusOrParen) && endsWithDigit)
             {
                 var number = numberOrName.CleanupNumber();
                 phoneNumberQuery =
