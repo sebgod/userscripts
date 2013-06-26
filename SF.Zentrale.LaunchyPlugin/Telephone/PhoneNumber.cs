@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Win32;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 
 namespace SF.Zentrale.LaunchyPlugin.Telephone
@@ -18,6 +19,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private readonly string _icon;
         private readonly Uri _uri;
         private readonly PhoneBookEntryField _entryField;
+        private readonly DateTime _lastUpdated;
 
         public PhoneNumber(PersonName personName, string tscNumber, PhoneBookEntryField entryField, string icon = null)
         {
@@ -25,6 +27,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             _tscNumber = tscNumber;
             _uri = new Uri(TelProtocol + _tscNumber);
             _entryField = entryField;
+            _lastUpdated = DateTime.UtcNow;
 
             if (icon != null)
                 _icon = icon;
@@ -39,6 +42,16 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                     default: _icon = DefaultIcon; break;
                 }
             }
+        }
+
+        private const string TelephoneSystemCompliantNumberValueName = "TelephoneSystemCompliantNumber";
+        private const string PersonUriValueName = "PersonUri";
+        public void WriteToRegistry(RegistryKey uriStoreRoot)
+        {
+            var objectStoreKey = this.WriteUriObjectToRegistry(uriStoreRoot);
+            objectStoreKey.SetValue(TelephoneSystemCompliantNumberValueName, TelephoneSystemCompliantNumber, RegistryValueKind.String);
+            _personName.WriteUriObjectAndReferenceToRegistry(uriStoreRoot, PersonUriValueName, objectStoreKey);
+            objectStoreKey.Close();
         }
 
         public Uri Uri
@@ -69,6 +82,11 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         public string Icon
         {
             get { return _icon; }
+        }
+
+        public DateTime LastUpdated
+        {
+            get { return _lastUpdated; }
         }
 
         public override string ToString()

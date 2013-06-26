@@ -1,11 +1,10 @@
-﻿using SF.Zentrale.LaunchyPlugin.Infrastructure;
+﻿using System.Windows.Forms;
+using SF.Zentrale.LaunchyPlugin.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.DirectoryServices;
 using System.Linq;
-using System.Text;
 
 namespace SF.Zentrale.LaunchyPlugin.Telephone
 {
@@ -41,10 +40,28 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         private static PersonName ParseName(SearchResult result)
         {
-            return new PersonName(surname: result.ParseSingleValuedStringField(ADField(PhoneBookEntryField.Surname)),
-                            givenName: result.ParseSingleValuedStringField(ADField(PhoneBookEntryField.GivenName)),
-                            displayName: result.ParseSingleValuedStringField(ADField(PhoneBookEntryField.DisplayName))
-                );
+            Func<PhoneBookEntryField, string> parseValue =
+                pEntry => result.ParseSingleValuedStringField(ADField(pEntry));
+
+            var infoFieldValue = result.ParseSingleValuedStringField("info") ?? "";
+            var infoLines = infoFieldValue.Replace("\r", "").Split('\n');
+
+            var objectExtraDataQuery =
+                from infoLine in infoLines
+                let colon = infoLine.IndexOf(':')
+                where colon > 0
+                let propName = infoLine.Substring(0, colon)
+                let propValue = infoLine.Substring(colon + 1).Trim()
+                select new KeyValuePair<string, string>(propName, propValue);
+
+            var objectExtraData = objectExtraDataQuery.ToDictionary(pItem => pItem.Key, pItem => pItem.Value);
+
+            var addressID = int.Parse(objectExtraData["ID"]);
+
+            return new PersonName(new Uri(string.Format("{0}{1:d}", PersonName.PersonProtocol, addressID)),
+                                  surname: parseValue(PhoneBookEntryField.Surname),
+                                  givenName: parseValue(PhoneBookEntryField.GivenName),
+                                  displayName: parseValue(PhoneBookEntryField.DisplayName));
         }
 
         public IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField, 
