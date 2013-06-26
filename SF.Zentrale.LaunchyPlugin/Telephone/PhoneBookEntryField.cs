@@ -21,4 +21,32 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         BusinessPhoneNumber = IsOfficeFlag | IsPhoneNumberFlag | (1 << 6),
         BusinessMobilePhone = IsOfficeFlag | IsPhoneNumberFlag | (1 << 7)
     }
+
+    public static class PhoneBookEntryFieldEx
+    {
+        public static bool IsMobile(this PhoneBookEntryField @this)
+        {
+            return (@this & PhoneBookEntryField.IsMobileFlag) != 0;
+        }
+
+        public static bool IsPhoneNumber(this PhoneBookEntryField @this)
+        {
+            return (@this & PhoneBookEntryField.IsPhoneNumberFlag) != 0;
+        }
+
+        public static bool IsSingleValuedNameField(this PhoneBookEntryField @this)
+        {
+            return (@this & PhoneBookEntryField.IsSingleValuedNameFieldFlag) != 0;
+        }
+
+        public static bool IsOffice(this PhoneBookEntryField @this)
+        {
+            return (@this & PhoneBookEntryField.IsOfficeFlag) != 0;
+        }
+
+        public static bool IsPrivate(this PhoneBookEntryField @this)
+        {
+            return (@this & PhoneBookEntryField.IsPrivateFlag) != 0;
+        }
+    }
 }

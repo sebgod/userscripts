@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using LaunchySharp;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 using SF.Zentrale.LaunchyPlugin.Telephone;
@@ -27,8 +28,16 @@ namespace SF.Zentrale.LaunchyPlugin
         private uint _focusLabel;
         private uint _telLabel;
         private WindowsDictionary _topLevelWindows;
-        private readonly WindowNameMatcher _windowNameMatcher = new WindowNameMatcher();
-        private readonly OptionsWidget _optionsWidget = new OptionsWidget();
+        private readonly WindowNameMatcher _windowNameMatcher;
+        private readonly OptionsWidget _optionsWidget;
+        private readonly ObjectRepository _objectRepository;
+
+        public SorpetalerPlugin()
+        {
+            _objectRepository = new ObjectRepository();
+            _optionsWidget = new OptionsWidget();
+            _windowNameMatcher = new WindowNameMatcher();
+        }
 
         public void init(IPluginHost pluginHost)
         {
@@ -57,7 +66,9 @@ namespace SF.Zentrale.LaunchyPlugin
         }
 
 // ReSharper disable InconsistentNaming
+// ReSharper disable MemberCanBePrivate.Global
         public string getIcon(string iconName = PluginName + ".ico")
+// ReSharper restore MemberCanBePrivate.Global
 // ReSharper restore InconsistentNaming
         {
             return Path.Combine(_iconPath, iconName);
@@ -130,9 +141,10 @@ namespace SF.Zentrale.LaunchyPlugin
             resultsList.AddRange(TelephoneSystemController.ParsePhoneNumbers(phoneInput).Select(UriObjectToCatItem));
         }
 
-        private ICatItem UriObjectToCatItem(IUriObject phoneNumber)
+        private ICatItem UriObjectToCatItem(IUriObject uriObject)
         {
-            return _catItemFactory.createCatItem(phoneNumber.UriToString(), phoneNumber.ToString(), getID(), getIcon(phoneNumber.Icon));
+            _objectRepository.AddToChangeSet(uriObject);
+            return _catItemFactory.createCatItem(uriObject.UriToString(), uriObject.ToString(), getID(), getIcon(uriObject.Icon));
         }
 
         public void getCatalog(List<ICatItem> catalogItems)
@@ -195,6 +207,10 @@ namespace SF.Zentrale.LaunchyPlugin
 
         public void launchyHide()
         {
+            foreach (var changed in _objectRepository.DequeueChanged())
+            {
+                MessageBox.Show(string.Format("uri: {0} value: {1}", changed.Uri, changed));
+            }
         }
     }
 }

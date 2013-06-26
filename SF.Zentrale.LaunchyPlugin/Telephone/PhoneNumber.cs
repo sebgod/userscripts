@@ -44,12 +44,30 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             }
         }
 
+        public static PhoneNumber ReadFromRegistry(Uri uri, RegistryKey uriStoreRoot)
+        {
+            return new PhoneNumber(uri, uriStoreRoot);
+        }
+
+        private PhoneNumber(Uri uri, RegistryKey uriStoreRoot)
+        {
+            var objectStoreKey = this.ReadUriObject(uriStoreRoot, out _lastUpdated, out _icon);
+
+            _uri = uri;
+            _tscNumber = objectStoreKey.GetValue(TelephoneSystemCompliantNumberValueName, null, RegistryValueOptions.None) as string;
+            _personName = this.ReadUriObjectFromRegistryByReference(PersonName.ReadFromRegistry, uriStoreRoot,
+                                                                    PersonUriValueName, objectStoreKey);
+        }
+
         private const string TelephoneSystemCompliantNumberValueName = "TelephoneSystemCompliantNumber";
         private const string PersonUriValueName = "PersonUri";
+        private const string EntryFieldValueName = "EntryField";
         public void WriteToRegistry(RegistryKey uriStoreRoot)
         {
             var objectStoreKey = this.WriteUriObjectToRegistry(uriStoreRoot);
+            objectStoreKey.SetValue(EntryFieldValueName, (long)EntryField, RegistryValueKind.QWord);
             objectStoreKey.SetValue(TelephoneSystemCompliantNumberValueName, TelephoneSystemCompliantNumber, RegistryValueKind.String);
+
             _personName.WriteUriObjectAndReferenceToRegistry(uriStoreRoot, PersonUriValueName, objectStoreKey);
             objectStoreKey.Close();
         }

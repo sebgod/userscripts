@@ -33,7 +33,13 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private const string GivenNameValueName = "GivenName";
         private const string SurnameValueName = "Surname";
 
-        public PersonName(Uri uri, RegistryKey uriStoreRoot)
+
+        public static PersonName ReadFromRegistry(Uri uri, RegistryKey uriStoreRoot)
+        {
+            return new PersonName(uri, uriStoreRoot);
+        }
+
+        private PersonName(Uri uri, RegistryKey uriStoreRoot)
         {
             var objectStoreKey = this.ReadUriObject(uriStoreRoot, out _lastUpdated, out _icon);
 

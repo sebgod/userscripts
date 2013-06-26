@@ -43,6 +43,33 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             return objectStoreKey;
         }
 
+        /// <summary>
+        /// Tries to restore the object wich is ferenced by the Uri stored in <para>uriValueName</para>.
+        /// This method can deal with self-references
+        /// </summary>
+        /// <typeparam name="T">The resulting type of the operation</typeparam>
+        /// <param name="this">The object wich holds the reference Uri</param>
+        /// <param name="readFromRegistry">The function how to construct the referenced object</param>
+        /// <param name="uriStoreRoot">The root of the registry object store</param>
+        /// <param name="uriValueName">The parameter name of the reference Uri value</param>
+        /// <param name="objectStoreKey">The object where <para>@this</para> is stored</param>
+        /// <returns></returns>
+        public static T ReadUriObjectFromRegistryByReference<T>(this IUriObject @this,
+                                                                Func<Uri, RegistryKey, T> readFromRegistry,
+                                                                RegistryKey uriStoreRoot, string uriValueName,
+                                                                RegistryKey objectStoreKey)
+            where T : IUriObject
+        {
+            var reference = objectStoreKey.GetValue(uriValueName) as string;
+            Uri referencedObjectUri;
+            return string.IsNullOrEmpty(reference)
+                   || !Uri.TryCreate(reference, UriKind.Absolute, out referencedObjectUri)
+                       ? default(T)
+                       : (referencedObjectUri != @this.Uri
+                              ? readFromRegistry(referencedObjectUri, uriStoreRoot)
+                              : (T) @this);
+        }
+
         public static void WriteUriObjectAndReferenceToRegistry(this IUriObject @this, RegistryKey uriStoreRoot,
                                                                 string valueName, RegistryKey objectStoreKey)
         {
@@ -59,7 +86,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             {
                 var subKey = objectStoreKey.OpenSubKey(pathes[i]) ?? objectStoreKey.CreateSubKey(pathes[i]);
                 if (subKey == null)
-                    throw new Exception(string.Format("Cannot create subkey in {0} for {1}", objectStoreKey, pathes[i]));
+                    throw new Exception(String.Format("Cannot create subkey in {0} for {1}", objectStoreKey, pathes[i]));
 
                 objectStoreKey = subKey;
             }

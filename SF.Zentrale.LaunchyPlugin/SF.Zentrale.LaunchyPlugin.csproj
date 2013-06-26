@@ -79,6 +79,7 @@
     <Compile Include="Infrastructure\LoggingHelper.cs" />
     <Compile Include="Infrastructure\SearchResultEx.cs" />
     <Compile Include="Infrastructure\StringHelper.cs" />
+    <Compile Include="Infrastructure\ObjectRepository.cs" />
     <Compile Include="Telephone\ADPhoneConnectorComponent.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -90,7 +91,6 @@
     <Compile Include="Telephone\PersonName.cs" />
     <Compile Include="Telephone\PhoneBookEntryField.cs" />
     <Compile Include="Telephone\PhoneNumber.cs" />
-    <Compile Include="Telephone\PhoneNumberType.cs" />
     <Compile Include="Telephone\TelephoneSystemController.cs" />
     <Compile Include="WindowManagement\WindowNameMatcher.cs" />
     <Compile Include="OptionsWidget.cs">
