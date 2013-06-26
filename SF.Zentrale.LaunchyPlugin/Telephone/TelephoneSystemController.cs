@@ -23,54 +23,49 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         public static IEnumerable<PhoneNumber> ParsePhoneNumbers(string phoneInput, int maxResults = 6)
         {
-            Uri uri;
-            if (!Uri.TryCreate(phoneInput, UriKind.Absolute, out uri)) yield break;
-
-            var numberOrName = uri.GetComponents(UriComponents.Path, UriFormat.Unescaped).Trim();
-            if (numberOrName.Length == 0) yield break;
-
-            var startsWithPlusOrParen = "+(".IndexOf(numberOrName[0]) >= 0;
-            var startsWithDigit = char.IsDigit(numberOrName, 0);
-            var endsWithDigit = char.IsDigit(numberOrName, numberOrName.Length - 1);
-            var isNumber = (startsWithDigit || startsWithPlusOrParen) && endsWithDigit;
-
-            if (!isNumber && string.IsNullOrEmpty(numberOrName))
+            string numberOrName;
+            bool isNumeric;
+            if (!TryParsePhoneInput(phoneInput, out numberOrName, out isNumeric))
+                yield break;
+            
+            if (!isNumeric && string.IsNullOrEmpty(numberOrName))
                 yield break;
 
             var duplicates = new HashSet<Uri>();
-
             var numberOfPhoneBooks = PhoneBooks.Count;
             for (var i = 0; i < numberOfPhoneBooks; i++)
             {
-                var pb = PhoneBooks[i];
+                var phoneBook = PhoneBooks[i];
 
                 IEnumerable<PhoneNumber> phoneNumberQuery;
-                if (isNumber)
+                if (isNumeric)
                 {
                     var number = numberOrName.CleanupNumber();
                     phoneNumberQuery =
-                        from numberType in pb.SupportedPhoneNumberFields
+                        from numberType in phoneBook.SupportedPhoneNumberFields
                         from phoneNumber in
-                            pb.ResolvePhoneNumber(duplicates, numberType, new[] {numberType}, number)
+                            phoneBook.ResolvePhoneNumber(duplicates, numberType, new[] {numberType}, number)
                         select phoneNumber;
                 }
                 else
                 {
-                    var supportedNames = pb.SupportedNameFields;
+                    var supportedNames = phoneBook.SupportedNameFields;
                     var name = numberOrName;
                     if (name.IndexOf(' ') < 0)
                     {
                         phoneNumberQuery =
                             from nameType in supportedNames
                             from phoneNumber in
-                                pb.ResolvePhoneNumber(duplicates, nameType, pb.SupportedPhoneNumberFields, name)
+                                phoneBook.ResolvePhoneNumber(duplicates, nameType, phoneBook.SupportedPhoneNumberFields,
+                                                             name)
                             select phoneNumber;
                     }
                     else
                     {
                         phoneNumberQuery =
                             from phoneNumber in
-                                pb.ResolvePhoneNumber(duplicates, PhoneBookEntryField.DisplayName, supportedNames, name)
+                                phoneBook.ResolvePhoneNumber(duplicates, PhoneBookEntryField.DisplayName, supportedNames,
+                                                             name)
                             select phoneNumber;
                         // TODO: Blackberry like: GivenName initials + Surname initials
                     }
@@ -82,11 +77,30 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 }
 
                 var isMaxResultsOrHaveResultByNumber =
-                    duplicates.Count >= maxResults || (isNumber && duplicates.Count > 0);
+                    duplicates.Count >= maxResults || (isNumeric && duplicates.Count > 0);
 
                 if (isMaxResultsOrHaveResultByNumber)
                     yield break;
             }
+        }
+
+        private static bool TryParsePhoneInput(string phoneInput, out string numberOrName, out bool isNumeric)
+        {
+            Uri uri;
+            if (!Uri.TryCreate(phoneInput, UriKind.Absolute, out uri))
+            {
+                numberOrName = null;
+                isNumeric = false;
+                return false;
+            }
+
+            numberOrName = uri.GetComponents(UriComponents.Path, UriFormat.Unescaped).Trim();
+
+            var startsWithPlusOrParen = "+(".IndexOf(numberOrName[0]) >= 0;
+            var startsWithDigit = char.IsDigit(numberOrName, 0);
+            var endsWithDigit = char.IsDigit(numberOrName, numberOrName.Length - 1);
+            isNumeric = (startsWithDigit || startsWithPlusOrParen) && endsWithDigit;
+            return numberOrName.Length > 0;
         }
     }
 }
