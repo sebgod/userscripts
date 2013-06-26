@@ -16,8 +16,7 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
 
             InitializeComponent();
         }
-
-
+        
         public const string TelephoneNumberField = "telephoneNumber";
         public const string MobileField = "mobile";
 

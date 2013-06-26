@@ -19,6 +19,18 @@ namespace SF.Zentrale.LaunchyPlugin
             {
                 caseSensitiveCheckBox.Checked = value;
             }
-        }    
+        }
+
+        public string ObjectRootPath
+        {
+            get
+            {
+                return textBoxObjectRoot.Text;
+            }
+            set
+            {
+                textBoxObjectRoot.Text = value;
+            }
+        }
     }
 }

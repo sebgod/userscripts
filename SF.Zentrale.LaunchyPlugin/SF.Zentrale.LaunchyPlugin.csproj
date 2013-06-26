@@ -87,7 +87,7 @@
       <DependentUpon>ADPhoneConnectorComponent.cs</DependentUpon>
     </Compile>
     <Compile Include="Telephone\IPhoneBook.cs" />
-    <Compile Include="Telephone\IUriObject.cs" />
+    <Compile Include="Infrastructure\IUriObject.cs" />
     <Compile Include="Telephone\PersonName.cs" />
     <Compile Include="Telephone\PhoneBookEntryField.cs" />
     <Compile Include="Telephone\PhoneNumber.cs" />

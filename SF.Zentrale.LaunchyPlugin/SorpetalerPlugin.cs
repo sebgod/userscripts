@@ -8,12 +8,16 @@ using LaunchySharp;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 using SF.Zentrale.LaunchyPlugin.Telephone;
 using SF.Zentrale.LaunchyPlugin.WindowManagement;
+using Microsoft.Win32;
+
+// ReSharper disable InconsistentNaming
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace SF.Zentrale.LaunchyPlugin
 {
-// ReSharper disable UnusedMember.Global
+    // ReSharper disable UnusedMember.Global
     public class SorpetalerPlugin : IPlugin
-// ReSharper restore UnusedMember.Global
+    // ReSharper restore UnusedMember.Global
     {
         private const string FocusIco = "windows.ico";
         private const string FocusCat = "focus:";
@@ -28,13 +32,13 @@ namespace SF.Zentrale.LaunchyPlugin
         private uint _focusLabel;
         private uint _telLabel;
         private WindowsDictionary _topLevelWindows;
+        private ObjectRepository _objectRepository;
         private readonly WindowNameMatcher _windowNameMatcher;
         private readonly OptionsWidget _optionsWidget;
-        private readonly ObjectRepository _objectRepository;
+        private string _registryObjectRoot;
 
         public SorpetalerPlugin()
         {
-            _objectRepository = new ObjectRepository();
             _optionsWidget = new OptionsWidget();
             _windowNameMatcher = new WindowNameMatcher();
         }
@@ -42,9 +46,8 @@ namespace SF.Zentrale.LaunchyPlugin
         public void init(IPluginHost pluginHost)
         {
             _pluginHost = pluginHost;
-            if (_pluginHost == null) {
-                return;
-            }
+            if (_pluginHost == null) return;
+
             _catItemFactory = _pluginHost.catItemFactory();
             _launchyPaths = _pluginHost.launchyPaths();
 
@@ -53,6 +56,15 @@ namespace SF.Zentrale.LaunchyPlugin
             _id = _pluginHost.hash(_name);
             _focusLabel = _pluginHost.hash(FocusCat);
             _telLabel = _pluginHost.hash(PhoneNumber.TelProtocol);
+
+            _registryObjectRoot = @"Software\Zentrale\Objects";
+            _objectRepository = new ObjectRepository();
+        }
+
+        public RegistryKey OpenRegistryObjectRoot(bool readWrite = false)
+        {
+            var hkcu = Registry.CurrentUser;
+            return readWrite ? hkcu.CreateSubKey(_registryObjectRoot) : hkcu.OpenSubKey(_registryObjectRoot, readWrite);
         }
 
         public uint getID()
@@ -65,11 +77,8 @@ namespace SF.Zentrale.LaunchyPlugin
             return _name;
         }
 
-// ReSharper disable InconsistentNaming
-// ReSharper disable MemberCanBePrivate.Global
+
         public string getIcon(string iconName = PluginName + ".ico")
-// ReSharper restore MemberCanBePrivate.Global
-// ReSharper restore InconsistentNaming
         {
             return Path.Combine(_iconPath, iconName);
         }
@@ -207,9 +216,12 @@ namespace SF.Zentrale.LaunchyPlugin
 
         public void launchyHide()
         {
-            foreach (var changed in _objectRepository.DequeueChanged())
+            using (var objStoreRoot = OpenRegistryObjectRoot(readWrite: true))
             {
-                MessageBox.Show(string.Format("uri: {0} value: {1}", changed.Uri, changed));
+                foreach (var changed in _objectRepository.DequeueChanged())
+                {
+                    changed.WriteToRegistry(objStoreRoot);
+                }
             }
         }
     }

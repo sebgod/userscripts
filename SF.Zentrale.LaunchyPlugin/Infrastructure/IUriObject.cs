@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Win32;
 
-namespace SF.Zentrale.LaunchyPlugin.Telephone
+namespace SF.Zentrale.LaunchyPlugin.Infrastructure
 {
     public interface IUriObject
     {
@@ -22,7 +22,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private const string Icon = "Icon";
         public static RegistryKey ReadUriObject(this IUriObject @this, RegistryKey uriStoreRoot, out DateTime lastUpdated, out string icon)
         {
-            var objectStoreKey = @this.ObjectStoreKey(uriStoreRoot);
+            var objectStoreKey = @this.ObjectStoreKey(uriStoreRoot, false);
 
             lastUpdated =
                 DateTime.FromBinary(
@@ -35,7 +35,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         public static RegistryKey WriteUriObjectToRegistry(this IUriObject @this, RegistryKey uriStoreRoot)
         {
-            var objectStoreKey = @this.ObjectStoreKey(uriStoreRoot);
+            var objectStoreKey = @this.ObjectStoreKey(uriStoreRoot, true);
 
             objectStoreKey.SetValue(Lastupdated, @this.LastUpdated.ToBinary(), RegistryValueKind.QWord);
             objectStoreKey.SetValue(Lastupdated, @this.LastUpdated.ToBinary(), RegistryValueKind.QWord);
@@ -77,20 +77,15 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             @this.WriteToRegistry(uriStoreRoot);
         }
 
-        public static RegistryKey ObjectStoreKey(this IUriObject @this, RegistryKey uriStoreRoot)
+        public static RegistryKey ObjectStoreKey(this IUriObject @this, RegistryKey uriStoreRoot, bool writable)
         {
-            var objectStoreKey = uriStoreRoot;
+            var uri = @this.Uri;
+            var path = uri.Scheme + @"\" + string.Join(@"\", uri.AbsolutePath.Split('/'));
+            var subKey = writable ? uriStoreRoot.CreateSubKey(path) : uriStoreRoot.OpenSubKey(path);
+            if (subKey == null)
+                throw new Exception(String.Format("Cannot create subkey {0} in {1}", path, uriStoreRoot));
 
-            var pathes = @this.Uri.AbsolutePath.Split('/');
-            for (var i = 0; i < pathes.Length; i++)
-            {
-                var subKey = objectStoreKey.OpenSubKey(pathes[i]) ?? objectStoreKey.CreateSubKey(pathes[i]);
-                if (subKey == null)
-                    throw new Exception(String.Format("Cannot create subkey in {0} for {1}", objectStoreKey, pathes[i]));
-
-                objectStoreKey = subKey;
-            }
-            return objectStoreKey;
+            return subKey;
         }
     }
 }
