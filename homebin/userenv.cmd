@@ -13,7 +13,14 @@
 @set git_url=http://msysgit.googlecode.com/
 @set git_version=PortableGit-1.8.3-preview20130601
 
-@path %path%;%~dp0api\git\cmd
+@set sevenzip_standalone=7za
+@set sevenzip_version=920
+@set sevenzip_zipfile=%sevenzip_standalone%%sevenzip_version%.zip
+@set sevenzip_url=http://downloads.sourceforge.net/sevenzip/%sevenzip_zipfile%
+
+@set nirsoft_www=www.nirsoft.net
+@set nirsoft_x64_zip=x64tools.zip
+@set nirsoft_url=http://%nirsoft_www%/packages/%nirsoft_x64_zip%
 
 @set svn_cmd=%~dp0api\svn-win32-1.6.16\bin\svn.exe
 @set tidy_cmd=%~dp0tidy.exe -config %~dp0netxml.conf
@@ -27,3 +34,5 @@
 @set gv_dot="%gv_dir%\dot.exe"
 
 @if not exist %~dp0api mkdir %~dp0api
+
+@path %path%;%~dp0api\git\cmd;%~dp0api
