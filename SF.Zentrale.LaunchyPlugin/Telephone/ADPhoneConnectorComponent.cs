@@ -40,9 +40,6 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         private static PersonName ParseName(SearchResult result)
         {
-            try
-            {
-
             Func<PhoneBookEntryField, string> parseValue =
                 pEntry => result.ParseSingleValuedStringField(ADField(pEntry));
 
@@ -65,12 +62,6 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                                   surname: parseValue(PhoneBookEntryField.Surname),
                                   givenName: parseValue(PhoneBookEntryField.GivenName),
                                   displayName: parseValue(PhoneBookEntryField.DisplayName));
-
-            }
-            catch (Exception exception)
-            {
-                throw;
-            }
         }
 
         public IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField, 

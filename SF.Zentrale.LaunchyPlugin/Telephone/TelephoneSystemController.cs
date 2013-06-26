@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.DirectoryServices;
 using System.Linq;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 
@@ -8,16 +8,20 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 {
     static class TelephoneSystemController
     {
-        private static readonly IPhoneBook PhoneBook;
+        private static readonly IList<IPhoneBook> PhoneBooks;
+
+
 
         static TelephoneSystemController()
         {
+            PhoneBooks = new List<IPhoneBook>(5);
             var userDnsDomain = Environment.GetEnvironmentVariable("UserDnsDomain");
             if (!string.IsNullOrEmpty(userDnsDomain))
             {
                 var activeDirectoryConnector = new ADPhoneConnectorComponent();
-                PhoneBook = activeDirectoryConnector;
+                PhoneBooks.Add(activeDirectoryConnector);
             }
+
         }
 
         public static IEnumerable<PhoneNumber> ParsePhoneNumbers(string phoneInput)
@@ -33,46 +37,53 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             var endsWithDigit = char.IsDigit(numberOrName, numberOrName.Length - 1);
 
             var duplicates = new HashSet<Uri>();
-            IEnumerable<PhoneNumber> phoneNumberQuery;
 
-            if ((startsWithDigit || startsWithPlusOrParen) && endsWithDigit)
+            var numberOfPhoneBooks = PhoneBooks.Count;
+            for (var i = 0; i < numberOfPhoneBooks; i++)
             {
-                var number = numberOrName.CleanupNumber();
-                phoneNumberQuery =
-                    from numberType in PhoneBook.SupportedPhoneNumberFields
-                    from phoneNumber in PhoneBook.ResolvePhoneNumber(duplicates, numberType, new[]{numberType}, number)
-                    select phoneNumber;
-            }
-            else if (!string.IsNullOrEmpty(numberOrName))
-            {
-                var name = numberOrName;
-                if (name.IndexOf(' ') < 0)
+                var pb = PhoneBooks[i];
+
+                IEnumerable<PhoneNumber> phoneNumberQuery;
+                if ((startsWithDigit || startsWithPlusOrParen) && endsWithDigit)
                 {
+                    var number = numberOrName.CleanupNumber();
                     phoneNumberQuery =
-                        from nameType in PhoneBook.SupportedNameFields
-                        from phoneNumber in PhoneBook.ResolvePhoneNumber(duplicates, nameType, PhoneBook.SupportedPhoneNumberFields, name)
+                        from numberType in pb.SupportedPhoneNumberFields
+                        from phoneNumber in
+                            pb.ResolvePhoneNumber(duplicates, numberType, new[] {numberType}, number)
                         select phoneNumber;
+                }
+                else if (!string.IsNullOrEmpty(numberOrName))
+                {
+                    var supportedNames = pb.SupportedNameFields;
+                    var name = numberOrName;
+                    if (name.IndexOf(' ') < 0)
+                    {
+                        phoneNumberQuery =
+                            from nameType in supportedNames
+                            from phoneNumber in
+                                pb.ResolvePhoneNumber(duplicates, nameType, pb.SupportedPhoneNumberFields, name)
+                            select phoneNumber;
+                    }
+                    else
+                    {
+                        phoneNumberQuery =
+                            from phoneNumber in
+                                pb.ResolvePhoneNumber(duplicates, PhoneBookEntryField.DisplayName, supportedNames, name)
+                            select phoneNumber;
+                        // TODO: Blackberry like: GivenName initials + Surname initials
+                    }
                 }
                 else
                 {
-                    phoneNumberQuery =
-                        from phoneNumber in
-                            PhoneBook.ResolvePhoneNumber(duplicates, PhoneBookEntryField.DisplayName,
-                                                         PhoneBook.SupportedPhoneNumberFields, name)
-                        select phoneNumber;
-                    // TODO: Blackberry like: GivenName initials + Surname initials
+                    yield break;
+                }
+
+                foreach (var phoneNumber in phoneNumberQuery)
+                {
+                    yield return phoneNumber;
                 }
             }
-            else
-            {
-                yield break;
-            }
-
-            foreach (var phoneNumber in phoneNumberQuery)
-            {
-                yield return phoneNumber;
-            }
         }
-
     }
 }
