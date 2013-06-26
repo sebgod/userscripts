@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
@@ -9,8 +8,6 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
     static class TelephoneSystemController
     {
         private static readonly IList<IPhoneBook> PhoneBooks;
-
-
 
         static TelephoneSystemController()
         {
@@ -24,7 +21,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         }
 
-        public static IEnumerable<PhoneNumber> ParsePhoneNumbers(string phoneInput)
+        public static IEnumerable<PhoneNumber> ParsePhoneNumbers(string phoneInput, int maxResults = 6)
         {
             Uri uri;
             if (!Uri.TryCreate(phoneInput, UriKind.Absolute, out uri)) yield break;
@@ -35,6 +32,10 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             var startsWithPlusOrParen = "+(".IndexOf(numberOrName[0]) >= 0;
             var startsWithDigit = char.IsDigit(numberOrName, 0);
             var endsWithDigit = char.IsDigit(numberOrName, numberOrName.Length - 1);
+            var isNumber = (startsWithDigit || startsWithPlusOrParen) && endsWithDigit;
+
+            if (!isNumber && string.IsNullOrEmpty(numberOrName))
+                yield break;
 
             var duplicates = new HashSet<Uri>();
 
@@ -44,7 +45,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 var pb = PhoneBooks[i];
 
                 IEnumerable<PhoneNumber> phoneNumberQuery;
-                if ((startsWithDigit || startsWithPlusOrParen) && endsWithDigit)
+                if (isNumber)
                 {
                     var number = numberOrName.CleanupNumber();
                     phoneNumberQuery =
@@ -53,7 +54,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                             pb.ResolvePhoneNumber(duplicates, numberType, new[] {numberType}, number)
                         select phoneNumber;
                 }
-                else if (!string.IsNullOrEmpty(numberOrName))
+                else
                 {
                     var supportedNames = pb.SupportedNameFields;
                     var name = numberOrName;
@@ -74,15 +75,17 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                         // TODO: Blackberry like: GivenName initials + Surname initials
                     }
                 }
-                else
-                {
-                    yield break;
-                }
 
                 foreach (var phoneNumber in phoneNumberQuery)
                 {
                     yield return phoneNumber;
                 }
+
+                var isMaxResultsOrHaveResultByNumber =
+                    duplicates.Count >= maxResults || (isNumber && duplicates.Count > 0);
+
+                if (isMaxResultsOrHaveResultByNumber)
+                    yield break;
             }
         }
     }
