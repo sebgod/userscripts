@@ -2,46 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
-using System.Windows.Forms;
 
 namespace SF.Zentrale.LaunchyPlugin.Telephone
 {
-    class MockupPhoneBook : IPhoneBook
-    {
-
-        public IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField, IEnumerable<PhoneBookEntryField> entryFields, string userInput, bool fuzzy = true)
-        {
-            string numberOrName;
-            bool isNumeric;
-
-            var me = new PersonName(new Uri(PersonName.PersonProtocol + "5789"), title: "Mr.", givenName: "Sebastian", surname: "Godelet");
-
-            yield return new PhoneNumber(me, "01234", PhoneBookEntryField.PrivatePhoneNumber);
-            if (TelephoneSystemController.TryParsePhoneInput(userInput, out numberOrName, out isNumeric))
-            {
-                if (isNumeric)
-                {
-                    var number = numberOrName.CleanupNumber();
-                    yield return new PhoneNumber(me, number, PhoneBookEntryField.PrivatePhoneNumber);
-                }
-            }
-        }
-
-        public IEnumerable<PhoneBookEntryField> SupportedPhoneNumberFields
-        {
-            get { yield return PhoneBookEntryField.PrivatePhoneNumber; }
-        }
-
-        public IEnumerable<PhoneBookEntryField> SupportedNameFields
-        {
-            get
-            {
-                yield return PhoneBookEntryField.GivenName;
-                yield return PhoneBookEntryField.DisplayName;
-            }
-        }
-    }
-
     static class TelephoneSystemController
     {
         private static readonly IList<IPhoneBook> PhoneBooks;
@@ -57,7 +20,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             }
             else
             {
-                PhoneBooks.Add(new MockupPhoneBook());
+                PhoneBooks.Add(new SFAdressesPhoneBook());
             }
 
         }

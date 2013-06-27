@@ -21,6 +21,7 @@ namespace SF.Zentrale.LaunchyPlugin
         private const string FocusIco = "windows.ico";
         private const string FocusCat = "focus:";
         private const string PluginName = "Sorpetaler";
+        private const string DefaultRegistryRoot = @"Software\Zentrale\Objects";
 
         private IPluginHost _pluginHost;
         private ICatItemFactory _catItemFactory;
@@ -56,7 +57,7 @@ namespace SF.Zentrale.LaunchyPlugin
             _focusLabel = _pluginHost.hash(FocusCat);
             _telLabel = _pluginHost.hash(PhoneNumber.TelProtocol);
 
-            _registryObjectRoot = @"Software\Zentrale\Objects";
+            _registryObjectRoot = DefaultRegistryRoot;
             _objectRepository = new ObjectRepository();
         }
 

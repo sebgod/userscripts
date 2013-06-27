@@ -15,11 +15,12 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         Surname = IsSingleValuedNameFieldFlag | (1 << 1),
         GivenName = IsSingleValuedNameFieldFlag | (1 << 2),
         DisplayName = IsSingleValuedNameFieldFlag | (1 << 3),
+        Title = IsSingleValuedNameFieldFlag | (1 << 4),
 
-        PrivateMobilePhone = IsPrivateFlag | IsPhoneNumberFlag | IsMobileFlag | (1 << 4),
-        PrivatePhoneNumber = IsPrivateFlag | IsPhoneNumberFlag | (1 << 5),
-        BusinessPhoneNumber = IsOfficeFlag | IsPhoneNumberFlag | (1 << 6),
-        BusinessMobilePhone = IsOfficeFlag | IsPhoneNumberFlag | (1 << 7)
+        PrivateMobilePhone = IsPrivateFlag | IsPhoneNumberFlag | IsMobileFlag | (1 << 10),
+        PrivatePhoneNumber = IsPrivateFlag | IsPhoneNumberFlag | (1 << 11),
+        BusinessPhoneNumber = IsOfficeFlag | IsPhoneNumberFlag | (1 << 12),
+        BusinessMobilePhone = IsOfficeFlag | IsPhoneNumberFlag | (1 << 13),
     }
 
     public static class PhoneBookEntryFieldEx

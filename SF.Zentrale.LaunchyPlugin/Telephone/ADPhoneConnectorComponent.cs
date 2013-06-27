@@ -44,7 +44,8 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
             var infoFieldValue = result.ParseSingleValuedStringField("info") ?? "";
             var infoLines = infoFieldValue.Replace("\r", "").Split('\n');
-
+            var whenChanged = result.ParseSingleValuedDateTime("whenChanged");
+            
             var objectExtraDataQuery =
                 from infoLine in infoLines
                 let colon = infoLine.IndexOf(':')
@@ -58,6 +59,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             var addressID = int.Parse(objectExtraData["ID"]);
 
             return new PersonName(new Uri(string.Format("{0}{1:d}", PersonName.PersonProtocol, addressID)),
+                                  lastUpdated: whenChanged,
                                   surname: parseValue(PhoneBookEntryField.Surname),
                                   givenName: parseValue(PhoneBookEntryField.GivenName),
                                   displayName: parseValue(PhoneBookEntryField.DisplayName));

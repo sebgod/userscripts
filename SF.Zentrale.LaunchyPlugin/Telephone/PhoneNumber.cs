@@ -27,7 +27,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             _tscNumber = Normalize(tscNumber);
             _uri = new Uri(TelProtocol + _tscNumber);
             _entryField = entryField;
-            _lastUpdated = DateTime.UtcNow;
+            _lastUpdated = (_personName != null ? _personName.LastUpdated : null as DateTime?) ?? DateTime.UtcNow;
 
             if (icon != null)
                 _icon = icon;
@@ -63,6 +63,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             _tscNumber = objectStoreKey.GetValue(TelephoneSystemCompliantNumberValueName, null, RegistryValueOptions.None) as string;
             _personName = this.ReadUriObjectFromRegistryByReference(PersonName.ReadFromRegistry, uriStoreRoot,
                                                                     PersonUriValueName, objectStoreKey);
+            _lastUpdated = _personName.LastUpdated;
         }
 
         private const string TelephoneSystemCompliantNumberValueName = "TelephoneSystemCompliantNumber";

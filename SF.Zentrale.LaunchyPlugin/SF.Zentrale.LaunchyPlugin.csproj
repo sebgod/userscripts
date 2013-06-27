@@ -93,6 +93,7 @@
     <Compile Include="Telephone\PersonName.cs" />
     <Compile Include="Telephone\PhoneBookEntryField.cs" />
     <Compile Include="Telephone\PhoneNumber.cs" />
+    <Compile Include="Telephone\SFAdressesPhoneBook.cs" />
     <Compile Include="Telephone\TelephoneSystemController.cs" />
     <Compile Include="WindowManagement\WindowNameMatcher.cs" />
     <Compile Include="OptionsWidget.cs">

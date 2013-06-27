@@ -17,7 +17,8 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private readonly string _icon;
         private readonly DateTime _lastUpdated;
 
-        public PersonName(Uri uri, string title = null, string surname = null, string givenName = null, string displayName = null)
+        public PersonName(Uri uri, DateTime? lastUpdated = null, string title = null, string surname = null,
+                          string givenName = null, string displayName = null)
         {
             _uri = uri;
             _title = string.IsNullOrEmpty(title) ? null : title;
@@ -25,7 +26,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             _givenName = string.IsNullOrEmpty(givenName) ? null : givenName;
             _displayName = (string.IsNullOrEmpty(displayName) ? null : displayName)
                            ?? _title.AddSpaceIfNotEmpty() + _givenName.AddSpaceIfNotEmpty() + _surname;
-            _lastUpdated = DateTime.UtcNow;
+            _lastUpdated = lastUpdated ?? DateTime.UtcNow;
         }
 
         private const string TitleValueName = "Title";
