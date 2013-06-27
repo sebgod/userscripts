@@ -33,7 +33,6 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private const string GivenNameValueName = "GivenName";
         private const string SurnameValueName = "Surname";
 
-
         public static PersonName ReadFromRegistry(Uri uri, RegistryKey uriStoreRoot)
         {
             return new PersonName(uri, uriStoreRoot);
@@ -43,10 +42,10 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         {
             var objectStoreKey = this.ReadUriObject(uriStoreRoot, out _lastUpdated, out _icon);
 
-            _title = objectStoreKey.GetValue(TitleValueName, null, RegistryValueOptions.None) as string;
-            _displayName = objectStoreKey.GetValue(DisplayValueName, null, RegistryValueOptions.None) as string;
-            _givenName = objectStoreKey.GetValue(GivenNameValueName, null, RegistryValueOptions.None) as string;
-            _surname = objectStoreKey.GetValue(SurnameValueName, null, RegistryValueOptions.None) as string;
+            objectStoreKey.GetValue(TitleValueName, out _title);
+            objectStoreKey.GetValue(DisplayValueName, out _displayName);
+            objectStoreKey.GetValue(GivenNameValueName, out _givenName);
+            objectStoreKey.GetValue(SurnameValueName, out _surname);
 
             objectStoreKey.Close();
         }
@@ -55,10 +54,12 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         {
             var objectStoreKey = this.WriteUriObjectToRegistry(uriStoreRoot);
 
-            objectStoreKey.SetValue(TitleValueName, Title);
-            objectStoreKey.SetValue(DisplayValueName, DisplayName);
-            objectStoreKey.SetValue(GivenNameValueName, GivenName);
-            objectStoreKey.SetValue(SurnameValueName, Surname);
+            objectStoreKey.SetValueEx(TitleValueName, Title);
+            objectStoreKey.SetValueEx(DisplayValueName, DisplayName);
+            objectStoreKey.SetValueEx(GivenNameValueName, GivenName);
+            objectStoreKey.SetValueEx(SurnameValueName, Surname);
+
+            objectStoreKey.Close();
         }
 
         public Uri Uri { get { return _uri; } }

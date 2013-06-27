@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using LaunchySharp;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 using SF.Zentrale.LaunchyPlugin.Telephone;
@@ -61,10 +60,10 @@ namespace SF.Zentrale.LaunchyPlugin
             _objectRepository = new ObjectRepository();
         }
 
-        public RegistryKey OpenRegistryObjectRoot(bool readWrite = false)
+        public RegistryKey OpenRegistryObjectRoot(bool writable = false)
         {
             var hkcu = Registry.CurrentUser;
-            return readWrite ? hkcu.CreateSubKey(_registryObjectRoot) : hkcu.OpenSubKey(_registryObjectRoot, readWrite);
+            return writable ? hkcu.CreateSubKey(_registryObjectRoot) : hkcu.OpenSubKey(_registryObjectRoot, writable: false);
         }
 
         public uint getID()
@@ -216,7 +215,7 @@ namespace SF.Zentrale.LaunchyPlugin
 
         public void launchyHide()
         {
-            using (var objStoreRoot = OpenRegistryObjectRoot(readWrite: true))
+            using (var objStoreRoot = OpenRegistryObjectRoot(writable: true))
             {
                 foreach (var changed in _objectRepository.DequeueChanged())
                 {

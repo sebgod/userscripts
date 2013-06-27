@@ -128,15 +128,16 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         public static bool TryParsePhoneInput(string userInput, out string numberOrName, out bool isNumeric)
         {
             Uri uri;
-            if (!Uri.TryCreate(userInput, UriKind.Absolute, out uri))
+            if (string.IsNullOrEmpty(userInput)
+                || !Uri.TryCreate(userInput, UriKind.Absolute, out uri)
+                || string.IsNullOrEmpty(numberOrName = uri.GetComponents(UriComponents.Path, UriFormat.Unescaped).Trim())
+                )
             {
                 numberOrName = null;
                 isNumeric = false;
                 return false;
             }
-
-            numberOrName = uri.GetComponents(UriComponents.Path, UriFormat.Unescaped).Trim();
-
+            
             var startsWithPlusOrParen = "+(".IndexOf(numberOrName[0]) >= 0;
             var startsWithDigit = char.IsDigit(numberOrName, 0);
             var endsWithDigit = char.IsDigit(numberOrName, numberOrName.Length - 1);

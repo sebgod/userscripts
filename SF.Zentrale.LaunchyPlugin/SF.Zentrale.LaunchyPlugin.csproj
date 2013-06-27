@@ -76,7 +76,9 @@
     <Compile Include="Infrastructure\ADConnectorComponent.Designer.cs">
       <DependentUpon>ADConnectorComponent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\IUriObjectEx.cs" />
     <Compile Include="Infrastructure\LoggingHelper.cs" />
+    <Compile Include="Infrastructure\RegistryEx.cs" />
     <Compile Include="Infrastructure\SearchResultEx.cs" />
     <Compile Include="Infrastructure\StringHelper.cs" />
     <Compile Include="Infrastructure\ObjectRepository.cs" />

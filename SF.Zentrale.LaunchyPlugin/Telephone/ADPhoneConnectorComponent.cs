@@ -1,5 +1,4 @@
-﻿using System.Windows.Forms;
-using SF.Zentrale.LaunchyPlugin.Infrastructure;
+﻿using SF.Zentrale.LaunchyPlugin.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

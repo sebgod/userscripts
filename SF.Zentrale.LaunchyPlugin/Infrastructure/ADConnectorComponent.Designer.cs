@@ -41,6 +41,8 @@
             "mail",
             "distinguishedName",
             "displayName",
+            "sn",
+            "givenName",
             "mobile",
             "info"});
             this.dsPhoneNumbers.SearchRoot = this.directoryEntry1;

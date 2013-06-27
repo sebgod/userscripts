@@ -24,7 +24,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         public PhoneNumber(PersonName personName, string tscNumber, PhoneBookEntryField entryField, string icon = null)
         {
             _personName = personName;
-            _tscNumber = tscNumber;
+            _tscNumber = Normalize(tscNumber);
             _uri = new Uri(TelProtocol + _tscNumber);
             _entryField = entryField;
             _lastUpdated = DateTime.UtcNow;
@@ -42,6 +42,12 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                     default: _icon = DefaultIcon; break;
                 }
             }
+        }
+
+        private static string Normalize(string tscNumber)
+        {
+            var cleanedUp = tscNumber.CleanupNumber();
+            return cleanedUp[0] == '+' ? "00" + cleanedUp.Substring(1) : tscNumber;
         }
 
         public static PhoneNumber ReadFromRegistry(Uri uri, RegistryKey uriStoreRoot)
@@ -62,11 +68,12 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private const string TelephoneSystemCompliantNumberValueName = "TelephoneSystemCompliantNumber";
         private const string PersonUriValueName = "PersonUri";
         private const string EntryFieldValueName = "EntryField";
+
         public void WriteToRegistry(RegistryKey uriStoreRoot)
         {
             var objectStoreKey = this.WriteUriObjectToRegistry(uriStoreRoot);
-            objectStoreKey.SetValue(EntryFieldValueName, (long)EntryField, RegistryValueKind.QWord);
-            objectStoreKey.SetValue(TelephoneSystemCompliantNumberValueName, TelephoneSystemCompliantNumber, RegistryValueKind.String);
+            objectStoreKey.SetValueEx(EntryFieldValueName, EntryField);
+            objectStoreKey.SetValueEx(TelephoneSystemCompliantNumberValueName, TelephoneSystemCompliantNumber);
 
             _personName.WriteUriObjectAndReferenceToRegistry(uriStoreRoot, PersonUriValueName, objectStoreKey);
             objectStoreKey.Close();
