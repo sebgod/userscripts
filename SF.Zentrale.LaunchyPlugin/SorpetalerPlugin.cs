@@ -14,6 +14,8 @@ using Microsoft.Win32;
 
 namespace SF.Zentrale.LaunchyPlugin
 {
+    using LookupFunc = KeyValuePair<uint, Predicate<string>>;
+
     // ReSharper disable UnusedMember.Global
     public class SorpetalerPlugin : IPlugin
     // ReSharper restore UnusedMember.Global
@@ -36,6 +38,7 @@ namespace SF.Zentrale.LaunchyPlugin
         private readonly WindowNameMatcher _windowNameMatcher;
         private readonly OptionsWidget _optionsWidget;
         private string _registryObjectRoot;
+        private static LookupFunc[] _labelLookupTable;
 
         public SorpetalerPlugin()
         {
@@ -59,6 +62,12 @@ namespace SF.Zentrale.LaunchyPlugin
 
             _registryObjectRoot = DefaultRegistryRoot;
             _objectRepository = new ObjectRepository();
+
+            _labelLookupTable = new[]
+                {
+                    new LookupFunc(_telLabel, TelephoneSystemController.Instance.CheckForTelephoneNumber),
+                    new LookupFunc(_focusLabel, WindowController.CheckForWindow)
+                };
         }
 
         public RegistryKey OpenRegistryObjectRoot(bool writable = false)
@@ -90,21 +99,12 @@ namespace SF.Zentrale.LaunchyPlugin
 
             var firstUpper = inputDataList[0].getText().ToUpperInvariant();
 
-            if (firstUpper.StartsWith("TEL"))
+            for (var i = 0; i < _labelLookupTable.Length; i++)
             {
-                inputDataList[0].setLabel(_telLabel);
-                return;
-            }
+                if (!_labelLookupTable[i].Value(firstUpper)) continue;
 
-            switch (firstUpper)
-            {
-                case "FOCUS":
-                    inputDataList[0].setLabel(_focusLabel);
-                    return;
-
-                case "CALL":
-                    inputDataList[0].setLabel(_telLabel);
-                    return;
+                inputDataList[0].setLabel(_labelLookupTable[i].Key);
+                break;
             }
         }
 
@@ -112,7 +112,6 @@ namespace SF.Zentrale.LaunchyPlugin
         {
             if (inputDataList.Count == 0)
                 return;
-
 
             if (inputDataList[0].hasLabel(_telLabel))
             {
@@ -144,10 +143,10 @@ namespace SF.Zentrale.LaunchyPlugin
         {
             var phoneInput = inputDataList[0].getText();
 
-            if (!phoneInput.StartsWith(PhoneNumber.TelProtocol) && inputDataList.Count == 2)
-                phoneInput = PhoneNumber.TelProtocol + inputDataList[1].getText();
+            if (!phoneInput.StartsWith(PhoneNumber.TelProtocol) && inputDataList.Count.IsBetweenInclusive(1,2))
+                phoneInput = PhoneNumber.TelProtocol + inputDataList[inputDataList.Count - 1].getText();
 
-            resultsList.AddRange(TelephoneSystemController.ParsePhoneNumbers(phoneInput).Select(UriObjectToCatItem));
+            resultsList.AddRange(TelephoneSystemController.Instance.ParsePhoneNumbers(phoneInput).Select(UriObjectToCatItem));
         }
 
         private ICatItem UriObjectToCatItem(IUriObject uriObject)
@@ -212,6 +211,7 @@ namespace SF.Zentrale.LaunchyPlugin
 
         public void launchyShow()
         {
+
         }
 
         public void launchyHide()

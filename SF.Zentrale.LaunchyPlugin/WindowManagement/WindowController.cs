@@ -28,6 +28,13 @@ namespace SF.Zentrale.LaunchyPlugin.WindowManagement
             return windowsDict;
         }
 
+
+        public static bool CheckForWindow(string firstUpper)
+        {
+            return firstUpper == "FOCUS";
+        }
+        
+
         public static void GoToWindow(IntPtr hWnd)
         {
             if (IsWindowRestored(hWnd))

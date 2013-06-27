@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 
@@ -7,25 +8,32 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 {
     static class TelephoneSystemController
     {
-        private static readonly IList<IPhoneBook> PhoneBooks;
+        public static readonly TelephoneSystemContainer Instance = new TelephoneSystemContainer();
+    }
 
-        static TelephoneSystemController()
+    class TelephoneSystemContainer : Container
+    {
+        private readonly IList<IPhoneBook> _phoneBooks;
+
+        public TelephoneSystemContainer()
         {
-            PhoneBooks = new List<IPhoneBook>(5);
+            _phoneBooks = new List<IPhoneBook>(5);
             var userDnsDomain = Environment.GetEnvironmentVariable("UserDnsDomain");
             if (!string.IsNullOrEmpty(userDnsDomain))
             {
-                var activeDirectoryConnector = new ADPhoneConnectorComponent();
-                PhoneBooks.Add(activeDirectoryConnector);
-            }
-            else
-            {
-                PhoneBooks.Add(new SFAdressesPhoneBook());
+                _phoneBooks.Add(new ADPhoneConnectorComponent(this));
+                _phoneBooks.Add(new SFDBPhonebookAdaptorComponent(this));
             }
 
         }
 
-        public static IEnumerable<PhoneNumber> ParsePhoneNumbers(string phoneInput, int maxResults = 6)
+        public bool CheckForTelephoneNumber(string firstUpper)
+        {
+            return (firstUpper.StartsWith("TEL") || firstUpper == "CALL" ||
+                    firstUpper.CleanupNumber().Length.IsBetweenInclusive(2, 15));
+        }
+        
+        public IEnumerable<PhoneNumber> ParsePhoneNumbers(string phoneInput, int maxResults = 6)
         {
             string numberOrName;
             bool isNumeric;
@@ -36,10 +44,10 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 yield break;
 
             var duplicates = new HashSet<Uri>();
-            var numberOfPhoneBooks = PhoneBooks.Count;
+            var numberOfPhoneBooks = _phoneBooks.Count;
             for (var i = 0; i < numberOfPhoneBooks; i++)
             {
-                var phoneBook = PhoneBooks[i];
+                var phoneBook = _phoneBooks[i];
 
                 IEnumerable<PhoneNumber> phoneNumberQuery;
                 if (isNumeric)
@@ -88,7 +96,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             }
         }
 
-        public static bool TryParsePhoneInput(string userInput, out string numberOrName, out bool isNumeric)
+        public bool TryParsePhoneInput(string userInput, out string numberOrName, out bool isNumeric)
         {
             Uri uri;
             if (string.IsNullOrEmpty(userInput)

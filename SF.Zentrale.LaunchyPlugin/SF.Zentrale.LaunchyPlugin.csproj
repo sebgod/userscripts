@@ -64,6 +64,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -78,10 +79,25 @@
     </Compile>
     <Compile Include="Infrastructure\IUriObjectEx.cs" />
     <Compile Include="Infrastructure\LoggingHelper.cs" />
+    <Compile Include="Infrastructure\NumberHelper.cs" />
     <Compile Include="Infrastructure\RegistryEx.cs" />
     <Compile Include="Infrastructure\SearchResultEx.cs" />
     <Compile Include="Infrastructure\StringHelper.cs" />
     <Compile Include="Infrastructure\ObjectRepository.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SorpetalerDataSet.cs">
+      <DependentUpon>SorpetalerDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SorpetalerDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SorpetalerDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Telephone\ADPhoneConnectorComponent.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -93,7 +109,18 @@
     <Compile Include="Telephone\PersonName.cs" />
     <Compile Include="Telephone\PhoneBookEntryField.cs" />
     <Compile Include="Telephone\PhoneNumber.cs" />
-    <Compile Include="Telephone\SFAdressesPhoneBook.cs" />
+    <Compile Include="Infrastructure\SFDBConnection.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\SFDBConnection.Designer.cs">
+      <DependentUpon>SFDBConnection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Telephone\SFDBPhonebookAdaptorComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Telephone\SFDBPhonebookAdaptorComponent.Designer.cs">
+      <DependentUpon>SFDBPhonebookAdaptorComponent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Telephone\TelephoneSystemController.cs" />
     <Compile Include="WindowManagement\WindowNameMatcher.cs" />
     <Compile Include="OptionsWidget.cs">
@@ -117,6 +144,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Telephone\ADPhoneConnectorComponent.resx">
       <DependentUpon>ADPhoneConnectorComponent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Infrastructure\SFDBConnection.resx">
+      <DependentUpon>SFDBConnection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Telephone\SFDBPhonebookAdaptorComponent.resx">
+      <DependentUpon>SFDBPhonebookAdaptorComponent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -155,7 +188,23 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="deploy_test.cmd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="SorpetalerDataSet.xsc">
+      <DependentUpon>SorpetalerDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="SorpetalerDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SorpetalerDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SorpetalerDataSet.xss">
+      <DependentUpon>SorpetalerDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
