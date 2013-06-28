@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="Telephone\IPhoneBook.cs" />
     <Compile Include="Infrastructure\IUriObject.cs" />
+    <Compile Include="Infrastructure\ParsedUserInput.cs" />
     <Compile Include="Telephone\PersonName.cs" />
     <Compile Include="Telephone\PhoneBookEntryField.cs" />
     <Compile Include="Telephone\PhoneNumber.cs" />
@@ -121,7 +122,9 @@
     <Compile Include="Telephone\SFDBPhonebookAdaptorComponent.Designer.cs">
       <DependentUpon>SFDBPhonebookAdaptorComponent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Telephone\TelephoneSystemContainer.cs" />
     <Compile Include="Telephone\TelephoneSystemController.cs" />
+    <Compile Include="Infrastructure\UserInputType.cs" />
     <Compile Include="WindowManagement\WindowNameMatcher.cs" />
     <Compile Include="OptionsWidget.cs">
       <SubType>UserControl</SubType>

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 
 namespace SF.Zentrale.LaunchyPlugin.Telephone
@@ -23,22 +21,44 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         }
 
 
-        public IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField, IEnumerable<PhoneBookEntryField> entryFields, string userInput, bool fuzzy = true)
+        public IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField,
+                                                           IEnumerable<PhoneBookEntryField> entryFields,
+                                                           ParsedUserInput userInput, bool fuzzy = true)
         {
-            string numberOrName;
-            bool isNumeric;
-
-            if (TelephoneSystemController.Instance.TryParsePhoneInput(userInput, out numberOrName, out isNumeric))
+            switch (userInput.InputType)
             {
-                if (isNumeric)
-                {
-                    var number = numberOrName.CleanupNumber();
-                    yield break;
-                }
+                case UserInputType.PhoneNumberLike:
+
+                    var number = userInput.ToString();
+                    var findAddressesByNumber =
+                        from adresse in sfdbConnection1.AdressenTelefonnummern.GetData()
+                        from telefon in adresse.ADRESSENRow.GetADRESSEN_TelefonnummernRows()
+                        where telefon.Nummer.StartsWith(number)
+                        select adresse;
+
+                    foreach (var addressByNumber in findAddressesByNumber)
+                    {
+                        var adresse = addressByNumber.ADRESSENRow;
+                        var personName = new PersonName(new Uri(PersonName.PersonProtocol + addressByNumber.ID_NR),
+                                                        title: adresse.Anrede, surname: adresse.Nachname);
+
+                        const PhoneBookEntryField entryType = PhoneBookEntryField.BusinessPhoneNumber;
+
+                        var phoneNumber = new ParsedUserInput(addressByNumber.Nummer, UserInputType.PhoneNumberLike,
+                                                              isCleanedUp: true);
+
+                        yield return new PhoneNumber(personName, phoneNumber, entryType);
+                    }
+                    break;
+
+                default:
+                    System.Windows.Forms.MessageBox.Show("cannot parse: " + userInput);
+                    break;
             }
         }
 
-        public IEnumerable<PhoneBookEntryField> SupportedPhoneNumberFields
+        public
+            IEnumerable<PhoneBookEntryField> SupportedPhoneNumberFields
         {
             get
             {

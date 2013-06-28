@@ -65,7 +65,7 @@ namespace SF.Zentrale.LaunchyPlugin
 
             _labelLookupTable = new[]
                 {
-                    new LookupFunc(_telLabel, TelephoneSystemController.Instance.CheckForTelephoneNumber),
+                    new LookupFunc(_telLabel, TelephoneSystemController.CheckForTelephoneNumber),
                     new LookupFunc(_focusLabel, WindowController.CheckForWindow)
                 };
         }

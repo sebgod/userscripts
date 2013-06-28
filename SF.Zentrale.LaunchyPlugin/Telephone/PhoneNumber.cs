@@ -21,10 +21,13 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private readonly PhoneBookEntryField _entryField;
         private readonly DateTime _lastUpdated;
 
-        public PhoneNumber(PersonName personName, string tscNumber, PhoneBookEntryField entryField, string icon = null)
+        public PhoneNumber(PersonName personName, ParsedUserInput tscNumber, PhoneBookEntryField entryField, string icon = null)
         {
+            if (tscNumber.InputType != UserInputType.PhoneNumberLike || !tscNumber.IsCleanedUp)
+                throw new ArgumentException(tscNumber + " is not a phone number!", "tscNumber");
+
             _personName = personName;
-            _tscNumber = Normalize(tscNumber);
+            _tscNumber = tscNumber.ToString();
             _uri = new Uri(TelProtocol + _tscNumber);
             _entryField = entryField;
             _lastUpdated = (_personName != null ? _personName.LastUpdated : null as DateTime?) ?? DateTime.UtcNow;
@@ -42,12 +45,6 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                     default: _icon = DefaultIcon; break;
                 }
             }
-        }
-
-        private static string Normalize(string tscNumber)
-        {
-            var cleanedUp = tscNumber.CleanupNumber();
-            return cleanedUp[0] == '+' ? "00" + cleanedUp.Substring(1) : tscNumber;
         }
 
         public static PhoneNumber ReadFromRegistry(Uri uri, RegistryKey uriStoreRoot)

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.DirectoryServices;
+using SF.Zentrale.LaunchyPlugin.Telephone;
 
 namespace SF.Zentrale.LaunchyPlugin.Infrastructure
 {
@@ -25,10 +26,11 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
         public const string SurnameField = "sn";
         public const string DisplayNameField = "displayName";
         
-        public SearchResultCollection FindADEntries(string field, string value, bool fuzzy = true)
+        public SearchResultCollection FindADEntries(string field, ParsedUserInput parsedUserInput, bool fuzzy = true)
         {
-            dsPhoneNumbers.Filter = string.Format("({0}={1}{2})", field, value,
-                                                  value.Length >= 2 && (value.IndexOf('*') < 0 || fuzzy) ? "*" : "");
+            var value = parsedUserInput.ToString();
+            dsPhoneNumbers.Filter = string.Format("({0}={1}{2})", field, parsedUserInput,
+                                                  parsedUserInput.Length >= 2 && (value.IndexOf('*') < 0 || fuzzy) ? "*" : "");
             return dsPhoneNumbers.FindAll();
         }
     }

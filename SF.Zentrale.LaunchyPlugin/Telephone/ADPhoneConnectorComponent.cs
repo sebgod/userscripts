@@ -66,7 +66,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         }
 
         public IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField, 
-            IEnumerable<PhoneBookEntryField> entryFields, string userInput, bool fuzzy = true)
+            IEnumerable<PhoneBookEntryField> entryFields, ParsedUserInput userInput, bool fuzzy = true)
         {
             var searchResults = adConnectorComponent1.FindADEntries(ADField(searchField), userInput, fuzzy);
             var phoneBookEntryFields = entryFields as PhoneBookEntryField[] ?? entryFields.ToArray();
@@ -81,7 +81,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                     var name = ParseName(searchResult);
                     for (var i = 0; i < count; i++)
                     {
-                        var propertyValue = propertyCollection[i].ToString();
+                        var propertyValue = propertyCollection[i].ToString().CleanupPhoneUserInput();
                         var phoneNumber = new PhoneNumber(name, propertyValue, entryField);
 
                         if (duplicates.Add(phoneNumber.Uri))

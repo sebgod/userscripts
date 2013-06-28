@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using SF.Zentrale.LaunchyPlugin.SorpetalerDataSetTableAdapters;
 
 namespace SF.Zentrale.LaunchyPlugin.Infrastructure
 {
@@ -14,6 +15,11 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
             container.Add(this);
 
             InitializeComponent();
+        }
+
+        public ADRESSEN_TelefonnummernTableAdapter AdressenTelefonnummern
+        {
+            get { return this.adresseN_TelefonnummernTableAdapter1; }
         }
     }
 }
