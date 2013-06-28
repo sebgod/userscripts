@@ -7,7 +7,7 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
     {
         Uri Uri { get; }
         string Icon { get; }
-        DateTime LastUpdated { get; }
+        DateTimeOffset LastUpdated { get; }
         void WriteToRegistry(RegistryKey uriStoreRoot);
     }
 }

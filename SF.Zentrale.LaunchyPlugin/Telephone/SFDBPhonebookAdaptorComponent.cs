@@ -28,33 +28,53 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             switch (userInput.InputType)
             {
                 case UserInputType.PhoneNumberLike:
-
                     var number = userInput.ToString();
                     var findAddressesByNumber =
-                        from adresse in sfdbConnection1.AdressenTelefonnummern.GetData()
-                        from telefon in adresse.ADRESSENRow.GetADRESSEN_TelefonnummernRows()
-                        where telefon.Nummer.StartsWith(number)
-                        select adresse;
+                        from idWithPhoneNumber in sfdbConnection1.FindAddressByTelephoneNumber(number)
+                        let personUri = new Uri(PersonName.PersonProtocol + idWithPhoneNumber.ID_Nr)
+                        let personName = GetPersonByUri(personUri)
+                        let phoneType = GetPhoneTypeFromDBUsage(idWithPhoneNumber.Verwendung)
+                        let phoneNumber = new ParsedUserInput(idWithPhoneNumber.Nummer,
+                                                              UserInputType.PhoneNumberLike,
+                                                              isCleanedUp: true)
 
-                    foreach (var addressByNumber in findAddressesByNumber)
-                    {
-                        var adresse = addressByNumber.ADRESSENRow;
-                        var personName = new PersonName(new Uri(PersonName.PersonProtocol + addressByNumber.ID_NR),
-                                                        title: adresse.Anrede, surname: adresse.Nachname);
+                        select new PhoneNumber(personName, phoneNumber, PhoneBookEntryField.BusinessPhoneNumber);
 
-                        const PhoneBookEntryField entryType = PhoneBookEntryField.BusinessPhoneNumber;
-
-                        var phoneNumber = new ParsedUserInput(addressByNumber.Nummer, UserInputType.PhoneNumberLike,
-                                                              isCleanedUp: true);
-
-                        yield return new PhoneNumber(personName, phoneNumber, entryType);
-                    }
-                    break;
+                    return findAddressesByNumber;
 
                 default:
-                    System.Windows.Forms.MessageBox.Show("cannot parse: " + userInput);
-                    break;
+                    return new PhoneNumber[0];
             }
+        }
+
+        private static PhoneBookEntryField[] _phoneEntryFieldCache;
+        private PhoneBookEntryField GetPhoneTypeFromDBUsage(int verwendungIndex)
+        {
+            if (_phoneEntryFieldCache == null)
+            {
+                var addressenTelefonVerwendung =
+                    from verwendung in sfdbConnection1.TelefonnummernVerwendung.GetData()
+                    orderby verwendung.Verwendung ascending
+                    select (PhoneBookEntryField)Enum.Parse(typeof(PhoneBookEntryField), verwendung.Name);
+
+                _phoneEntryFieldCache = addressenTelefonVerwendung.ToArray();
+            }
+
+            return _phoneEntryFieldCache[verwendungIndex];
+        }
+
+        private PersonName GetPersonByUri(Uri personUri)
+        {
+            var personID = int.Parse(personUri.GetComponents(UriComponents.Path, UriFormat.Unescaped));
+
+            var personByID =
+                from address in sfdbConnection1.GetPersonByID(personID)
+                let title = address.Anrede
+                let surname = address.Nachname
+                let givenName = address.Vorname
+                select new PersonName(personUri, address.LastUpdated, title, surname, givenName);
+            
+            return personByID.First();
         }
 
         public

@@ -15,9 +15,9 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         private readonly Uri _uri;
         private readonly string _icon;
-        private readonly DateTime _lastUpdated;
+        private readonly DateTimeOffset _lastUpdated;
 
-        public PersonName(Uri uri, DateTime? lastUpdated = null, string title = null, string surname = null,
+        public PersonName(Uri uri, DateTimeOffset? lastUpdated = null, string title = null, string surname = null,
                           string givenName = null, string displayName = null)
         {
             _uri = uri;
@@ -65,7 +65,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         public Uri Uri { get { return _uri; } }
         public string Icon { get { return _icon; } }
-        public DateTime LastUpdated { get { return _lastUpdated; } }
+        public DateTimeOffset LastUpdated { get { return _lastUpdated; } }
 
         public string Title
         {

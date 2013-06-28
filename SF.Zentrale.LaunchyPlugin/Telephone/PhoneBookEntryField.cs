@@ -5,6 +5,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
     [Flags]
     public enum PhoneBookEntryField
     {
+        None = 0,
         IsMobileFlag = (1 << 17),
         IsPhoneNumberFlag = (1 << 18),
         IsSingleValuedNameFieldFlag = (1 << 19),

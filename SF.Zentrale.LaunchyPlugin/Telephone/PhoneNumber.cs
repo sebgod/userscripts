@@ -19,7 +19,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private readonly string _icon;
         private readonly Uri _uri;
         private readonly PhoneBookEntryField _entryField;
-        private readonly DateTime _lastUpdated;
+        private readonly DateTimeOffset _lastUpdated;
 
         public PhoneNumber(PersonName personName, ParsedUserInput tscNumber, PhoneBookEntryField entryField, string icon = null)
         {
@@ -30,7 +30,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             _tscNumber = tscNumber.ToString();
             _uri = new Uri(TelProtocol + _tscNumber);
             _entryField = entryField;
-            _lastUpdated = (_personName != null ? _personName.LastUpdated : null as DateTime?) ?? DateTime.UtcNow;
+            _lastUpdated = (_personName != null ? _personName.LastUpdated : null as DateTimeOffset?) ?? DateTime.UtcNow;
 
             if (icon != null)
                 _icon = icon;
@@ -107,7 +107,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             get { return _icon; }
         }
 
-        public DateTime LastUpdated
+        public DateTimeOffset LastUpdated
         {
             get { return _lastUpdated; }
         }

@@ -39,7 +39,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                                                   (startsWithDigit || startsWithPlusOrParen) && endsWithDigit
                                                       ? UserInputType.PhoneNumberLike
                                                       : UserInputType.NamePartLike);
-            return parsedUserInput.IsEmptyOrUnknown;
+            return !parsedUserInput.IsEmptyOrUnknown;
         }
 
         public static ParsedUserInput CleanupPhoneUserInput(this string userInput)

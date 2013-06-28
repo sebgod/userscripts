@@ -28,22 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.iD_HitcountsTableAdapter1 = new SF.Zentrale.LaunchyPlugin.SorpetalerDataSetTableAdapters.ID_HitcountsTableAdapter();
-            this.adresseN_TelefonnummernTableAdapter1 = new SF.Zentrale.LaunchyPlugin.SorpetalerDataSetTableAdapters.ADRESSEN_TelefonnummernTableAdapter();
+            this.tvf_FindAddressesByTelephoneNumberTableAdapter1 = new SF.Zentrale.LaunchyPlugin.SorpetalerDataSetTableAdapters.tvf_FindAddressesByTelephoneNumberTableAdapter();
+            this.adresseN_Telefonnummern_VerwendungTableAdapter1 = new SF.Zentrale.LaunchyPlugin.SorpetalerDataSetTableAdapters.ADRESSEN_Telefonnummern_VerwendungTableAdapter();
+            this.tvf_GetPersonByIDTableAdapter1 = new SF.Zentrale.LaunchyPlugin.SorpetalerDataSetTableAdapters.tvf_GetPersonByIDTableAdapter();
             // 
-            // iD_HitcountsTableAdapter1
+            // tvf_FindAddressesByTelephoneNumberTableAdapter1
             // 
-            this.iD_HitcountsTableAdapter1.ClearBeforeFill = true;
+            this.tvf_FindAddressesByTelephoneNumberTableAdapter1.ClearBeforeFill = true;
             // 
-            // adresseN_TelefonnummernTableAdapter1
+            // adresseN_Telefonnummern_VerwendungTableAdapter1
             // 
-            this.adresseN_TelefonnummernTableAdapter1.ClearBeforeFill = true;
+            this.adresseN_Telefonnummern_VerwendungTableAdapter1.ClearBeforeFill = true;
+            // 
+            // tvf_GetPersonByIDTableAdapter1
+            // 
+            this.tvf_GetPersonByIDTableAdapter1.ClearBeforeFill = true;
 
         }
 
         #endregion
 
-        private SorpetalerDataSetTableAdapters.ID_HitcountsTableAdapter iD_HitcountsTableAdapter1;
-        private SorpetalerDataSetTableAdapters.ADRESSEN_TelefonnummernTableAdapter adresseN_TelefonnummernTableAdapter1;
+        private SorpetalerDataSetTableAdapters.tvf_FindAddressesByTelephoneNumberTableAdapter tvf_FindAddressesByTelephoneNumberTableAdapter1;
+        private SorpetalerDataSetTableAdapters.ADRESSEN_Telefonnummern_VerwendungTableAdapter adresseN_Telefonnummern_VerwendungTableAdapter1;
+        private SorpetalerDataSetTableAdapters.tvf_GetPersonByIDTableAdapter tvf_GetPersonByIDTableAdapter1;
     }
 }

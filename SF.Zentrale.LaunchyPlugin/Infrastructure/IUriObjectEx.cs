@@ -12,7 +12,7 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
 
         private const string Lastupdated = "LastUpdated";
         private const string Icon = "Icon";
-        public static RegistryKey ReadUriObject(this IUriObject @this, RegistryKey uriStoreRoot, out DateTime lastUpdated, out string icon)
+        public static RegistryKey ReadUriObject(this IUriObject @this, RegistryKey uriStoreRoot, out DateTimeOffset lastUpdated, out string icon)
         {
             var objectStoreKey = @this.ObjectStoreKey(uriStoreRoot, false);
 

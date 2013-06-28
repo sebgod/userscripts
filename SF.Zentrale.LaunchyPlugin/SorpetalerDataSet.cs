@@ -2,5 +2,8 @@
     
     
     public partial class SorpetalerDataSet {
+        partial class tvf_GetPersonByIDDataTable
+        {
+        }
     }
 }
