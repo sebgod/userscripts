@@ -42,6 +42,10 @@ Esc::send, exit{Enter}
 Esc::send, !{F4}
 #IfWinActive
 
+#IfWInActive ahk_class Photo_Lightweight_Viewer
+Esc::send, !{F4}
+#IfWinActive
+
 ; Sysinternals desktop movement
 #UseHook ON
 CapsLock & right::desktops_right(%Desktop%)
@@ -60,7 +64,10 @@ CapsLock::tfs_toggle_language()
 ^+g::guid_sendraw()
 
 ; WINDOWS KEY + shift + H TOGGLES HIDDEN FILES 
-#+h::winshell_toggle_hidden_files()
+#IfWInActive ahk_class CabinetWClass
+^h::winshell_toggle_hidden_files()
+Esc::send, !{F4}
+#IfWinActive
 
 ;vista switcher
 #F11::vistaswitcher_show(1)
