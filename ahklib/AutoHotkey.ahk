@@ -63,11 +63,15 @@ CapsLock::tfs_toggle_language()
 ; Insert a random uuid
 ^+g::guid_sendraw()
 
-; WINDOWS KEY + shift + H TOGGLES HIDDEN FILES 
+; Start X11 Desktop
+#+x::desktops_startx()
+
+; Within the Explorer ctrl+h toggles hidden files
 #IfWInActive ahk_class CabinetWClass
 ^h::winshell_toggle_hidden_files()
 Esc::send, !{F4}
 #IfWinActive
+
 
 ;vista switcher
 #F11::vistaswitcher_show(1)

@@ -24,3 +24,7 @@ desktops_seticon(pDesktop) {
 	IconPath = %A_MyDocuments%\AutoHotkey\lib\%IconFile%
 	Menu, Tray, Icon, %IconPath%
 }
+
+desktops_startx() {
+	Run config.xlaunch
+}
