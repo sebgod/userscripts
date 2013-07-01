@@ -38,7 +38,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                                                               UserInputType.PhoneNumberLike,
                                                               isCleanedUp: true)
 
-                        select new PhoneNumber(personName, phoneNumber, PhoneBookEntryField.BusinessPhoneNumber);
+                        select new PhoneNumber(personName, phoneNumber, phoneType);
 
                     return findAddressesByNumber;
 

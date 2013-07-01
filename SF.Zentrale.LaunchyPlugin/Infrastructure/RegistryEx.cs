@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using Microsoft.Win32;
 
@@ -25,16 +26,21 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
 
         public static TValue GetValueEx<TValue>(this RegistryKey key, string keyName, TValue @default = default(TValue))
         {
-            switch (Type.GetTypeCode(typeof (TValue)))
-            {
-                case TypeCode.DateTime:
-                    var dateDefault = (DateTime) (object) @default;
-                    var longValue = (long) key.GetValue(keyName, dateDefault.ToBinary());
-                    return (TValue) (object) DateTime.FromBinary(longValue);
+            return typeof (TValue) == typeof (DateTimeOffset)
+                       ? (TValue) ReadDateTimeOffset(key, keyName, @default)
+                       : (TValue) key.GetValue(keyName, @default);
+        }
 
-                default:
-                    return (TValue) key.GetValue(keyName, @default);
-            }
+        private static object ReadDateTimeOffset(RegistryKey key, string keyName, object @default)
+        {
+            var serializedValue = (string) key.GetValue(keyName, null);
+
+            DateTimeOffset dateTimeOffset;
+            return serializedValue != null &&
+                   DateTimeOffset.TryParseExact(serializedValue, "o", null, DateTimeStyles.RoundtripKind,
+                                                out dateTimeOffset)
+                       ? dateTimeOffset
+                       : (@default.IsAs(out dateTimeOffset) ? (object) dateTimeOffset.ToString("o") : null);
         }
 
         public static TValue? GetValueAsNullable<TValue>(this RegistryKey key, string keyName)
@@ -58,26 +64,30 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
         public static RegistryKey SetValueEx<TValue>(this RegistryKey key, string keyName, TValue value)
             where TValue : struct
         {
-            switch (Type.GetTypeCode(typeof (TValue)))
+            var type = typeof (TValue);
+            switch (Type.GetTypeCode(type))
             {
-                case TypeCode.DateTime:
-                    key.SetValue(keyName, ((DateTime)(object)value).ToBinary(), RegistryValueKind.QWord);
-                    break;
-
                 case TypeCode.Boolean:
                 case TypeCode.Int32:
                 case TypeCode.UInt16:
                 case TypeCode.UInt32:
                 case TypeCode.Int16:
                     key.SetValue(keyName, value, RegistryValueKind.DWord);
-                    break;
+                    return key;
 
                 default:
+                    DateTimeOffset dateTimeOffset;
+                    if (value.IsAs(out dateTimeOffset))
+                    {
+                        key.SetValue(keyName, dateTimeOffset.ToString("o"), RegistryValueKind.String);
+                        return key;
+                    }
+
                     throw new ArgumentException(
-                        string.Format("Cannot serialize value {0} :: {1}={2} of type: {3}?", key.Name, keyName, value,
+                        string.Format("Cannot serialize value {0} :: {1}={2} of type: {3}", key.Name, keyName, value,
                                       typeof (TValue)), "value");
+
             }
-            return key;
         }
 
         public static string ShortName(this RegistryKey @this)

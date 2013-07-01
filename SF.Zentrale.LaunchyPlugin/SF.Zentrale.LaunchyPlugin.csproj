@@ -80,6 +80,7 @@
     <Compile Include="Infrastructure\IUriObjectEx.cs" />
     <Compile Include="Infrastructure\LoggingHelper.cs" />
     <Compile Include="Infrastructure\NumberHelper.cs" />
+    <Compile Include="Infrastructure\ObjectHelper.cs" />
     <Compile Include="Infrastructure\RegistryEx.cs" />
     <Compile Include="Infrastructure\SearchResultEx.cs" />
     <Compile Include="Infrastructure\StringHelper.cs" />
@@ -213,11 +214,8 @@
   <PropertyGroup>
     <PostBuildEvent>"$(ProjectDir)deploy_test.cmd"</PostBuildEvent>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
 </Project>

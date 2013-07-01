@@ -11,10 +11,14 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
             return field == null ? null : field.ToString();
         }
 
-        public static DateTime? ParseSingleValuedDateTime(this SearchResult searchResult, string property)
+        public static DateTimeOffset? ParseSingleValuedDateTime(this SearchResult searchResult, string property)
         {
             var field = FetchSingleField(searchResult, property);
-            return field == null ? null as DateTime? : (DateTime) field;
+            var asDateTime = field == null ? null as DateTime? : (DateTime)field;
+            if (!asDateTime.HasValue)
+                return null;
+
+            return new DateTimeOffset(asDateTime.Value);
         }
 
         public static object FetchSingleField(this SearchResult searchResult, string property)

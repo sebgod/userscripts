@@ -30,7 +30,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             _tscNumber = tscNumber.ToString();
             _uri = new Uri(TelProtocol + _tscNumber);
             _entryField = entryField;
-            _lastUpdated = (_personName != null ? _personName.LastUpdated : null as DateTimeOffset?) ?? DateTime.UtcNow;
+            _lastUpdated = (_personName != null ? _personName.LastUpdated : null as DateTimeOffset?) ?? DateTime.Now;
 
             if (icon != null)
                 _icon = icon;
