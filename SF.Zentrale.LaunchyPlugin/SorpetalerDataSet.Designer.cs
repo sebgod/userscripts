@@ -36,9 +36,9 @@ namespace SF.Zentrale.LaunchyPlugin {
         
         private tvf_GetPersonByIDDataTable tabletvf_GetPersonByID;
         
-        private global::System.Data.DataRelation relationFK_ADRESSEN_Telefonnummern_ADRESSEN;
-        
         private global::System.Data.DataRelation relationFK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung;
+        
+        private global::System.Data.DataRelation relationFK_ADRESSEN_Telefonnummern_ADRESSEN;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -318,8 +318,8 @@ namespace SF.Zentrale.LaunchyPlugin {
                     this.tabletvf_GetPersonByID.InitVars();
                 }
             }
-            this.relationFK_ADRESSEN_Telefonnummern_ADRESSEN = this.Relations["FK_ADRESSEN_Telefonnummern_ADRESSEN"];
             this.relationFK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung = this.Relations["FK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung"];
+            this.relationFK_ADRESSEN_Telefonnummern_ADRESSEN = this.Relations["FK_ADRESSEN_Telefonnummern_ADRESSEN"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -342,14 +342,14 @@ namespace SF.Zentrale.LaunchyPlugin {
             base.Tables.Add(this.tableADRESSEN_Telefonnummern_Verwendung);
             this.tabletvf_GetPersonByID = new tvf_GetPersonByIDDataTable();
             base.Tables.Add(this.tabletvf_GetPersonByID);
-            this.relationFK_ADRESSEN_Telefonnummern_ADRESSEN = new global::System.Data.DataRelation("FK_ADRESSEN_Telefonnummern_ADRESSEN", new global::System.Data.DataColumn[] {
-                        this.tableADRESSEN.ID_NRColumn}, new global::System.Data.DataColumn[] {
-                        this.tableADRESSEN_Telefonnummern.ID_NRColumn}, false);
-            this.Relations.Add(this.relationFK_ADRESSEN_Telefonnummern_ADRESSEN);
             this.relationFK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung = new global::System.Data.DataRelation("FK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung", new global::System.Data.DataColumn[] {
                         this.tableADRESSEN_Telefonnummern_Verwendung.VerwendungColumn}, new global::System.Data.DataColumn[] {
                         this.tableADRESSEN_Telefonnummern.VerwendungColumn}, false);
             this.Relations.Add(this.relationFK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung);
+            this.relationFK_ADRESSEN_Telefonnummern_ADRESSEN = new global::System.Data.DataRelation("FK_ADRESSEN_Telefonnummern_ADRESSEN", new global::System.Data.DataColumn[] {
+                        this.tableADRESSEN.ID_NRColumn}, new global::System.Data.DataColumn[] {
+                        this.tableADRESSEN_Telefonnummern.ID_NRColumn}, false);
+            this.Relations.Add(this.relationFK_ADRESSEN_Telefonnummern_ADRESSEN);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2422,23 +2422,23 @@ namespace SF.Zentrale.LaunchyPlugin {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ADRESSENRow ADRESSENRow {
-                get {
-                    return ((ADRESSENRow)(this.GetParentRow(this.Table.ParentRelations["FK_ADRESSEN_Telefonnummern_ADRESSEN"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_ADRESSEN_Telefonnummern_ADRESSEN"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ADRESSEN_Telefonnummern_VerwendungRow ADRESSEN_Telefonnummern_VerwendungRow {
                 get {
                     return ((ADRESSEN_Telefonnummern_VerwendungRow)(this.GetParentRow(this.Table.ParentRelations["FK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ADRESSENRow ADRESSENRow {
+                get {
+                    return ((ADRESSENRow)(this.GetParentRow(this.Table.ParentRelations["FK_ADRESSEN_Telefonnummern_ADRESSEN"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_ADRESSEN_Telefonnummern_ADRESSEN"]);
                 }
             }
         }
@@ -4770,21 +4770,21 @@ SELECT Verwendung, Name FROM ADRESSEN_Telefonnummern_Verwendung WHERE (Verwendun
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._aDRESSEN_TelefonnummernTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.ADRESSEN_Telefonnummern.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._aDRESSEN_TelefonnummernTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._iD_HitcountsTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.ID_Hitcounts.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
                     result = (result + this._iD_HitcountsTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._aDRESSEN_TelefonnummernTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.ADRESSEN_Telefonnummern.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._aDRESSEN_TelefonnummernTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -4814,19 +4814,19 @@ SELECT Verwendung, Name FROM ADRESSEN_Telefonnummern_Verwendung WHERE (Verwendun
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._aDRESSEN_TelefonnummernTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.ADRESSEN_Telefonnummern.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._aDRESSEN_TelefonnummernTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._iD_HitcountsTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.ID_Hitcounts.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
                     result = (result + this._iD_HitcountsTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._aDRESSEN_TelefonnummernTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.ADRESSEN_Telefonnummern.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._aDRESSEN_TelefonnummernTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -4840,19 +4840,19 @@ SELECT Verwendung, Name FROM ADRESSEN_Telefonnummern_Verwendung WHERE (Verwendun
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateDeletedRows(SorpetalerDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
-            if ((this._iD_HitcountsTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.ID_Hitcounts.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._iD_HitcountsTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
             if ((this._aDRESSEN_TelefonnummernTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.ADRESSEN_Telefonnummern.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._aDRESSEN_TelefonnummernTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._iD_HitcountsTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.ID_Hitcounts.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._iD_HitcountsTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }

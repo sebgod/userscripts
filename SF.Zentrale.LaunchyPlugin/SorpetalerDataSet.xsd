@@ -282,51 +282,7 @@ SELECT Verwendung, Name FROM ADRESSEN_Telefonnummern_Verwendung WHERE (Verwendun
   <xs:element name="SorpetalerDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="SorpetalerDataSet" msprop:Generator_UserDSName="SorpetalerDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="ADRESSEN" msdata:Locale="en-US" msprop:Generator_TableClassName="ADRESSENDataTable" msprop:Generator_TableVarName="tableADRESSEN" msprop:Generator_RowChangedName="ADRESSENRowChanged" msprop:Generator_TablePropName="ADRESSEN" msprop:Generator_RowDeletingName="ADRESSENRowDeleting" msprop:Generator_RowChangingName="ADRESSENRowChanging" msprop:Generator_RowEvHandlerName="ADRESSENRowChangeEventHandler" msprop:Generator_RowDeletedName="ADRESSENRowDeleted" msprop:Generator_RowClassName="ADRESSENRow" msprop:Generator_UserTableName="ADRESSEN" msprop:Generator_RowEvArgName="ADRESSENRowChangeEvent">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="ID_NR" msprop:Generator_ColumnVarNameInTable="columnID_NR" msprop:Generator_ColumnPropNameInRow="ID_NR" msprop:Generator_ColumnPropNameInTable="ID_NRColumn" msprop:Generator_UserColumnName="ID_NR" type="xs:int" />
-              <xs:element name="Nachname" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="Nachname" msprop:Generator_ColumnVarNameInTable="columnNachname" msprop:Generator_ColumnPropNameInTable="NachnameColumn" msprop:Generator_UserColumnName="Nachname">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="32" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="Vorname" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="Vorname" msprop:Generator_ColumnVarNameInTable="columnVorname" msprop:Generator_ColumnPropNameInTable="VornameColumn" msprop:Generator_UserColumnName="Vorname" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="32" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="Anrede" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="Anrede" msprop:Generator_ColumnVarNameInTable="columnAnrede" msprop:Generator_ColumnPropNameInTable="AnredeColumn" msprop:Generator_UserColumnName="Anrede" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="30" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="LastUpdated" msdata:DataType="System.DateTimeOffset" msprop:Generator_ColumnVarNameInTable="columnLastUpdated" msprop:Generator_ColumnPropNameInRow="LastUpdated" msprop:Generator_ColumnPropNameInTable="LastUpdatedColumn" msprop:Generator_UserColumnName="LastUpdated" type="xs:anyType" minOccurs="0" />
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="ADRESSEN_Telefonnummern" msdata:Locale="en-US" msprop:Generator_TableClassName="ADRESSEN_TelefonnummernDataTable" msprop:Generator_TableVarName="tableADRESSEN_Telefonnummern" msprop:Generator_RowChangedName="ADRESSEN_TelefonnummernRowChanged" msprop:Generator_TablePropName="ADRESSEN_Telefonnummern" msprop:Generator_RowDeletingName="ADRESSEN_TelefonnummernRowDeleting" msprop:Generator_RowChangingName="ADRESSEN_TelefonnummernRowChanging" msprop:Generator_RowEvHandlerName="ADRESSEN_TelefonnummernRowChangeEventHandler" msprop:Generator_RowDeletedName="ADRESSEN_TelefonnummernRowDeleted" msprop:Generator_RowClassName="ADRESSEN_TelefonnummernRow" msprop:Generator_UserTableName="ADRESSEN_Telefonnummern" msprop:Generator_RowEvArgName="ADRESSEN_TelefonnummernRowChangeEvent">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="ID_NR" msprop:Generator_ColumnVarNameInTable="columnID_NR" msprop:Generator_ColumnPropNameInRow="ID_NR" msprop:Generator_ColumnPropNameInTable="ID_NRColumn" msprop:Generator_UserColumnName="ID_NR" type="xs:int" />
-              <xs:element name="Verwendung" msprop:Generator_ColumnVarNameInTable="columnVerwendung" msprop:Generator_ColumnPropNameInRow="Verwendung" msprop:Generator_ColumnPropNameInTable="VerwendungColumn" msprop:Generator_UserColumnName="Verwendung" type="xs:int" />
-              <xs:element name="Nummer" msprop:Generator_ColumnVarNameInTable="columnNummer" msprop:Generator_ColumnPropNameInRow="Nummer" msprop:Generator_ColumnPropNameInTable="NummerColumn" msprop:Generator_UserColumnName="Nummer">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="100" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="ID_Hitcounts" msprop:Generator_TableClassName="ID_HitcountsDataTable" msprop:Generator_TableVarName="tableID_Hitcounts" msprop:Generator_TablePropName="ID_Hitcounts" msprop:Generator_RowDeletingName="ID_HitcountsRowDeleting" msprop:Generator_RowChangingName="ID_HitcountsRowChanging" msprop:Generator_RowEvHandlerName="ID_HitcountsRowChangeEventHandler" msprop:Generator_RowDeletedName="ID_HitcountsRowDeleted" msprop:Generator_UserTableName="ID_Hitcounts" msprop:Generator_RowChangedName="ID_HitcountsRowChanged" msprop:Generator_RowEvArgName="ID_HitcountsRowChangeEvent" msprop:Generator_RowClassName="ID_HitcountsRow">
+        <xs:element name="ID_Hitcounts" msprop:Generator_TableClassName="ID_HitcountsDataTable" msprop:Generator_TableVarName="tableID_Hitcounts" msprop:Generator_RowChangedName="ID_HitcountsRowChanged" msprop:Generator_TablePropName="ID_Hitcounts" msprop:Generator_RowDeletingName="ID_HitcountsRowDeleting" msprop:Generator_RowChangingName="ID_HitcountsRowChanging" msprop:Generator_RowEvHandlerName="ID_HitcountsRowChangeEventHandler" msprop:Generator_RowDeletedName="ID_HitcountsRowDeleted" msprop:Generator_RowClassName="ID_HitcountsRow" msprop:Generator_UserTableName="ID_Hitcounts" msprop:Generator_RowEvArgName="ID_HitcountsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_Nr" msprop:Generator_ColumnVarNameInTable="columnID_Nr" msprop:Generator_ColumnPropNameInRow="ID_Nr" msprop:Generator_ColumnPropNameInTable="ID_NrColumn" msprop:Generator_UserColumnName="ID_Nr" type="xs:long" />
@@ -341,7 +297,7 @@ SELECT Verwendung, Name FROM ADRESSEN_Telefonnummern_Verwendung WHERE (Verwendun
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="tvf_FindAddressesByTelephoneNumber" msprop:Generator_TableClassName="tvf_FindAddressesByTelephoneNumberDataTable" msprop:Generator_TableVarName="tabletvf_FindAddressesByTelephoneNumber" msprop:Generator_TablePropName="tvf_FindAddressesByTelephoneNumber" msprop:Generator_RowDeletingName="tvf_FindAddressesByTelephoneNumberRowDeleting" msprop:Generator_RowChangingName="tvf_FindAddressesByTelephoneNumberRowChanging" msprop:Generator_RowEvHandlerName="tvf_FindAddressesByTelephoneNumberRowChangeEventHandler" msprop:Generator_RowDeletedName="tvf_FindAddressesByTelephoneNumberRowDeleted" msprop:Generator_UserTableName="tvf_FindAddressesByTelephoneNumber" msprop:Generator_RowChangedName="tvf_FindAddressesByTelephoneNumberRowChanged" msprop:Generator_RowEvArgName="tvf_FindAddressesByTelephoneNumberRowChangeEvent" msprop:Generator_RowClassName="tvf_FindAddressesByTelephoneNumberRow">
+        <xs:element name="tvf_FindAddressesByTelephoneNumber" msprop:Generator_TableClassName="tvf_FindAddressesByTelephoneNumberDataTable" msprop:Generator_TableVarName="tabletvf_FindAddressesByTelephoneNumber" msprop:Generator_RowChangedName="tvf_FindAddressesByTelephoneNumberRowChanged" msprop:Generator_TablePropName="tvf_FindAddressesByTelephoneNumber" msprop:Generator_RowDeletingName="tvf_FindAddressesByTelephoneNumberRowDeleting" msprop:Generator_RowChangingName="tvf_FindAddressesByTelephoneNumberRowChanging" msprop:Generator_RowEvHandlerName="tvf_FindAddressesByTelephoneNumberRowChangeEventHandler" msprop:Generator_RowDeletedName="tvf_FindAddressesByTelephoneNumberRowDeleted" msprop:Generator_RowClassName="tvf_FindAddressesByTelephoneNumberRow" msprop:Generator_UserTableName="tvf_FindAddressesByTelephoneNumber" msprop:Generator_RowEvArgName="tvf_FindAddressesByTelephoneNumberRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_Nr" msprop:Generator_ColumnVarNameInTable="columnID_Nr" msprop:Generator_ColumnPropNameInRow="ID_Nr" msprop:Generator_ColumnPropNameInTable="ID_NrColumn" msprop:Generator_UserColumnName="ID_Nr" type="xs:int" />
@@ -356,21 +312,7 @@ SELECT Verwendung, Name FROM ADRESSEN_Telefonnummern_Verwendung WHERE (Verwendun
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="ADRESSEN_Telefonnummern_Verwendung" msprop:Generator_TableClassName="ADRESSEN_Telefonnummern_VerwendungDataTable" msprop:Generator_TableVarName="tableADRESSEN_Telefonnummern_Verwendung" msprop:Generator_TablePropName="ADRESSEN_Telefonnummern_Verwendung" msprop:Generator_RowDeletingName="ADRESSEN_Telefonnummern_VerwendungRowDeleting" msprop:Generator_RowChangingName="ADRESSEN_Telefonnummern_VerwendungRowChanging" msprop:Generator_RowEvHandlerName="ADRESSEN_Telefonnummern_VerwendungRowChangeEventHandler" msprop:Generator_RowDeletedName="ADRESSEN_Telefonnummern_VerwendungRowDeleted" msprop:Generator_UserTableName="ADRESSEN_Telefonnummern_Verwendung" msprop:Generator_RowChangedName="ADRESSEN_Telefonnummern_VerwendungRowChanged" msprop:Generator_RowEvArgName="ADRESSEN_Telefonnummern_VerwendungRowChangeEvent" msprop:Generator_RowClassName="ADRESSEN_Telefonnummern_VerwendungRow">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="Verwendung" msprop:Generator_ColumnVarNameInTable="columnVerwendung" msprop:Generator_ColumnPropNameInRow="Verwendung" msprop:Generator_ColumnPropNameInTable="VerwendungColumn" msprop:Generator_UserColumnName="Verwendung" type="xs:int" />
-              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="20" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="tvf_GetPersonByID" msprop:Generator_TableClassName="tvf_GetPersonByIDDataTable" msprop:Generator_TableVarName="tabletvf_GetPersonByID" msprop:Generator_TablePropName="tvf_GetPersonByID" msprop:Generator_RowDeletingName="tvf_GetPersonByIDRowDeleting" msprop:Generator_RowChangingName="tvf_GetPersonByIDRowChanging" msprop:Generator_RowEvHandlerName="tvf_GetPersonByIDRowChangeEventHandler" msprop:Generator_RowDeletedName="tvf_GetPersonByIDRowDeleted" msprop:Generator_UserTableName="tvf_GetPersonByID" msprop:Generator_RowChangedName="tvf_GetPersonByIDRowChanged" msprop:Generator_RowEvArgName="tvf_GetPersonByIDRowChangeEvent" msprop:Generator_RowClassName="tvf_GetPersonByIDRow">
+        <xs:element name="tvf_GetPersonByID" msprop:Generator_TableClassName="tvf_GetPersonByIDDataTable" msprop:Generator_TableVarName="tabletvf_GetPersonByID" msprop:Generator_RowChangedName="tvf_GetPersonByIDRowChanged" msprop:Generator_TablePropName="tvf_GetPersonByID" msprop:Generator_RowDeletingName="tvf_GetPersonByIDRowDeleting" msprop:Generator_RowChangingName="tvf_GetPersonByIDRowChanging" msprop:Generator_RowEvHandlerName="tvf_GetPersonByIDRowChangeEventHandler" msprop:Generator_RowDeletedName="tvf_GetPersonByIDRowDeleted" msprop:Generator_RowClassName="tvf_GetPersonByIDRow" msprop:Generator_UserTableName="tvf_GetPersonByID" msprop:Generator_RowEvArgName="tvf_GetPersonByIDRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_Nr" msprop:Generator_ColumnVarNameInTable="columnID_Nr" msprop:Generator_ColumnPropNameInRow="ID_Nr" msprop:Generator_ColumnPropNameInTable="ID_NrColumn" msprop:Generator_UserColumnName="ID_Nr" type="xs:int" />
@@ -399,9 +341,76 @@ SELECT Verwendung, Name FROM ADRESSEN_Telefonnummern_Verwendung WHERE (Verwendun
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="ADRESSEN" msdata:Locale="en-US" msprop:Generator_TableClassName="ADRESSENDataTable" msprop:Generator_TableVarName="tableADRESSEN" msprop:Generator_TablePropName="ADRESSEN" msprop:Generator_RowDeletingName="ADRESSENRowDeleting" msprop:Generator_RowChangingName="ADRESSENRowChanging" msprop:Generator_RowEvHandlerName="ADRESSENRowChangeEventHandler" msprop:Generator_RowDeletedName="ADRESSENRowDeleted" msprop:Generator_UserTableName="ADRESSEN" msprop:Generator_RowChangedName="ADRESSENRowChanged" msprop:Generator_RowEvArgName="ADRESSENRowChangeEvent" msprop:Generator_RowClassName="ADRESSENRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_NR" msprop:Generator_ColumnVarNameInTable="columnID_NR" msprop:Generator_ColumnPropNameInRow="ID_NR" msprop:Generator_ColumnPropNameInTable="ID_NRColumn" msprop:Generator_UserColumnName="ID_NR" type="xs:int" />
+              <xs:element name="Nachname" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="Nachname" msprop:Generator_ColumnVarNameInTable="columnNachname" msprop:Generator_ColumnPropNameInTable="NachnameColumn" msprop:Generator_UserColumnName="Nachname">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="32" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Vorname" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="Vorname" msprop:Generator_ColumnVarNameInTable="columnVorname" msprop:Generator_ColumnPropNameInTable="VornameColumn" msprop:Generator_UserColumnName="Vorname" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="32" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Anrede" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="Anrede" msprop:Generator_ColumnVarNameInTable="columnAnrede" msprop:Generator_ColumnPropNameInTable="AnredeColumn" msprop:Generator_UserColumnName="Anrede" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LastUpdated" msdata:DataType="System.DateTimeOffset" msprop:Generator_ColumnVarNameInTable="columnLastUpdated" msprop:Generator_ColumnPropNameInRow="LastUpdated" msprop:Generator_ColumnPropNameInTable="LastUpdatedColumn" msprop:Generator_UserColumnName="LastUpdated" type="xs:anyType" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ADRESSEN_Telefonnummern" msdata:Locale="en-US" msprop:Generator_TableClassName="ADRESSEN_TelefonnummernDataTable" msprop:Generator_TableVarName="tableADRESSEN_Telefonnummern" msprop:Generator_TablePropName="ADRESSEN_Telefonnummern" msprop:Generator_RowDeletingName="ADRESSEN_TelefonnummernRowDeleting" msprop:Generator_RowChangingName="ADRESSEN_TelefonnummernRowChanging" msprop:Generator_RowEvHandlerName="ADRESSEN_TelefonnummernRowChangeEventHandler" msprop:Generator_RowDeletedName="ADRESSEN_TelefonnummernRowDeleted" msprop:Generator_UserTableName="ADRESSEN_Telefonnummern" msprop:Generator_RowChangedName="ADRESSEN_TelefonnummernRowChanged" msprop:Generator_RowEvArgName="ADRESSEN_TelefonnummernRowChangeEvent" msprop:Generator_RowClassName="ADRESSEN_TelefonnummernRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_NR" msprop:Generator_ColumnVarNameInTable="columnID_NR" msprop:Generator_ColumnPropNameInRow="ID_NR" msprop:Generator_ColumnPropNameInTable="ID_NRColumn" msprop:Generator_UserColumnName="ID_NR" type="xs:int" />
+              <xs:element name="Verwendung" msprop:Generator_ColumnVarNameInTable="columnVerwendung" msprop:Generator_ColumnPropNameInRow="Verwendung" msprop:Generator_ColumnPropNameInTable="VerwendungColumn" msprop:Generator_UserColumnName="Verwendung" type="xs:int" />
+              <xs:element name="Nummer" msprop:Generator_ColumnVarNameInTable="columnNummer" msprop:Generator_ColumnPropNameInRow="Nummer" msprop:Generator_ColumnPropNameInTable="NummerColumn" msprop:Generator_UserColumnName="Nummer">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ADRESSEN_Telefonnummern_Verwendung" msprop:Generator_TableClassName="ADRESSEN_Telefonnummern_VerwendungDataTable" msprop:Generator_TableVarName="tableADRESSEN_Telefonnummern_Verwendung" msprop:Generator_RowChangedName="ADRESSEN_Telefonnummern_VerwendungRowChanged" msprop:Generator_TablePropName="ADRESSEN_Telefonnummern_Verwendung" msprop:Generator_RowDeletingName="ADRESSEN_Telefonnummern_VerwendungRowDeleting" msprop:Generator_RowChangingName="ADRESSEN_Telefonnummern_VerwendungRowChanging" msprop:Generator_RowEvHandlerName="ADRESSEN_Telefonnummern_VerwendungRowChangeEventHandler" msprop:Generator_RowDeletedName="ADRESSEN_Telefonnummern_VerwendungRowDeleted" msprop:Generator_RowClassName="ADRESSEN_Telefonnummern_VerwendungRow" msprop:Generator_UserTableName="ADRESSEN_Telefonnummern_Verwendung" msprop:Generator_RowEvArgName="ADRESSEN_Telefonnummern_VerwendungRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Verwendung" msprop:Generator_ColumnVarNameInTable="columnVerwendung" msprop:Generator_ColumnPropNameInRow="Verwendung" msprop:Generator_ColumnPropNameInTable="VerwendungColumn" msprop:Generator_UserColumnName="Verwendung" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:ID_Hitcounts" />
+      <xs:field xpath="mstns:Username" />
+      <xs:field xpath="mstns:ID_Nr" />
+    </xs:unique>
+    <xs:unique name="tvf_GetPersonByID_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tvf_GetPersonByID" />
+      <xs:field xpath="mstns:ID_Nr" />
+    </xs:unique>
+    <xs:unique name="ADRESSEN_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:ADRESSEN" />
       <xs:field xpath="mstns:ID_NR" />
     </xs:unique>
@@ -410,24 +419,15 @@ SELECT Verwendung, Name FROM ADRESSEN_Telefonnummern_Verwendung WHERE (Verwendun
       <xs:field xpath="mstns:ID_NR" />
       <xs:field xpath="mstns:Verwendung" />
     </xs:unique>
-    <xs:unique name="ID_Hitcounts_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//mstns:ID_Hitcounts" />
-      <xs:field xpath="mstns:Username" />
-      <xs:field xpath="mstns:ID_Nr" />
-    </xs:unique>
     <xs:unique name="ADRESSEN_Telefonnummern_Verwendung_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:ADRESSEN_Telefonnummern_Verwendung" />
       <xs:field xpath="mstns:Verwendung" />
     </xs:unique>
-    <xs:unique name="tvf_GetPersonByID_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//mstns:tvf_GetPersonByID" />
-      <xs:field xpath="mstns:ID_Nr" />
-    </xs:unique>
   </xs:element>
   <xs:annotation>
     <xs:appinfo>
-      <msdata:Relationship name="FK_ADRESSEN_Telefonnummern_ADRESSEN" msdata:parent="ADRESSEN" msdata:child="ADRESSEN_Telefonnummern" msdata:parentkey="ID_NR" msdata:childkey="ID_NR" msprop:Generator_UserChildTable="ADRESSEN_Telefonnummern" msprop:Generator_ChildPropName="GetADRESSEN_TelefonnummernRows" msprop:Generator_UserRelationName="FK_ADRESSEN_Telefonnummern_ADRESSEN" msprop:Generator_ParentPropName="ADRESSENRow" msprop:Generator_RelationVarName="relationFK_ADRESSEN_Telefonnummern_ADRESSEN" msprop:Generator_UserParentTable="ADRESSEN" />
-      <msdata:Relationship name="FK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung" msdata:parent="ADRESSEN_Telefonnummern_Verwendung" msdata:child="ADRESSEN_Telefonnummern" msdata:parentkey="Verwendung" msdata:childkey="Verwendung" msprop:Generator_UserChildTable="ADRESSEN_Telefonnummern" msprop:Generator_ChildPropName="GetADRESSEN_TelefonnummernRows" msprop:Generator_UserRelationName="FK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung" msprop:Generator_RelationVarName="relationFK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung" msprop:Generator_UserParentTable="ADRESSEN_Telefonnummern_Verwendung" msprop:Generator_ParentPropName="ADRESSEN_Telefonnummern_VerwendungRow" />
+      <msdata:Relationship name="FK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung" msdata:parent="ADRESSEN_Telefonnummern_Verwendung" msdata:child="ADRESSEN_Telefonnummern" msdata:parentkey="Verwendung" msdata:childkey="Verwendung" msprop:Generator_UserChildTable="ADRESSEN_Telefonnummern" msprop:Generator_ChildPropName="GetADRESSEN_TelefonnummernRows" msprop:Generator_UserRelationName="FK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung" msprop:Generator_ParentPropName="ADRESSEN_Telefonnummern_VerwendungRow" msprop:Generator_RelationVarName="relationFK_ADRESSEN_Telefonnummern_ADRESSEN_Telefonnummern_Verwendung" msprop:Generator_UserParentTable="ADRESSEN_Telefonnummern_Verwendung" />
+      <msdata:Relationship name="FK_ADRESSEN_Telefonnummern_ADRESSEN" msdata:parent="ADRESSEN" msdata:child="ADRESSEN_Telefonnummern" msdata:parentkey="ID_NR" msdata:childkey="ID_NR" msprop:Generator_UserChildTable="ADRESSEN_Telefonnummern" msprop:Generator_ChildPropName="GetADRESSEN_TelefonnummernRows" msprop:Generator_UserRelationName="FK_ADRESSEN_Telefonnummern_ADRESSEN" msprop:Generator_RelationVarName="relationFK_ADRESSEN_Telefonnummern_ADRESSEN" msprop:Generator_UserParentTable="ADRESSEN" msprop:Generator_ParentPropName="ADRESSENRow" />
     </xs:appinfo>
   </xs:annotation>
 </xs:schema>
