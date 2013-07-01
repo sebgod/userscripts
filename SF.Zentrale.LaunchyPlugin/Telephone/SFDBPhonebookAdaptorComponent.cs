@@ -34,11 +34,13 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                         let personUri = new Uri(PersonName.PersonProtocol + idWithPhoneNumber.ID_Nr)
                         let personName = GetPersonByUri(personUri)
                         let phoneType = GetPhoneTypeFromDBUsage(idWithPhoneNumber.Verwendung)
-                        let phoneNumber = new ParsedUserInput(idWithPhoneNumber.Nummer,
-                                                              UserInputType.PhoneNumberLike,
-                                                              isCleanedUp: true)
+                        let parsedInput =
+                            new ParsedUserInput(idWithPhoneNumber.Nummer, UserInputType.PhoneNumberLike,
+                                                isCleanedUp: true)
+                        let phoneNumber = new PhoneNumber(personName, parsedInput, phoneType)
+                        where duplicates.Add(phoneNumber.Uri)
+                        select phoneNumber;
 
-                        select new PhoneNumber(personName, phoneNumber, phoneType);
 
                     return findAddressesByNumber;
 
