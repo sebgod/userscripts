@@ -30,8 +30,12 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             return GetEnumerator();
         }
 
+        #region Singleton Caching
         private static readonly PhoneBookEntryFieldList BusinessPhoneNumber = new PhoneBookEntryFieldList(PhoneBookEntryField.BusinessPhoneNumber);
         private static readonly PhoneBookEntryFieldList BusinessMobilePhone = new PhoneBookEntryFieldList(PhoneBookEntryField.BusinessMobilePhone);
+
+        private static readonly Dictionary<PhoneBookEntryField, PhoneBookEntryFieldList> SingletonEntryFields =
+            new Dictionary<PhoneBookEntryField, PhoneBookEntryFieldList>(10);
         public static implicit operator PhoneBookEntryFieldList(PhoneBookEntryField singleField)
         {
             switch (singleField)
@@ -43,9 +47,13 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                     return BusinessMobilePhone;
 
                 default:
-                    return new PhoneBookEntryFieldList(singleField);
+                    PhoneBookEntryFieldList list;
+                    return SingletonEntryFields.TryGetValue(singleField, out list)
+                               ? list
+                               : (SingletonEntryFields[singleField] = new PhoneBookEntryFieldList(singleField));
             }
         }
 
+        #endregion
     }
 }
