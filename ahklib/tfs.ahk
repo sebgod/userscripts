@@ -1,9 +1,9 @@
 #NoEnv
 #Warn
 
-tfs_current_language="english"
+tfs_current_language=english
 tfs_current_shift_state=0
-tfs_previous_language="english"
+tfs_previous_language=english
 tfs_previous_shift_state=0
 
 tfs_set_current_language(pLanguage, pShift) {
@@ -20,7 +20,7 @@ tfs_set_current_language(pLanguage, pShift) {
 }
 
 tfs_toggle_language() {
-	global tfs_previous_language
+	global tfs_previous_language	
 	global tfs_previous_shift_state
 	
 	tfs_switch(tfs_previous_language, tfs_previous_shift_state)
@@ -45,6 +45,6 @@ tfs_switch(pLanguage, pShift) {
 			MsgBox TODO Korean using Romaja
 		}
 	} else {
-		MsgBox Unhandled language %pLanguage%
+		MsgBox Unhandled language '%pLanguage%'
 	}
 }
