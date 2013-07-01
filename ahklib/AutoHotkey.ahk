@@ -25,6 +25,8 @@ if (Desktop > 0) {
 	vistaswitcher_startup()
 }
 
+#include <AOT>
+
 OnClipboardChange:
 	winshell_onclipboardchange(%Desktop%)
 return
@@ -70,15 +72,43 @@ CapsLock::tfs_toggle_language()
 #v::Run VirtualBox
 
 ; Within the Explorer ctrl+h toggles hidden files
-#IfWInActive ahk_class CabinetWClass
+#IfWinActive ahk_class CabinetWClass
 ^h::winshell_toggle_hidden_files()
 Esc::send, !{F4}
 #IfWinActive
 
+;internet explorer
+#IfWinActive ahk_class IEFrame
+Esc::send, ^w
+#IfWinActive
 
 ;vista switcher
 #F11::vistaswitcher_show(1)
 #F12::vistaswitcher_show()
+
+#a::
+WinGet, currentWindow, ID, A
+WinGet, ExStyle, ExStyle, ahk_id %currentWindow%
+if (ExStyle & 0x8)  ; 0x8 is WS_EX_TOPMOST.
+{
+	Winset, AlwaysOnTop, off, ahk_id %currentWindow%
+	SplashImage,, x0 y0 b fs12, OFF always on top.
+	Sleep, 15
+	SplashImage, Off
+}
+else
+{
+	WinSet, AlwaysOnTop, on, ahk_id %currentWindow%
+	SplashImage,,x0 y0 b fs12, ON always on top.
+	Sleep, 15
+	SplashImage, Off
+}
+return
+
+TurnOffSI:
+SplashImage, off
+SetTimer, TurnOffSI, 1000, Off
+Return
 
 ;#f::
 ;   SendInput #+f
