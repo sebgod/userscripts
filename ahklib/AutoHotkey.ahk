@@ -66,6 +66,9 @@ CapsLock::tfs_toggle_language()
 ; Start X11 Desktop
 #+x::desktops_startx()
 
+; Start VirtualBox window
+#v::Run VirtualBox
+
 ; Within the Explorer ctrl+h toggles hidden files
 #IfWInActive ahk_class CabinetWClass
 ^h::winshell_toggle_hidden_files()
