@@ -66,13 +66,12 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         }
 
         public IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField, 
-            IEnumerable<PhoneBookEntryField> entryFields, ParsedUserInput userInput, bool fuzzy = true)
+            PhoneBookEntryFieldList entryFields, ParsedUserInput userInput, bool fuzzy = true)
         {
             var searchResults = adConnectorComponent1.FindADEntries(ADField(searchField), userInput, fuzzy);
-            var phoneBookEntryFields = entryFields as PhoneBookEntryField[] ?? entryFields.ToArray();
             foreach (SearchResult searchResult in searchResults)
             {
-                foreach (var entryField in phoneBookEntryFields)
+                foreach (var entryField in entryFields)
                 {
                     var propertyCollection = searchResult.Properties[ADField(entryField)];
                     var count = propertyCollection.Count;
@@ -91,21 +90,21 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             }
         }
 
-        private static readonly PhoneBookEntryField[] SupportedPhoneNumberFieldsArray = new[]{
-                PhoneBookEntryField.BusinessPhoneNumber,
-                PhoneBookEntryField.BusinessMobilePhone
-        };
-        public IEnumerable<PhoneBookEntryField> SupportedPhoneNumberFields
+        private static readonly PhoneBookEntryFieldList SupportedPhoneNumberFieldsArray = new PhoneBookEntryFieldList(
+            PhoneBookEntryField.BusinessPhoneNumber,
+            PhoneBookEntryField.BusinessMobilePhone
+            );
+        public PhoneBookEntryFieldList SupportedPhoneNumberFields
         {
             get { return SupportedPhoneNumberFieldsArray; }
         }
 
-        private static readonly PhoneBookEntryField[] SupportedNameFieldsArray = new[]{
-                PhoneBookEntryField.Nickname,
-                PhoneBookEntryField.GivenName,
-                PhoneBookEntryField.Surname
-        };
-        public IEnumerable<PhoneBookEntryField> SupportedNameFields
+        private static readonly PhoneBookEntryFieldList SupportedNameFieldsArray = new PhoneBookEntryFieldList(
+            PhoneBookEntryField.Nickname,
+            PhoneBookEntryField.GivenName,
+            PhoneBookEntryField.Surname
+            );
+        public PhoneBookEntryFieldList SupportedNameFields
         {
             get { return SupportedNameFieldsArray; }
         }

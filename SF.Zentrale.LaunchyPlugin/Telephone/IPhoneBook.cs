@@ -6,10 +6,10 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 {
     public interface IPhoneBook
     {
-        IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField, IEnumerable<PhoneBookEntryField> entryFields, ParsedUserInput userInput, bool fuzzy = true);
-        
-        IEnumerable<PhoneBookEntryField> SupportedPhoneNumberFields { get; }
+        IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField, PhoneBookEntryFieldList entryFields, ParsedUserInput userInput, bool fuzzy = true);
 
-        IEnumerable<PhoneBookEntryField> SupportedNameFields { get; }
+        PhoneBookEntryFieldList SupportedPhoneNumberFields { get; }
+
+        PhoneBookEntryFieldList SupportedNameFields { get; }
     }
 }

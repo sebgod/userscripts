@@ -22,7 +22,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
 
         public IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField,
-                                                           IEnumerable<PhoneBookEntryField> entryFields,
+                                                           PhoneBookEntryFieldList entryFields,
                                                            ParsedUserInput userInput, bool fuzzy = true)
         {
             switch (userInput.InputType)
@@ -34,13 +34,13 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                         let personUri = new Uri(PersonName.PersonProtocol + idWithPhoneNumber.ID_Nr)
                         let personName = GetPersonByUri(personUri)
                         let phoneType = GetPhoneTypeFromDBUsage(idWithPhoneNumber.Verwendung)
+                        where entryFields.Contains(phoneType)
                         let parsedInput =
                             new ParsedUserInput(idWithPhoneNumber.Nummer, UserInputType.PhoneNumberLike,
                                                 isCleanedUp: true)
                         let phoneNumber = new PhoneNumber(personName, parsedInput, phoneType)
                         where duplicates.Add(phoneNumber.Uri)
                         select phoneNumber;
-
 
                     return findAddressesByNumber;
 
@@ -65,6 +65,11 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             return _phoneEntryFieldCache[verwendungIndex];
         }
 
+        /// <summary>
+        /// TODO: Reading from repository!!!
+        /// </summary>
+        /// <param name="personUri"></param>
+        /// <returns></returns>
         private PersonName GetPersonByUri(Uri personUri)
         {
             var personID = int.Parse(personUri.GetComponents(UriComponents.Path, UriFormat.Unescaped));
@@ -79,24 +84,25 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             return personByID.First();
         }
 
-        public
-            IEnumerable<PhoneBookEntryField> SupportedPhoneNumberFields
+        private static readonly PhoneBookEntryFieldList SupportedPhoneNumberFieldsArray = new PhoneBookEntryFieldList(
+            PhoneBookEntryField.BusinessPhoneNumber,
+            PhoneBookEntryField.BusinessMobilePhone
+            );
+
+        public PhoneBookEntryFieldList SupportedPhoneNumberFields
         {
-            get
-            {
-                yield return PhoneBookEntryField.BusinessPhoneNumber;
-                yield return PhoneBookEntryField.BusinessMobilePhone;
-            }
+            get { return SupportedPhoneNumberFieldsArray; }
         }
 
-        public IEnumerable<PhoneBookEntryField> SupportedNameFields
+        private static readonly PhoneBookEntryFieldList SupportedNameFieldsArray = new PhoneBookEntryFieldList(
+            PhoneBookEntryField.GivenName,
+            PhoneBookEntryField.Surname,
+            PhoneBookEntryField.Title
+            );
+
+        public PhoneBookEntryFieldList SupportedNameFields
         {
-            get
-            {
-                yield return PhoneBookEntryField.GivenName;
-                yield return PhoneBookEntryField.Surname;
-                yield return PhoneBookEntryField.Title;
-            }
+            get { return SupportedNameFieldsArray; }
         }
     }
 }

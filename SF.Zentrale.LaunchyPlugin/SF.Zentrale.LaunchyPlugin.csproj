@@ -110,6 +110,7 @@
     <Compile Include="Infrastructure\ParsedUserInput.cs" />
     <Compile Include="Telephone\PersonName.cs" />
     <Compile Include="Telephone\PhoneBookEntryField.cs" />
+    <Compile Include="Telephone\PhoneBookEntryFieldList.cs" />
     <Compile Include="Telephone\PhoneNumber.cs" />
     <Compile Include="Infrastructure\SFDBConnection.cs">
       <SubType>Component</SubType>

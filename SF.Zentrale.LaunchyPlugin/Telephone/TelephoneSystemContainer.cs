@@ -41,7 +41,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                         phoneNumberQuery =
                             from numberType in phoneBook.SupportedPhoneNumberFields
                             from phoneNumber in
-                                phoneBook.ResolvePhoneNumber(duplicates, numberType, new[] {numberType}, parsedUserInput)
+                                phoneBook.ResolvePhoneNumber(duplicates, numberType, numberType, parsedUserInput)
                             select phoneNumber;
                         break;
 
