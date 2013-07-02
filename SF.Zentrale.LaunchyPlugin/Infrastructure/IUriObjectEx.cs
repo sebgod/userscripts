@@ -10,12 +10,14 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
             return @this.Uri.ToString(); 
         }
 
+        private const string DataSource = "DataSource";
         private const string Lastupdated = "LastUpdated";
         private const string Icon = "Icon";
-        public static RegistryKey ReadUriObject(this IUriObject @this, RegistryKey uriStoreRoot, out DateTimeOffset lastUpdated, out string icon)
+        public static RegistryKey ReadUriObjectFromRegistry(this IUriObject @this, RegistryKey uriStoreRoot, out Label dataSource, out DateTimeOffset lastUpdated, out string icon)
         {
             var objectStoreKey = @this.ObjectStoreKey(uriStoreRoot, false);
 
+            objectStoreKey.GetValue(DataSource, out dataSource);
             objectStoreKey.GetValue(Lastupdated, out lastUpdated);
             objectStoreKey.GetValue(Icon, out icon);
 
@@ -26,6 +28,7 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
         {
             var objectStoreKey = @this.ObjectStoreKey(uriStoreRoot, true);
 
+            objectStoreKey.SetValueEx(DataSource, @this.DataSource);
             objectStoreKey.SetValueEx(Lastupdated, @this.LastUpdated);
             objectStoreKey.SetValueEx(Icon, @this.Icon);
 

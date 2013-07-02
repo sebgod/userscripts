@@ -26,6 +26,16 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 {
                     _telLabel
                 };
+
+            var userDnsDomain = Environment.GetEnvironmentVariable("UserDnsDomain");
+            if (!String.IsNullOrEmpty(userDnsDomain))
+            {
+                _phoneBooks.Add(new ADPhoneConnectorComponent(this));
+                _phoneBooks.Add(new SFDBPhonebookAdaptorComponent(this));
+            }
+
+            foreach (var phoneBook in _phoneBooks)
+                phoneBook.Init(hashFunc(phoneBook.GetType().AssemblyQualifiedName));
         }
 
         public ObjectRepository Repository

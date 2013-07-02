@@ -20,6 +20,15 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             InitializeComponent();
         }
 
+        #region ID Handling
+        private Label _phoneBookID;
+        public Label UniqueID { get { return _phoneBookID; } }
+        
+        public void Init(Label phoneBookLabel)
+        {
+            _phoneBookID = phoneBookLabel;
+        }
+        #endregion
 
         public IEnumerable<PhoneNumber> ResolvePhoneNumber(HashSet<Uri> duplicates, PhoneBookEntryField searchField,
                                                            PhoneBookEntryFieldList entryFields,
@@ -38,7 +47,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                         let parsedInput =
                             new ParsedUserInput(idWithPhoneNumber.Nummer, UserInputType.PhoneNumberLike,
                                                 isCleanedUp: true)
-                        let phoneNumber = new PhoneNumber(personName, parsedInput, phoneType)
+                        let phoneNumber = new PhoneNumber(UniqueID, personName, parsedInput, phoneType)
                         where duplicates.Add(phoneNumber.Uri)
                         select phoneNumber;
 
@@ -79,7 +88,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 let title = address.Anrede
                 let surname = address.Nachname
                 let givenName = address.Vorname
-                select new PersonName(personUri, address.LastUpdated, title, surname, givenName);
+                select new PersonName(UniqueID, personUri, address.LastUpdated, title, surname, givenName);
             
             return personByID.First();
         }
@@ -104,5 +113,6 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         {
             get { return SupportedNameFieldsArray; }
         }
+
     }
 }

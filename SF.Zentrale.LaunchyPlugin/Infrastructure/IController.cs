@@ -4,9 +4,8 @@ using LaunchySharp;
 
 namespace SF.Zentrale.LaunchyPlugin.Infrastructure
 {
-    public interface IController
+    public interface IController : IDataSource
     {
-        Label UniqueID { get; }
         IEnumerable<Label> AcceptedFirstLevelLabels { get; }
         IEnumerable<CatItemTuple> IntialCatalogItems { get; }
         ObjectRepository Repository { get; }
@@ -25,7 +24,7 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
     {
         public static void InitEx(this IController @this, ObjectRepository repository, Func<string, uint> hashFunc)
         {
-            @this.Init(repository, pString => (Label)hashFunc(pString));
+            @this.Init(repository, pString => new Label(hashFunc(pString), hashFunc(pString.ToUpperInvariant())));
         }
 
         public static CatItemTuple AddUriObjectToChangesetAndGetTuple(this IController @this, IUriObject uriObject)

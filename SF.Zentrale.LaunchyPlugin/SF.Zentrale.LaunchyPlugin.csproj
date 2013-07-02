@@ -79,6 +79,7 @@
     <Compile Include="Infrastructure\ADConnectorComponent.Designer.cs">
       <DependentUpon>ADConnectorComponent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\IRegistrySerializable.cs" />
     <Compile Include="Infrastructure\IUriObjectEx.cs" />
     <Compile Include="Infrastructure\Label.cs" />
     <Compile Include="Infrastructure\LoggingHelper.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Telephone\ADPhoneConnectorComponent.Designer.cs">
       <DependentUpon>ADPhoneConnectorComponent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\IDataSource.cs" />
     <Compile Include="Telephone\IPhoneBook.cs" />
     <Compile Include="Infrastructure\IUriObject.cs" />
     <Compile Include="Infrastructure\ParsedUserInput.cs" />

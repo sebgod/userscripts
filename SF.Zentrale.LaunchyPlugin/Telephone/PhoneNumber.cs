@@ -17,15 +17,18 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private readonly PersonName _personName;
         private readonly string _tscNumber;
         private readonly string _icon;
+
+        private readonly Label _dataSource;
         private readonly Uri _uri;
         private readonly PhoneBookEntryField _entryField;
         private readonly DateTimeOffset _lastUpdated;
 
-        public PhoneNumber(PersonName personName, ParsedUserInput tscNumber, PhoneBookEntryField entryField, string icon = null)
+        public PhoneNumber(Label dataSource, PersonName personName, ParsedUserInput tscNumber, PhoneBookEntryField entryField, string icon = null)
         {
             if (tscNumber.InputType != UserInputType.PhoneNumberLike || !tscNumber.IsCleanedUp)
                 throw new ArgumentException(tscNumber + " is not a phone number!", "tscNumber");
 
+            _dataSource = dataSource;
             _personName = personName;
             _tscNumber = tscNumber.ToString();
             _uri = new Uri(TelProtocol + _tscNumber);
@@ -54,7 +57,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         private PhoneNumber(Uri uri, RegistryKey uriStoreRoot)
         {
-            var objectStoreKey = this.ReadUriObject(uriStoreRoot, out _lastUpdated, out _icon);
+            var objectStoreKey = this.ReadUriObjectFromRegistry(uriStoreRoot, out _dataSource, out _lastUpdated, out _icon);
 
             _uri = uri;
             _tscNumber = objectStoreKey.GetValue(TelephoneSystemCompliantNumberValueName, null, RegistryValueOptions.None) as string;
@@ -76,6 +79,8 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             _personName.WriteUriObjectAndReferenceToRegistry(uriStoreRoot, PersonUriValueName, objectStoreKey);
             objectStoreKey.Close();
         }
+
+        public Label DataSource { get { return _dataSource; } }
 
         public Uri Uri
         {

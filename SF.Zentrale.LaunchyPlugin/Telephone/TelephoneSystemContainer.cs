@@ -13,13 +13,6 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         public TelephoneSystemContainer()
         {
             _phoneBooks = new List<IPhoneBook>(5);
-            var userDnsDomain = Environment.GetEnvironmentVariable("UserDnsDomain");
-            if (!String.IsNullOrEmpty(userDnsDomain))
-            {
-                _phoneBooks.Add(new ADPhoneConnectorComponent(this));
-                _phoneBooks.Add(new SFDBPhonebookAdaptorComponent(this));
-            }
-
         }
 
         public IEnumerable<PhoneNumber> ParsePhoneNumbers(string phoneInput, int maxResults = 6)

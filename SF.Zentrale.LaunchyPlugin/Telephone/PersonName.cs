@@ -13,13 +13,15 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private readonly string _givenName;
         private readonly string _surname;
 
+        private readonly Label _dataSource;
         private readonly Uri _uri;
         private readonly string _icon;
         private readonly DateTimeOffset _lastUpdated;
 
-        public PersonName(Uri uri, DateTimeOffset? lastUpdated = null, string title = null, string surname = null,
+        public PersonName(Label dataSource, Uri uri, DateTimeOffset? lastUpdated = null, string title = null, string surname = null,
                           string givenName = null, string displayName = null)
         {
+            _dataSource = dataSource;
             _uri = uri;
             _title = string.IsNullOrEmpty(title) ? null : title;
             _surname = string.IsNullOrEmpty(surname) ? null : surname;
@@ -41,7 +43,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
         private PersonName(Uri uri, RegistryKey uriStoreRoot)
         {
-            var objectStoreKey = this.ReadUriObject(uriStoreRoot, out _lastUpdated, out _icon);
+            var objectStoreKey = this.ReadUriObjectFromRegistry(uriStoreRoot, out _dataSource, out _lastUpdated, out _icon);
 
             objectStoreKey.GetValue(TitleValueName, out _title);
             objectStoreKey.GetValue(DisplayValueName, out _displayName);
@@ -50,6 +52,8 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
             objectStoreKey.Close();
         }
+
+        public Label DataSource { get; private set; }
 
         public void WriteToRegistry(RegistryKey uriStoreRoot)
         {

@@ -21,6 +21,16 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             InitializeComponent();
         }
 
+        #region ID Handling
+        private Label _phoneBookID;
+        public Label UniqueID { get { return _phoneBookID; } }
+
+        public void Init(Label phoneBookLabel)
+        {
+            _phoneBookID = phoneBookLabel;
+        }
+        #endregion
+
         private static string ADField(PhoneBookEntryField phoneBookEntryField)
         {
             switch (phoneBookEntryField)
@@ -37,7 +47,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             }
         }
 
-        private static PersonName ParseName(SearchResult result)
+        private PersonName ParseName(SearchResult result)
         {
             Func<PhoneBookEntryField, string> parseValue =
                 pEntry => result.ParseSingleValuedStringField(ADField(pEntry));
@@ -58,7 +68,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
 
             var addressID = int.Parse(objectExtraData["ID"]);
 
-            return new PersonName(new Uri(string.Format("{0}{1:d}", PersonName.PersonProtocol, addressID)),
+            return new PersonName(UniqueID, new Uri(string.Format("{0}{1:d}", PersonName.PersonProtocol, addressID)),
                                   lastUpdated: whenChanged,
                                   surname: parseValue(PhoneBookEntryField.Surname),
                                   givenName: parseValue(PhoneBookEntryField.GivenName),
@@ -81,7 +91,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                     for (var i = 0; i < count; i++)
                     {
                         var propertyValue = propertyCollection[i].ToString().CleanupPhoneUserInput();
-                        var phoneNumber = new PhoneNumber(name, propertyValue, entryField);
+                        var phoneNumber = new PhoneNumber(UniqueID, name, propertyValue, entryField);
 
                         if (duplicates.Add(phoneNumber.Uri))
                             yield return phoneNumber;

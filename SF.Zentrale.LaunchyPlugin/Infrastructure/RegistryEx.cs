@@ -69,10 +69,17 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
             {
                 case TypeCode.Boolean:
                 case TypeCode.Int32:
+                case TypeCode.Byte:
+                case TypeCode.SByte:
                 case TypeCode.UInt16:
                 case TypeCode.UInt32:
                 case TypeCode.Int16:
                     key.SetValue(keyName, value, RegistryValueKind.DWord);
+                    return key;
+
+                case TypeCode.Int64:
+                case TypeCode.UInt64:
+                    key.SetValue(keyName, value, RegistryValueKind.QWord);
                     return key;
 
                 default:
@@ -82,11 +89,27 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
                         key.SetValue(keyName, dateTimeOffset.ToString("o"), RegistryValueKind.String);
                         return key;
                     }
+                    IRegistrySerializable registrySerializable;
+                    if (value.IsAs(out registrySerializable))
+                    {
+                        object compatibleValue;
+                        var valueKind = registrySerializable.AsRegistryCompatibleValue(out compatibleValue);
+                        key.SetValue(keyName, compatibleValue, valueKind);
+                        return key;
+                    }
 
-                    throw new ArgumentException(
-                        string.Format("Cannot serialize value {0} :: {1}={2} of type: {3}", key.Name, keyName, value,
-                                      typeof (TValue)), "value");
-
+                    try
+                    {
+                        key.SetValue(keyName, value);
+                        return key;
+                    }
+                    catch (Exception regException)
+                    {
+                        throw new ArgumentException(
+                            string.Format("Cannot serialize value {0} :: {1}={2} of type: {3}", key.Name, keyName,
+                                          value,
+                                          typeof (TValue)), "keyName", regException);
+                    }
             }
         }
 

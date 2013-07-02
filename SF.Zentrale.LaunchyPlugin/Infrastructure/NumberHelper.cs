@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SF.Zentrale.LaunchyPlugin.Infrastructure
+﻿namespace SF.Zentrale.LaunchyPlugin.Infrastructure
 {
     public static class NumberHelper
     {
