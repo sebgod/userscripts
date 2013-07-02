@@ -19,7 +19,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         private readonly DateTimeOffset _lastUpdated;
 
         public PersonName(Label dataSource, Uri uri, DateTimeOffset? lastUpdated = null, string title = null, string surname = null,
-                          string givenName = null, string displayName = null)
+                          string givenName = null, string displayName = null, string icon = null)
         {
             _dataSource = dataSource;
             _uri = uri;
@@ -29,6 +29,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             _displayName = (string.IsNullOrEmpty(displayName) ? null : displayName)
                            ?? _title.AddSpaceIfNotEmpty() + _givenName.AddSpaceIfNotEmpty() + _surname;
             _lastUpdated = lastUpdated ?? DateTime.UtcNow;
+            _icon = icon;
         }
 
         private const string TitleValueName = "Title";
