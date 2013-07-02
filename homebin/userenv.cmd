@@ -22,6 +22,10 @@
 @set nirsoft_x64_zip=x64tools.zip
 @set nirsoft_url=http://%nirsoft_www%/packages/%nirsoft_x64_zip%
 
+@set usbtreeview=usbtreeview
+@set usbtreeview_zipfile=%usbtreeview%.zip
+@set usbtreeview_url=http://www.uwe-sieber.de/files/%usbtreeview_zipfile%
+
 @set svn_cmd=%~dp0api\svn-win32-1.6.16\bin\svn.exe
 @set tidy_cmd=%~dp0tidy.exe -config %~dp0netxml.conf
 @set tidy_url_zip=tidy.zip
