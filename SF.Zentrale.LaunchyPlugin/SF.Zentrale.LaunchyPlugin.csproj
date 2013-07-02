@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AB\ABController.cs" />
     <Compile Include="AB\ABNummer.cs" />
     <Compile Include="Infrastructure\ADConnectorComponent.cs">
       <SubType>Component</SubType>
