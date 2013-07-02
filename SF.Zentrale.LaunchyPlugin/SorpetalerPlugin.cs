@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using LaunchySharp;
+using SF.Zentrale.LaunchyPlugin.AB;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 using SF.Zentrale.LaunchyPlugin.Telephone;
 using SF.Zentrale.LaunchyPlugin.WindowManagement;
@@ -30,9 +31,14 @@ namespace SF.Zentrale.LaunchyPlugin
         private ILaunchyPaths _launchyPaths;
         private string _name = string.Empty;
         private string _iconPath = string.Empty;
+
+        #region Hashed labels
         private uint _id;
         private uint _focusLabel;
         private uint _telLabel;
+        private uint _abLabel;
+        #endregion
+
         private WindowsDictionary _topLevelWindows;
         private ObjectRepository _objectRepository;
         private readonly WindowNameMatcher _windowNameMatcher;
@@ -59,6 +65,7 @@ namespace SF.Zentrale.LaunchyPlugin
             _id = _pluginHost.hash(_name);
             _focusLabel = _pluginHost.hash(FocusCat);
             _telLabel = _pluginHost.hash(PhoneNumber.TelProtocol);
+            _abLabel = _pluginHost.hash(ABNummer.ZentraleABProtocol);
 
             _registryObjectRoot = DefaultRegistryRoot;
             _objectRepository = new ObjectRepository();
