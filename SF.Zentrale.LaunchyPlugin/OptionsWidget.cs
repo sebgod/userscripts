@@ -1,8 +1,9 @@
 using System.Windows.Forms;
+using SF.Zentrale.LaunchyPlugin.Infrastructure;
 
 namespace SF.Zentrale.LaunchyPlugin
 {
-    public partial class OptionsWidget : UserControl
+    public partial class OptionsWidget : UserControl, IPersistentOptions
     {
         public OptionsWidget()
         {

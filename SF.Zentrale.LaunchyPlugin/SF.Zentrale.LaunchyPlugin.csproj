@@ -80,6 +80,7 @@
       <DependentUpon>ADConnectorComponent.cs</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\IUriObjectEx.cs" />
+    <Compile Include="Infrastructure\Label.cs" />
     <Compile Include="Infrastructure\LoggingHelper.cs" />
     <Compile Include="Infrastructure\NumberHelper.cs" />
     <Compile Include="Infrastructure\ObjectHelper.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Infrastructure\SFDBConnection.Designer.cs">
       <DependentUpon>SFDBConnection.cs</DependentUpon>
     </Compile>
+    <Compile Include="Telephone\PhoneNumberParsingHelper.cs" />
     <Compile Include="Telephone\SFDBPhonebookAdaptorComponent.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -129,6 +131,9 @@
     <Compile Include="Telephone\TelephoneSystemContainer.cs" />
     <Compile Include="Telephone\TelephoneSystemController.cs" />
     <Compile Include="Infrastructure\UserInputType.cs" />
+    <Compile Include="Infrastructure\IPersistentOptions.cs" />
+    <Compile Include="Infrastructure\CatItemTuple.cs" />
+    <Compile Include="Infrastructure\IController.cs" />
     <Compile Include="WindowManagement\WindowNameMatcher.cs" />
     <Compile Include="OptionsWidget.cs">
       <SubType>UserControl</SubType>

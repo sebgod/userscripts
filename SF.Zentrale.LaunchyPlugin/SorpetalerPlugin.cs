@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using LaunchySharp;
-using SF.Zentrale.LaunchyPlugin.AB;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 using SF.Zentrale.LaunchyPlugin.Telephone;
 using SF.Zentrale.LaunchyPlugin.WindowManagement;
@@ -15,14 +14,11 @@ using Microsoft.Win32;
 
 namespace SF.Zentrale.LaunchyPlugin
 {
-    using LookupFunc = KeyValuePair<uint, Predicate<string>>;
-
     // ReSharper disable UnusedMember.Global
     public class SorpetalerPlugin : IPlugin
     // ReSharper restore UnusedMember.Global
     {
-        private const string FocusIco = "windows.ico";
-        private const string FocusCat = "focus:";
+
         private const string PluginName = "Sorpetaler";
         private const string DefaultRegistryRoot = @"Software\Zentrale\Objects";
 
@@ -34,22 +30,17 @@ namespace SF.Zentrale.LaunchyPlugin
 
         #region Hashed labels
         private uint _id;
-        private uint _focusLabel;
-        private uint _telLabel;
-        private uint _abLabel;
         #endregion
 
-        private WindowsDictionary _topLevelWindows;
         private ObjectRepository _objectRepository;
-        private readonly WindowNameMatcher _windowNameMatcher;
         private readonly OptionsWidget _optionsWidget;
         private string _registryObjectRoot;
-        private static LookupFunc[] _labelLookupTable;
+
+        private IController[] _controllers;
 
         public SorpetalerPlugin()
         {
             _optionsWidget = new OptionsWidget();
-            _windowNameMatcher = new WindowNameMatcher();
         }
 
         public void init(IPluginHost pluginHost)
@@ -63,18 +54,20 @@ namespace SF.Zentrale.LaunchyPlugin
             _name = PluginName;
             _iconPath = _launchyPaths.getIconsPath();
             _id = _pluginHost.hash(_name);
-            _focusLabel = _pluginHost.hash(FocusCat);
-            _telLabel = _pluginHost.hash(PhoneNumber.TelProtocol);
-            _abLabel = _pluginHost.hash(ABNummer.ZentraleABProtocol);
+
+            _controllers = new IController[]
+            {
+                new WindowController(),
+                new TelephoneSystemContainer()
+            };
 
             _registryObjectRoot = DefaultRegistryRoot;
             _objectRepository = new ObjectRepository();
 
-            _labelLookupTable = new[]
-                {
-                    new LookupFunc(_telLabel, TelephoneSystemController.CheckForTelephoneNumber),
-                    new LookupFunc(_focusLabel, WindowController.CheckForWindow)
-                };
+            foreach (var controller in _controllers)
+            {
+                controller.InitEx(_objectRepository, _pluginHost.hash);
+            }
         }
 
         public RegistryKey OpenRegistryObjectRoot(bool writable = false)
@@ -106,11 +99,12 @@ namespace SF.Zentrale.LaunchyPlugin
 
             var firstUpper = inputDataList[0].getText().ToUpperInvariant();
 
-            for (var i = 0; i < _labelLookupTable.Length; i++)
+            for (var i = 0; i < _controllers.Length; i++)
             {
-                if (!_labelLookupTable[i].Value(firstUpper)) continue;
+                var possibleLabel = _controllers[i].CheckIfPossibleInput(firstUpper);
+                if (!possibleLabel.HasValue) continue;
 
-                inputDataList[0].setLabel(_labelLookupTable[i].Key);
+                inputDataList[0].setLabel(possibleLabel);
                 break;
             }
         }
@@ -120,52 +114,29 @@ namespace SF.Zentrale.LaunchyPlugin
             if (inputDataList.Count == 0)
                 return;
 
-            if (inputDataList[0].hasLabel(_telLabel))
-            {
-                ParsePhoneNumber(inputDataList, resultsList);
-            }
-            else if (inputDataList[0].hasLabel(_focusLabel))
-            {
-                ParseWindowName(inputDataList, resultsList);
-            }
+            var firstLevel = inputDataList[0];
+            var filterControllers =
+                from controller in _controllers
+                from acceptedLabel in controller.AcceptedFirstLevelLabels
+                where firstLevel.hasLabel(acceptedLabel)
+                from tuple in controller.Parse(inputDataList)
+                select CreateItemFromTuple(tuple);
+
+            resultsList.AddRange(filterControllers);
         }
 
-        private void ParseWindowName(List<IInputData> inputDataList, List<ICatItem> resultsList)
+        private ICatItem CreateItemFromTuple(CatItemTuple arg)
         {
-            var windowNameToMatch = inputDataList[1].getText();
-            if (string.IsNullOrEmpty(windowNameToMatch))
-                return;
-
-            _windowNameMatcher.WindowNameToMatch = windowNameToMatch;
-            _topLevelWindows = WindowController.TopLevelWindows();
-
-            resultsList.AddRange(from windowName in _topLevelWindows.Keys
-                                 where _windowNameMatcher.HasMatch(windowName)
-                                 select
-                                     _catItemFactory.createCatItem(FocusCat + windowName, windowName, getID(),
-                                                                   getIcon(FocusIco)));
-        }
-
-        private void ParsePhoneNumber(List<IInputData> inputDataList, List<ICatItem> resultsList)
-        {
-            var phoneInput = inputDataList[0].getText();
-
-            if (!phoneInput.StartsWith(PhoneNumber.TelProtocol) && inputDataList.Count.IsBetweenInclusive(1,2))
-                phoneInput = PhoneNumber.TelProtocol + inputDataList[inputDataList.Count - 1].getText();
-
-            resultsList.AddRange(TelephoneSystemController.Instance.ParsePhoneNumbers(phoneInput).Select(UriObjectToCatItem));
-        }
-
-        private ICatItem UriObjectToCatItem(IUriObject uriObject)
-        {
-            _objectRepository.AddToChangeSet(uriObject);
-            return _catItemFactory.createCatItem(uriObject.UriToString(), uriObject.ToString(), getID(), getIcon(uriObject.Icon));
+            var icon = arg.Icon;
+            return _catItemFactory.createCatItem(arg.Uri, arg.Name, getID(),
+                                                 icon != null && Path.IsPathRooted(icon) ? icon : getIcon(icon));
         }
 
         public void getCatalog(List<ICatItem> catalogItems)
         {
-            catalogItems.Add(_catItemFactory.createCatItem(FocusCat, "Focus", getID(), getIcon(FocusIco)));
-            catalogItems.Add(_catItemFactory.createCatItem(PhoneNumber.TelProtocol, "Telefon", getID(), getIcon(PhoneNumber.DefaultIcon)));
+            catalogItems.AddRange(from controller in _controllers
+                                  from initialItem in controller.IntialCatalogItems
+                                  select CreateItemFromTuple(initialItem));
         }
 
         public void launchItem(List<IInputData> inputDataList, ICatItem item)
@@ -173,26 +144,17 @@ namespace SF.Zentrale.LaunchyPlugin
             if (inputDataList.Count == 0)
                 return;
 
+            /*
+             * TODO launching
             if (inputDataList[0].hasLabel(_focusLabel))
             {
-
-                var catItem = inputDataList[1].getTopResult();
-                try
-                {
-                    IntPtr hWnd;
-                    if (_topLevelWindows.TryGetValue(catItem.getShortName(), out hWnd))
-                        WindowController.GoToWindow(hWnd);
-                }
-                catch (Exception exception)
-                {
-                    exception.Log(detail: catItem.getShortName());
-                }
+                WindowController.LaunchItem(inputDataList);
             }
             else if (inputDataList[0].hasLabel(_telLabel))
             {
-                var tel = inputDataList[inputDataList.Count - 1].getTopResult().getFullPath();
-                Process.Start(tel);
+                
             }
+            */
         }
 
         public bool hasDialog()
@@ -202,7 +164,8 @@ namespace SF.Zentrale.LaunchyPlugin
 
         public IntPtr doDialog()
         {
-            _optionsWidget.IsCaseSensitiveChecked = _windowNameMatcher.IsCaseSensitive;
+            foreach (var controller in _controllers)
+                controller.DoDialog(_optionsWidget);
 
             _optionsWidget.Show();
             return _optionsWidget.Handle;
@@ -210,10 +173,10 @@ namespace SF.Zentrale.LaunchyPlugin
 
         public void endDialog(bool acceptedByUser)
         {
-            if (acceptedByUser)
-            {
-                _windowNameMatcher.IsCaseSensitive = _optionsWidget.IsCaseSensitiveChecked;
-            }
+            if (!acceptedByUser) return;
+
+            foreach (var controller in _controllers)
+                controller.EndDialog(_optionsWidget);
         }
 
         public void launchyShow()

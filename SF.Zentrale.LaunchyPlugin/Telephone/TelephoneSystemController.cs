@@ -1,15 +1,50 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using LaunchySharp;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 
 namespace SF.Zentrale.LaunchyPlugin.Telephone
 {
-    static class TelephoneSystemController
+    partial class TelephoneSystemContainer : IController
     {
-        public static readonly TelephoneSystemContainer Instance = new TelephoneSystemContainer();
-
-        public static bool CheckForTelephoneNumber(string userInput)
+        public Label UniqueID
         {
-            return userInput.StartsWith("TEL") || userInput == "CALL" || LooksLikeTelephoneNumber(userInput);
+            get { return _telLabel; }
+        }
+
+        private ObjectRepository _repository;
+        private Label _telLabel;
+        private Label[] _acceptedFirstLevelLabels;
+
+        public void Init(ObjectRepository repository, Func<string, Label> hashFunc)
+        {
+            _repository = repository;
+            _telLabel = hashFunc(PhoneNumber.TelProtocol);
+            _acceptedFirstLevelLabels = new[]
+                {
+                    _telLabel
+                };
+        }
+
+        public ObjectRepository Repository
+        {
+            get { return _repository; }
+        }
+
+        public IEnumerable<Label> AcceptedFirstLevelLabels { get { return _acceptedFirstLevelLabels; } }
+
+        public IEnumerable<CatItemTuple> IntialCatalogItems
+        {
+            get { yield return new CatItemTuple(PhoneNumber.TelProtocol, "Telefon", PhoneNumber.DefaultIcon); }
+        }
+
+        public Label CheckIfPossibleInput(string firstUpper)
+        {
+            return firstUpper.StartsWith("TEL") || firstUpper == "CALL" || LooksLikeTelephoneNumber(firstUpper)
+                       ? _telLabel
+                       : Label.None;
         }
 
         public static bool LooksLikeTelephoneNumber(string userInput)
@@ -17,63 +52,38 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             uint exceptCount;
             var stripped = userInput.StripAllNonDigitsExcept('+', out exceptCount);
             var strippedLength = stripped.Length;
-            return (strippedLength.IsBetweenInclusive(4, 15) && ("+0".IndexOf(stripped[0])) >= 0 || // external phone number
-                    (strippedLength.IsBetweenInclusive(2, 3) && char.IsDigit(stripped[0]))) && // internal extension number
+            return (strippedLength.IsBetweenInclusive(4, 15) && ("+0".IndexOf(stripped[0])) >= 0 ||
+                    // external phone number
+                    (strippedLength.IsBetweenInclusive(2, 3) && Char.IsDigit(stripped[0]))) &&
+                   // internal extension number
                    (exceptCount == 0 || (exceptCount == 1 && userInput[0] == '+'));
         }
 
-        public static bool TryParsePhoneInput(string userInput, out ParsedUserInput parsedUserInput)
+        public IEnumerable<CatItemTuple> Parse(List<IInputData> inputDataList)
         {
-            string numberOrName;
-            Uri uri;
-            if (string.IsNullOrEmpty(userInput)
-                || !Uri.TryCreate(userInput, UriKind.Absolute, out uri)
-                || string.IsNullOrEmpty(numberOrName = uri.GetComponents(UriComponents.Path, UriFormat.Unescaped).Trim())
-                )
-            {
-                parsedUserInput = default(ParsedUserInput);
-                return false;
-            }
+            var phoneInput = inputDataList[0].getText();
 
-            var startsWithPlusOrParen = "+(".IndexOf(numberOrName[0]) >= 0;
-            var startsWithDigit = char.IsDigit(numberOrName, 0);
-            var endsWithDigit = char.IsDigit(numberOrName, numberOrName.Length - 1);
-            parsedUserInput = new ParsedUserInput(numberOrName,
-                                                  (startsWithDigit || startsWithPlusOrParen) && endsWithDigit
-                                                      ? UserInputType.PhoneNumberLike
-                                                      : UserInputType.NamePartLike);
-            return !parsedUserInput.IsEmptyOrUnknown;
+            if (!phoneInput.StartsWith(PhoneNumber.TelProtocol) && inputDataList.Count.IsBetweenInclusive(1, 2))
+                phoneInput = PhoneNumber.TelProtocol + inputDataList[inputDataList.Count - 1].getText();
+
+            return ParsePhoneNumbers(phoneInput).Select(this.AddUriObjectToChangesetAndGetTuple);
         }
 
-        public static ParsedUserInput CleanupPhoneUserInput(this string userInput)
+        public void LaunchItem(List<IInputData> inputDataList)
         {
-            return new ParsedUserInput(userInput, UserInputType.PhoneNumberLike).CleanupPhoneUserInput();
+            var tel = inputDataList[inputDataList.Count - 1].getTopResult().getFullPath();
+            Process.Start(tel);
         }
-        public static ParsedUserInput CleanupPhoneUserInput(this ParsedUserInput userInput)
+
+        public void DoDialog(IPersistentOptions optionsWidget)
         {
-            switch (userInput.InputType)
-            {
-                case UserInputType.PhoneNumberLike:
-                    uint exceptCount;
-                    var stripped = userInput.ToString().StripAllNonDigitsExcept('+', out exceptCount);
-                    string numberString;
-                    if (exceptCount > 0)
-                    {
-                        var removedLeadingPlus = stripped[0] == '+' ? "00" + stripped.Substring(1) : stripped;
-                        numberString = exceptCount > 1 ? removedLeadingPlus.StripAllNonDigits() : removedLeadingPlus;
-                    }
-                    else
-                    {
-                        numberString = stripped;
-                    }
-                    return new ParsedUserInput(numberString, UserInputType.PhoneNumberLike, isCleanedUp: true);
 
-                case UserInputType.NamePartLike:
-                    return new ParsedUserInput(userInput.ToString().Trim(), UserInputType.NamePartLike);
-
-                default:
-                    return userInput;
-            }
         }
+
+        public void EndDialog(IPersistentOptions optionsWidget)
+        {
+
+        }
+
     }
 }

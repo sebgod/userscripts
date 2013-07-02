@@ -6,7 +6,7 @@ using SF.Zentrale.LaunchyPlugin.Infrastructure;
 
 namespace SF.Zentrale.LaunchyPlugin.Telephone
 {
-    class TelephoneSystemContainer : Container
+    partial class TelephoneSystemContainer : Container
     {
         private readonly IList<IPhoneBook> _phoneBooks;
 
@@ -14,7 +14,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         {
             _phoneBooks = new List<IPhoneBook>(5);
             var userDnsDomain = Environment.GetEnvironmentVariable("UserDnsDomain");
-            if (!string.IsNullOrEmpty(userDnsDomain))
+            if (!String.IsNullOrEmpty(userDnsDomain))
             {
                 _phoneBooks.Add(new ADPhoneConnectorComponent(this));
                 _phoneBooks.Add(new SFDBPhonebookAdaptorComponent(this));
@@ -25,7 +25,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         public IEnumerable<PhoneNumber> ParsePhoneNumbers(string phoneInput, int maxResults = 6)
         {
             ParsedUserInput parsedUserInput;
-            if (!TelephoneSystemController.TryParsePhoneInput(phoneInput, out parsedUserInput))
+            if (!PhoneNumberParsingHelper.TryParsePhoneInput(phoneInput, out parsedUserInput))
                 yield break;
             
             var duplicates = new HashSet<Uri>();

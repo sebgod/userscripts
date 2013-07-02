@@ -4,7 +4,7 @@ using SF.Zentrale.LaunchyPlugin.Telephone;
 
 namespace SF.Zentrale.LaunchyPlugin.Infrastructure
 {
-    class ObjectRepository
+    public class ObjectRepository
     {
         private readonly Dictionary<Uri, IUriObject> _objects;
         
