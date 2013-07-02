@@ -14,14 +14,19 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
         const string TelHomeIcon = "tel_home.ico";
         const string TelOffice = "tel_office.ico";
 
-        private readonly PersonName _personName;
-        private readonly string _tscNumber;
-        private readonly string _icon;
-
+        #region IUriObject fields
         private readonly Label _dataSource;
         private readonly Uri _uri;
-        private readonly PhoneBookEntryField _entryField;
+        private readonly string _icon;
         private readonly DateTimeOffset _lastUpdated;
+        #endregion
+
+        #region PhoneNumber fields
+        private readonly PersonName _personName;
+        private readonly string _tscNumber;
+        #endregion
+
+        private readonly PhoneBookEntryField _entryField;
 
         public PhoneNumber(Label dataSource, PersonName personName, ParsedUserInput tscNumber, PhoneBookEntryField entryField, string icon = null)
         {

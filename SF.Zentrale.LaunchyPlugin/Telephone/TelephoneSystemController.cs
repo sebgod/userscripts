@@ -14,13 +14,12 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             get { return _telLabel; }
         }
 
-        private ObjectRepository _repository;
         private Label _telLabel;
         private Label[] _acceptedFirstLevelLabels;
 
         public void Init(ObjectRepository repository, Func<string, Label> hashFunc)
         {
-            _repository = repository;
+            Repository = repository;
             _telLabel = hashFunc(PhoneNumber.TelProtocol);
             _acceptedFirstLevelLabels = new[]
                 {
@@ -38,10 +37,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                 phoneBook.Init(hashFunc(phoneBook.GetType().AssemblyQualifiedName));
         }
 
-        public ObjectRepository Repository
-        {
-            get { return _repository; }
-        }
+        public ObjectRepository Repository { get; private set; }
 
         public IEnumerable<Label> AcceptedFirstLevelLabels { get { return _acceptedFirstLevelLabels; } }
 
@@ -62,10 +58,11 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             uint exceptCount;
             var stripped = userInput.StripAllNonDigitsExcept('+', out exceptCount);
             var strippedLength = stripped.Length;
-            return (strippedLength.IsBetweenInclusive(4, 15) && ("+0".IndexOf(stripped[0])) >= 0 ||
-                    // external phone number
-                    (strippedLength.IsBetweenInclusive(2, 3) && Char.IsDigit(stripped[0]))) &&
-                   // internal extension number
+
+            return ( /* external phone number */
+                       strippedLength.IsBetweenInclusive(4, 15) && ("+0".IndexOf(stripped[0])) >= 0 ||
+                       ( /* internal extension number */
+                           strippedLength.IsBetweenInclusive(2, 3) && Char.IsDigit(stripped[0]))) &&
                    (exceptCount == 0 || (exceptCount == 1 && userInput[0] == '+'));
         }
 

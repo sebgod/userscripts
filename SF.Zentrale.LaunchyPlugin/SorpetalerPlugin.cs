@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using LaunchySharp;
+using SF.Zentrale.LaunchyPlugin.AB;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 using SF.Zentrale.LaunchyPlugin.Telephone;
 using SF.Zentrale.LaunchyPlugin.WindowManagement;
@@ -58,7 +58,8 @@ namespace SF.Zentrale.LaunchyPlugin
             _controllers = new IController[]
             {
                 new WindowController(),
-                new TelephoneSystemContainer()
+                new TelephoneSystemContainer(),
+                new ABController()
             };
 
             _registryObjectRoot = DefaultRegistryRoot;

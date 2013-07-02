@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
 
 namespace SF.Zentrale.LaunchyPlugin.AB
@@ -6,12 +7,31 @@ namespace SF.Zentrale.LaunchyPlugin.AB
     public struct ABNummer
     {
         public const string ZentraleABProtocol = "sf-ab:";
-
+        public static readonly string ZentraleAngebotPrefix = ZentraleABProtocol + Satztyp.Angebot;
+        public static readonly string ZentraleAuftragPrefix = ZentraleABProtocol + Satztyp.Auftrag;
+        public static readonly string ZentraleReklaPrefix = ZentraleABProtocol + Satztyp.Reklamation;
+        
         public enum Satztyp
         {
             Angebot,
             Auftrag,
             Reklamation
+        }
+
+        private static readonly Dictionary<string, Satztyp> SatztypParser = new Dictionary<string, Satztyp>(5);
+
+        static ABNummer()
+        {
+            foreach (var satztyp in new[] {Satztyp.Angebot, Satztyp.Auftrag, Satztyp.Reklamation})
+                SatztypParser.Add(satztyp.ToString().ToUpperInvariant(), satztyp);
+        }
+
+        public static bool TryParseSatztyp(string key, out Satztyp? satztypNullable)
+        {
+            Satztyp satztyp;
+            return
+                (satztypNullable =
+                 SatztypParser.TryGetValue(key.ToUpperInvariant(), out satztyp) ? (Satztyp?) satztyp : null) != null;
         }
 
         private readonly DateTimeOffset _created;
@@ -26,7 +46,7 @@ namespace SF.Zentrale.LaunchyPlugin.AB
             _year = year;
             _satztyp = satztyp;
         }
-
+        
         public DateTimeOffset CreatedOn
         {
             get { return _created; }
@@ -56,6 +76,31 @@ namespace SF.Zentrale.LaunchyPlugin.AB
             {
                 abNummer = default(ABNummer);
                 return false;
+            }
+
+            int uriColon;
+            if ((uriColon = fuzzy.IndexOf(':')) > 0)
+            {
+                Uri abUri;
+                if (fuzzy.Substring(0, uriColon + 1).ToLowerInvariant() == ZentraleABProtocol
+                    && Uri.TryCreate(fuzzy, UriKind.RelativeOrAbsolute, out abUri)
+                    )
+                {
+                    var split = abUri.AbsolutePath.Split(new[]{'/'}, StringSplitOptions.RemoveEmptyEntries);
+                    if (split.Length > 1 && TryParseSatztyp(split[0], out satztyp))
+                    {
+                        fuzzy = split[1];
+                    }
+                    else
+                    {
+                        fuzzy = split[0];
+                    }
+                }
+                else
+                {
+                    abNummer = default(ABNummer);
+                    return false;
+                }
             }
 
             if (!satztyp.HasValue)
