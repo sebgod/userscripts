@@ -8,15 +8,19 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
     {
         public const string PersonProtocol = "zperson:";
 
-        private readonly string _title;
-        private readonly string _displayName;
-        private readonly string _givenName;
-        private readonly string _surname;
-
+        #region IUriObject fields
         private readonly Label _dataSource;
         private readonly Uri _uri;
         private readonly string _icon;
         private readonly DateTimeOffset _lastUpdated;
+        #endregion
+
+        #region PersonName fields
+        private readonly string _title;
+        private readonly string _displayName;
+        private readonly string _givenName;
+        private readonly string _surname;
+        #endregion
 
         public PersonName(Label dataSource, Uri uri, DateTimeOffset? lastUpdated = null, string title = null, string surname = null,
                           string givenName = null, string displayName = null, string icon = null)
@@ -32,15 +36,15 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             _icon = icon;
         }
 
-        private const string TitleValueName = "Title";
-        private const string DisplayValueName = "DisplayName";
-        private const string GivenNameValueName = "GivenName";
-        private const string SurnameValueName = "Surname";
-
         public static PersonName ReadFromRegistry(Uri uri, RegistryKey uriStoreRoot)
         {
             return new PersonName(uri, uriStoreRoot);
         }
+
+        private const string TitleValueName = "Title";
+        private const string DisplayValueName = "DisplayName";
+        private const string GivenNameValueName = "GivenName";
+        private const string SurnameValueName = "Surname";
 
         private PersonName(Uri uri, RegistryKey uriStoreRoot)
         {
@@ -54,8 +58,6 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             objectStoreKey.Close();
         }
 
-        public Label DataSource { get; private set; }
-
         public void WriteToRegistry(RegistryKey uriStoreRoot)
         {
             var objectStoreKey = this.WriteUriObjectToRegistry(uriStoreRoot);
@@ -68,29 +70,22 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
             objectStoreKey.Close();
         }
 
+        #region IUriObject properties
         public Uri Uri { get { return _uri; } }
         public string Icon { get { return _icon; } }
         public DateTimeOffset LastUpdated { get { return _lastUpdated; } }
+        public Label DataSource { get { return _dataSource; } }
+        #endregion
 
-        public string Title
-        {
-            get { return _title; }
-        }
+        #region PersonName properties
+        public string Title { get { return _title; } }
 
-        public string DisplayName
-        {
-            get { return _displayName; }
-        }
+        public string DisplayName { get { return _displayName; } }
 
-        public string GivenName
-        {
-            get { return _givenName; }
-        }
+        public string GivenName { get { return _givenName; } }
 
-        public string Surname
-        {
-            get { return _surname; }
-        }
+        public string Surname { get { return _surname; } }
+        #endregion
 
         public override string ToString()
         {
