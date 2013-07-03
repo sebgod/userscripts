@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Windows.Forms;
 using LaunchySharp;
 using SF.Zentrale.LaunchyPlugin.AB;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
@@ -88,9 +90,9 @@ namespace SF.Zentrale.LaunchyPlugin
         }
 
 
-        public string getIcon(string iconName = PluginName + ".ico")
+        public string getIcon(string iconName)
         {
-            return Path.Combine(_iconPath, iconName);
+            return Path.Combine(_iconPath, iconName ?? PluginName + ".ico");
         }
 
         public void getLabels(List<IInputData> inputDataList)
@@ -138,6 +140,14 @@ namespace SF.Zentrale.LaunchyPlugin
             catalogItems.AddRange(from controller in _controllers
                                   from initialItem in controller.IntialCatalogItems
                                   select CreateItemFromTuple(initialItem));
+
+            var builder = new StringBuilder(400);
+            foreach (var catalogItem in from controller in _controllers
+                                  from initialItem in controller.IntialCatalogItems
+                                            select initialItem)
+            {
+                builder.AppendLine(catalogItem.Name + " " + catalogItem.Uri);
+            }
         }
 
         public void launchItem(List<IInputData> inputDataList, ICatItem item)
