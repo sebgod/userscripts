@@ -1,7 +1,25 @@
 #NoEnv
 #Warn
 
-FileCreateDir, B:\Clipboard\%A_UserName%
+winshell_init() {
+	FileCreateDir, B:\Clipboard\%A_UserName%
+}
+
+winshell_active_loop() {
+	wwna_id := 0
+	Loop { 
+		WinExist("A")
+		WinGetTitle, wwna_title
+		WinGet, wwna_id, ID
+		WinGet, wwna_cmd, ProcessName
+		WinGet, wwna_pid, PID
+		WinGet, wwna_path, ProcessPath
+		currentTime := winos_isotime_now()
+		FileAppend, %currentTime%`t%wwna_id%`t%wwna_cmd%`t%wwna_pid%`t%wwna_path%`t%wwna_title%`n, B:\lastfound.txt
+		WinWaitNotActive, ahk_id %wwna_id%
+	}
+}
+
 
 winshell_toggle_hidden_files() {
 	RegRead, HiddenFiles_Status, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced, Hidden 

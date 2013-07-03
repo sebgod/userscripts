@@ -8,6 +8,7 @@ SetCapsLockState AlwaysOff
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 FileEncoding, UTF-8
+CoordMode, Mouse, Screen
 
 if (%0% > 0) {
 	Desktop := %1%
@@ -18,6 +19,7 @@ if (%0% > 0) {
 #Include <winos>
 #Include <tfs>
 #include <vistaswitcher>
+#Include <winshell>
 
 desktops_seticon(%Desktop%)
 
@@ -25,7 +27,8 @@ if (Desktop > 0) {
 	vistaswitcher_startup()
 }
 
-#include <AOT>
+winshell_init()
+winshell_active_loop()
 
 OnClipboardChange:
 	winshell_onclipboardchange(%Desktop%)
