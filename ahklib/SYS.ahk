@@ -1,43 +1,19 @@
 ; [SYS] handles tooltips
 
-SYS_ToolTipText =
-SYS_ToolTipSeconds =
-SYS_ToolTipX =
-SYS_ToolTipY =
-
-SYS_ToolTipShow:
-	If ( SYS_ToolTipText )
+SYS_ToolTipShow(pText, pMillis = 1000, pX = 0, pY = 0) {
+	CoordMode, Mouse, Screen
+	CoordMode, ToolTip, Screen
+	If ( pX = 0 or pY = 0 )
 	{
-		If ( !SYS_ToolTipSeconds )
-			SYS_ToolTipSeconds = 2
-		SYS_ToolTipMillis := SYS_ToolTipSeconds * 1000
-		CoordMode, Mouse, Screen
-		CoordMode, ToolTip, Screen
-		If ( !SYS_ToolTipX or !SYS_ToolTipY )
-		{
-			MouseGetPos, SYS_ToolTipX, SYS_ToolTipY
-			SYS_ToolTipX += 16
-			SYS_ToolTipY += 24
-		}
-		ToolTip, %SYS_ToolTipText%, %SYS_ToolTipX%, %SYS_ToolTipY%
-		SetTimer, SYS_ToolTipHandler, %SYS_ToolTipMillis%
+		MouseGetPos, pX, pY
+		pX += 16
+		pY += 24
 	}
-	SYS_ToolTipText =
-	SYS_ToolTipSeconds =
-	SYS_ToolTipX =
-	SYS_ToolTipY =
-Return
-
-SYS_ToolTipFeedbackShow:
-	If ( SYS_ToolTipFeedback )
-		Gosub, SYS_ToolTipShow
-	SYS_ToolTipText =
-	SYS_ToolTipSeconds =
-	SYS_ToolTipX =
-	SYS_ToolTipY =
-Return
+	ToolTip, %pText% x=%pX% y=%pY%, %pX%, %pY%
+	SetTimer, SYS_ToolTipHandler, %pMillis%
+}
 
 SYS_ToolTipHandler:
-	SetTimer, SYS_ToolTipHandler, Off
+	SetTimer,, Off
 	ToolTip
 Return
