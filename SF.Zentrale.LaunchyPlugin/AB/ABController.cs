@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Forms;
 using LaunchySharp;
 using SF.Zentrale.LaunchyPlugin.Infrastructure;
+using Label = SF.Zentrale.LaunchyPlugin.Infrastructure.Label;
 
 namespace SF.Zentrale.LaunchyPlugin.AB
 {
@@ -45,7 +47,8 @@ namespace SF.Zentrale.LaunchyPlugin.AB
             get { return _acceptedFirstLevelLabels; }
         }
 
-        public IEnumerable<CatItemTuple> IntialCatalogItems {
+        public IEnumerable<CatItemTuple> IntialCatalogItems
+        {
             get
             {
                 yield return new CatItemTuple(ABNummer.ZentraleAuftragPrefix, "Auftrag", null);
@@ -53,15 +56,23 @@ namespace SF.Zentrale.LaunchyPlugin.AB
                 yield return new CatItemTuple(ABNummer.ZentraleReklaPrefix, "Reklamation", null);
             }
         }
+
         public ObjectRepository Repository { get; private set; }
 
         public Label CheckIfPossibleInput(string firstUpper)
         {
+            if (firstUpper.StartsWith("ANGEBOT"))
+                return _angeboteLabel;
+            if (firstUpper.StartsWith("AUFTRAG"))
+                return _auftragsLabel;
+            if (firstUpper.StartsWith("REKLA"))
+                return _reklaLabel;
+
             ABNummer abNummer;
             return ABNummer.TryParseABNummer(out abNummer, firstUpper, created: Today) ? _abLabel : Label.None;
         }
 
-        public IEnumerable<CatItemTuple> Parse(List<IInputData> inputDataList)
+        public IEnumerable<CatItemTuple> ProcessInput(List<IInputData> inputDataList)
         {
             var abNumberInput = inputDataList[0].getText();
 

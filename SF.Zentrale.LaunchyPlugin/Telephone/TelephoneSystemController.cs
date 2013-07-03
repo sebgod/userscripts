@@ -66,7 +66,7 @@ namespace SF.Zentrale.LaunchyPlugin.Telephone
                    (exceptCount == 0 || (exceptCount == 1 && userInput[0] == '+'));
         }
 
-        public IEnumerable<CatItemTuple> Parse(List<IInputData> inputDataList)
+        public IEnumerable<CatItemTuple> ProcessInput(List<IInputData> inputDataList)
         {
             var phoneInput = inputDataList[0].getText();
 

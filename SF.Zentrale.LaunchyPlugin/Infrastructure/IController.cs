@@ -13,7 +13,7 @@ namespace SF.Zentrale.LaunchyPlugin.Infrastructure
         void Init(ObjectRepository repository, Func<string, Label> hashFunc);
 
         Label CheckIfPossibleInput(string firstUpper);
-        IEnumerable<CatItemTuple> Parse(List<IInputData> inputDataList);
+        IEnumerable<CatItemTuple> ProcessInput(List<IInputData> inputDataList);
 
         void LaunchItem(List<IInputData> inputDataList);
         void DoDialog(IPersistentOptions optionsWidget);

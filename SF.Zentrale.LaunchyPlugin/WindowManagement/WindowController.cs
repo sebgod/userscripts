@@ -69,7 +69,7 @@ namespace SF.Zentrale.LaunchyPlugin.WindowManagement
             return firstUpper == "FOCUS" ? _focusLabel : Label.None;
         }
 
-        public IEnumerable<CatItemTuple> Parse(List<IInputData> inputDataList)
+        public IEnumerable<CatItemTuple> ProcessInput(List<IInputData> inputDataList)
         {
             var windowNameToMatch = inputDataList[1].getText();
             if (String.IsNullOrEmpty(windowNameToMatch))

@@ -120,7 +120,7 @@ namespace SF.Zentrale.LaunchyPlugin
                 from controller in _controllers
                 from acceptedLabel in controller.AcceptedFirstLevelLabels
                 where firstLevel.hasLabel(acceptedLabel)
-                from tuple in controller.Parse(inputDataList)
+                from tuple in controller.ProcessInput(inputDataList)
                 select CreateItemFromTuple(tuple);
 
             resultsList.AddRange(filterControllers);
