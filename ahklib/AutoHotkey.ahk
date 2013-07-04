@@ -40,7 +40,7 @@ Esc::send, exit{Enter}
 #IfWinActive
 
 #IfWinActive ahk_class VirtualConsoleClass
-Esc::send, exit{Enter}
+Esc::send, ^{Backspace}exit{Enter}
 #IfWinActive
 
 #IfWinActive ahk_class ahk_class CalcFrame
@@ -71,7 +71,7 @@ CapsLock::tfs_toggle_language()
 ; Start X11 Desktop
 #+x::desktops_startx()
 
-; Start VirtualBox window
+; Start VirtualBox control window
 #v::Run VirtualBox
 
 ; Within the Explorer ctrl+h toggles hidden files
