@@ -8,9 +8,10 @@ wget -N %nirsoft_url%
 set absZipPath=%cd%\%nirsoft_x64_zip%
 popd
 
-if not exist %nirsoft_www% mkdir %nirsoft_www%
+set target=api\%nirsoft_www%
+if not exist %target% mkdir %target%
 
-pushd %nirsoft_www%
+pushd %target%
 7za x -y %absZipPath%
 popd
 

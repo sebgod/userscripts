@@ -22,6 +22,9 @@
 @set nirsoft_x64_zip=x64tools.zip
 @set nirsoft_url=http://%nirsoft_www%/packages/%nirsoft_x64_zip%
 
+@set sysinternals_folder=live.sysinternals.com
+@set sysinternals_url=http://%sysinternals_folder%
+
 @set usbtreeview=usbtreeview
 @set usbtreeview_zipfile=%usbtreeview%.zip
 @set usbtreeview_url=http://www.uwe-sieber.de/files/%usbtreeview_zipfile%
@@ -39,4 +42,4 @@
 
 @if not exist %~dp0api mkdir %~dp0api
 
-@path %path%;%~dp0api\git\cmd;%~dp0api
+@path %path%;%~dp0api\git\cmd;%~dp0api\%sysinternals_folder%;%~dp0api
