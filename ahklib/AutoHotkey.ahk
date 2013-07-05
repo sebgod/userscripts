@@ -30,8 +30,8 @@ if (Desktop > 0) {
 winshell_init()
 winshell_active_loop()
 
-OnClipboardChange:
-	winshell_onclipboardchange(Desktop)
+OnClipboardChange: 
+	winshell_onclipboardchange()
 return
 
 #IfWinActive ahk_class ConsoleWindowClass

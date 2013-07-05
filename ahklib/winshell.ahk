@@ -1,11 +1,22 @@
 #NoEnv
 #Warn
 
+#Include <winos>
+
+winshell_UserIPCFolder() {
+	global SessionName
+	global Desktop
+	Result = B:\%A_UserName%\%SessionName%_%Desktop%
+	return Result
+}
+
 winshell_init() {
-	FileCreateDir, B:\Clipboard\%A_UserName%
+	userIPCFolder := winshell_UserIPCFolder()
+	FileCreateDir, %userIPCFolder%\Clipboard
 }
 
 winshell_active_loop() {
+	userIPCFolder := winshell_UserIPCFolder()
 	wwna_id := 0
 	Loop { 
 		WinExist("A")
@@ -15,7 +26,7 @@ winshell_active_loop() {
 		WinGet, wwna_pid, PID
 		WinGet, wwna_path, ProcessPath
 		currentTime := winos_isotime_now()
-		FileAppend, %currentTime%`t%wwna_id%`t%wwna_cmd%`t%wwna_pid%`t%wwna_path%`t%wwna_title%`n, B:\lastfound.txt
+		FileAppend, %currentTime%`t%wwna_id%`t%wwna_cmd%`t%wwna_pid%`t%wwna_path%`t%wwna_title%`n, %userIPCFolder%\window_activity_history.txt
 		WinWaitNotActive, ahk_id %wwna_id%
 	}
 }
@@ -44,17 +55,18 @@ winshell_stikynot_run() {
 	WinActivate
 }
 
-winshell_onclipboardchange(pDesktop) {
+winshell_onclipboardchange() {
+	userIPCFolder := winshell_UserIPCFolder()
 	Info = %A_EventInfo%
 	ClipId := WinExist("A")
 	WinGet, ClipPid, PID, ahk_id %ClipId%
 	if (ClipId == 0x0)
 		return
 	
-	Name = B:\Clipboard\%A_UserName%\%A_NowUTC%,%Info%,%pDesktop%,%ClipId%,%ClipPid%
+	Name = %userIPCFolder%\Clipboard\%A_NowUTC%,%Info%,%ClipId%,%ClipPid%
 	if (Info < 2) {
 		FileAppend, %Clipboard%, *%Name%.txt
-   } else {
+	} else {
 		FileAppend, %ClipboardAll%, %Name%.data
 	}
 }

@@ -2,6 +2,7 @@
 #Warn
 
 Envget,LocalAppData, LOCALAPPDATA
+Envget,SessionName, SESSIONNAME
 
 if A_Is64bitOS {
 	EnvGet,Prog32, ProgramFiles(x86)
