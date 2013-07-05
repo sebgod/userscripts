@@ -12,6 +12,7 @@ if A_Is64bitOS {
 
 vistaswitcher_startup() {
 	global VistaSwitcherExePath
+	IfExist, %VistaSwitcherExePath%
 	Run %VistaSwitcherExePath% /startup
 }
 

@@ -1,26 +1,28 @@
 #NoEnv
 #Warn
 
-desktops_right(pDesktop) {
-	lNextDesktop := mod(%pDesktop% + 1, 2)
-	if (lNextDesktop == 1) { 
+desktops_switchto(pNumber) {
+	if (pNumber == 0) { 
+		Send, +{F1} 
+	} else if (pNumber == 1) {
 		Send, +{F2}
-	} else {
-		Send, +{F1}
+	} else if (pNumber == 2) {
+		Send, +{F3}
+	} else if (pNumber == 3) {
+		Send, +{F4}
 	}
+}
+
+desktops_right(pDesktop) {
+	desktops_switchto(mod(pDesktop + 1, 4))
 }
 
 desktops_left(pDesktop ) {
-	lNextDesktop := abs(mod(%pDesktop% - 1, 2))
-	if (lNextDesktop == 1) { 
-		Send, +{F2}
-	} else {
-		Send, +{F1}
-	}
+	desktops_switchto(abs(mod(pDesktop - 1, 4)))
 }
 
 desktops_seticon(pDesktop) {
-	IconFile := (%pDesktop% + 1) . ".ico"
+	IconFile := (pDesktop + 1) . ".ico"
 	IconPath = %A_MyDocuments%\AutoHotkey\lib\%IconFile%
 	Menu, Tray, Icon, %IconPath%
 }

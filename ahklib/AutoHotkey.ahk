@@ -11,9 +11,9 @@ FileEncoding, UTF-8
 CoordMode, Mouse, Screen
 
 if (%0% > 0) {
-	Desktop := %1%
+	Desktop = %1%
 } else {
-	Desktop := 0
+	Desktop = 0
 }
 
 #Include <winos>
@@ -21,7 +21,7 @@ if (%0% > 0) {
 #include <vistaswitcher>
 #Include <winshell>
 
-desktops_seticon(%Desktop%)
+desktops_seticon(Desktop)
 
 if (Desktop > 0) {
 	vistaswitcher_startup()
@@ -31,7 +31,7 @@ winshell_init()
 winshell_active_loop()
 
 OnClipboardChange:
-	winshell_onclipboardchange(%Desktop%)
+	winshell_onclipboardchange(Desktop)
 return
 
 #IfWinActive ahk_class ConsoleWindowClass
@@ -53,8 +53,8 @@ Esc::send, !{F4}
 
 ; Sysinternals desktop movement
 #UseHook ON
-CapsLock & right::desktops_right(%Desktop%)
-CapsLock & left::desktops_left(%Desktop%) 
+CapsLock & right::desktops_right(Desktop)
+CapsLock & left::desktops_left(Desktop) 
 
 ; language switching
 CapsLock & k::tfs_switch("korean", GetKeyState("shift"))
