@@ -2,6 +2,7 @@
 #Warn
 
 desktops_switchto(pNumber) {
+	desktops_writereg(pNumber)
 	if (pNumber == 0) { 
 		Send, +{F1} 
 	} else if (pNumber == 1) {
@@ -13,6 +14,18 @@ desktops_switchto(pNumber) {
 	}
 }
 
+desktops_readreg() {
+	RegRead, lDesk, HKEY_CURRENT_USER, Software\Sysinternals\Desktops, CurrentDesktop
+	if ErrorLevel {
+		lDesk = 0
+	}
+	return lDesk
+}
+
+desktops_writereg(pNumber) {
+	RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Sysinternals\Desktops, CurrentDesktop, %pNumber%
+}
+
 desktops_right(pDesktop) {
 	desktops_switchto(mod(pDesktop + 1, 4))
 }
@@ -21,8 +34,9 @@ desktops_left(pDesktop ) {
 	desktops_switchto(abs(mod(pDesktop - 1, 4)))
 }
 
-desktops_seticon(pDesktop) {
-	IconFile := (pDesktop + 1) . ".ico"
+desktops_seticon() {
+	global Desktop
+	IconFile := (Desktop + 1) . ".ico"
 	IconPath = %A_MyDocuments%\AutoHotkey\lib\%IconFile%
 	Menu, Tray, Icon, %IconPath%
 }

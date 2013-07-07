@@ -10,10 +10,11 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 FileEncoding, UTF-8
 CoordMode, Mouse, Screen
 
-if (%0% > 0) {
-	Desktop = %1%
-} else {
+if (0 > 0) {
 	Desktop = 0
+	desktops_writereg(Desktop)
+} else {
+	Desktop := desktops_readreg()
 }
 
 #Include <winos>
@@ -21,7 +22,7 @@ if (%0% > 0) {
 #include <vistaswitcher>
 #Include <winshell>
 
-desktops_seticon(Desktop)
+desktops_seticon()
 
 if (Desktop > 0) {
 	vistaswitcher_startup()
