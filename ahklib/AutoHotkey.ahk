@@ -11,10 +11,10 @@ FileEncoding, UTF-8
 CoordMode, Mouse, Screen
 
 if (0 > 0) {
+	Desktop := desktops_readreg()
+} else {
 	Desktop = 0
 	desktops_writereg(Desktop)
-} else {
-	Desktop := desktops_readreg()
 }
 
 #Include <winos>
