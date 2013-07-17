@@ -12,11 +12,15 @@
 
 @set git_url=http://msysgit.googlecode.com/
 @set git_version=PortableGit-1.8.3-preview20130601
+@set github_raw_url=https://raw.github.com/
 
 @set sevenzip_standalone=7za
 @set sevenzip_version=920
 @set sevenzip_zipfile=%sevenzip_standalone%%sevenzip_version%.zip
 @set sevenzip_url=http://downloads.sourceforge.net/sevenzip/%sevenzip_zipfile%
+
+@set mono_lib_getline_file=migueldeicaza/muget/master/getline.cs
+@set mono_lib_getline_url=%github_raw_url%%mono_lib_getline_file%
 
 @set nirsoft_www=www.nirsoft.net
 @set nirsoft_x64_zip=x64tools.zip
