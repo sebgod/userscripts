@@ -11,10 +11,10 @@ FileEncoding, UTF-8
 CoordMode, Mouse, Screen
 
 if (0 > 0) {
-	Desktop := desktops_readreg()
-} else {
 	Desktop = 0
 	desktops_writereg(Desktop)
+} else {
+	Desktop := desktops_readreg()
 }
 
 #Include <winos>
@@ -37,7 +37,7 @@ return
 
 #IfWinActive ahk_class ConsoleWindowClass
 ;Tab::MsgBox Pressed Tab!
-Esc::send, exit{Enter}
+Esc::send, ^{Backspace}exit{Enter}
 #IfWinActive
 
 #IfWinActive ahk_class VirtualConsoleClass
