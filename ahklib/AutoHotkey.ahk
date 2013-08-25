@@ -1,4 +1,4 @@
-; Author: Sebastian Godelet
+﻿; Author: Sebastian Godelet
 #Warn  ; Recommended for catching common errors.
 #SingleInstance force
 #NoEnv
@@ -63,6 +63,22 @@ CapsLock & c::tfs_switch("chinese", GetKeyState("shift"))
 CapsLock & g::tfs_switch("german", GetKeyState("shift"))
 CapsLock & e::tfs_switch("english", GetKeyState("shift"))
 CapsLock::tfs_toggle_language()
+
+; Versal writing
+CapsLock & ß::
+	Send, ẞ
+Return
+
+:*?:A?::Aẞ
+:*?:E?::Eẞ
+:*?:I?::Iẞ
+:*?:O?::Oẞ
+:*?:U?::Uẞ
+:*?:Ö?::Öẞ
+:*?:Ä?::Äẞ
+:*?:Ü?::Üẞ
+
+#Include <accents>
 
 #UseHook OFF
 

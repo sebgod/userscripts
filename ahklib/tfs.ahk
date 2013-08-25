@@ -5,6 +5,7 @@ tfs_current_language=english
 tfs_current_shift_state=0
 tfs_previous_language=english
 tfs_previous_shift_state=0
+tfs_write_versal_state=0
 
 tfs_set_current_language(pLanguage, pShift) {
 	global tfs_previous_language
@@ -27,6 +28,7 @@ tfs_toggle_language() {
 }
 
 tfs_switch(pLanguage, pShift) {
+	global tfs_write_versal_state
 	tfs_set_current_language(pLanguage, pShift)
 	if (pLanguage == "english") {
 		Send, ^+8
@@ -44,6 +46,8 @@ tfs_switch(pLanguage, pShift) {
 		} else {
 			MsgBox TODO Korean using Romaja
 		}
+	} else if (pLanguage == "versal") {
+		tfs_write_versal_state = 1
 	} else {
 		MsgBox Unhandled language '%pLanguage%'
 	}
