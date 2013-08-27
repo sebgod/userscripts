@@ -44,6 +44,10 @@ Esc::send, ^{Backspace}exit{Enter}
 Esc::send, ^{Backspace}exit{Enter}
 #IfWinActive
 
+#IfWinActive ahk_class tSkMainForm
+Esc::send, !{F4}
+#IfWinActive
+
 #IfWinActive ahk_class ahk_class CalcFrame
 Esc::send, !{F4}
 #IfWinActive
@@ -69,14 +73,14 @@ CapsLock & ß::
 	Send, ẞ
 Return
 
-:*?:A?::Aẞ
-:*?:E?::Eẞ
-:*?:I?::Iẞ
-:*?:O?::Oẞ
-:*?:U?::Uẞ
-:*?:Ö?::Öẞ
-:*?:Ä?::Äẞ
-:*?:Ü?::Üẞ
+:*?C:A?::Aẞ
+:*?C:E?::Eẞ
+:*?C:I?::Iẞ
+:*?C:O?::Oẞ
+:*?C:U?::Uẞ
+:*?C:Ö?::Öẞ
+:*?C:Ä?::Äẞ
+:*?C:Ü?::Üẞ
 
 #Include <accents>
 
