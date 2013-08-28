@@ -68,21 +68,14 @@ CapsLock & g::tfs_switch("german", GetKeyState("shift"))
 CapsLock & e::tfs_switch("english", GetKeyState("shift"))
 CapsLock::tfs_toggle_language()
 
-; Versal writing
-CapsLock & ß::
-	Send, ẞ
-Return
-
-CapsLock & s::
-	Send, ſ
-Return
-
-#Include <accents>
+; Versal writing and ß and ẞ and ſ and accent handling
+CapsLock & ß::Send, ẞ
 
 #UseHook OFF
 
+#Include <accents>
+
 :*?C:sss::ſsſ
-:*?C:ßs::ſsſ
 
 :*?C:A?::Aẞ
 :*?C:E?::Eẞ
@@ -93,15 +86,13 @@ Return
 :*?C:Ä?::Äẞ
 :*?C:Ü?::Üẞ
 
-:?C:aß::aſs
-:?C:uß::uſs
-:?C:iß::oſs
-:?C:oß::oſʒ
-:?C:öß::oſʒ
-:?C:äß::oſʒ
-:?C:üß::oſs
-
+<^>!s::Send, ſ
+<^>!z::Send, ʒ
+	
 :*?C:sz::ſʒ
+
+; Chinese pinyin
+#Include <chinese_pinyin>
 
 ; Insert a random uuid
 ^+g::guid_sendraw()
@@ -118,12 +109,12 @@ Return
 Esc::send, !{F4}
 #IfWinActive
 
-;internet explorer
+; internet explorer
 #IfWinActive ahk_class IEFrame
 Esc::send, ^w
 #IfWinActive
 
-;vista switcher
+; vista switcher
 #F11::vistaswitcher_show(1)
 #F12::vistaswitcher_show()
 
