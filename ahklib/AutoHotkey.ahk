@@ -73,6 +73,17 @@ CapsLock & ß::
 	Send, ẞ
 Return
 
+CapsLock & s::
+	Send, ſ
+Return
+
+#Include <accents>
+
+#UseHook OFF
+
+:*?C:sss::ſsſ
+:*?C:ßs::ſsſ
+
 :*?C:A?::Aẞ
 :*?C:E?::Eẞ
 :*?C:I?::Iẞ
@@ -82,9 +93,15 @@ Return
 :*?C:Ä?::Äẞ
 :*?C:Ü?::Üẞ
 
-#Include <accents>
+:?C:aß::aſs
+:?C:uß::uſs
+:?C:iß::oſs
+:?C:oß::oſʒ
+:?C:öß::oſʒ
+:?C:äß::oſʒ
+:?C:üß::oſs
 
-#UseHook OFF
+:*?C:sz::ſʒ
 
 ; Insert a random uuid
 ^+g::guid_sendraw()
