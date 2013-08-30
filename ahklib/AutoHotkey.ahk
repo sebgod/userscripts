@@ -125,16 +125,24 @@ if (ExStyle & 0x8)  ; 0x8 is WS_EX_TOPMOST.
 {
 	Winset, AlwaysOnTop, off, ahk_id %currentWindow%
 	SplashImage,, x0 y0 b fs12, OFF always on top.
-	Sleep, 15
+	Sleep, 250
 	SplashImage, Off
 }
 else
 {
 	WinSet, AlwaysOnTop, on, ahk_id %currentWindow%
 	SplashImage,,x0 y0 b fs12, ON always on top.
-	Sleep, 15
+	Sleep, 250
 	SplashImage, Off
 }
+return
+
+#+m::
+Send, !{SPACE}
+Send, R
+Send, !{SPACE}
+Send, M
+Send, {UP}
 return
 
 TurnOffSI:
