@@ -1,4 +1,5 @@
-﻿#If tfs_is_language("chinese", 1) 
+
+#If tfs_is_language("chinese", 1) 
 :*?C:ao1::āo
 :*?C:ao2::áo
 :*?C:ao3::ǎo
