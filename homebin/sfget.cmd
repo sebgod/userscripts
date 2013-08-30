@@ -9,7 +9,7 @@ if [%file%]==[] (
 	set file=listing.txt
 	set usetype=1
 ) else (
-	pushd "%userprofile%\My Videos"
+	pushd %userprofile%\Videos
 )
 
 wget -N "http://sfip1.no-ip.org:27081/%file%"
