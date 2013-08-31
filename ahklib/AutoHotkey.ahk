@@ -112,6 +112,8 @@ Esc::send, !{F4}
 ; internet explorer
 #IfWinActive ahk_class IEFrame
 Esc::send, ^w
+#WheelDown::send, ^+{Tab}
+#WheelUp::send, ^{Tab}
 #IfWinActive
 
 ; vista switcher
