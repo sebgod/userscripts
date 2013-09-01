@@ -30,14 +30,13 @@ if (Desktop > 0) {
 }
 
 winshell_init()
-winshell_active_loop()
+; Conserve recources winshell_active_loop()
 
 OnClipboardChange: 
 	winshell_onclipboardchange()
 return
 
 #IfWinActive ahk_class ConsoleWindowClass
-;Tab::MsgBox Pressed Tab!
 Esc::send, ^{Backspace}exit{Enter}
 #IfWinActive
 
@@ -61,12 +60,29 @@ Esc::send, !{F4}
 #UseHook ON
 CapsLock & right::desktops_right(Desktop)
 CapsLock & left::desktops_left(Desktop) 
+#UseHook Off
 
 ; language switching
-CapsLock & k::tfs_switch("korean", GetKeyState("shift"))
-CapsLock & c::tfs_switch("chinese", GetKeyState("shift"))
-CapsLock & g::tfs_switch("german", GetKeyState("shift"))
-CapsLock & e::tfs_switch("english", GetKeyState("shift"))
+~#Space::
+tfs_pressedWindowSpace := 1
+return
+
+~LWin UP::
+if (tfs_pressedWindowSpace == 1) {
+	Sleep, 100
+	tfs_winSpaceHandler()
+}
+return
+
+#UseHook ON
+; en: 67569673	2057
+; de: 67568647	1031
+; ch: 134481924	2052
+; ko: 67568658	1042
+CapsLock & k::tfs_switch(1042, GetKeyState("shift"))
+CapsLock & c::tfs_switch(2052, GetKeyState("shift"))
+CapsLock & g::tfs_switch(1031, GetKeyState("shift"))
+CapsLock & e::tfs_switch(2057, GetKeyState("shift"))
 CapsLock::tfs_toggle_language()
 
 ; Versal writing and ß and ẞ and ſ and accent handling
@@ -135,15 +151,6 @@ else
 	Sleep, 250
 	SplashImage, Off
 }
-return
-
-#+l::
-WinGet, currentWindow, ID, A
-threadID := DllCall("GetWindowThreadProcessId", "Ptr", currentWindow, "Ptr", 0)
-hkl := DllCall("GetKeyboardLayout", "UInt", threadID)
-low16:=hkl & 0xffff
-high16:= (hkl>>16) & 0xffff
-msgbox hkl=%hkl%`nhigh16=%high16%`nlow16=%low16%
 return
 
 #+m::

@@ -13,7 +13,7 @@ koRom_init() {
 	koRom_flags := 0
 }
 
-#If tfs_langCode == "korean0"
+#If tfs_langCode == 1042000
 
 Backspace::
 Send, {Left}{Del}

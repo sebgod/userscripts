@@ -4,7 +4,7 @@ cnPin_init() {
 	
 }
 
-#If tfs_langCode == "chinese1" 
+#If tfs_langCode == 2052001
 :*?C:ao1::āo
 :*?C:ao2::áo
 :*?C:ao3::ǎo
