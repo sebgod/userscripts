@@ -98,6 +98,10 @@ return
 koRom_sendInitial(0x12)
 return
 
+:C*?:f::
+Send, {U+200B}
+return
+
 ; vowel flags
 
 :C*?:y::

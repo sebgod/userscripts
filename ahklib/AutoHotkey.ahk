@@ -105,9 +105,12 @@ CapsLock & ß::Send, ẞ
 <^>!z::Send, ʒ
 
 #if tsf_tfs_langCode == 1031001
-:*?C:sss::ſsſ	
+:*?C:sss::ſsſ
 :*?C:sz::ſʒ
 #if
+
+;Zero-Width space
+<^>!Space::Send, {U+200B}
 
 ; Insert a random uuid
 ^+g::guid_sendraw()
