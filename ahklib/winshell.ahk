@@ -1,4 +1,4 @@
-#NoEnv
+﻿#NoEnv
 #Warn
 
 #Include <winos>
@@ -16,19 +16,57 @@ winshell_init() {
 }
 
 winshell_active_loop() {
-	userIPCFolder := winshell_UserIPCFolder()
 	wwna_id := 0
 	Loop { 
 		WinExist("A")
-		WinGetTitle, wwna_title
 		WinGet, wwna_id, ID
-		WinGet, wwna_cmd, ProcessName
-		WinGet, wwna_pid, PID
-		WinGet, wwna_path, ProcessPath
-		currentTime := winos_isotime_now()
-		FileAppend, %currentTime%`t%wwna_id%`t%wwna_cmd%`t%wwna_pid%`t%wwna_path%`t%wwna_title%`n, %userIPCFolder%\window_activity_history.txt
+		_locale := tfs_get_window_locale(wwna_id)
+		tfs_set_current_language(_locale, 0)
 		WinWaitNotActive, ahk_id %wwna_id%
 	}
+}
+
+winshell_add_window_history(pID) {
+	userIPCFolder := winshell_UserIPCFolder()
+	WinGetTitle, wwna_title
+	WinGet, wwna_cmd, ProcessName
+	WinGet, wwna_pid, PID
+	WinGet, wwna_path, ProcessPath
+	WinGetClass, wwna_class, ahk_id %wwna_id%
+	currentTime := winos_isotime_now()
+	FileAppend, %currentTime%`t%wwna_id%`t%wwna_cmd%`t%wwna_pid%`t%wwna_path%`t%wwna_title%`n, %userIPCFolder%\window_activity_history.txt
+}
+
+winshell_toggle_alwaysOnTop() {
+	WinGet, currentWindow, ID, A
+	WinGet, ExStyle, ExStyle, ahk_id %currentWindow%
+	WinGetPos, splashX, splashY, , , ahk_id %currentWindow%
+	splashX := "x" . (splashX + 40)
+	splashY := "y" . splashY
+	; 0x8 is WS_EX_TOPMOST.
+	if (ExStyle & 0x8) {
+		Winset, AlwaysOnTop, off, ahk_id %currentWindow%
+		winshell_ShowSplash(1000, splashX, splashY, "OFF always on top")
+	}
+	else
+	{
+		WinSet, AlwaysOnTop, on, ahk_id %currentWindow%
+		winshell_ShowSplash(1000, splashX, splashY, "ON always on top")
+	}
+}
+
+winshell_ShowSplash(pTime, pX, pY, pTitle) {
+	SplashImage,, %pX% %pY% b fs12, %pTitle%
+	TurnOffSI(pTime * -1)
+}
+
+TurnOffSI(pTime := -1000) {
+	SetTimer, TurnOffSITimer, % pTime
+	Return
+	
+TurnOffSITimer:
+	SplashImage, off
+Return
 }
 
 

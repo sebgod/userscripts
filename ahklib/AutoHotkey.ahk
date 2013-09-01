@@ -30,7 +30,7 @@ if (Desktop > 0) {
 }
 
 winshell_init()
-; Conserve recources winshell_active_loop()
+winshell_active_loop()
 
 OnClipboardChange: 
 	winshell_onclipboardchange()
@@ -92,8 +92,6 @@ CapsLock & ß::Send, ẞ
 
 #Include <accents>
 
-:*?C:sss::ſsſ
-
 :*?C:A?::Aẞ
 :*?C:E?::Eẞ
 :*?C:I?::Iẞ
@@ -105,8 +103,11 @@ CapsLock & ß::Send, ẞ
 
 <^>!s::Send, ſ
 <^>!z::Send, ʒ
-	
+
+#if tsf_tfs_langCode == 1031001
+:*?C:sss::ſsſ	
 :*?C:sz::ſʒ
+#if
 
 ; Insert a random uuid
 ^+g::guid_sendraw()
@@ -134,23 +135,9 @@ Esc::send, ^w
 #F11::vistaswitcher_show(1)
 #F12::vistaswitcher_show()
 
+; Window shell script
 #a::
-WinGet, currentWindow, ID, A
-WinGet, ExStyle, ExStyle, ahk_id %currentWindow%
-if (ExStyle & 0x8)  ; 0x8 is WS_EX_TOPMOST.
-{
-	Winset, AlwaysOnTop, off, ahk_id %currentWindow%
-	SplashImage,, x0 y0 b fs12, OFF always on top.
-	Sleep, 250
-	SplashImage, Off
-}
-else
-{
-	WinSet, AlwaysOnTop, on, ahk_id %currentWindow%
-	SplashImage,,x0 y0 b fs12, ON always on top.
-	Sleep, 250
-	SplashImage, Off
-}
+winshell_toggle_alwaysOnTop()
 return
 
 #+m::
@@ -160,11 +147,6 @@ Send, !{SPACE}
 Send, M
 Send, {UP}
 return
-
-TurnOffSI:
-SplashImage, off
-SetTimer, TurnOffSI, 1000, Off
-Return
 
 ;#f::
 ;   SendInput #+f

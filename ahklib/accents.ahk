@@ -251,6 +251,7 @@
 ::resumé::résumé
 ::résumes::résumés
 ::resumés::résumés
+::resumes::résumés
 ::retrousse::retroussé
 ::risque::risqué
 ::riviere::rivière
