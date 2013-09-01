@@ -137,6 +137,15 @@ else
 }
 return
 
+#+l::
+WinGet, currentWindow, ID, A
+threadID := DllCall("GetWindowThreadProcessId", "Ptr", currentWindow, "Ptr", 0)
+hkl := DllCall("GetKeyboardLayout", "UInt", threadID)
+low16:=hkl & 0xffff
+high16:= (hkl>>16) & 0xffff
+msgbox hkl=%hkl%`nhigh16=%high16%`nlow16=%low16%
+return
+
 #+m::
 Send, !{SPACE}
 Send, R
