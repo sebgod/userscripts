@@ -11,18 +11,18 @@ tfs_init() {
 	global tfs_current_language
 	global tfs_current_shift_state
 	global tfs_langCode
-	global tfs_pressedWindowSpace
 	
 	tfs_current_language := tfs_get_window_locale(DllCall("GetDesktopWindow"))
 	tfs_current_shift_state=0
 	tfs_previous_language := tfs_current_language
 	tfs_previous_shift_state=0
-	tfs_pressedWindowSpace=0
 	tfs_langCode := tfs_current_language * 1000 + tfs_current_shift_state
 }
 
 tfs_winSpaceHandler() {
 	WinGet, _currentWindow, ID, A
+	KeyWait, LWin
+	Sleep, 100
 	_locale := tfs_get_window_locale(_currentWindow)
 	tfs_set_current_language(_locale, 0)
 }
@@ -40,14 +40,12 @@ tfs_set_current_language(pLanguage, pShift) {
 	global tfs_current_language
 	global tfs_current_shift_state
 	global tfs_langCode
-	global tfs_pressedWindowSpace
 	
 	tfs_previous_language=%tfs_current_language%
 	tfs_previous_shift_state=%tfs_current_shift_state%
 	
 	tfs_current_language=%pLanguage%
 	tfs_current_shift_state=%pShift%
-	tfs_pressedWindowSpace=0
 	tfs_langCode := tfs_current_language * 1000 + tfs_current_shift_state
 }
 

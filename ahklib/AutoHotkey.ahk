@@ -63,16 +63,7 @@ CapsLock & left::desktops_left(Desktop)
 #UseHook Off
 
 ; language switching
-~#Space::
-tfs_pressedWindowSpace := 1
-return
-
-~LWin UP::
-if (tfs_pressedWindowSpace == 1) {
-	Sleep, 100
-	tfs_winSpaceHandler()
-}
-return
+~#Space::tfs_winSpaceHandler()
 
 #UseHook ON
 ; en: 67569673	2057
