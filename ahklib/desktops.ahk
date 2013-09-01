@@ -38,7 +38,7 @@ desktops_seticon() {
 	global Desktop
 	IconFile := (Desktop + 1) . ".ico"
 	IconPath = %A_MyDocuments%\AutoHotkey\lib\%IconFile%
-	Menu, Tray, Icon, %IconPath%
+	Menu, Tray, Icon, % IconPath
 }
 
 desktops_startx() {

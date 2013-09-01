@@ -11,16 +11,17 @@ FileEncoding, UTF-8
 CoordMode, Mouse, Screen
 
 if (0 > 0) {
-	Desktop = 0
+	Desktop := 0
 	desktops_writereg(Desktop)
 } else {
 	Desktop := desktops_readreg()
 }
 
 #Include <winos>
-#Include <tfs>
 #include <vistaswitcher>
 #Include <winshell>
+
+tfs_init()
 
 desktops_seticon()
 
@@ -90,9 +91,6 @@ CapsLock & ß::Send, ẞ
 <^>!z::Send, ʒ
 	
 :*?C:sz::ſʒ
-
-; Chinese pinyin
-#Include <chinese_pinyin>
 
 ; Insert a random uuid
 ^+g::guid_sendraw()

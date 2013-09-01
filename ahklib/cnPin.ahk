@@ -1,5 +1,10 @@
+#NoEnv
 
-#If tfs_is_language("chinese", 1) 
+cnPin_init() {
+	
+}
+
+#If tfs_langCode == "chinese1" 
 :*?C:ao1::āo
 :*?C:ao2::áo
 :*?C:ao3::ǎo
