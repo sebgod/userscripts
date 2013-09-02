@@ -24,13 +24,14 @@ return
 
 ; consonants
 
-g::koRom_sendInitialOrFinal(0, 0)
-+g::koRom_sendInitialOrFinal(1, 1) ; G -> kk
-n::koRom_sendInitialOrFinal(2, 3)
+g::koRom_sendInitialOrFinal(0, 1)
++g::koRom_sendInitialOrFinal(1, 2) ; G -> kk
+n::koRom_sendInitialOrFinal(2, 4)
++n::koRom_sendFinal(21) ; N -> ng
 d::koRom_sendInitial(3)
 +d::koRom_sendInitial(4) ; d -> dd
 r::koRom_sendInitial(5)
-m::koRom_sendInitialOrFinal(6, 15)
+m::koRom_sendInitialOrFinal(6, 16)
 b::koRom_sendInitial(7)
 +b::koRom_sendInitial(8) ; B -> pp
 s::koRom_sendInitial(9)
@@ -41,7 +42,7 @@ c::koRom_sendInitial(0xe)
 k::koRom_sendInitial(0xf)
 t::koRom_sendInitial(0x10)
 p::koRom_sendInitial(0x11)
-h::koRom_sendInitial(0x12)
+h::koRom_sendInitialOrFinal(0x12, 27)
 f::koRom_forceSyllableBoundary()
 
 ; vowels
@@ -133,6 +134,12 @@ koROm_forceSyllableBoundary() {
 	Send, {U+200B}
 }
 
+koRom_sendInitialOrFinal(pInitial, pFinal) {
+	global koRom_initial
+	global koRom_medial
+	global koRom_final
+}
+
 koRom_sendInitial(pInitial) {
 	global koRom_initial
 	global koRom_medial
@@ -141,13 +148,18 @@ koRom_sendInitial(pInitial) {
 	Send, % Chr(koRom_initial + 0x1100)
 }
 
-koRom_sendInitialOrFinal(pInitial, pFinal) {
+koRom_sendFinal(pFinal) {
 	global koRom_initial
 	global koRom_medial
 	global koRom_final
-	koRom_initial := pInitial
-	koRom_medial := -1
-	Send, % Chr(koRom_initial + 0x1100)
+	
+	koRom_final := pFinal
+	
+	Send, {Left}{Del}
+	Send, % Chr(koRom_initial * 588
+	          + koRom_medial * 28
+			  + pFinal
+			  + 44032)
 }
 
 koRom_sendInitialAndMedial(pMedial) {
@@ -156,13 +168,7 @@ koRom_sendInitialAndMedial(pMedial) {
 	global koRom_final
 
 	; table from: http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
-	if (pMedial == 0) {					; ㅏ (a)
-		if (koRom_medial == 20) {		; ㅣ (i)
-			koRom_medial := 2			; ㅑ (ya)
-		} else {
-			koRom_medial := 5
-		}
-	} else if (pMedial == 5) {			; ㅔ (e)
+	if (pMedial == 5) {					; ㅔ (e)
 		if (koRom_medial == 0) { 		; ㅏ (a)
 			koRom_medial := 1 			; ㅐ (ae)
 		} else if (koRom_medial == 2) { ; ㅑ (ya)
@@ -171,16 +177,12 @@ koRom_sendInitialAndMedial(pMedial) {
 			koRom_medial := 10			; ㅙ (wae)
 		} else if (koRom_medial == 8) { ; ㅗ (o)
 			koRom_medial := 11			; ㅚ (oe)
-		} else if (koRom_medial == 20) { ; ㅣ (i)
-			koRom_medial := 7			; ㅖ (ye)
 		} else {
 			koRom_medial := 5
 		}
 	} else if (pMedial == 13) {			; ㅜ (u)
 		if (koRom_medial == 5) {		; ㅔ (e)
 			koRom_medial := 18			; ㅡ (eu)
-		} else if (koRom_medial == 20) { ;ㅣ (i)
-			koRom_medial := 17			; ㅠ(yu)
 		} else {
 			koRom_medial := 13
 		}
@@ -191,16 +193,8 @@ koRom_sendInitialAndMedial(pMedial) {
 			koRom_medial := 6			; ㅕ (yeo)
 		} else if (koRom_medial == 15) { ; ㅞ (we)
 			koRom_medial := 14			; ㅝ (weo)
-		} else if (koRom_medial == 20) { ;ㅣ (i)
-			koRom_medial := 12			; ㅛ(yo)
 		} else {
 			koRom_medial := 8
-		}
-	} else if (pMedial == 20) {			;ㅣ (i)
-		if (koRom_medial == 20) {		;ㅣ (i)
-			koRom_medial := 19			; ㅢ (yi)
-		} else {
-			koRom_medial := 20
 		}
 	} else {
 		koRom_medial := pMedial
