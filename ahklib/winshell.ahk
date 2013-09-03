@@ -29,18 +29,18 @@ winshell_active_loop() {
 winshell_toggle_alwaysOnTop() {
 	WinExist("A")
 	WinGet, lExStyle, ExStyle
-	WinGetPos, splashX, splashY, ,
+	WinGetPos, splashX, splashY,
 	splashX := "x" . (splashX + 40)
 	splashY := "y" . splashY
 	; 0x8 is WS_EX_TOPMOST.
 	if (lExStyle & 0x8) {
 		Winset, AlwaysOnTop, off
-		winshell_ShowSplash(1000, splashX, splashY, "OFF always on top")
+		winshell_ShowSplash(1000, splashX, splashY, "always on top: OFF")
 	}
 	else
 	{
 		WinSet, AlwaysOnTop, on
-		winshell_ShowSplash(1000, splashX, splashY, "ON always on top")
+		winshell_ShowSplash(1000, splashX, splashY, "always on top: ON")
 	}
 }
 
