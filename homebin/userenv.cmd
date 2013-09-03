@@ -15,7 +15,11 @@
 @set github_raw_url=https://raw.github.com/
 
 @set svn_version=svn-win32-1.6.16
-@set svn_cmd=%~dp0api\%svn_version%\bin\svn.exe
+@set svn_basename=svnportable
+@set svn_url=http://sourceforge.net/projects/%svn_basename%/files/latest/download
+@set svn_version=v1.00BETA_(SVN_1.6.15)
+@set svn_basedir=%~dp0api\%svn_basename%\SVN
+@set svn_cmd=%svn_basedir%\svn.exe
 
 @set sevenzip_standalone=7za
 @set sevenzip_version=920
@@ -52,5 +56,5 @@
 
 @if not exist %~dp0api mkdir %~dp0api
 
-@path %path%;%~dp0api\git\cmd;%~dp0api\%sysinternals_folder%;%~dp0api
+@path %path%;%~dp0api\git\cmd;%~dp0api\%sysinternals_folder%;%svn_basedir%;%~dp0api
 @call %cl_vsdevcmd%
