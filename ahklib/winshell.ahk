@@ -3,16 +3,29 @@
 
 #Include <winos>
 
+winshell_ramdriveVolume() {
+	return "B:\"
+}
+
 winshell_UserIPCFolder() {
 	global SessionName
 	global Desktop
-	Result = B:\%A_UserName%\%SessionName%_%Desktop%
-	return Result
+	
+	return % winshell_ramdriveVolume() . A_UserName . "\" . SessionName . "_" . Desktop
 }
 
 winshell_init() {
-	userIPCFolder := winshell_UserIPCFolder()
-	FileCreateDir, %userIPCFolder%\Clipboard
+	ramDrive := winshell_ramdriveVolume()
+	; create temp folder
+	if FileExist(ramDrive . "Clipboard") {
+		if FileExist(ramDrive . "Temp") {
+			FileRemoveDir, % ramDrive . "Clipboard", 1
+		} else {
+			FileMoveDir, % ramDrive . "Clipboard", % ramDrive . "Temp", R
+		}
+	}
+	; create user specific IPC folder (with clipboard folder)
+	FileCreateDir, % winshell_UserIPCFolder() . "\Clipboard"
 }
 
 winshell_active_loop() {
@@ -80,19 +93,19 @@ winshell_stikynot_run() {
 	Run StikyNot
 	WinWait, ahk_class Sticky_Notes_Note_Window
 	WinActivate
+	WinSet, AlwaysOnTop, On
 }
 
 winshell_onclipboardchange() {
-	userIPCFolder := winshell_UserIPCFolder()
-	Info = %A_EventInfo%
+	Info := A_EventInfo
 	ClipId := WinExist("A")
 	WinGet, ClipPid, PID, ahk_id %ClipId%
-	if (ClipId == 0x0)
+	if (ClipId = 0x0)
 		return
-	
-	Name = %userIPCFolder%\Clipboard\%A_NowUTC%,%Info%,%ClipId%,%ClipPid%
+
+	Name := winshell_UserIPCFolder() . "\Clipboard\" . A_NowUTC . ",info=" . Info . ",id=" . ClipId . ",pid=" . ClipPid
 	if (Info < 2) {
-		FileAppend, %Clipboard%, *%Name%.txt
+		FileAppend, % Clipboard, *%Name%.txt
 	} else {
 		FileAppend, %ClipboardAll%, %Name%.data
 	}
