@@ -1,5 +1,13 @@
 # Auto detect text files and perform LF normalization
-* text eof=crlf
+* text=auto
+
+*.ico binary
+*.ico binary
+*.exe binary
+*.7z  binary
+*.ZIP binary
+*.zip binary
+*.ahk text eol=crlf
 
 # Custom for Visual Studio
 *.cs     diff=csharp
@@ -16,7 +24,7 @@
 *.DOCX diff=astextplain
 *.dot  diff=astextplain
 *.DOT  diff=astextplain
-*.pdf  diff=astextplain
-*.PDF	 diff=astextplain
+*.pdf  binary
+*.PDF	 binary
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
