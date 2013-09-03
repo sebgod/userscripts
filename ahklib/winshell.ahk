@@ -26,31 +26,20 @@ winshell_active_loop() {
 	}
 }
 
-winshell_add_window_history(pID) {
-	userIPCFolder := winshell_UserIPCFolder()
-	WinGetTitle, wwna_title
-	WinGet, wwna_cmd, ProcessName
-	WinGet, wwna_pid, PID
-	WinGet, wwna_path, ProcessPath
-	WinGetClass, wwna_class, ahk_id %wwna_id%
-	currentTime := winos_isotime_now()
-	FileAppend, %currentTime%`t%wwna_id%`t%wwna_cmd%`t%wwna_pid%`t%wwna_path%`t%wwna_title%`n, %userIPCFolder%\window_activity_history.txt
-}
-
 winshell_toggle_alwaysOnTop() {
-	WinGet, currentWindow, ID, A
-	WinGet, ExStyle, ExStyle, ahk_id %currentWindow%
-	WinGetPos, splashX, splashY, , , ahk_id %currentWindow%
+	WinExist("A")
+	WinGet, lExStyle, ExStyle
+	WinGetPos, splashX, splashY, ,
 	splashX := "x" . (splashX + 40)
 	splashY := "y" . splashY
 	; 0x8 is WS_EX_TOPMOST.
-	if (ExStyle & 0x8) {
-		Winset, AlwaysOnTop, off, ahk_id %currentWindow%
+	if (lExStyle & 0x8) {
+		Winset, AlwaysOnTop, off
 		winshell_ShowSplash(1000, splashX, splashY, "OFF always on top")
 	}
 	else
 	{
-		WinSet, AlwaysOnTop, on, ahk_id %currentWindow%
+		WinSet, AlwaysOnTop, on
 		winshell_ShowSplash(1000, splashX, splashY, "ON always on top")
 	}
 }
