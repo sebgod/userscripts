@@ -81,8 +81,6 @@ CapsLock & ß::Send, ẞ
 
 #UseHook OFF
 
-#Include <accents>
-
 :*?C:A?::Aẞ
 :*?C:E?::Eẞ
 :*?C:I?::Iẞ
