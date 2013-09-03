@@ -93,7 +93,7 @@ CapsLock & ß::Send, ẞ
 <^>!s::Send, ſ
 <^>!z::Send, ʒ
 
-;Zero-Width space
+; Zero-Width space
 <^>!Space::Send, {U+200B}
 
 ; Insert a random uuid
@@ -134,11 +134,3 @@ Send, !{SPACE}
 Send, M
 Send, {UP}
 return
-
-;#f::
-;   SendInput #+f
-;   return
-
-; Older versions of windows switched to chinese IME when pressing cntrl space
-;+Space::
-;return
