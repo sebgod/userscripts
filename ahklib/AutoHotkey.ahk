@@ -95,11 +95,6 @@ CapsLock & ß::Send, ẞ
 <^>!s::Send, ſ
 <^>!z::Send, ʒ
 
-#if tsf_tfs_langCode == 1031001
-:*?C:sss::ſsſ
-:*?C:sz::ſʒ
-#if
-
 ;Zero-Width space
 <^>!Space::Send, {U+200B}
 
