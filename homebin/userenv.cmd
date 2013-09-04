@@ -26,6 +26,10 @@
 @set sevenzip_zipfile=%sevenzip_standalone%%sevenzip_version%.zip
 @set sevenzip_url=http://downloads.sourceforge.net/sevenzip/%sevenzip_zipfile%
 
+@set fart_basename=fart
+@set fart_version=199b_win64
+@set fart_url=http://sourceforge.net/projects/%fart_basename%-it/files/latest/download
+
 @set mono_lib_getline_file=migueldeicaza/muget/master/getline.cs
 @set mono_lib_getline_url=%github_raw_url%%mono_lib_getline_file%
 
