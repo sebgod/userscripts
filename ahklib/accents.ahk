@@ -3,7 +3,7 @@
 ; http://en.wikipedia.org/wiki/List_of_English_words_with_diacritics
 ; I have included all the ones compatible with reasonable codepages, and placed
 ; those that may often not be accented either from a clash with an unaccented 
-; word (resume), or because the unaccented version is now common (cafe).
+; word (resume).
 ;------------------------------------------------------------------------------
 ::aesop::Æsop
 ::a bas::à bas
@@ -30,6 +30,7 @@
 ::blase::blasé
 ::boite::boîte
 ::boutonniere::boutonnière
+::cafe::café
 ::canape::canapé
 ::canapes::canapés
 ::celebre::célèbre
@@ -251,7 +252,6 @@
 ::resumé::résumé
 ::résumes::résumés
 ::resumés::résumés
-::resumes::résumés
 ::retrousse::retroussé
 ::risque::risqué
 ::riviere::rivière
@@ -285,7 +285,7 @@
 ::touche::touché
 ::tourtiere::tourtière
 ::ubermensch::Übermensch
-::ubermensches::Übermensches
+::ubermenschen::Übermenschen
 ::ventre a terre::ventre à terre
 ::vicuna::vicuña
 ::vin rose::vin rosé

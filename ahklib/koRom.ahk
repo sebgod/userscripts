@@ -13,8 +13,7 @@ koRom_init() {
 
 #If tfs_langCode == 1042000
 
-Backspace::
-Send, {Left}{Del}
+~Backspace::
 if (koRom_medial >= 0) {
 	koRom_sendInitial(koRom_initial)
 } else {
