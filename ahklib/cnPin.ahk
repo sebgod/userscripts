@@ -1,8 +1,13 @@
-#NoEnv
+﻿#NoEnv
 
 cnPin_init() {
 	
 }
+
+#If tfs_langCode <> 2052000
+:*:Beijing::Bēijīng
+:*:Tianjin::Tiānjīn
+#if
 
 #If tfs_langCode == 2052001
 :*?C:ao1::āo

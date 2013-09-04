@@ -36,6 +36,8 @@ OnClipboardChange:
 	winshell_onclipboardchange()
 return
 
+#Include <accents>
+
 #IfWinActive ahk_class ConsoleWindowClass
 Esc::send, ^{Backspace}exit{Enter}
 #IfWinActive
