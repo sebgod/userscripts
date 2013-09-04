@@ -1,10 +1,6 @@
 #NoEnv
 #Warn
 
-; en: 67569673    2057
-; de: 67568647    1031
-; ch: 134481924    2052
-; ko: 67568658    1042
 tfs_init() {
     global tfs_previous_language
     global tfs_previous_shift_state
@@ -63,6 +59,10 @@ tfs_is_language(pLanguage, pShift) {
     return (pShift == tfs_current_shift_state) && (pLanguage == tfs_current_language)
 }
 
+; en: 67569673    2057
+; de: 67568647    1031
+; ch: 134481924    2052
+; ko: 67568658    1042
 tfs_switch(pLanguage, pShift) {
     tfs_set_current_language(pLanguage, pShift)
     if (pLanguage == 2057) {

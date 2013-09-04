@@ -5,15 +5,20 @@ koRom_init() {
     global koRom_initial
     global koRom_medial
     global koRom_final
+    global koRom_possibleInitial
+    global koRom_yPressed
     
     koRom_initial := -1
     koRom_medial := -1
     koRom_final := -1
+    koRom_possibleInitial := -1
+    koRom_yPressed := 0
 }
 
 #If tfs_langCode == 1042000
 
 ~Backspace::
+koRom_yPressed := 0
 if (koRom_medial >= 0) {
     koRom_sendInitial(koRom_initial)
 } else {
@@ -27,24 +32,27 @@ g::koRom_sendInitialOrFinal(0, 1)
 +g::koRom_sendInitialOrFinal(1, 2) ; G -> kk
 n::koRom_sendInitialOrFinal(2, 4)
 +n::koRom_sendFinal(21) ; N -> ng
-d::koRom_sendInitial(3)
+d::koRom_sendInitialOrFinal(3, 7)
+l::koRom_sendFinal(8)
 +d::koRom_sendInitial(4) ; d -> dd
 r::koRom_sendInitial(5)
 m::koRom_sendInitialOrFinal(6, 16)
-b::koRom_sendInitial(7)
+b::koRom_sendInitialOrFinal(7, 17)
 +b::koRom_sendInitial(8) ; B -> pp
-s::koRom_sendInitial(9)
-+s::koRom_sendInitial(0xa) ; S -> ss
-j::koRom_sendInitial(0xc)
+s::koRom_sendInitialOrFinal(9, 19)
++s::koRom_sendInitialOrFinal(0xa, 20) ; S -> ss
+j::koRom_sendInitialOrFinal(0xc, 22)
 +j::koRom_sendInitial(0xd) ; J -> jj
-c::koRom_sendInitial(0xe)
-k::koRom_sendInitial(0xf)
-t::koRom_sendInitial(0x10)
-p::koRom_sendInitial(0x11)
+c::koRom_sendInitialOrFinal(0xe, 23)
+k::koRom_sendInitialOrFinal(0xf, 24)
+t::koRom_sendInitialOrFinal(0x10, 25)
+p::koRom_sendInitialOrFinal(0x11, 26)
 h::koRom_sendInitialOrFinal(0x12, 27)
 f::koRom_forceSyllableBoundary()
 
 ; vowels
+
+; y = 100
 
 :C*?:wa::
 koRom_sendInitialAndMedial(9)
@@ -58,44 +66,14 @@ return
 koRom_sendInitialAndMedial(16)
 return
 
-:C*?:yo::
-koRom_sendInitialAndMedial(12)
+:C*?:y::
+koRom_final := -1
+koRom_yPressed := 1
 return
 
-:C*?:yu::
-koRom_sendInitialAndMedial(17)
-return
-
-:C*?:ye::
-koRom_sendInitialAndMedial(7)
-return
-
-:C*?:yi::
-koRom_sendInitialAndMedial(19)
-return
-
-:C*?:ya::
-koRom_sendInitialAndMedial(2)
-return
-
-:C*?:zo::
-koRom_sendInitialAndMedial(12)
-return
-
-:C*?:zu::
-koRom_sendInitialAndMedial(17)
-return
-
-:C*?:ze::
-koRom_sendInitialAndMedial(7)
-return
-
-:C*?:zi::
-koRom_sendInitialAndMedial(19)
-return
-
-:C*?:za::
-koRom_sendInitialAndMedial(2)
+:C*?:z::
+koRom_final := -1
+koRom_yPressed := 1
 return
 
 :C*?:u::
@@ -124,26 +102,61 @@ return
 
 #If
 
-koROm_forceSyllableBoundary() {
+koRom_forceSyllableBoundary() {
     global koRom_initial
     global koRom_medial
     
     koRom_initial := -1
     koRom_medial := -1
-    Send, {U+200B}
 }
 
 koRom_sendInitialOrFinal(pInitial, pFinal) {
     global koRom_initial
     global koRom_medial
     global koRom_final
+    global koRom_possibleInitial
+    
+    maybeFinal := -1
+    maybeInitial := -1
+    koRom_possibleInitial := pInitial
+    
+    if (koRom_final >= 0) {
+        if (pFinal == 1) {                  ; ㄱ (g)
+            if (koRom_final == 8) {         ; ㄹ (l)
+                maybeFinal := 9             ; ㄺ (lg)
+            } else if (koRom_final == 4) {  ; ㄴ (n)
+                maybeFinal := 21            ; ㅇ (ng)
+            } else {
+                maybeInitial := pInitial
+            }
+        } else {
+            maybeInitial := pInitial
+        }
+    } else if (koRom_medial >= 0) {
+        maybeFinal := pFinal
+    } else {
+        maybeInitial := pInitial
+    }
+    
+    if (maybeFinal >= 0 && maybeInitial < 0) {
+        koRom_sendFinal(maybeFinal)
+    } else if (maybeFinal < 0 && maybeInitial >= 0) {
+        koRom_sendInitial(maybeInitial)
+    } else {
+        MsgBox, % "Conflict" . maybeInitial . " vs " . maybeInitial
+    }
 }
 
 koRom_sendInitial(pInitial) {
     global koRom_initial
     global koRom_medial
+    global koRom_final
+    global koRom_possibleInitial
+    
     koRom_initial := pInitial
     koRom_medial := -1
+    koRom_final := -1
+    koRom_possibleInitial := -1
     Send, % Chr(koRom_initial + 0x1100)
 }
 
@@ -165,10 +178,26 @@ koRom_sendInitialAndMedial(pMedial) {
     global koRom_initial
     global koRom_medial
     global koRom_final
-
+    global koRom_possibleInitial
+    global koRom_yPressed
+    
+    if (koRom_possibleInitial > 0) {
+        Send, {Left}{Del}
+        Send, % Chr(koRom_initial * 588
+              + koRom_medial * 28
+              + 44032)
+        koRom_initial := koRom_possibleInitial
+        koRom_final := -1
+        
+        winshell_ShowSplash(1000, 500, 0, "carry! arg=" . pMedial)
+    }
+    
+    prevMedial := koRom_medial
     ; table from: http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
     if (pMedial == 5) {                    ; ㅔ (e)
-        if (koRom_medial == 0) {           ; ㅏ (a)
+        if (koRom_yPressed == 1) {
+            koRom_medial := 7              ; ㅖ (ye)
+        } else if (koRom_medial == 0) {    ; ㅏ (a)
             koRom_medial := 1              ; ㅐ (ae)
         } else if (koRom_medial == 2) {    ; ㅑ (ya)
             koRom_medial := 3              ; ㅒ (yae)
@@ -186,7 +215,9 @@ koRom_sendInitialAndMedial(pMedial) {
             koRom_medial := 13
         }
     } else if (pMedial == 8) {             ; ㅗ (o)
-        if (koRom_medial == 5) {           ; ㅔ (e)
+        if (koRom_yPressed == 1) {
+            koRom_medial := 12             ; ㅛ (yo)
+        } else if (koRom_medial == 5) {    ; ㅔ (e)
             koRom_medial := 4              ; ㅓ (eo)
         } else if (koRom_medial == 7) {    ; ㅖ (ye)
             koRom_medial := 6              ; ㅕ (yeo)
@@ -199,11 +230,18 @@ koRom_sendInitialAndMedial(pMedial) {
         koRom_medial := pMedial
     }
     
+    
+    if (koRom_possibleInitial <= 0 && (pMedial <> koRom_medial && koRom_yPressed == 0) || ( prevMedial < 0 ) ) {
+        Send, {Left}{Del}
+        winshell_ShowSplash(1000, 500, 0, "del! arg=" . pMedial . " pi=" . koRom_possibleInitial)
+    }
+    
     if (koRom_initial < 0) {
         koRom_initial := 0xb
-    } else {
-        Send, {Left}{Del}
-    }
+    } 
+
+    koRom_yPressed := 0
+    koRom_possibleInitial := -1
             
     Send, % Chr(koRom_initial * 588
               + koRom_medial * 28
