@@ -66,20 +66,24 @@ tfs_is_language(pLanguage, pShift) {
 tfs_switch(pLanguage, pShift) {
     tfs_set_current_language(pLanguage, pShift)
     if (pLanguage == 2057) {
-        Send, ^+8
+        PostMessage, 0x50, 0, 67569673,, A
+        ; Send, ^+8
     } else if (pLanguage == 1031) {
-        Send, ^+2
+        PostMessage, 0x50, 0, 67568647,, A
+        ; Send, ^+2
     } else if (pLanguage == 2052) {
         if (pShift) {
             cnPin_init()    
         } else {
-            Send, ^+3
+            PostMessage, 0x50, 0, 134481924,, A
+            ; Send, ^+3
         }
     } else if (pLanguage == 1042) {
         if (pShift) {
             MsgBox TODO Korean using Hangeul
         } else {
-            Send, ^+4
+            PostMessage, 0x50, 0, 67568658,, A
+            ; Send, ^+4
             koRom_init()
         }
     } else {
