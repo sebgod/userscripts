@@ -553,7 +553,7 @@ else if Button = NumPadLeft
 	}
 
 	MouseCurrentSpeedToSide *= -1
-	MouseCurrentSpeedToDirection *= -1
+	MouseCurrentSpeedToDirection *= -1
 	MouseMove, %MouseCurrentSpeedToDirection%, %MouseCurrentSpeedToSide%, 0, R
 }
 else if Button = NumPadRight
