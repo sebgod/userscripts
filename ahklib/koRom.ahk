@@ -2,22 +2,22 @@
 #Warn
 
 koRom_init() {
-	global koRom_initial
-	global koRom_medial
-	global koRom_final
-	
-	koRom_initial := -1
-	koRom_medial := -1
-	koRom_final := -1
+    global koRom_initial
+    global koRom_medial
+    global koRom_final
+    
+    koRom_initial := -1
+    koRom_medial := -1
+    koRom_final := -1
 }
 
 #If tfs_langCode == 1042000
 
 ~Backspace::
 if (koRom_medial >= 0) {
-	koRom_sendInitial(koRom_initial)
+    koRom_sendInitial(koRom_initial)
 } else {
-	koRom_initial := -1
+    koRom_initial := -1
 }
 return
 
@@ -125,87 +125,87 @@ return
 #If
 
 koROm_forceSyllableBoundary() {
-	global koRom_initial
-	global koRom_medial
-	
-	koRom_initial := -1
-	koRom_medial := -1
-	Send, {U+200B}
+    global koRom_initial
+    global koRom_medial
+    
+    koRom_initial := -1
+    koRom_medial := -1
+    Send, {U+200B}
 }
 
 koRom_sendInitialOrFinal(pInitial, pFinal) {
-	global koRom_initial
-	global koRom_medial
-	global koRom_final
+    global koRom_initial
+    global koRom_medial
+    global koRom_final
 }
 
 koRom_sendInitial(pInitial) {
-	global koRom_initial
-	global koRom_medial
-	koRom_initial := pInitial
-	koRom_medial := -1
-	Send, % Chr(koRom_initial + 0x1100)
+    global koRom_initial
+    global koRom_medial
+    koRom_initial := pInitial
+    koRom_medial := -1
+    Send, % Chr(koRom_initial + 0x1100)
 }
 
 koRom_sendFinal(pFinal) {
-	global koRom_initial
-	global koRom_medial
-	global koRom_final
-	
-	koRom_final := pFinal
-	
-	Send, {Left}{Del}
-	Send, % Chr(koRom_initial * 588
-	          + koRom_medial * 28
-			  + pFinal
-			  + 44032)
+    global koRom_initial
+    global koRom_medial
+    global koRom_final
+    
+    koRom_final := pFinal
+    
+    Send, {Left}{Del}
+    Send, % Chr(koRom_initial * 588
+              + koRom_medial * 28
+              + pFinal
+              + 44032)
 }
 
 koRom_sendInitialAndMedial(pMedial) {
-	global koRom_initial
-	global koRom_medial
-	global koRom_final
+    global koRom_initial
+    global koRom_medial
+    global koRom_final
 
-	; table from: http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
-	if (pMedial == 5) {					; ㅔ (e)
-		if (koRom_medial == 0) { 		; ㅏ (a)
-			koRom_medial := 1 			; ㅐ (ae)
-		} else if (koRom_medial == 2) { ; ㅑ (ya)
-			koRom_medial := 3			; ㅒ (yae)
-		} else if (koRom_medial == 9) {	; ㅘ (wa)
-			koRom_medial := 10			; ㅙ (wae)
-		} else if (koRom_medial == 8) { ; ㅗ (o)
-			koRom_medial := 11			; ㅚ (oe)
-		} else {
-			koRom_medial := 5
-		}
-	} else if (pMedial == 13) {			; ㅜ (u)
-		if (koRom_medial == 5) {		; ㅔ (e)
-			koRom_medial := 18			; ㅡ (eu)
-		} else {
-			koRom_medial := 13
-		}
-	} else if (pMedial == 8) {			; ㅗ (o)
-		if (koRom_medial == 5) {		; ㅔ (e)
-			koRom_medial := 4			; ㅓ (eo)
-		} else if (koRom_medial == 7) {	; ㅖ (ye)
-			koRom_medial := 6			; ㅕ (yeo)
-		} else if (koRom_medial == 15) { ; ㅞ (we)
-			koRom_medial := 14			; ㅝ (weo)
-		} else {
-			koRom_medial := 8
-		}
-	} else {
-		koRom_medial := pMedial
-	}
-	
-	if (koRom_initial < 0) {
-		koRom_initial := 0xb
-	} else {
-		Send, {Left}{Del}
-	}
-			
-	Send, % Chr(koRom_initial * 588
-	          + koRom_medial * 28
-			  + 44032)
+    ; table from: http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
+    if (pMedial == 5) {                    ; ㅔ (e)
+        if (koRom_medial == 0) {         ; ㅏ (a)
+            koRom_medial := 1             ; ㅐ (ae)
+        } else if (koRom_medial == 2) { ; ㅑ (ya)
+            koRom_medial := 3            ; ㅒ (yae)
+        } else if (koRom_medial == 9) {    ; ㅘ (wa)
+            koRom_medial := 10            ; ㅙ (wae)
+        } else if (koRom_medial == 8) { ; ㅗ (o)
+            koRom_medial := 11            ; ㅚ (oe)
+        } else {
+            koRom_medial := 5
+        }
+    } else if (pMedial == 13) {            ; ㅜ (u)
+        if (koRom_medial == 5) {        ; ㅔ (e)
+            koRom_medial := 18            ; ㅡ (eu)
+        } else {
+            koRom_medial := 13
+        }
+    } else if (pMedial == 8) {            ; ㅗ (o)
+        if (koRom_medial == 5) {        ; ㅔ (e)
+            koRom_medial := 4            ; ㅓ (eo)
+        } else if (koRom_medial == 7) {    ; ㅖ (ye)
+            koRom_medial := 6            ; ㅕ (yeo)
+        } else if (koRom_medial == 15) { ; ㅞ (we)
+            koRom_medial := 14            ; ㅝ (weo)
+        } else {
+            koRom_medial := 8
+        }
+    } else {
+        koRom_medial := pMedial
+    }
+    
+    if (koRom_initial < 0) {
+        koRom_initial := 0xb
+    } else {
+        Send, {Left}{Del}
+    }
+            
+    Send, % Chr(koRom_initial * 588
+              + koRom_medial * 28
+              + 44032)
 }

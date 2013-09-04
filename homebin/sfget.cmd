@@ -4,18 +4,18 @@ setlocal
 set file=%~1
 set usetype=0
 if [%file%]==[] (
-	mkdir B:\Temp
-	pushd B:\Temp
-	set file=listing.txt
-	set usetype=1
+    mkdir B:\Temp
+    pushd B:\Temp
+    set file=listing.txt
+    set usetype=1
 ) else (
-	pushd %userprofile%\Videos
+    pushd %userprofile%\Videos
 )
 
 wget -N "http://sfip1.no-ip.org:27081/%file%"
 
 if %usetype% equ 1 (
-	type %file%
+    type %file%
 )
 
 popd

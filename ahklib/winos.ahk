@@ -5,10 +5,10 @@ Envget,LocalAppData, LOCALAPPDATA
 Envget,SessionName, SESSIONNAME
 
 if A_Is64bitOS {
-	EnvGet,Prog32, ProgramFiles(x86)
-	EnvGet,Prog64, ProgramFiles
+    EnvGet,Prog32, ProgramFiles(x86)
+    EnvGet,Prog64, ProgramFiles
 } else {
-	EnvGet,Prog32, ProgramFiles
+    EnvGet,Prog32, ProgramFiles
 }
 
 winos_GetTimestampUTC() { ; http://msdn.microsoft.com/en-us/library/ms724390
@@ -23,8 +23,8 @@ winos_GetTimestampUTC() { ; http://msdn.microsoft.com/en-us/library/ms724390
 }
 
 winos_isotime_now() {
-	UTCTimestamp := winos_GetTimestampUTC()
-	UTCFormatStr := "yyyy-MM-dd'T'HH:mm:ss'Z'"
-	FormatTime, TimeStr, %UTCTimestamp%, %UTCFormatStr%
-	return %TimeStr%
+    UTCTimestamp := winos_GetTimestampUTC()
+    UTCFormatStr := "yyyy-MM-dd'T'HH:mm:ss'Z'"
+    FormatTime, TimeStr, %UTCTimestamp%, %UTCFormatStr%
+    return %TimeStr%
 }

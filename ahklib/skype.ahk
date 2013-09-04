@@ -123,12 +123,12 @@ SkypeReceive(wParam, lParam) {
         ;---------------------------------------------------------------------------
         lpDataAddress += 1
     }
-	
-	;---------------------------------------------------------------------------
-	; lpData contains the address of the string to be copied
-	; (must be a zero-terminated string)
-	;---------------------------------------------------------------------------
-	DataLength := DllCall("lstrlen", UInt, lpData)
+    
+    ;---------------------------------------------------------------------------
+    ; lpData contains the address of the string to be copied
+    ; (must be a zero-terminated string)
+    ;---------------------------------------------------------------------------
+    DataLength := DllCall("lstrlen", UInt, lpData)
     If DataLength <= 0
         Control, EditPaste, A blank string was received or there was an error`r`n,, ahk_id %hSkypeText%
     Else
@@ -142,14 +142,14 @@ SkypeReceive(wParam, lParam) {
             tooltip, %TextReceived%
             sleep, 999
             Tooltip ;clear tooltip
-		}
-	}    
-	if textReceived not contains DURATION
-	{
+        }
+    }    
+    if textReceived not contains DURATION
+    {
         Control, EditPaste, %textReceived%`r`n,, ahk_id %hSkypeText%
         ;msgbox, %textReceived%
         controlsend, EditPaste, ^{End},, ahk_id %hSkypeText%
-	}
+    }
    
     Return true
 }

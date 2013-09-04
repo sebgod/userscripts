@@ -11,10 +11,10 @@ FileEncoding, UTF-8
 CoordMode, Mouse, Screen
 
 if (0 > 0) {
-	Desktop := 0
-	desktops_writereg(Desktop)
+    Desktop := 0
+    desktops_writereg(Desktop)
 } else {
-	Desktop := desktops_readreg()
+    Desktop := desktops_readreg()
 }
 
 #Include <winos>
@@ -26,14 +26,14 @@ tfs_init()
 desktops_seticon()
 
 if (Desktop > 0) {
-	vistaswitcher_startup()
+    vistaswitcher_startup()
 }
 
 winshell_init()
 winshell_active_loop()
 
 OnClipboardChange: 
-	winshell_onclipboardchange()
+    winshell_onclipboardchange()
 return
 
 #Include <accents>
@@ -68,10 +68,10 @@ CapsLock & left::desktops_left(Desktop)
 ~#Space::tfs_winSpaceHandler()
 
 #UseHook ON
-; en: 67569673	2057
-; de: 67568647	1031
-; ch: 134481924	2052
-; ko: 67568658	1042
+; en: 67569673    2057
+; de: 67568647    1031
+; ch: 134481924    2052
+; ko: 67568658    1042
 CapsLock & k::tfs_switch(1042, GetKeyState("shift"))
 CapsLock & c::tfs_switch(2052, GetKeyState("shift"))
 CapsLock & g::tfs_switch(1031, GetKeyState("shift"))

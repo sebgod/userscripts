@@ -4,8 +4,8 @@ setlocal
 set prologFile=%~1
 set prologFile=%prologFile:\=/%
 if "%~1" == "" (
-	echo Please specify a file to edit
+    echo Please specify a file to edit
 ) else (
-	start swipl-win -g "edit(file('%prologFile%'))."
+    start swipl-win -g "edit(file('%prologFile%'))."
 )
 endlocal

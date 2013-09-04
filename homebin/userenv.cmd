@@ -2,12 +2,12 @@
 
 @set ProgramFiles32=%ProgramFiles(x86)%
 @if "%ProgramFiles32%" == "" (
-	@set ProgramFiles64=
-	@set ProgramFiles32=%ProgramFiles%
-	@set ProgramNative=%ProgramFiles%
+    @set ProgramFiles64=
+    @set ProgramFiles32=%ProgramFiles%
+    @set ProgramNative=%ProgramFiles%
 ) else (
-	@set ProgramFiles64=%ProgramW6432%
-	@set ProgramNative=%ProgramW6432%
+    @set ProgramFiles64=%ProgramW6432%
+    @set ProgramNative=%ProgramW6432%
 )
 
 @set git_url=http://msysgit.googlecode.com/
