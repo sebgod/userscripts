@@ -168,30 +168,30 @@ koRom_sendInitialAndMedial(pMedial) {
 
     ; table from: http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
     if (pMedial == 5) {                    ; ㅔ (e)
-        if (koRom_medial == 0) {         ; ㅏ (a)
-            koRom_medial := 1             ; ㅐ (ae)
-        } else if (koRom_medial == 2) { ; ㅑ (ya)
-            koRom_medial := 3            ; ㅒ (yae)
+        if (koRom_medial == 0) {           ; ㅏ (a)
+            koRom_medial := 1              ; ㅐ (ae)
+        } else if (koRom_medial == 2) {    ; ㅑ (ya)
+            koRom_medial := 3              ; ㅒ (yae)
         } else if (koRom_medial == 9) {    ; ㅘ (wa)
-            koRom_medial := 10            ; ㅙ (wae)
-        } else if (koRom_medial == 8) { ; ㅗ (o)
-            koRom_medial := 11            ; ㅚ (oe)
+            koRom_medial := 10             ; ㅙ (wae)
+        } else if (koRom_medial == 8) {    ; ㅗ (o)
+            koRom_medial := 11             ; ㅚ (oe)
         } else {
             koRom_medial := 5
         }
     } else if (pMedial == 13) {            ; ㅜ (u)
-        if (koRom_medial == 5) {        ; ㅔ (e)
-            koRom_medial := 18            ; ㅡ (eu)
+        if (koRom_medial == 5) {           ; ㅔ (e)
+            koRom_medial := 18             ; ㅡ (eu)
         } else {
             koRom_medial := 13
         }
-    } else if (pMedial == 8) {            ; ㅗ (o)
-        if (koRom_medial == 5) {        ; ㅔ (e)
-            koRom_medial := 4            ; ㅓ (eo)
+    } else if (pMedial == 8) {             ; ㅗ (o)
+        if (koRom_medial == 5) {           ; ㅔ (e)
+            koRom_medial := 4              ; ㅓ (eo)
         } else if (koRom_medial == 7) {    ; ㅖ (ye)
-            koRom_medial := 6            ; ㅕ (yeo)
-        } else if (koRom_medial == 15) { ; ㅞ (we)
-            koRom_medial := 14            ; ㅝ (weo)
+            koRom_medial := 6              ; ㅕ (yeo)
+        } else if (koRom_medial == 15) {   ; ㅞ (we)
+            koRom_medial := 14             ; ㅝ (weo)
         } else {
             koRom_medial := 8
         }
