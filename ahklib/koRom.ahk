@@ -1,18 +1,26 @@
 ﻿#NoEnv
 #Warn
 
+; last call values:
+;   0: none
+;   1: initial
+;   2: medial
+;   3: final
+
 koRom_init() {
     global koRom_initial
     global koRom_medial
     global koRom_final
     global koRom_possibleInitial
     global koRom_yPressed
+    global koRom_lastCall
     
     koRom_initial := -1
     koRom_medial := -1
     koRom_final := -1
     koRom_possibleInitial := -1
     koRom_yPressed := 0
+    koRom_lastCall := 0
 }
 
 #If tfs_langCode == 1042000
@@ -25,6 +33,35 @@ if (koRom_medial >= 0) {
     koRom_initial := -1
 }
 return
+
+*~Space::koRom_init()
+*~Enter::koRom_init()
+; it is not a comment
+*~`;::koRom_init()
+*~.::koRom_recognizeHangeul()
+*~,::koRom_recognizeHangeul()
+*~?::koRom_recognizeHangeul()
+*~=::koRom_recognizeHangeul()
+*~(::koRom_recognizeHangeul()
+*~)::koRom_recognizeHangeul()
+*~/::koRom_recognizeHangeul()
+*~$::koRom_recognizeHangeul()
+*~-::koRom_recognizeHangeul()
+*~'::koRom_recognizeHangeul()
+*~_::koRom_recognizeHangeul()
+*~"::koRom_init() ; this comment is only for the Notepad++ syntax analyzer"
+
+koRom_recognizeHangeul() {
+    global koRom_initial
+    global koRom_medial
+    global koRom_final
+
+    koRom_recognized := Chr(koRom_initial * 588
+              + koRom_medial * 28
+              + pFinal
+              + 44032)
+    koRom_init()
+}
 
 ; consonants
 
@@ -67,12 +104,10 @@ koRom_sendInitialAndMedial(16)
 return
 
 :C*?:y::
-koRom_final := -1
 koRom_yPressed := 1
 return
 
 :C*?:z::
-koRom_final := -1
 koRom_yPressed := 1
 return
 
@@ -152,11 +187,13 @@ koRom_sendInitial(pInitial) {
     global koRom_medial
     global koRom_final
     global koRom_possibleInitial
+    global koRom_lastCall
     
     koRom_initial := pInitial
     koRom_medial := -1
     koRom_final := -1
     koRom_possibleInitial := -1
+    koRom_lastCall := 1
     Send, % Chr(koRom_initial + 0x1100)
 }
 
@@ -164,8 +201,10 @@ koRom_sendFinal(pFinal) {
     global koRom_initial
     global koRom_medial
     global koRom_final
+    global koRom_lastCall
     
     koRom_final := pFinal
+    koRom_lastCall := 3
     
     Send, {Left}{Del}
     Send, % Chr(koRom_initial * 588
@@ -180,6 +219,7 @@ koRom_sendInitialAndMedial(pMedial) {
     global koRom_final
     global koRom_possibleInitial
     global koRom_yPressed
+    global koRom_lastCall
     
     if (koRom_possibleInitial > 0) {
         Send, {Left}{Del}
@@ -188,8 +228,6 @@ koRom_sendInitialAndMedial(pMedial) {
               + 44032)
         koRom_initial := koRom_possibleInitial
         koRom_final := -1
-        
-        winshell_ShowSplash(1000, 500, 0, "carry! arg=" . pMedial)
     }
     
     prevMedial := koRom_medial
@@ -230,19 +268,25 @@ koRom_sendInitialAndMedial(pMedial) {
         koRom_medial := pMedial
     }
     
-    
-    if (koRom_possibleInitial <= 0 && (pMedial <> koRom_medial && koRom_yPressed == 0) || ( prevMedial < 0 ) ) {
+    isCompound := pMedial <> koRom_medial
+    if (koRom_possibleInitial <= 0 && (isCompound && koRom_yPressed == 0) || (prevMedial < 0) ) {
         Send, {Left}{Del}
-        winshell_ShowSplash(1000, 500, 0, "del! arg=" . pMedial . " pi=" . koRom_possibleInitial)
     }
     
     if (koRom_initial < 0) {
         koRom_initial := 0xb
-    } 
+    } else {
+        plainOnPlain := koRom_lastCall == 2 && prevMedial > 0 && !isCompound
+        yCombOnPlain := koRom_lastCall <> 1 && koRom_yPressed == 1 && koRom_final <= 0
+        if (plainOnPlain || yCombOnPlain) {
+            koRom_initial := 0xb
+        }
+    }
 
     koRom_yPressed := 0
     koRom_possibleInitial := -1
-            
+    koRom_lastCall := 2
+      
     Send, % Chr(koRom_initial * 588
               + koRom_medial * 28
               + 44032)
