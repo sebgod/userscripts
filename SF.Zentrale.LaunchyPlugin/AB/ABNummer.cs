@@ -122,10 +122,15 @@ namespace SF.Zentrale.LaunchyPlugin.AB
             {
                 case Satztyp.Angebot:
 
-                    if (fuzzy.Length == 9)
-                        fuzzy = "20" + fuzzy;
-                    else if (fuzzy.Length == 5)
-                        fuzzy = created.Value.Year + fuzzy;
+                    switch (fuzzy.Length)
+                    {
+                        case 9:
+                            fuzzy = "20" + fuzzy;
+                            break;
+                        case 5:
+                            fuzzy = created.Value.Year + fuzzy;
+                            break;
+                    }
 
                     if (fuzzy.Length == 9
                         && ushort.TryParse(fuzzy.Substring(0, 4), out year)
@@ -141,10 +146,15 @@ namespace SF.Zentrale.LaunchyPlugin.AB
                 case Satztyp.Auftrag:
                 case Satztyp.Reklamation:
 
-                    if (fuzzy.Length == 8)
-                        fuzzy = "20" + fuzzy;
-                    else if (fuzzy.Length == 4)
-                        fuzzy = created.Value.Year + fuzzy;
+                    switch (fuzzy.Length)
+                    {
+                        case 8:
+                            fuzzy = "20" + fuzzy;
+                            break;
+                        case 4:
+                            fuzzy = created.Value.Year + fuzzy;
+                            break;
+                    }
 
                     if (fuzzy.Length == 8
                         && ushort.TryParse(fuzzy.Substring(0, 4), out year)
