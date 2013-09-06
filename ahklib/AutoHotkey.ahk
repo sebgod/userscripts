@@ -128,11 +128,3 @@ Esc::send, ^w
 #a::
 winshell_toggle_alwaysOnTop()
 return
-
-#+m::
-Send, !{SPACE}
-Send, R
-Send, !{SPACE}
-Send, M
-Send, {UP}
-return
