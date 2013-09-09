@@ -21,7 +21,7 @@ if (0 > 0) {
 #include <vistaswitcher>
 #Include <winshell>
 
-tfs_init()
+tsf_init()
 
 desktops_seticon()
 
@@ -43,7 +43,14 @@ Esc::send, ^{Backspace}exit{Enter}
 #IfWinActive
 
 #IfWinActive ahk_class VirtualConsoleClass
-Esc::send, ^{Backspace}exit{Enter}
+Esc::
+    WinGetTitle, vcc_title
+    if (RegExMatch(vcc_title, "Debian|VIM") == 0) {
+        send, ^{Backspace}exit{Enter}    
+    } else {
+        send, {Esc}
+    }
+return
 #IfWinActive
 
 #IfWinActive ahk_class tSkMainForm
@@ -65,18 +72,18 @@ CapsLock & left::desktops_left(Desktop)
 #UseHook Off
 
 ; language switching
-~#Space::tfs_winSpaceHandler()
+~#Space::tsf_winSpaceHandler()
 
 #UseHook ON
 ; en: 67569673    2057
 ; de: 67568647    1031
 ; ch: 134481924    2052
 ; ko: 67568658    1042
-CapsLock & k::tfs_switch(1042, GetKeyState("shift"))
-CapsLock & c::tfs_switch(2052, GetKeyState("shift"))
-CapsLock & g::tfs_switch(1031, GetKeyState("shift"))
-CapsLock & e::tfs_switch(2057, GetKeyState("shift"))
-CapsLock::tfs_toggle_language()
+CapsLock & k::tsf_switch(1042, GetKeyState("shift"))
+CapsLock & c::tsf_switch(2052, GetKeyState("shift"))
+CapsLock & g::tsf_switch(1031, GetKeyState("shift"))
+CapsLock & e::tsf_switch(2057, GetKeyState("shift"))
+CapsLock::tsf_toggle_language()
 
 ; Versal writing and ß and ẞ and ſ and accent handling
 CapsLock & ß::Send, ẞ

@@ -33,8 +33,10 @@ winshell_active_loop() {
     Loop { 
         WinExist("A")
         WinGet, wwna_id, ID
-        _locale := tfs_get_window_locale(wwna_id)
-        tfs_set_current_language(_locale, 0)
+        _locale := tsf_get_window_locale(wwna_id, _keyboard)
+        tsf_set_current_language(_locale, 0)
+        
+        OutputDebug, % "id: " . wwna_id . " kbd: " . _keyboard . " locale: " . _locale . "`n"
         WinWaitNotActive, ahk_id %wwna_id%
     }
 }
@@ -81,7 +83,7 @@ winshell_toggle_hidden_files() {
         RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced, Hidden, 2 
 
     WinGetClass, eh_Class,A 
-    If (eh_Class = "#32770" OR A_OSVersion = "WIN_8" OR A_OSVersion = "WIN_7" OR A_OSVersion = "WIN_VISTA") {
+    If (eh_Class == "#32770" OR A_OSVersion == "WIN_8" OR A_OSVersion == "WIN_7" OR A_OSVersion == "WIN_VISTA") {
         send, {F5}
     } Else {
         PostMessage, 0x111, 28931,,, A 
