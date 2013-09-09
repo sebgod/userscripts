@@ -118,6 +118,15 @@ Esc::send, !{F4}
 Esc::send, ^w
 #WheelDown::send, ^+{Tab}
 #WheelUp::send, ^{Tab}
+^Space::send, {Browser_Favorites}
+
+CapsLock & Left::
+Send, {Browser_Back}
+return
+
+CapsLock & Right::
+Send, {Browser_Forward}
+return
 #IfWinActive
 
 ; vista switcher
