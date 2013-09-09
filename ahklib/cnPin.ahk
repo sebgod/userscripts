@@ -6,12 +6,12 @@ cnPin_init() {
     
 }
 
-#If tfs_langCode <> 2052000
+#If tsf_langCode <> 2052000
 :*:Beijing::Bēijīng
 :*:Tianjin::Tiānjīn
 #if
 
-#If tfs_langCode == 2052001
+#If tsf_langCode == 2052001
 :*?C:ao1::āo
 :*?C:ao2::áo
 :*?C:ao3::ǎo

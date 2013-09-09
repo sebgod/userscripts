@@ -23,7 +23,7 @@ koRom_init() {
     koRom_lastCall := 0
 }
 
-#If tfs_langCode == 1042000
+#If tsf_langCode == 1042000
 
 ~Backspace::
 koRom_yPressed := 0
