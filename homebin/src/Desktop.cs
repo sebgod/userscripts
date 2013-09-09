@@ -1,6 +1,6 @@
 #region License
 // Desktop 1.1
-//																																							*
+//                                                                                                                                                            *
 // Copyright (C) 2004  http://www.onyeyiri.co.uk
 // Coded by: Nnamdi Onyeyiri
 //
@@ -603,7 +603,7 @@ namespace Onyeyiri
                 // something went wrong.
                 if (!result) return new string[0];
 
-                //	// turn the collection into an array.
+                //    // turn the collection into an array.
                 desktops = new string[m_sc.Count];
                 for(int i = 0; i < desktops.Length; i++) desktops[i] = m_sc[i];
             }
