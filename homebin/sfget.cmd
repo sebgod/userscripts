@@ -12,7 +12,7 @@ if [%file%]==[] (
     pushd %userprofile%\Videos
 )
 
-wget -N "http://sfip1.no-ip.org:27081/%file%"
+wget -c "http://sfip1.no-ip.org:27081/%file%"
 
 if %usetype% equ 1 (
     type %file%
