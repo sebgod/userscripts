@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2013-07-22 21:28:56">
+		<key name=".Vanilla" modified="2013-09-12 01:04:29">
 			<value name="ColorTable00" type="dword" data="00000000"/>
 			<value name="ColorTable01" type="dword" data="00800000"/>
 			<value name="ColorTable02" type="dword" data="00008000"/>
@@ -79,13 +79,13 @@
 			<value name="StoreTaskbarCommands" type="hex" data="01"/>
 			<value name="CmdLineHistory" type="multi"><line data="&quot;C:\Program Files (x86)\PuTTY\putty.exe&quot; -load &quot;DebianWheezySF&quot;"/><line data="%comspec% /k &quot;&quot;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\VsDevCmd.bat&quot;&quot;"/><line data="C:\Windows\System32\cmd.exe /u"/></value>
 			<value name="SingleInstance" type="hex" data="00"/>
-			<value name="ShowHelpTooltips" type="hex" data="01"/>
+			<value name="ShowHelpTooltips" type="hex" data="00"/>
 			<value name="Multi" type="hex" data="01"/>
 			<value name="Multi.ShowButtons" type="hex" data="01"/>
-			<value name="Multi.NumberInCaption" type="hex" data="00"/>
+			<value name="Multi.NumberInCaption" type="hex" data="01"/>
 			<value name="Multi.CloseConfirm" type="hex" data="00"/>
 			<value name="Multi.CloseEditViewConfirm" type="hex" data="00"/>
-			<value name="Multi.NewConfirm" type="hex" data="01"/>
+			<value name="Multi.NewConfirm" type="hex" data="00"/>
 			<value name="Multi.UseArrows" type="hex" data="00"/>
 			<value name="Multi.UseNumbers" type="hex" data="00"/>
 			<value name="Multi.UseWinTab" type="hex" data="00"/>
@@ -109,7 +109,7 @@
 			<value name="Anti-aliasing" type="dword" data="00000006"/>
 			<value name="FontBold" type="hex" data="01"/>
 			<value name="FontItalic" type="hex" data="00"/>
-			<value name="Monospace" type="hex" data="01"/>
+			<value name="Monospace" type="hex" data="00"/>
 			<value name="BackGround Image show" type="hex" data="00"/>
 			<value name="BackGround Image" type="string" data="c:\back.bmp"/>
 			<value name="bgImageDarker" type="hex" data="ff"/>
@@ -123,12 +123,12 @@
 			<value name="ColorKeyTransparent" type="hex" data="00"/>
 			<value name="ColorKeyValue" type="dword" data="00010101"/>
 			<value name="UseCurrentSizePos" type="hex" data="01"/>
-			<value name="WindowMode" type="dword" data="00000520"/>
-			<value name="ConWnd Width" type="dword" data="00000076"/>
-			<value name="ConWnd Height" type="dword" data="0000002f"/>
+			<value name="WindowMode" type="dword" data="0000051f"/>
+			<value name="ConWnd Width" type="dword" data="00000087"/>
+			<value name="ConWnd Height" type="dword" data="00000047"/>
 			<value name="Cascaded" type="hex" data="01"/>
-			<value name="ConWnd X" type="dword" data="00000022"/>
-			<value name="ConWnd Y" type="dword" data="0000009a"/>
+			<value name="ConWnd X" type="dword" data="00000000"/>
+			<value name="ConWnd Y" type="dword" data="00000000"/>
 			<value name="16bit Height" type="dword" data="00000000"/>
 			<value name="AutoSaveSizePos" type="hex" data="00"/>
 			<value name="IntegralSize" type="hex" data="00"/>
@@ -137,7 +137,7 @@
 			<value name="HideCaption" type="hex" data="00"/>
 			<value name="HideChildCaption" type="hex" data="01"/>
 			<value name="FocusInChildWindows" type="hex" data="01"/>
-			<value name="HideCaptionAlways" type="hex" data="00"/>
+			<value name="HideCaptionAlways" type="hex" data="01"/>
 			<value name="HideCaptionAlwaysFrame" type="hex" data="ff"/>
 			<value name="HideCaptionAlwaysDelay" type="dword" data="000007d0"/>
 			<value name="HideCaptionAlwaysDisappear" type="dword" data="000007d0"/>
@@ -186,7 +186,7 @@
 			<value name="SendAltPrintScrn" type="hex" data="00"/>
 			<value name="SendPrintScrn" type="hex" data="00"/>
 			<value name="SendCtrlEsc" type="hex" data="00"/>
-			<value name="Min2Tray" type="hex" data="00"/>
+			<value name="Min2Tray" type="hex" data="01"/>
 			<value name="AlwaysShowTrayIcon" type="hex" data="00"/>
 			<value name="SafeFarClose" type="hex" data="01"/>
 			<value name="SafeFarCloseMacro" type="string" data=""/>
@@ -274,7 +274,7 @@
 			<value name="AdminShowShield" type="hex" data="01"/>
 			<value name="HideInactiveConsoleTabs" type="hex" data="00"/>
 			<value name="ShowFarWindows" type="hex" data="01"/>
-			<value name="TryToCenter" type="hex" data="00"/>
+			<value name="TryToCenter" type="hex" data="01"/>
 			<value name="CenterConsolePad" type="dword" data="00000000"/>
 			<value name="ShowScrollbar" type="hex" data="02"/>
 			<value name="ScrollBarAppearDelay" type="dword" data="00000064"/>
@@ -286,7 +286,7 @@
 			<value name="SkipFocusEvents" type="hex" data="00"/>
 			<value name="MonitorConsoleLang" type="hex" data="03"/>
 			<value name="DesktopMode" type="hex" data="00"/>
-			<value name="SnapToDesktopEdges" type="hex" data="00"/>
+			<value name="SnapToDesktopEdges" type="hex" data="01"/>
 			<value name="AlwaysOnTop" type="hex" data="00"/>
 			<value name="SleepInBackground" type="hex" data="00"/>
 			<value name="MinimizeOnLoseFocus" type="hex" data="00"/>
@@ -483,9 +483,9 @@
 			<value name="DndLKey" type="hex" data="00"/>
 			<value name="DndRKey" type="hex" data="a2"/>
 			<value name="WndDragKey" type="dword" data="00121101"/>
-				<key name="Tasks" modified="2013-07-22 21:28:57">
-				<value name="Count" type="dword" data="00000004"/>
-						<key name="Task1" modified="2013-07-22 21:28:57">
+				<key name="Tasks" modified="2013-09-12 01:04:29">
+				<value name="Count" type="dword" data="00000005"/>
+						<key name="Task1" modified="2013-09-12 01:04:29">
 					<value name="Name" type="string" data="{Dev}"/>
 					<value name="GuiArgs" type="string" data=""/>
 					<value name="Cmd1" type="string" data="%comspec% /u /k &quot;chcp 65001&quot;"/>
@@ -493,21 +493,28 @@
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
-						<key name="Task2" modified="2013-07-22 21:28:57">
+						<key name="Task2" modified="2013-09-12 01:04:29">
+					<value name="Name" type="string" data="{Admin}"/>
+					<value name="GuiArgs" type="string" data=""/>
+					<value name="Cmd1" type="string" data="*%comspec% /u /k &quot;chcp 65001&quot;"/>
+					<value name="Active" type="dword" data="00000000"/>
+					<value name="Count" type="dword" data="00000001"/>
+				</key>
+						<key name="Task3" modified="2013-09-12 01:04:29">
 					<value name="Name" type="string" data="{Remove Server}"/>
 					<value name="GuiArgs" type="string" data="/icon &quot;putty.exe&quot; /single"/>
 					<value name="Cmd1" type="string" data="&quot;C:\Program Files (x86)\PuTTY\putty.exe&quot; -load &quot;DebianWheezySF&quot; "/>
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
-						<key name="Task3" modified="2013-07-22 21:28:57">
+						<key name="Task4" modified="2013-09-12 01:04:30">
 					<value name="Name" type="string" data="{Local Debian Wheezy [1]}"/>
 					<value name="GuiArgs" type="string" data="/icon putty.exe /single"/>
 					<value name="Cmd1" type="string" data="putty.exe -load &quot;DebianWheezy&quot; "/>
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
-						<key name="Task4" modified="2013-07-22 21:28:57">
+						<key name="Task5" modified="2013-09-12 01:04:30">
 					<value name="Name" type="string" data="{Msys}"/>
 					<value name="GuiArgs" type="string" data="/icon &quot;C:\MinGW\msys\1.0\msys.ico&quot;"/>
 					<value name="Cmd1" type="string" data="%comspec% /u /k &quot;sh --login -i&quot;"/>
@@ -515,10 +522,10 @@
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
 			</key>
-				<key name="Apps" modified="2013-07-22 21:28:57">
+				<key name="Apps" modified="2013-09-12 01:04:30">
 				<value name="Count" type="dword" data="00000000"/>
 			</key>
-				<key name="Colors" modified="2013-07-22 21:28:57">
+				<key name="Colors" modified="2013-09-12 01:04:30">
 				<value name="Count" type="dword" data="00000000"/>
 			</key>
 			<value name="OneTabPerGroup" type="hex" data="00"/>
