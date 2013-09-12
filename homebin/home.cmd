@@ -1,1 +1,1 @@
-@pushd %userprofile%
+@cd /D %userprofile%
