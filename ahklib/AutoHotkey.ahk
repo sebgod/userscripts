@@ -10,25 +10,11 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 FileEncoding, UTF-8
 CoordMode, Mouse, Screen
 
-if (0 > 0) {
-    Desktop := 0
-    desktops_writereg(Desktop)
-} else {
-    Desktop := desktops_readreg()
-}
-
 #Include <winos>
 #include <vistaswitcher>
 #Include <winshell>
 
 tsf_init()
-
-desktops_seticon()
-
-if (Desktop > 0) {
-    vistaswitcher_startup()
-}
-
 winshell_init()
 winshell_active_loop()
 
@@ -65,15 +51,10 @@ Esc::send, !{F4}
 Esc::send, !{F4}
 #IfWinActive
 
-; Sysinternals desktop movement
-#UseHook ON
-CapsLock & right::desktops_right(Desktop)
-CapsLock & left::desktops_left(Desktop) 
-#UseHook Off
-
 ; language switching
 ~#Space::tsf_winSpaceHandler()
 
+; ---------------------------------- HOOK START -------------------------------
 #UseHook ON
 ; en: 67569673    2057
 ; de: 67568647    1031
@@ -87,9 +68,10 @@ CapsLock::tsf_toggle_language()
 
 ; Versal writing and ß and ẞ and ſ and accent handling
 CapsLock & ß::Send, ẞ
-
 #UseHook OFF
+; ---------------------------------- HOOK END ---------------------------------
 
+; German helpers majuscle ß and fractured s and z
 :*?C:A?::Aẞ
 :*?C:E?::Eẞ
 :*?C:I?::Iẞ
@@ -102,14 +84,194 @@ CapsLock & ß::Send, ẞ
 <^>!s::Send, ſ
 <^>!z::Send, ʒ
 
-; Zero-Width space
-<^>!Space::Send, {U+200B}
+; AltGr and ^ enhancements
+<^>!c::Send, ©
+<^>!r::Send, ®
+<^>!t::Send, ™
+<^>!n::Send, ñ
+<^>!+e::Send, ë
+
+:B0*:^n::
+Send, {BS}{BS}ñ
+return
+
+:cB0*:^c::
+Send, {BS}{BS}ç
+return
+
+:cB0*:^C::
+Send, {BS}{BS}Ç
+return
+
+<^>!Space::Send, {U+200B} ; Zero-Width space
+
+; Compose key
+#if GetKeyState("Scrolllock", "T")
+::sunb::☀
+::sunw::☼
+::cloud::☁
+::thunderandrain::⛈
+::partlycloudy::⛅
+::umbrella::☂
+::umbrellarain::☔
+::rain::⛆
+::snowman::⛄
+::snowmans::☃
+::snowmanb::⛇
+::lightning::☇
+::thunderstorm::☈
+
+::coffee::☕
+::hotspring::♨
+::petrol::⛽
+::drivein::⛾
+::church::⛪
+::castle::⛫
+::golf::⛳
+::ferry::⛴
+::park::⛲
+::mountain::⛰
+::lighthouse::⛯
+::powerplant::⛮
+::historic::⛬
+::shinto::⛩
+::hospital::⛨
+::office::⛣
+::camp::⛺
+
+::gym::⛹
+::skate::⛸
+::ski::⛷
+::soccer::⚽
+::baseball::⚾
+
+::draughtsw::⛀
+::draughtsb::⛂
+::draughtskingw::⛁
+::draughtskingb::⛃
+
+::sharp::♯
+
+::comet::☄
+::starb::★
+::star::☆
+::sun::☉
+::mercury::☿
+::venus::♀
+::earth::♁
+::moonf::☽
+::moonl::☾
+::mars::♂
+::jupiter::♃
+::saturn::♄
+::uranus::♅
+::uranusa::⛢
+::pluto::♇
+::aries::♈
+::taurus::♉
+::gemini::♊
+::cancer::♋
+::leo::♌ 
+::virgo::♍
+::libra::♎
+::scorpius::♏
+::sagittarius::♐
+::capricorn::♑
+::aquarius::♒
+::pisces::♓
+::asc::☊
+::desc::☋
+::conjunction::☌
+::opposition::☍
+
+::telb::☎
+::telw::☏
+::med::⚕
+::wheelchair::♿
+::recyclew::♲
+::recycle1::♳
+::recylce2::♴
+::recylce3::♵
+::recylce4::♶
+::recylce5::♷
+::recylce6::♸
+::recylce7::♹
+::recylceg::♺
+::recycleb::♻
+
+::paperr::♼
+::paperpr::♽
+::paperp::♾
+
+::shogiw::☖
+::shogib::☗
+::die1::⚀
+::die2::⚁
+::die3::⚂
+::die4::⚃
+::die5::⚄
+::die6::⚅
+
+::ballot::☐
+::ballotc::☑
+::ballotx::☒
+
+::atom::⚛
+::poison::☠
+::radioactive::☢
+::biohazard::☣
+::caution::☡
+::warning::⚠
+::highvoltage::⚡
+
+::caduceus::☤
+::ankh::☥
+::lorraine::☨
+::russian_cross::☦
+::pope::☧
+::jerusalem::☩
+::islam::☪
+::fari::☫
+::cccp::☭
+::peace::☮
+::yinyang::☯
+::kheaven::☰
+::klake::☱
+::kfire::☲
+::kthunder::☳
+::kwind::☴
+::kwater::☵
+::kmountain::☶
+::keather::☷
+::dharma::☸
+::saltire::☓
+
+::luck::☘
+::fleur-de-lis::⚜
+
+::engaged::⚬
+::married::⚭
+::divorce::⚮
+::unmarriedpartner::⚯
+::gay::⚣
+::lesbian::⚣
+::hermaphrodite::⚥
+::eunuch::⚦
+::transgender::⚧
+::asexual::⚪
+
+::record::⚫
+
+::inf::∞
+::sum::Σ
+
+#if
 
 ; Insert a random uuid
 ^+g::guid_sendraw()
 
 ; Start X11 Desktop
-#+x::desktops_startx()
+#+x::Run config.xlaunch
 
 ; Start VirtualBox control window
 #v::Run VirtualBox

@@ -139,6 +139,8 @@
 ::fouette::fouetté
 ::frappe::frappé
 ::frappes::frappés
+::francais::français
+::francois::François
 :?*:fraulein::fräulein
 :?*:fuhrer::Führer
 ::garcon::garçon
@@ -184,6 +186,7 @@
 ::mesalliance::mésalliance
 ::metier::métier
 ::minaudiere::minaudière
+::misere::misère
 ::mobius strip::Möbius strip
 ::mobius strips::Möbius strips
 ::moire::moiré

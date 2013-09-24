@@ -9,9 +9,8 @@ winshell_ramdriveVolume() {
 
 winshell_UserIPCFolder() {
     global SessionName
-    global Desktop
     
-    return % winshell_ramdriveVolume() . A_UserName . "\" . SessionName . "_" . Desktop
+    return % winshell_ramdriveVolume() . A_UserName . "\" . SessionName
 }
 
 winshell_init() {
@@ -23,6 +22,8 @@ winshell_init() {
         } else {
             FileMoveDir, % ramDrive . "Clipboard", % ramDrive . "Temp", R
         }
+    } else if (!FileExist(ramDrive . "Temp")) {
+        FileCreateDir, % ramDrive . "Temp"
     }
     ; create user specific IPC folder (with clipboard folder)
     FileCreateDir, % winshell_UserIPCFolder() . "\Clipboard"
@@ -36,7 +37,7 @@ winshell_active_loop() {
         _locale := tsf_get_window_locale(wwna_id, _keyboard)
         tsf_set_current_language(_locale, 0)
         
-        OutputDebug, % "id: " . wwna_id . " kbd: " . _keyboard . " locale: " . _locale . "`n"
+        ; OutputDebug, % "id: " . wwna_id . " kbd: " . _keyboard . " locale: " . _locale . "`n"
         WinWaitNotActive, ahk_id %wwna_id%
     }
 }
