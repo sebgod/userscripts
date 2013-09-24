@@ -14,6 +14,7 @@ CoordMode, Mouse, Screen
 #include <vistaswitcher>
 #Include <winshell>
 
+Menu, Tray, Icon, % A_MyDocuments . "\AutoHotkey\lib\icons\enter_key.ico"
 tsf_init()
 winshell_init()
 winshell_active_loop()
