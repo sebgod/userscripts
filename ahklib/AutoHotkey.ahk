@@ -24,6 +24,7 @@ OnClipboardChange:
 return
 
 #Include <accents>
+#Include <composeKey>
 
 #IfWinActive ahk_class ConsoleWindowClass
 Esc::send, ^{Backspace}exit{Enter}
@@ -92,181 +93,17 @@ CapsLock & ß::Send, ẞ
 <^>!n::Send, ñ
 <^>!+e::Send, ë
 
-:B0*:^n::
-Send, {BS}{BS}ñ
-return
-
 :cB0*:^c::
-Send, {BS}{BS}ç
+Send, {BS 2}ç
 return
 
 :cB0*:^C::
-Send, {BS}{BS}Ç
+Send, {BS 2}Ç
 return
 
 <^>!Space::Send, {U+200B} ; Zero-Width space
 
-; Compose key
-#if GetKeyState("Scrolllock", "T")
-::sunb::☀
-::sunw::☼
-::cloud::☁
-::thunderandrain::⛈
-::partlycloudy::⛅
-::umbrella::☂
-::umbrellarain::☔
-::rain::⛆
-::snowman::⛄
-::snowmans::☃
-::snowmanb::⛇
-::lightning::☇
-::thunderstorm::☈
 
-::coffee::☕
-::hotspring::♨
-::petrol::⛽
-::drivein::⛾
-::church::⛪
-::castle::⛫
-::golf::⛳
-::ferry::⛴
-::park::⛲
-::mountain::⛰
-::lighthouse::⛯
-::powerplant::⛮
-::historic::⛬
-::shinto::⛩
-::hospital::⛨
-::office::⛣
-::camp::⛺
-
-::gym::⛹
-::skate::⛸
-::ski::⛷
-::soccer::⚽
-::baseball::⚾
-
-::draughtsw::⛀
-::draughtsb::⛂
-::draughtskingw::⛁
-::draughtskingb::⛃
-
-::sharp::♯
-
-::comet::☄
-::starb::★
-::star::☆
-::sun::☉
-::mercury::☿
-::venus::♀
-::earth::♁
-::moonf::☽
-::moonl::☾
-::mars::♂
-::jupiter::♃
-::saturn::♄
-::uranus::♅
-::uranusa::⛢
-::pluto::♇
-::aries::♈
-::taurus::♉
-::gemini::♊
-::cancer::♋
-::leo::♌ 
-::virgo::♍
-::libra::♎
-::scorpius::♏
-::sagittarius::♐
-::capricorn::♑
-::aquarius::♒
-::pisces::♓
-::asc::☊
-::desc::☋
-::conjunction::☌
-::opposition::☍
-
-::telb::☎
-::telw::☏
-::med::⚕
-::wheelchair::♿
-::recyclew::♲
-::recycle1::♳
-::recylce2::♴
-::recylce3::♵
-::recylce4::♶
-::recylce5::♷
-::recylce6::♸
-::recylce7::♹
-::recylceg::♺
-::recycleb::♻
-
-::paperr::♼
-::paperpr::♽
-::paperp::♾
-
-::shogiw::☖
-::shogib::☗
-::die1::⚀
-::die2::⚁
-::die3::⚂
-::die4::⚃
-::die5::⚄
-::die6::⚅
-
-::ballot::☐
-::ballotc::☑
-::ballotx::☒
-
-::atom::⚛
-::poison::☠
-::radioactive::☢
-::biohazard::☣
-::caution::☡
-::warning::⚠
-::highvoltage::⚡
-
-::caduceus::☤
-::ankh::☥
-::lorraine::☨
-::russian_cross::☦
-::pope::☧
-::jerusalem::☩
-::islam::☪
-::fari::☫
-::cccp::☭
-::peace::☮
-::yinyang::☯
-::kheaven::☰
-::klake::☱
-::kfire::☲
-::kthunder::☳
-::kwind::☴
-::kwater::☵
-::kmountain::☶
-::keather::☷
-::dharma::☸
-::saltire::☓
-
-::luck::☘
-::fleur-de-lis::⚜
-
-::engaged::⚬
-::married::⚭
-::divorce::⚮
-::unmarriedpartner::⚯
-::gay::⚣
-::lesbian::⚣
-::hermaphrodite::⚥
-::eunuch::⚦
-::transgender::⚧
-::asexual::⚪
-
-::record::⚫
-
-::inf::∞
-::sum::Σ
-
-#if
 
 ; Insert a random uuid
 ^+g::guid_sendraw()
