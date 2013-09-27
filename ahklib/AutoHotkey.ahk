@@ -45,6 +45,10 @@ return
 Esc::send, !{F4}
 #IfWinActive
 
+#IfWinActive ahk_class AcrobatSDIWindow
+ESC::Send, !{F4}
+#IfWinActive 
+
 #IfWinActive ahk_class ahk_class CalcFrame
 Esc::send, !{F4}
 #IfWinActive
@@ -102,8 +106,6 @@ Send, {BS 2}Ç
 return
 
 <^>!Space::Send, {U+200B} ; Zero-Width space
-
-
 
 ; Insert a random uuid
 ^+g::guid_sendraw()
