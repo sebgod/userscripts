@@ -32,8 +32,7 @@ winshell_init() {
 winshell_active_loop() {
     wwna_id := 0
     Loop { 
-        WinExist("A")
-        WinGet, wwna_id, ID
+        wwna_id := WinExist("A")
         _locale := tsf_get_window_locale(wwna_id, _keyboard)
         tsf_set_current_language(_locale, 0)
         
