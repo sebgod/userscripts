@@ -5,16 +5,17 @@
     @set ProgramFiles64=
     @set ProgramFiles32=%ProgramFiles%
     @set ProgramNative=%ProgramFiles%
+    @set OS_ARCH_BITNESS=32
 ) else (
     @set ProgramFiles64=%ProgramW6432%
     @set ProgramNative=%ProgramW6432%
+    @set OS_ARCH_BITNESS=64
 )
 
 @set git_url=http://msysgit.googlecode.com/
 @set git_version=PortableGit-1.8.3-preview20130601
 @set github_raw_url=https://raw.github.com/
 
-@set svn_version=svn-win32-1.6.16
 @set svn_basename=svnportable
 @set svn_url=http://sourceforge.net/projects/%svn_basename%/files/latest/download
 @set svn_version=v1.00BETA_(SVN_1.6.15)
