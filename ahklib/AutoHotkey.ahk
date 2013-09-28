@@ -40,22 +40,31 @@ Esc::
     }
 return
 #IfWinActive
-
+    
 #IfWinActive ahk_class tSkMainForm
 Esc::send, !{F4}
 #IfWinActive
 
 #IfWinActive ahk_class AcrobatSDIWindow
-ESC::Send, !{F4}
+ESC::Send, !{F4}    
 #IfWinActive 
 
-#IfWinActive ahk_class ahk_class CalcFrame
+#IfWinActive ahk_class CalcFrame
 Esc::send, !{F4}
 #IfWinActive
 
 #IfWInActive ahk_class Photo_Lightweight_Viewer
 Esc::send, !{F4}
 #IfWinActive
+
+#+t::
+Pwb :=  ComObjCreate("InternetExplorer.Application")
+Pwb.Visible:=True
+Pwb.Navigate("http://www.google.com") 
+Pwb.Navigate("http://stackoverflow.com", 2048)
+Pwb.Navigate("http://news.google.com", 2048)
+Pwb.Navigate("https://www.quora.com/", 2048)
+Return
 
 ; language switching
 ~#Space::tsf_winSpaceHandler()
@@ -122,19 +131,16 @@ return
 Esc::send, !{F4}
 #IfWinActive
 
-; internet explorer
 #IfWinActive ahk_class IEFrame
 Esc::send, ^w
-#WheelDown::send, ^+{Tab}
-#WheelUp::send, ^{Tab}
 ^Space::send, {Browser_Favorites}
 
-CapsLock & Left::
+CapsLock & Left::   
 Send, {Browser_Back}
 return
 
-CapsLock & Right::
-Send, {Browser_Forward}
+CapsLock & Right::  
+Send, {Browser_Forward} 
 return
 #IfWinActive
 
@@ -143,6 +149,23 @@ return
 #F12::vistaswitcher_show()
 
 ; Window shell script
-#a::
-winshell_toggle_alwaysOnTop()
-return
+#a::winshell_toggle_alwaysOnTop()
+
+; Assign right click and wheel movement to CTRL-Tab
+#if GetKeyState("RControl")
+*WheelDown::send, {Tab}
+*WheelUp::send, +{Tab}
+#if
+
+#if not GetKeyState("RControl")
++WheelDown::send, {RControl Down}+{Tab}
++WheelUp::send, {RControl Down}{Tab}
+#if
+
+#If GetKeyState("RControl")
+*~LShift UP::send, {RControl UP}
+#If
+
+#If not GetKeyState("RControl") and GetKeyState("LControl")
+*LWin::send, ^{Tab}
+#If
