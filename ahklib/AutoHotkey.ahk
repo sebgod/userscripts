@@ -135,11 +135,23 @@ Esc::send, !{F4}
 Esc::send, ^w
 ^Space::send, {Browser_Favorites}
 
-CapsLock & Left::   
+^+a::TabActivate("DSL Information", "ahk_id " . WinExist("A"))
+
+TabActivate(TabName, WinTitle="") {
+    ControlGet, hTabUI , hWnd,, DirectUIHWND3, % WinTitle=""? "ahk_class IEFrame":WinTitle
+    Tabs := Acc_ObjectFromWindow(hTabUI).accChild(1) ; access "Tabs" control
+    Loop, % Tabs.accChildCount {
+        if (Tabs.accChild(A_Index).accName(0) = TabName) {
+            return, Tabs.accChild(A_Index).accDoDefaultAction(0)
+        }
+    }
+}
+
+CapsLock & Left::
 Send, {Browser_Back}
 return
 
-CapsLock & Right::  
+CapsLock & Right::
 Send, {Browser_Forward} 
 return
 #IfWinActive
