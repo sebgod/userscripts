@@ -5,9 +5,11 @@
 ; those that may often not be accented either from a clash with an unaccented 
 ; word (resume).
 ;------------------------------------------------------------------------------
-::aesop::Æsop
 ::a bas::à bas
 ::a la::à la
+:C:Aero::Ærø
+:c:aesop::Æsop
+::aevum::ævum
 ::ancien regime::Ancien Régime
 ::angstrom::Ångström
 ::angstroms::Ångströms
@@ -142,13 +144,13 @@
 ::francais::français
 ::francois::François
 :?*:fraulein::fräulein
-:?*:fuhrer::Führer
+:?*:fuhrer::führer
 ::garcon::garçon
 ::garcons::garçons
 ::gateau::gâteau
 ::gateaus::gâteaus
 ::gateaux::gâteaux
-::gemutlichkeit::gemütlichkeit
+::gemutlichkeit::Gemütlichkeit
 ::glace::glacé
 ::glogg::glögg
 ::gewurztraminer::Gewürztraminer
@@ -178,6 +180,8 @@
 ::materiel::matériel
 ::matinee::matinée
 ::matinees::matinées
+::medieval::mediæval
+::mediaeval::mediæval
 ::melange::mélange
 ::melee::mêlée
 ::melees::mêlées
