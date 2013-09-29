@@ -131,39 +131,24 @@ return
 Esc::send, !{F4}
 #IfWinActive
 
+; Internet explorer enhancements
 #IfWinActive ahk_class IEFrame
 Esc::send, ^w
 ^Space::send, {Browser_Favorites}
+^+Space::winshell_IETabTreeGui()
 
-^+a::TabActivate("DSL Information", "ahk_id " . WinExist("A"))
-
-TabActivate(TabName, WinTitle="") {
-    ControlGet, hTabUI , hWnd,, DirectUIHWND3, % WinTitle=""? "ahk_class IEFrame":WinTitle
-    Tabs := Acc_ObjectFromWindow(hTabUI).accChild(1) ; access "Tabs" control
-    Loop, % Tabs.accChildCount {
-        if (Tabs.accChild(A_Index).accName(0) = TabName) {
-            return, Tabs.accChild(A_Index).accDoDefaultAction(0)
-        }
-    }
-}
-
-CapsLock & Left::
-Send, {Browser_Back}
-return
-
-CapsLock & Right::
-Send, {Browser_Forward} 
-return
+CapsLock & Left::Send, {Browser_Back}
+CapsLock & Right::Send, {Browser_Forward}
 #IfWinActive
-
-; vista switcher
-#F11::vistaswitcher_show(1)
-#F12::vistaswitcher_show()
 
 ; Window shell script
 #a::winshell_toggle_alwaysOnTop()
-#WheelUp::winshell_restoreWindow()
-#WheelDown::winshell_swapScreen()
+
+#PgUp::Send, #+{Right}
+#WheelUp::Send, #+{Right}
+
+#PgDn::Send, #+{Left}
+#WheelDown::Send #+{Left}
 
 ; Assign right click and wheel movement to CTRL-Tab
 #if GetKeyState("RControl")
