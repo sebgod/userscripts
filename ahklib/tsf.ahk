@@ -50,10 +50,12 @@ tsf_set_current_language(pLanguage, pShift) {
     tsf_current_shift_state := pShift
     tsf_langCode := tsf_current_language * 1000 + tsf_current_shift_state
     
-    if (tsf_current_language == tsf_korKO && tsf_current_shift_state == 0) {
-        koRom_init()
-    } else if (tsf_current_language == tsf_zhoCN && tsf_current_shift_state == 1) {
-        cnPin_init()
+    if (tsf_current_shift_state == 1) {
+        if (tsf_current_language == tsf_korKO) {
+            koRom_init()
+        } else if (tsf_current_language == tsf_zhoCN) {
+            cnPin_init()
+        }
     }
 }
 
@@ -88,13 +90,7 @@ tsf_switch(pLanguage, pShift) {
             PostMessage, 0x50, 0, % tsf_zhoCN_ime,, A
         }
     } else if (pLanguage == tsf_korKO) {
-        if (pShift) {
-            PostMessage, 0x50, 0, % tsf_korKO_ime,, A
-            Sleep, 200            
-            Send, {RAlt}
-        } else {
-            PostMessage, 0x50, 0, % tsf_korKO_ime,, A
-        }
+        PostMessage, 0x50, 0, % tsf_korKO_ime,, A
     } else {
         MsgBox % "Unhandled language: " . pLanguage
     }
