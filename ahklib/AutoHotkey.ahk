@@ -162,6 +162,8 @@ return
 
 ; Window shell script
 #a::winshell_toggle_alwaysOnTop()
+#WheelUp::winshell_restoreWindow()
+#WheelDown::winshell_swapScreen()
 
 ; Assign right click and wheel movement to CTRL-Tab
 #if GetKeyState("RControl")

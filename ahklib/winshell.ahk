@@ -27,6 +27,86 @@ winshell_init() {
     }
     ; create user specific IPC folder (with clipboard folder)
     FileCreateDir, % winshell_UserIPCFolder() . "\Clipboard"
+    
+    global screenLeftMonitorWidth   := 1600
+    global screenLeftMonitorHeight  := 900
+    global screenRightMonitorWidth  := 1920
+    global screenRightMonitorHeight := 1080
+}
+
+winshell_restoreWindow(windowTitle := "A") {
+    activeWindow := WinActive(windowTitle)
+    if activeWindow = 0
+    {
+        return
+    }
+    WinGet, minMax, MinMax, ahk_id %activeWindow%
+    if (minMax = 1) {
+        WinRestore, ahk_id %activeWindow%
+    } else {
+        WinMaximize, ahk_id %activeWindow%
+    }
+}
+
+/*
+    Source: http://www.autohotkey.com/board/topic/32874-moving-the-active-window-from-one-monitor-to-the-other/
+*/
+winshell_swapScreen(windowTitle := "A") {
+    global screenLeftMonitorWidth
+    global screenLeftMonitorHeight
+    global screenRightMonitorWidth
+    global screenRightMonitorHeight
+
+    activeWindow := WinActive(windowTitle)
+    borderThreshold := -10
+    if activeWindow = 0
+    {
+        return
+    }
+    WinGet, minMax, MinMax, ahk_id %activeWindow%
+    WinGetPos, x, y, width, height, ahk_id %activeWindow%
+    
+    if (minMax = 1) {
+        ; WinRestore, ahk_id %activeWindow%
+        ; a maximized window has x,y = -8,-8 on Windows 8
+        newY := y
+        if (x > borderThreshold) {
+            newX := x - screenLeftMonitorWidth
+            newWidth := screenLeftMonitorWidth   - screenRightMonitorWidth  + width
+            newHeight := screenLeftMonitorHeight - screenRightMonitorHeight + height
+        } else {
+            newX := x + screenLeftMonitorWidth
+            newWidth := screenRightMonitorWidth   - screenLeftMonitorWidth  + width
+            newHeight := screenRightMonitorHeight - screenLeftMonitorHeight + height
+        }
+    } else {
+        WinGetPos, x, y, width, height, ahk_id %activeWindow%
+        if (x > borderThreshold) {
+            xScale := screenLeftMonitorWidth / screenRightMonitorWidth
+            yScale := screenLeftMonitorHeight / screenRightMonitorHeight
+            newX := x * xScale
+            newY := y * yScale
+            newWidth := width * xScale
+            newHeight := height * yScale
+            newX := newX - screenLeftMonitorWidth
+        } else {
+            xScale := screenRightMonitorWidth / screenLeftMonitorWidth
+            yScale := screenRightMonitorHeight / screenLeftMonitorHeight
+            x := screenLeftMonitorWidth + x
+            newX := x * xScale
+            newY := y * yScale
+            newWidth := width * xScale
+            newHeight := height * yScale
+        }
+    }
+    WinMove, ahk_id %activeWindow%, , %newX%, %newY%, %newWidth%, %newHeight%
+    /*
+    if (minMax = 1) {
+        WinMaximize, ahk_id %activeWindow%
+    }
+    */
+    WinActivate ahk_id %activeWindow%  ;Needed - otherwise another window may overlap it
+    return
 }
 
 winshell_active_loop() {
