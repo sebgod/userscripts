@@ -9,6 +9,7 @@ koRom_clear() {
     global koRom_lastSeq := ""
 }
 
+
 koRom_backspace() {
     global koRom_lastSeq
     koRom_lastSeq := SubStr(koRom_lastSeq, 1, -1)
@@ -65,7 +66,8 @@ koRom_typed(typedChar) {
         
         if ( (lastChar == "Y")
           or koRom_isVowel(lastLastChar)
-          or (lastLastChar == "N") ) {
+          or (lastLastChar == "N") 
+          or (koRom_lastSeq == lastChar) ) {
             send, d
         }
                     
@@ -103,7 +105,7 @@ koRom_typed(typedChar) {
         }
         
         if (char == "f") {
-            send, delse 
+            send, d 
         } else if (char == "a") {
             send, k
         } else if (char == "e") {
