@@ -1,7 +1,7 @@
 call %~dp0userenv
 
 pushd %~dp0
-setlocal
+setlocal enabledelayedexpansion
 
 pushd %TEMP%
 wget -N %nirsoft_url%

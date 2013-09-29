@@ -34,6 +34,7 @@
 @set mono_lib_getline_file=migueldeicaza/muget/master/getline.cs
 @set mono_lib_getline_url=%github_raw_url%%mono_lib_getline_file%
 
+:: maybe use http://launcher.nirsoft.net/download.html
 @set nirsoft_www=www.nirsoft.net
 @set nirsoft_x64_zip=x64tools.zip
 @set nirsoft_url=http://%nirsoft_www%/packages/%nirsoft_x64_zip%
@@ -58,6 +59,10 @@
 
 @set npp_userdefinedlang_src=http://notepad-plus.sourceforge.net/commun/userDefinedLang/
 @set mercury_userlangxml=%npp_userdefinedlang_src%userDefineLang_Mercury.xml
+
+@set sagethumbs_version=2.0.0.17
+@set sagethumbs_setup=sagethumbs_%sagethumbs_version%_setup.exe
+@set sagethumbs_url=http://sagethumbs.googlecode.com/files/%sagethumbs_setup%
 
 @if not exist %~dp0api mkdir %~dp0api
 
