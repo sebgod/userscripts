@@ -58,12 +58,11 @@ koRom_typed(typedChar) {
         koRom_lastSeq := SubStr(koRom_lastSeq, 1, -1)
         StringRight, lastChar, koRom_lastSeq, 1
     }
+       
+    StringRight, lastTwoChars, koRom_lastSeq, 2
+    StringLeft,  lastLastChar, lastTwoChars, 1
     
     if (isComposed) {
-        
-        StringRight, lastTwoChars, koRom_lastSeq, 2
-        StringLeft,  lastLastChar, lastTwoChars, 1
-        
         if ( (lastChar == "Y")
           or koRom_isVowel(lastLastChar)
           or (lastLastChar == "N") 
@@ -74,8 +73,6 @@ koRom_typed(typedChar) {
         if (char == "e") {
             send, +p
         } else if (char == "i") {
-            if (lastChar == "y")
-                send, d
             send, l
         } else if (char == "o") {
             send, y
@@ -97,15 +94,50 @@ koRom_typed(typedChar) {
         lastIsVowel    := koRom_isVowel(lastChar)
         currentIsVowel := koRom_isVowel(char)
         
-        if (currentIsVowel) {
-            if ( ( lastIsVowel and !(lastChar == "w") )
-                or lastChar == "" or isUpperCase) {
-                send, d
+        isOE := ((lastChar == "o") or (lastChar == "O")) and (char == "e")
+        isUI := ((lastChar == "u") or (lastChar == "U")) and (char == "i")
+        isWX := ((lastChar == "w") or (lastChar == "W")) and currentIsVowel
+        isEU := ((lastChar == "e") or (lastChar == "E")) and (char == "u")
+        isEO := ((lastChar == "e") or (lastChar == "E")) and (char == "o")
+        isAE := ((lastChar == "a") or (lastChar == "A")) and (char == "e")
+        
+        isCombined := isOE or isUI or isWX or isEU or isEO or isAE
+        prependInitial := !isCombined and currentIsVowel 
+                      and (isUpperCase or (lastChar == ""))
+        
+        if (prependInitial) {
+            send, d
+        }
+        ; isWX and isUI expect the char matching below
+        if (isWX) {
+            if ( ((char == "a")) or (char == "ä")) {
+                send, h
+            } else if ( ((char == "e")) or (char == "i") or (char == "o")) {
+                send, n
             }
+            
+            if (char == "o") ; matching "wo"
+                char := "ö"
+        } else if (isUI) {
+            send, {BS}m
         }
         
         if (char == "f") {
             send, d 
+        } else if (isOE) {
+            send, l
+        } else if (isEU) {
+            send, {BS}m
+        } else if (isEO) {
+            if ((lastLastChar == "y" or lastLastChar == "Y"))
+                send, {BS}+u
+            else
+                send, {BS}j
+        } else if (isAE) {
+            if ((lastLastChar == "y" or lastLastChar == "Y"))
+                send, {BS}+o
+            else
+                send, {BS}o
         } else if (char == "a") {
             send, k
         } else if (char == "e") {
@@ -118,8 +150,6 @@ koRom_typed(typedChar) {
             send, m
         } else if (char == "i") {
             send, l
-        } else if (char == "w") {
-            send, n
         } else if (char == "u") {
             send, n
         } else if (char == "o") {
@@ -180,6 +210,7 @@ koRom_typed(typedChar) {
 ~*,::koRom_clear()
 q::koRom_clear()
 w::koRom_typed("w")
++w::koRom_typed("W")
 e::koRom_typed("e")
 +e::koRom_typed("E")
 r::koRom_typed("l")
