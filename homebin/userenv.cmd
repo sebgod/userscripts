@@ -15,6 +15,7 @@
 @set git_url=http://msysgit.googlecode.com/
 @set git_version=PortableGit-1.8.3-preview20130601
 @set github_raw_url=https://raw.github.com/
+@set github_ownrepo=https://github.com/sebgod/
 
 @set svn_basename=svnportable
 @set svn_url=http://sourceforge.net/projects/%svn_basename%/files/latest/download
@@ -63,6 +64,9 @@
 @set sagethumbs_version=2.0.0.17
 @set sagethumbs_setup=sagethumbs_%sagethumbs_version%_setup.exe
 @set sagethumbs_url=http://sagethumbs.googlecode.com/files/%sagethumbs_setup%
+
+@set xecho_proj=Win32ConEcho
+@set xecho_url=%github_ownrepo%%xecho_proj%/archive/master.zip
 
 @if not exist %~dp0api mkdir %~dp0api
 
