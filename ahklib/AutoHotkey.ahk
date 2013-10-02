@@ -57,13 +57,9 @@ Esc::send, !{F4}
 Esc::send, !{F4}
 #IfWinActive
 
-#+t::
+#+e::
 Pwb :=  ComObjCreate("InternetExplorer.Application")
 Pwb.Visible:=True
-Pwb.Navigate("http://www.google.com") 
-Pwb.Navigate("http://stackoverflow.com", 2048)
-Pwb.Navigate("http://news.google.com", 2048)
-Pwb.Navigate("https://www.quora.com/", 2048)
 Return
 
 ; language switching

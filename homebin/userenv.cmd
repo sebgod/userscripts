@@ -65,8 +65,8 @@
 @set sagethumbs_setup=sagethumbs_%sagethumbs_version%_setup.exe
 @set sagethumbs_url=http://sagethumbs.googlecode.com/files/%sagethumbs_setup%
 
-@set xecho_proj=Win32ConEcho
-@set xecho_url=%github_ownrepo%%xecho_proj%/archive/master.zip
+@set unicodeconsole_proj=UnicodeConsole
+@set unicodeconsole_url=%github_ownrepo%%unicodeconsole_proj%/archive/master.zip
 
 @if not exist %~dp0api mkdir %~dp0api
 

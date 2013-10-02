@@ -1,4 +1,4 @@
-call %~dp0userenv
+@call %~dp0userenv
 
 wget -P%TEMP% -N "%sagethumbs_url%"
 
