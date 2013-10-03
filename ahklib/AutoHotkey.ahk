@@ -146,6 +146,11 @@ CapsLock & Right::Send, {Browser_Forward}
 #PgDn::Send, #+{Left}
 #WheelDown::Send #+{Left}
 
+~#t::
+    WinGetPos, taskBarX, taskbarY, taskbarW, taskbarH, ahk_class Shell_TrayWnd
+    DllCall("SetCursorPos", int, taskBarX + 100, int, taskbarY + (taskbarH / 2))
+return
+
 ; Assign right click and wheel movement to CTRL-Tab
 #if GetKeyState("RControl")
 *WheelDown::send, {Tab}
