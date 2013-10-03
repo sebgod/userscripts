@@ -69,7 +69,7 @@ Return
 #UseHook ON
 ; en: 67569673    2057
 ; de: 67568647    1031
-; ch: 134481924    2052
+; ch: 134481924   2052
 ; ko: 67568658    1042
 CapsLock & k::tsf_switch(1042, GetKeyState("shift"))
 CapsLock & c::tsf_switch(2052, GetKeyState("shift"))
