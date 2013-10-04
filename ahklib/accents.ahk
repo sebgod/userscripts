@@ -214,6 +214,8 @@
 ::noël::Noël
 ::noëls::Noëls
 ::número uno::número uno
+::oeuvre::œuvre
+::oeuvres::œuvres
 ::objet trouve::objet trouvé
 ::objets trouve::objets trouvé
 ::onomatopoeia::onomatopœia
@@ -240,7 +242,7 @@
 ::pirana::piraña
 ::pique::piqué
 ::piqued::piquéd
-::più::più
+::piu::più
 ::plie::plié
 ::precis::précis
 ::polsa::pölsa
