@@ -1,4 +1,9 @@
-﻿;------------------------------------------------------------------------------
+﻿enGB_init() {
+
+}
+
+#if tsf_langCode == 2057000
+;------------------------------------------------------------------------------
 ; Accented English words, from, amongst others,
 ; http://en.wikipedia.org/wiki/List_of_English_words_with_diacritics
 ; I have included all the ones compatible with reasonable codepages, and placed
@@ -307,3 +312,5 @@
 ::vis a vis::vis à vis
 ::vis-a-vis::vis-à-vis
 ::voila::voilà
+;; #If tsf_langCode == 0x0809000
+#If

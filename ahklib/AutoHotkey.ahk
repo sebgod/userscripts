@@ -23,7 +23,6 @@ OnClipboardChange:
     winshell_onclipboardchange()
 return
 
-#Include <accents>
 #Include <composeKey>
 
 #IfWinActive ahk_class ConsoleWindowClass

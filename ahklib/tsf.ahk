@@ -45,6 +45,7 @@ tsf_set_current_language(pLanguage, pShift) {
     
     global tsf_zhoCN
     global tsf_korKO
+    global tsf_engGB
     
     tsf_current_language := pLanguage
     tsf_current_shift_state := pShift
@@ -56,6 +57,10 @@ tsf_set_current_language(pLanguage, pShift) {
         } else if (tsf_current_language == tsf_zhoCN) {
             cnPin_init()
         }
+    }
+    
+    if (tsf_current_language == tsf_engGB) {
+        enGB_init()
     }
 }
 
