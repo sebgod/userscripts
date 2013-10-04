@@ -100,6 +100,8 @@
 ::derriere::derrière
 ::deshabille::déshabillé
 ::detente::détente
+::diarrhea::diarrhœa
+::diarrhoea::diarrhœa
 ::diamante::diamanté
 ::discotheque::discothèque
 ::discotheques::discothèques
@@ -214,6 +216,8 @@
 ::número uno::número uno
 ::objet trouve::objet trouvé
 ::objets trouve::objets trouvé
+::onomatopoeia::onomatopœia
+::onomatopoeias::onomatopœias
 ::ombre::ombré
 ::ombres::ombrés
 ::omerta::omertà
@@ -286,6 +290,7 @@
 ::souffles::soufflés
 ::soupcon::soupçon
 ::soupcons::soupçons
+::subpoena::subpœna
 ::surstromming::surströmming
 ::tete-a-tete::tête-à-tête
 ::tete-a-tetes::tête-à-têtes
