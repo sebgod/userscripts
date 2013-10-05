@@ -1,5 +1,5 @@
-homebin/tidy.exe
 homebin/api/
+homebin/data/
 SF.Zentrale.Launchy/*.db
 *-icon-cache
 SF.Zentrale.Launchy/plugins/Sorpetaler.dll

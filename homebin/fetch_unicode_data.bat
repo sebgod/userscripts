@@ -7,7 +7,7 @@ for %%z in (UCD Unihan) do (
     7za x -Odata\%%z -y %unicode_temp%\%%z.zip
 )
 
-set unihan_data=data\Unihan
+set unihan_data=%~dp0data\Unihan
 mkdir %unihan_data%
 for %%R in (tr38) do (
     wget -P %unicode_temp%\%%R -N %unicode_reports%%%R/ 
