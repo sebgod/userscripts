@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2013-09-12 01:04:29">
-			<value name="ColorTable00" type="dword" data="00000000"/>
-			<value name="ColorTable01" type="dword" data="00800000"/>
+		<key name=".Vanilla" modified="2013-10-04 20:50:39">
+			<value name="ColorTable00" type="dword" data="003f3f3f"/>
+			<value name="ColorTable01" type="dword" data="00af6464"/>
 			<value name="ColorTable02" type="dword" data="00008000"/>
 			<value name="ColorTable03" type="dword" data="00808000"/>
-			<value name="ColorTable04" type="dword" data="00000080"/>
-			<value name="ColorTable05" type="dword" data="00800080"/>
-			<value name="ColorTable06" type="dword" data="00008080"/>
-			<value name="ColorTable07" type="dword" data="00c0c0c0"/>
-			<value name="ColorTable08" type="dword" data="00808080"/>
-			<value name="ColorTable09" type="dword" data="00ff0000"/>
-			<value name="ColorTable10" type="dword" data="0000ff00"/>
-			<value name="ColorTable11" type="dword" data="00ffff00"/>
-			<value name="ColorTable12" type="dword" data="000000ff"/>
-			<value name="ColorTable13" type="dword" data="00ff00ff"/>
-			<value name="ColorTable14" type="dword" data="0000ffff"/>
+			<value name="ColorTable04" type="dword" data="00232333"/>
+			<value name="ColorTable05" type="dword" data="00aa50aa"/>
+			<value name="ColorTable06" type="dword" data="0000dcdc"/>
+			<value name="ColorTable07" type="dword" data="00ccdcdc"/>
+			<value name="ColorTable08" type="dword" data="008080c0"/>
+			<value name="ColorTable09" type="dword" data="00ffafaf"/>
+			<value name="ColorTable10" type="dword" data="007f9f7f"/>
+			<value name="ColorTable11" type="dword" data="00d3d08c"/>
+			<value name="ColorTable12" type="dword" data="007071e3"/>
+			<value name="ColorTable13" type="dword" data="00c880c8"/>
+			<value name="ColorTable14" type="dword" data="00afdff0"/>
 			<value name="ColorTable15" type="dword" data="00ffffff"/>
-			<value name="ColorTable16" type="dword" data="00000000"/>
-			<value name="ColorTable17" type="dword" data="00800000"/>
+			<value name="ColorTable16" type="dword" data="003f3f3f"/>
+			<value name="ColorTable17" type="dword" data="00af6464"/>
 			<value name="ColorTable18" type="dword" data="00008000"/>
 			<value name="ColorTable19" type="dword" data="00808000"/>
-			<value name="ColorTable20" type="dword" data="00000080"/>
-			<value name="ColorTable21" type="dword" data="00800080"/>
-			<value name="ColorTable22" type="dword" data="00008080"/>
-			<value name="ColorTable23" type="dword" data="00c0c0c0"/>
-			<value name="ColorTable24" type="dword" data="00808080"/>
-			<value name="ColorTable25" type="dword" data="00ff0000"/>
-			<value name="ColorTable26" type="dword" data="0000ff00"/>
-			<value name="ColorTable27" type="dword" data="00ffff00"/>
-			<value name="ColorTable28" type="dword" data="000000ff"/>
-			<value name="ColorTable29" type="dword" data="00ff00ff"/>
-			<value name="ColorTable30" type="dword" data="0000ffff"/>
+			<value name="ColorTable20" type="dword" data="00232333"/>
+			<value name="ColorTable21" type="dword" data="00aa50aa"/>
+			<value name="ColorTable22" type="dword" data="0000dcdc"/>
+			<value name="ColorTable23" type="dword" data="00ccdcdc"/>
+			<value name="ColorTable24" type="dword" data="008080c0"/>
+			<value name="ColorTable25" type="dword" data="00ffafaf"/>
+			<value name="ColorTable26" type="dword" data="007f9f7f"/>
+			<value name="ColorTable27" type="dword" data="00d3d08c"/>
+			<value name="ColorTable28" type="dword" data="007071e3"/>
+			<value name="ColorTable29" type="dword" data="00c880c8"/>
+			<value name="ColorTable30" type="dword" data="00afdff0"/>
 			<value name="ColorTable31" type="dword" data="00ffffff"/>
 			<value name="ExtendColors" type="hex" data="00"/>
-			<value name="ExtendColorIdx" type="hex" data="0e"/>
+			<value name="ExtendColorIdx" type="hex" data="00"/>
 			<value name="TextColorIdx" type="hex" data="10"/>
 			<value name="BackColorIdx" type="hex" data="10"/>
 			<value name="PopTextColorIdx" type="hex" data="10"/>
@@ -62,10 +62,10 @@
 			<value name="ConVisible" type="hex" data="00"/>
 			<value name="ConInMode" type="dword" data="ffffffff"/>
 			<value name="UseInjects" type="hex" data="01"/>
-			<value name="SetDefaultTerminal" type="hex" data="00"/>
-			<value name="SetDefaultTerminalStartup" type="hex" data="00"/>
+			<value name="SetDefaultTerminal" type="hex" data="01"/>
+			<value name="SetDefaultTerminalStartup" type="hex" data="01"/>
 			<value name="DefaultTerminalNoInjects" type="hex" data="00"/>
-			<value name="DefaultTerminalConfirm" type="hex" data="01"/>
+			<value name="DefaultTerminalConfirm" type="hex" data="00"/>
 			<value name="DefaultTerminalApps" type="string" data="explorer.exe"/>
 			<value name="ProcessAnsi" type="hex" data="01"/>
 			<value name="UseClink" type="hex" data="01"/>
@@ -77,7 +77,7 @@
 			<value name="StartFarEditors" type="hex" data="00"/>
 			<value name="StoreTaskbarkTasks" type="hex" data="01"/>
 			<value name="StoreTaskbarCommands" type="hex" data="01"/>
-			<value name="CmdLineHistory" type="multi"><line data="&quot;C:\Program Files (x86)\PuTTY\putty.exe&quot; -load &quot;DebianWheezySF&quot;"/><line data="%comspec% /k &quot;&quot;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\VsDevCmd.bat&quot;&quot;"/><line data="C:\Windows\System32\cmd.exe /u"/></value>
+			<value name="CmdLineHistory" type="multi"><line data="&quot;&quot;C:\Users\sebastian\Documents\GitHub\UnicodeConsole\UnicodeConsole\bin\Debug\UnicodeConsole.exe&quot;  &quot;"/><line data="&quot;&quot;C:\Windows\system32\WindowsPowerShell\v1.0\PowerShell.exe&quot;  &quot;"/><line data="&quot;&quot;C:\Users\sebastian\Documents\GitHub\UnicodeConsole\build.cmd&quot;  &quot;"/><line data="&quot;&quot;C:\Users\sebastian\Documents\GitHub\UnicodeConsole\Win32ConEcho\test.cmd&quot;  &quot;"/><line data="&quot;&quot;C:\Users\sebastian\Documents\GitHub\UnicodeConsole\Win32ConEcho\build.cmd&quot;  &quot;"/><line data="&quot;&quot;C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe&quot;  &quot;"/><line data="&quot;C:\Users\sebastian\Documents\Visual Studio 2012\Projects\UnicodeConsole\bin\Debug\ConsoleApplication.exe&quot;"/><line data="&quot;C:\Program Files (x86)\PuTTY\putty.exe&quot; -load &quot;DebianWheezySF&quot;"/><line data="%comspec% /k &quot;&quot;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\VsDevCmd.bat&quot;&quot;"/><line data="C:\Windows\System32\cmd.exe /u"/></value>
 			<value name="SingleInstance" type="hex" data="00"/>
 			<value name="ShowHelpTooltips" type="hex" data="00"/>
 			<value name="Multi" type="hex" data="01"/>
@@ -90,8 +90,8 @@
 			<value name="Multi.UseNumbers" type="hex" data="00"/>
 			<value name="Multi.UseWinTab" type="hex" data="00"/>
 			<value name="Multi.AutoCreate" type="hex" data="00"/>
-			<value name="Multi.LeaveOnClose" type="hex" data="00"/>
-			<value name="Multi.HideOnClose" type="hex" data="00"/>
+			<value name="Multi.LeaveOnClose" type="hex" data="01"/>
+			<value name="Multi.HideOnClose" type="hex" data="01"/>
 			<value name="Multi.MinByEsc" type="hex" data="02"/>
 			<value name="MapShiftEscToEsc" type="hex" data="01"/>
 			<value name="Multi.Iterate" type="hex" data="01"/>
@@ -115,7 +115,7 @@
 			<value name="bgImageDarker" type="hex" data="ff"/>
 			<value name="bgImageColors" type="dword" data="ffffffff"/>
 			<value name="bgOperation" type="hex" data="00"/>
-			<value name="bgPluginAllowed" type="hex" data="02"/>
+			<value name="bgPluginAllowed" type="hex" data="00"/>
 			<value name="AlphaValue" type="hex" data="ff"/>
 			<value name="AlphaValueSeparate" type="hex" data="00"/>
 			<value name="AlphaValueInactive" type="hex" data="ff"/>
@@ -135,7 +135,7 @@
 			<value name="QuakeStyle" type="hex" data="00"/>
 			<value name="QuakeAnimation" type="dword" data="0000012c"/>
 			<value name="HideCaption" type="hex" data="00"/>
-			<value name="HideChildCaption" type="hex" data="01"/>
+			<value name="HideChildCaption" type="hex" data="00"/>
 			<value name="FocusInChildWindows" type="hex" data="01"/>
 			<value name="HideCaptionAlways" type="hex" data="01"/>
 			<value name="HideCaptionAlwaysFrame" type="hex" data="ff"/>
@@ -148,7 +148,7 @@
 			<value name="DefaultBufferHeight" type="dword" data="000003e8"/>
 			<value name="AutoBufferHeight" type="hex" data="01"/>
 			<value name="CmdOutputCP" type="dword" data="00000002"/>
-			<value name="ComSpec.Type" type="hex" data="00"/>
+			<value name="ComSpec.Type" type="hex" data="01"/>
 			<value name="ComSpec.Bits" type="hex" data="00"/>
 			<value name="ComSpec.UpdateEnv" type="hex" data="00"/>
 			<value name="ComSpec.EnvAddPath" type="hex" data="01"/>
@@ -186,7 +186,7 @@
 			<value name="SendAltPrintScrn" type="hex" data="00"/>
 			<value name="SendPrintScrn" type="hex" data="00"/>
 			<value name="SendCtrlEsc" type="hex" data="00"/>
-			<value name="Min2Tray" type="hex" data="01"/>
+			<value name="Min2Tray" type="hex" data="00"/>
 			<value name="AlwaysShowTrayIcon" type="hex" data="00"/>
 			<value name="SafeFarClose" type="hex" data="01"/>
 			<value name="SafeFarCloseMacro" type="string" data=""/>
@@ -483,9 +483,9 @@
 			<value name="DndLKey" type="hex" data="00"/>
 			<value name="DndRKey" type="hex" data="a2"/>
 			<value name="WndDragKey" type="dword" data="00121101"/>
-				<key name="Tasks" modified="2013-09-12 01:04:29">
+				<key name="Tasks" modified="2013-10-04 20:50:39">
 				<value name="Count" type="dword" data="00000005"/>
-						<key name="Task1" modified="2013-09-12 01:04:29">
+						<key name="Task1" modified="2013-10-04 20:50:39">
 					<value name="Name" type="string" data="{Dev}"/>
 					<value name="GuiArgs" type="string" data=""/>
 					<value name="Cmd1" type="string" data="%comspec% /u /k &quot;chcp 65001&quot;"/>
@@ -493,28 +493,28 @@
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
-						<key name="Task2" modified="2013-09-12 01:04:29">
+						<key name="Task2" modified="2013-10-04 20:50:39">
 					<value name="Name" type="string" data="{Admin}"/>
 					<value name="GuiArgs" type="string" data=""/>
 					<value name="Cmd1" type="string" data="*%comspec% /u /k &quot;chcp 65001&quot;"/>
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
-						<key name="Task3" modified="2013-09-12 01:04:29">
+						<key name="Task3" modified="2013-10-04 20:50:39">
 					<value name="Name" type="string" data="{Remove Server}"/>
 					<value name="GuiArgs" type="string" data="/icon &quot;putty.exe&quot; /single"/>
 					<value name="Cmd1" type="string" data="&quot;C:\Program Files (x86)\PuTTY\putty.exe&quot; -load &quot;DebianWheezySF&quot; "/>
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
-						<key name="Task4" modified="2013-09-12 01:04:30">
+						<key name="Task4" modified="2013-10-04 20:50:39">
 					<value name="Name" type="string" data="{Local Debian Wheezy [1]}"/>
 					<value name="GuiArgs" type="string" data="/icon putty.exe /single"/>
 					<value name="Cmd1" type="string" data="putty.exe -load &quot;DebianWheezy&quot; "/>
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
-						<key name="Task5" modified="2013-09-12 01:04:30">
+						<key name="Task5" modified="2013-10-04 20:50:39">
 					<value name="Name" type="string" data="{Msys}"/>
 					<value name="GuiArgs" type="string" data="/icon &quot;C:\MinGW\msys\1.0\msys.ico&quot;"/>
 					<value name="Cmd1" type="string" data="%comspec% /u /k &quot;sh --login -i&quot;"/>
@@ -522,10 +522,10 @@
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
 			</key>
-				<key name="Apps" modified="2013-09-12 01:04:30">
+				<key name="Apps" modified="2013-10-04 20:50:39">
 				<value name="Count" type="dword" data="00000000"/>
 			</key>
-				<key name="Colors" modified="2013-09-12 01:04:30">
+				<key name="Colors" modified="2013-10-04 20:50:39">
 				<value name="Count" type="dword" data="00000000"/>
 			</key>
 			<value name="OneTabPerGroup" type="hex" data="00"/>
