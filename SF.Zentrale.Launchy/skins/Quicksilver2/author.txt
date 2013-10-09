@@ -1,5 +1,0 @@
-Skin Title: Quicksilver 2
-
-Author: Juan Ignacio Serra
-
-Version: 1.0
