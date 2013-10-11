@@ -33,7 +33,7 @@ Esc::send, ^{Backspace}exit{Enter}
 Esc::
     WinGetTitle, vcc_title
     if (RegExMatch(vcc_title, "Debian|VIM") == 0) {
-        send, ^{Backspace}exit{Enter}    
+        send, {Home}exit{Space}{Enter}    
     } else {
         send, {Esc}
     }
