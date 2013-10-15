@@ -81,15 +81,7 @@ CapsLock & ß::Send, ẞ
 #UseHook OFF
 ; ---------------------------------- HOOK END ---------------------------------
 
-; German helpers majuscle ß and fractured s and z
-:*?C:A?::Aẞ
-:*?C:E?::Eẞ
-:*?C:I?::Iẞ
-:*?C:O?::Oẞ
-:*?C:U?::Uẞ
-:*?C:Ö?::Öẞ
-:*?C:Ä?::Äẞ
-:*?C:Ü?::Üẞ
+; ſ and ʒ
 
 <^>!s::Send, ſ
 <^>!z::Send, ʒ
