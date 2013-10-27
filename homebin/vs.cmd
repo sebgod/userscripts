@@ -1,0 +1,1 @@
+@pushd %userprofile%\Documents\Visual Studio 2012\Projects\%1
