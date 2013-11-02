@@ -121,7 +121,7 @@ Esc::send, !{F4}
 ; Internet explorer enhancements
 #IfWinActive ahk_class IEFrame
 Esc::send, ^w
-^Space::send, {Browser_Favorites}
+^B::send, {Browser_Favorites}
 ^+Space::winshell_IETabTreeGui()
 
 CapsLock & Left::Send, {Browser_Back}
