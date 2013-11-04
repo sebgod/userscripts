@@ -83,6 +83,7 @@ CapsLock & ß::Send, ẞ
 
 ; ſ and ʒ
 
+
 <^>!s::Send, ſ
 <^>!z::Send, ʒ
 
@@ -91,14 +92,25 @@ CapsLock & ß::Send, ẞ
 <^>!r::Send, ®
 <^>!t::Send, ™
 <^>!n::Send, ñ
-<^>!+e::Send, ë
 
-:cB0*:^c::
-Send, {BS 2}ç
+:c?B0*:^~::
+Send, {BS 2}{U+1DC9}
 return
 
-:cB0*:^C::
-Send, {BS 2}Ç
+:c?B0*:^d::
+Send, {BS 2}{U+0308}
+return
+
+:c?B0*:^"::
+Send, {BS 2}{U+030B}
+return
+
+:c?B0*:^2aa::
+Send, {BS 4}{U+030B}
+return
+
+:c?B0*:^,::
+Send, {BS 2}{U+0327}
 return
 
 <^>!Space::Send, {U+200B} ; Zero-Width space
