@@ -66,6 +66,8 @@ Return
 
 ; ---------------------------------- HOOK START -------------------------------
 #UseHook ON
+#if !GetKeyState("CapsLock", "T") 
+!CapsLock::SetCapsLockState On
 ; en: 67569673    2057
 ; de: 67568647    1031
 ; ch: 134481924   2052
@@ -75,15 +77,16 @@ CapsLock & c::tsf_switch(2052, GetKeyState("shift"))
 CapsLock & g::tsf_switch(1031, GetKeyState("shift"))
 CapsLock & e::tsf_switch(2057, GetKeyState("shift"))
 CapsLock::tsf_toggle_language()
+#if GetKeyState("CapsLock", "T")
+!CapsLock::SetCapsLockState AlwaysOff
+ß::Send, ẞ
+#if
 
-; Versal writing and ß and ẞ and ſ and accent handling
-CapsLock & ß::Send, ẞ
 #UseHook OFF
 ; ---------------------------------- HOOK END ---------------------------------
 
-; ſ and ʒ
-
-
+; ẞ, ſ and ʒ
+^ß::Send, ẞ
 <^>!s::Send, ſ
 <^>!z::Send, ʒ
 
@@ -93,24 +96,80 @@ CapsLock & ß::Send, ẞ
 <^>!t::Send, ™
 <^>!n::Send, ñ
 
+; for ñ, ...
 :c?B0*:^~::
 Send, {BS 2}{U+1DC9}
 return
 
+; for ï, ë
 :c?B0*:^d::
 Send, {BS 2}{U+0308}
 return
 
+; for Hungarian ű, ő, ...
 :c?B0*:^"::
+;" this comment is just for the AHK notepad++ parser
 Send, {BS 2}{U+030B}
+return
+
+; these are to be in sync with á,...
+:c?B0*:´ü::
+Send, {BS 2}ű
+return
+
+:c?B0*:´ä::
+Send, {BS 2}a̋
+return
+
+:c?B0*:´ö::
+Send, {BS 2}ő
 return
 
 :c?B0*:^2aa::
 Send, {BS 4}{U+030B}
 return
 
+; per mil
+<^>!%::Send, ‰
+
+; for ç and Ç
 :c?B0*:^,::
 Send, {BS 2}{U+0327}
+return
+
+; currency signs
+<^>!y::¥   ; Chinese yuan or Japanese yuan
+<^>!p::£   ; Pound
+<^>!w::₩   ; Korean won원
+<^>!i::¤   ; generic currency sign
+:c?:zloty$::zł  ; Polish złoty
+:c?:tögrög$::₮  ; Mongolian tögrög
+:c?:cent$::¢    ; cents
+; mathematical chars
+:c?B0*:=^/::
+Send, {BS 3}≠
+return
+
+:c?B0*:=^/::
+Send, {BS 3}≠
+return
+
+; mathematical chars
+:c?*:delta_=::≜
+:c?*:def_=::≝
+:c?*:~_=::≅
+:c?*:°_=::≗
+:c?*:^_=::≙
+:c?*:m_=::≞
+:c?*:?_=::≟
+:c?*:*_=::≛
+
+:c?B0*:||^/::
+Send, {BS 4}{U+2226}
+return
+
+:c?B0*:|^/::
+Send, {BS 3}{U+2224}
 return
 
 <^>!Space::Send, {U+200B} ; Zero-Width space
