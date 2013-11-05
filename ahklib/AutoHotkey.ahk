@@ -142,14 +142,20 @@ return
 Send, {BS 2}{U+0327}
 return
 
+; hotkey for ł AltGr-l
+<^>!l::Send, ł 
+
+; hotstring for ¢ 
+:c?B0*:c^|::
+Send, {BS 3}¢
+return
+
 ; currency signs
-<^>!y::¥   ; Chinese yuan or Japanese yuan
-<^>!p::£   ; Pound
-<^>!w::₩   ; Korean won
-<^>!i::¤   ; generic currency sign
-:c?:zloty$::zł  ; Polish złoty
+<^>!y::¥        ; Chinese yuan or Japanese yuan
+<^>!p::£        ; Pound
+<^>!w::₩        ; Korean won
+<^>!i::¤        ; generic currency sign
 :c?:tögrög$::₮  ; Mongolian tögrög
-:c?:cent$::¢    ; cents
 ; mathematical chars
 :c?B0*:=^/::
 Send, {BS 3}≠
