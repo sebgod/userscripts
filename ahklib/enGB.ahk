@@ -150,8 +150,6 @@
 ::frappes::frappés
 ::francais::français
 ::francois::François
-:?*:fraulein::fräulein
-:?*:fuhrer::führer
 ::garcon::garçon
 ::garcons::garçons
 ::gateau::gâteau
@@ -216,8 +214,10 @@
 ::negligees::negligées
 ::neufchatel cheese::Neufchâtel cheese
 ::nez perce::Nez Percé
+::noel::Noël
 ::noël::Noël
 ::noëls::Noëls
+::noels::Noëls
 ::número uno::número uno
 ::oeuvre::œuvre
 ::oeuvres::œuvres
@@ -312,5 +312,5 @@
 ::vis a vis::vis à vis
 ::vis-a-vis::vis-à-vis
 ::voila::voilà
-;; #If tsf_langCode == 0x0809000
+;; #if tsf_langCode == 2057000
 #If
