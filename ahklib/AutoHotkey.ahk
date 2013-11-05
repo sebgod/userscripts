@@ -1,4 +1,4 @@
-﻿; Author: Sebastian Godelet
+﻿; Author: Sebastian Godelet <sebastian.godelet@gmail.com>
 #Warn  ; Recommended for catching common errors.
 #SingleInstance force
 #NoEnv
@@ -79,14 +79,14 @@ CapsLock & e::tsf_switch(2057, GetKeyState("shift"))
 CapsLock::tsf_toggle_language()
 #if GetKeyState("CapsLock", "T")
 !CapsLock::SetCapsLockState AlwaysOff
-ß::Send, ẞ
+ß::Send, {U+1E9E}
 #if
 
 #UseHook OFF
 ; ---------------------------------- HOOK END ---------------------------------
 
-; ẞ, ſ and ʒ
-^ß::Send, ẞ
+; capital ß, ſ and ʒ
+!ß::Send, {U+1E9E}
 <^>!s::Send, ſ
 <^>!z::Send, ʒ
 
@@ -104,6 +104,11 @@ return
 ; for ï, ë
 :c?B0*:^d::
 Send, {BS 2}{U+0308}
+return
+
+; for top °
+:c?B0*:^°::
+Send, {BS 2}{U+030A}
 return
 
 ; for Hungarian ű, ő, ...
@@ -140,7 +145,7 @@ return
 ; currency signs
 <^>!y::¥   ; Chinese yuan or Japanese yuan
 <^>!p::£   ; Pound
-<^>!w::₩   ; Korean won원
+<^>!w::₩   ; Korean won
 <^>!i::¤   ; generic currency sign
 :c?:zloty$::zł  ; Polish złoty
 :c?:tögrög$::₮  ; Mongolian tögrög
