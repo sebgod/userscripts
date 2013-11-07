@@ -151,11 +151,11 @@ Send, {BS 3}¢
 return
 
 ; currency signs
-<^>!y::¥        ; Chinese yuan or Japanese yuan
+<^>!y::¥        ; Chinese Yuan or Japanese Yen
 <^>!p::£        ; Pound
-<^>!w::₩        ; Korean won
+<^>!w::₩        ; Korean Won
 <^>!i::¤        ; generic currency sign
-:c?:tögrög$::₮  ; Mongolian tögrög
+:c?:tögrög$::₮  ; Mongolian Tögrög
 ; mathematical chars
 :c?B0*:=^/::
 Send, {BS 3}≠
@@ -185,7 +185,7 @@ return
 
 <^>!Space::Send, {U+200B} ; Zero-Width space
 
-; Insert a random uuid
+; Insert a random UUID
 ^+g::guid_sendraw()
 
 ; Start X11 Desktop
@@ -194,7 +194,7 @@ return
 ; Start VirtualBox control window
 #v::Run VirtualBox
 
-; Within the Explorer ctrl+h toggles hidden files
+; Within the Explorer CTRL+h toggles hidden files
 #IfWinActive ahk_class CabinetWClass
 ^h::winshell_toggle_hidden_files()
 Esc::send, !{F4}
