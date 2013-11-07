@@ -87,8 +87,6 @@
 ::curacao::curaçao
 ::dais::daïs
 ::daises::daïses
-::debacle::débâcle
-::debacles::débâcles
 ::debutante::débutante
 ::debutants::débutants
 ::declasse::déclassé
@@ -142,7 +140,6 @@
 ::flambe::flambé
 ::flambes::flambés
 ::fleche::flèche
-::Fohn wind::Föhn wind
 ::folie a deux::folie à deux
 ::folies a deux::folies à deux
 ::fouette::fouetté
