@@ -27,7 +27,7 @@ return
 
 #IfWinActive ahk_class ConsoleWindowClass
 Esc::send, ^{Backspace}exit{Enter}
-#IfWinActive
+#IfWinActive 
 
 #IfWinActive ahk_class VirtualConsoleClass
 Esc::
@@ -39,14 +39,28 @@ Esc::
     }
 return
 #IfWinActive
-    
+
+#IfWinActive ahk_class HH Parent
+Esc::send, !{F4}
+#IfWinActive
+
+#IfWinActive QQ ahk_class TXGuiFoundation
+Esc::send, !{F4}
+#IfWinActive
+
+#IfWinActive ahk_class TXGuiFoundation
+Pause::
+    send, !+L
+    send, !{F4}
+#IfWinActive   
+   
 #IfWinActive ahk_class tSkMainForm
 Esc::send, !{F4}
 #IfWinActive
 
 #IfWinActive ahk_class AcrobatSDIWindow
 ESC::Send, !{F4}    
-#IfWinActive 
+#IfWinActive
 
 #IfWinActive ahk_class CalcFrame
 Esc::send, !{F4}
@@ -57,9 +71,14 @@ Esc::send, !{F4}
 #IfWinActive
 
 #+e::
-Pwb :=  ComObjCreate("InternetExplorer.Application")
-Pwb.Visible:=True
+    Pwb := ComObjCreate("InternetExplorer.Application")
+    Pwb.Visible := True
 Return
+   
+!Pause::
+    winshell_activateAndLockQQ()
+    DllCall("LockWorkStation")
+return
 
 ; language switching
 ~#Space::tsf_winSpaceHandler()

@@ -127,3 +127,10 @@ winshell_IETabActivate(TabName, WinTitle="") {
 winshell_IETabTreeGui() {
     MsgBox, "Show Tab Tree Gui"
 }
+
+
+winshell_activateAndLockQQ() {
+    WinActivate, ahk_class TXGuiFoundation
+    Send, !+l
+    WinMinimize, A    
+}
