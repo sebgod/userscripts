@@ -55,7 +55,8 @@
 @set cl_tooldir=%ProgramFiles32%\Microsoft Visual Studio 11.0\Common7\Tools
 @set cl_vsdevcmd="%cl_tooldir%\VsDevCmd"
 
-@set gv_dir=%ProgramFiles32%\Graphviz2.30\bin
+@set gv_version=2.30
+@set gv_dir=%ProgramFiles32%\Graphviz%gv_version%\bin
 @set gv_dot="%gv_dir%\dot.exe"
 
 @set npp_userdefinedlang_src=http://notepad-plus.sourceforge.net/commun/userDefinedLang/
@@ -72,6 +73,9 @@
 @set unicode_version=6.2.0
 @set unicode_url=http://%unicode_www%/Public/zipped/%unicode_version%/
 @set unicode_reports=http://%unicode_www%/reports/
+
+@set iso-639-6_www=www.geolang.com
+@set iso-639-6_url=http://%iso-639-6_www%/iso639-6
 
 @if not exist %~dp0api mkdir %~dp0api
 
