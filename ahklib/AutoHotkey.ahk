@@ -149,10 +149,6 @@ return
 Send, {BS 2}ő
 return
 
-:c?B0*:^2aa::
-Send, {BS 4}{U+030B}
-return
-
 ; per mil
 <^>!%::Send, ‰
 
@@ -175,7 +171,26 @@ return
 <^>!w::₩        ; Korean Won
 <^>!i::¤        ; generic currency sign
 :c?:tögrög$::₮  ; Mongolian Tögrög
-; mathematical chars
+
+; COMBINING DOUBLE ACUTE ACCENT (U+030B)
+:c?B0*:^2aa::
+Send, {BS 4}{U+030B}
+return
+
+; COMBINING LONG SOLIDUS OVERLAY (U+0338)
+:c?B0*:^lso::
+Send, {BS 4}{U+0338}
+return
+
+; COMBINING LONG SOLIDUS OVERLAY (U+0338), precomposed
+:c?B0*:O^/::
+Send, {BS 3}Ø
+return
+
+:c?B0*:o^/::
+Send, {BS 3}ø
+return
+
 :c?B0*:=^/::
 Send, {BS 3}≠
 return
