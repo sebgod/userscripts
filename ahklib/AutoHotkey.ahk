@@ -219,14 +219,14 @@ return
 Esc::send, !{F4}
 #IfWinActive
 
-; Internet explorer enhancements
+; Internet explorer and metro enhancements
+CapsLock & Left::Send, {Browser_Back}
+CapsLock & Right::Send, {Browser_Forward}
+
 #IfWinActive ahk_class IEFrame
 Esc::send, ^w
 ^B::send, {Browser_Favorites}
 ^+Space::winshell_IETabTreeGui()
-
-CapsLock & Left::Send, {Browser_Back}
-CapsLock & Right::Send, {Browser_Forward}
 #IfWinActive
 
 ; Window shell script
