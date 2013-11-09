@@ -1,0 +1,1 @@
+@powershell -Command Start-Process -Verb edit -FilePath \"%~1\"
