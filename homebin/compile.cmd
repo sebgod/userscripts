@@ -1,0 +1,1 @@
+@powershell -Command Start-Process -Verb compile -FilePath \"%~1\"
