@@ -1,0 +1,1 @@
+@powershell -Command Start-Process -Verb open -FilePath \"%~1\"

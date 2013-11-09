@@ -1,0 +1,1 @@
+@powershell -Command Start-Process -Verb preview -FilePath \"%~1\"
