@@ -199,6 +199,12 @@ return
 Send, {BS 3}≠
 return
 
+; COMBINING DOT ABOVE (U+0307)
+
+:c?B0*:^.::
+Send, {BS 2}{U+0307}
+return
+
 ; mathematical chars
 :c?*:delta_=::≜
 :c?*:def_=::≝

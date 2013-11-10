@@ -1,1 +1,1 @@
-@powershell -Command Start-Process -Verb edit -FilePath \"%~1\"
+@call %~dp0execute edit "%~1"

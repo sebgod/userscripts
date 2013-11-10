@@ -1,1 +1,1 @@
-@powershell -Command Start-Process -Verb compile -FilePath \"%~1\"
+@call %~dp0execute compile "%~1"

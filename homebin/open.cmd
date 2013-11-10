@@ -1,1 +1,1 @@
-@powershell -Command Start-Process -Verb open -FilePath \"%~1\"
+@call %~dp0execute open "%~1"

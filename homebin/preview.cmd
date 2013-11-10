@@ -1,1 +1,1 @@
-@powershell -Command Start-Process -Verb preview -FilePath \"%~1\"
+@call %~dp0execute preview "%~1"
