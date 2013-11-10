@@ -10,6 +10,8 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 FileEncoding, UTF-8
 CoordMode, Mouse, Screen
 
+GroupAdd BrokenDXGames, ahk_class DX2MainUnrealWWindowsViewportWindow
+
 #Include <winos>
 #include <vistaswitcher>
 #Include <winshell>
@@ -282,3 +284,7 @@ return
 #If not GetKeyState("RControl") and GetKeyState("LControl")
 *LWin::send, ^{Tab}
 #If
+
+#IfWinActive ahk_group BrokenDXGames
+RButton::Send, {LCtrl}
+#IfWinActive
