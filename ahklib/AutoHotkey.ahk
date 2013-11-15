@@ -248,7 +248,7 @@ CapsLock & Right::Send, {Browser_Forward}
 
 #IfWinActive ahk_class IEFrame
 Esc::send, ^w
-^B::send, {Browser_Favorites}
+^y::send, {Browser_Favorites}
 ^+Space::winshell_IETabTreeGui()
 #IfWinActive
 
