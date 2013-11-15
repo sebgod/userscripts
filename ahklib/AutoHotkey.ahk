@@ -11,6 +11,7 @@ FileEncoding, UTF-8
 CoordMode, Mouse, Screen
 
 GroupAdd BrokenDXGames, ahk_class DX2MainUnrealWWindowsViewportWindow
+GroupAdd BrokenDXGames, ahk_class DeusExHR
 
 #Include <winos>
 #include <vistaswitcher>
@@ -286,5 +287,5 @@ return
 #If
 
 #IfWinActive ahk_group BrokenDXGames
-RButton::Send, {LCtrl}
+RButton::Send, {LAlt}
 #IfWinActive
