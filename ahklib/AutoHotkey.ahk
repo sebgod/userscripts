@@ -10,6 +10,8 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 FileEncoding, UTF-8
 CoordMode, Mouse, Screen
 
+GroupAdd BrokenDXGames, ahk_class DX2MainUnrealWWindowsViewportWindow
+
 #Include <winos>
 #include <vistaswitcher>
 #Include <winshell>
@@ -149,10 +151,6 @@ return
 Send, {BS 2}ő
 return
 
-:c?B0*:^2aa::
-Send, {BS 4}{U+030B}
-return
-
 ; per mil
 <^>!%::Send, ‰
 
@@ -175,13 +173,38 @@ return
 <^>!w::₩        ; Korean Won
 <^>!i::¤        ; generic currency sign
 :c?:tögrög$::₮  ; Mongolian Tögrög
-; mathematical chars
+
+; COMBINING DOUBLE ACUTE ACCENT (U+030B)
+:c?B0*:^2aa::
+Send, {BS 4}{U+030B}
+return
+
+; COMBINING LONG SOLIDUS OVERLAY (U+0338)
+:c?B0*:^lso::
+Send, {BS 4}{U+0338}
+return
+
+; COMBINING LONG SOLIDUS OVERLAY (U+0338), precomposed
+:c?B0*:O^/::
+Send, {BS 3}Ø
+return
+
+:c?B0*:o^/::
+Send, {BS 3}ø
+return
+
 :c?B0*:=^/::
 Send, {BS 3}≠
 return
 
 :c?B0*:=^/::
 Send, {BS 3}≠
+return
+
+; COMBINING DOT ABOVE (U+0307)
+
+:c?B0*:^.::
+Send, {BS 2}{U+0307}
 return
 
 ; mathematical chars
@@ -219,14 +242,14 @@ return
 Esc::send, !{F4}
 #IfWinActive
 
-; Internet explorer enhancements
-#IfWinActive ahk_class IEFrame
-Esc::send, ^w
-^B::send, {Browser_Favorites}
-^+Space::winshell_IETabTreeGui()
-
+; Internet explorer and metro enhancements
 CapsLock & Left::Send, {Browser_Back}
 CapsLock & Right::Send, {Browser_Forward}
+
+#IfWinActive ahk_class IEFrame
+Esc::send, ^w
+^y::send, {Browser_Favorites}
+^+Space::winshell_IETabTreeGui()
 #IfWinActive
 
 ; Window shell script
@@ -261,3 +284,7 @@ return
 #If not GetKeyState("RControl") and GetKeyState("LControl")
 *LWin::send, ^{Tab}
 #If
+
+#IfWinActive ahk_group BrokenDXGames
+RButton::Send, {LCtrl}
+#IfWinActive

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Binary Clock in Unicode</title>
+  
+  <script type='text/javascript' src='/js/lib/dummy.js'></script>
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  
+  
+  <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+  
+  <style type='text/css'>
+    
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+var nl="<br/>";
+
+function pad6(number) {
+    var length=6;
+    var bin=("00000" + number.toString(2)).slice(-1 * length);
+    
+    var utf16 = new ArrayBuffer(length * 2);
+    var utf16View = new Uint16Array(utf16);
+    for (var i = 0; i < length; ++i) {
+        utf16View[i] = 9898 + (bin.charAt(i) - '0');
+    }
+    return String.fromCharCode.apply(null, utf16View);
+}
+
+function timeToBin(time) {
+    return pad6(time.getHours()) + nl
+           + pad6(time.getMinutes())  + nl
+           + pad6(time.getSeconds())  + nl
+}
+
+window.onload=function(){
+    var timeElement = document.getElementById("time");
+    var binTimeTimer = setInterval(function() {
+        timeElement.innerHTML = timeToBin(new Date());
+    }, 1000);
+}//]]>  
+
+</script>
+
+
+</head>
+<body>
+  Test <div id="time" style="color: #ff00ff"></div>
+  
+</body>
+
+
+</html>
