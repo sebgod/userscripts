@@ -1,56 +1,73 @@
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Binary Clock in Unicode</title>
-  
-  <script type='text/javascript' src='/js/lib/dummy.js'></script>
-  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
-  
-  
-  <link rel="stylesheet" type="text/css" href="/css/result-light.css">
-  
-  <style type='text/css'>
-    
-  </style>
-  
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Binary Clock in Unicode</title>
+    <style type='text/css'>
+        body {
+            margin: 0;
+            background-color: #000000;
+            width: 100%;
+            height: 100%;
+        }
 
+        .led-clock {
+            margin: 0;
+            padding: 0;
+            line-height: 15px;
+        }
 
-<script type='text/javascript'>//<![CDATA[ 
-var nl="<br/>";
+        .led-clock-pink {
+            color: #ff00dd;
+            text-shadow: 1px 1px #FF0011;
+        }
+    </style>
 
-function pad6(number) {
-    var length=6;
-    var bin=("00000" + number.toString(2)).slice(-1 * length);
-    
-    var utf16 = new ArrayBuffer(length * 2);
-    var utf16View = new Uint16Array(utf16);
-    for (var i = 0; i < length; ++i) {
-        utf16View[i] = 9898 + (bin.charAt(i) - '0');
-    }
-    return String.fromCharCode.apply(null, utf16View);
-}
+    <script type='text/javascript'>
+        function pad6(number) {
+            var length = 6;
+            var bin = ("00000" + number.toString(2)).slice(-1 * length);
 
-function timeToBin(time) {
-    return pad6(time.getHours()) + nl
-           + pad6(time.getMinutes())  + nl
-           + pad6(time.getSeconds())  + nl
-}
+            var utf16 = new ArrayBuffer(length * 2);
+            var utf16View = new Uint16Array(utf16);
+            for (var i = 0; i < length; ++i) {
+                utf16View[i] = 9898 + (bin.charAt(i) - '0');
+            }
+            return String.fromCharCode.apply(null, utf16View);
+        }
 
-window.onload=function(){
-    var timeElement = document.getElementById("time");
-    var binTimeTimer = setInterval(function() {
-        timeElement.innerHTML = timeToBin(new Date());
-    }, 1000);
-}//]]>  
+        function createBinaryClockDisplay(elementId) {
+            var displayElement = document.getElementById(elementId);
+            displayElement.className += ' led-clock-pink';
+            var hourElement = document.createTextNode("hours");
+            var minutesElement = document.createTextNode("minute");
+            var secondsElement = document.createTextNode("second");
+            displayElement.appendChild(hourElement);
+            displayElement.appendChild(document.createElement("br"))
+            displayElement.appendChild(minutesElement)
+            displayElement.appendChild(document.createElement("br"))
+            displayElement.appendChild(secondsElement);
+            var updateDisplay = function () {
+                var time = new Date();
+                hourElement.textContent = pad6(time.getHours());
+                minutesElement.textContent = pad6(time.getMinutes());
+                secondsElement.textContent = pad6(time.getSeconds());
+            };
+            updateDisplay();
 
-</script>
+            var binTimeTimer = setInterval(updateDisplay, 1000);
+        }
+
+        window.onload = function () {
+            createBinaryClockDisplay("binaryClockDisplay");
+        }
+
+    </script>
 
 
 </head>
 <body>
-  Test <div id="time" style="color: #ff00ff"></div>
-  
+    <span id="binaryClockDisplay" class="led-clock"></span>
 </body>
 
 
