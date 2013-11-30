@@ -85,6 +85,9 @@
 :o:conjunction::☌
 :o:opposition::☍
 
+; TODO: http://en.wikibooks.org/wiki/Unicode/List_of_useful_symbols
+;   " : http://www.charbase.com/block/miscellaneous-symbols-and-pictographs
+
 :*:telb::☎       ; U+260E (alt-09742) BLACK TELEPHONE 
 :*:telw::☏       ; U+260F (alt-09743) WHITE TELEPHONE 
 :o:med::⚕

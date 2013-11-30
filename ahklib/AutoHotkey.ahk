@@ -13,6 +13,12 @@ CoordMode, Mouse, Screen
 GroupAdd BrokenDXGames, ahk_class DX2MainUnrealWWindowsViewportWindow
 GroupAdd BrokenDXGames, ahk_class DeusExHR
 
+GroupAdd PDFViewerAndEditor, ahk_class PXE:{C5309AD3-73E4-4707-B1E1-2940D8AF3B9D}
+GroupAdd PDFViewerAndEditor, ahk_class DSUI:PDFXCViewer
+
+GroupAdd, MetroWindowGroup, ahk_class Windows.UI.Core.CoreWindow
+GroupAdd, MetroWindowGroup, ahk_class ImmersiveLauncher
+
 #Include <winos>
 #include <vistaswitcher>
 #Include <winshell>
@@ -71,6 +77,18 @@ Esc::send, !{F4}
 
 #IfWInActive ahk_class Photo_Lightweight_Viewer
 Esc::send, !{F4}
+#IfWinActive
+
+#IfWinActive ahk_group PDFViewerAndEditor
+Esc::
+    send, ^w
+    Sleep, 20
+    WinGetTitle, pdfXChangeTitle
+    if (SubStr(pdfXChangeTitle, 1, 11) == "PDF-XChange")
+    {
+        send, !{F4}
+    }
+return
 #IfWinActive
 
 #+e::
@@ -248,7 +266,16 @@ CapsLock & Left::Send, {Browser_Back}
 CapsLock & Right::Send, {Browser_Forward}
 
 #IfWinActive ahk_class IEFrame
-Esc::send, ^w
+Esc::
+    ControlGetFocus, ieframe_cntrl
+    if (ieframe_cntrl == "Internet Explorer_Server1") {
+        send, ^w
+    }  else if (ieframe_cntrl == "DirectUIHWND1") {
+        send, !{F4}
+    } else {
+        send, {ESC}
+    }
+return
 ^y::send, {Browser_Favorites}
 ^+Space::winshell_IETabTreeGui()
 #IfWinActive
