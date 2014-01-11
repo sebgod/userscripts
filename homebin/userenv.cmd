@@ -12,8 +12,16 @@
     @set OS_ARCH_BITNESS=64
 )
 
-@set git_url=http://msysgit.googlecode.com/
-@set git_version=PortableGit-1.8.3-preview20130601
+@set curl_version=7.34.0-win%OS_ARCH_BITNESS%
+@set curl_zipfile=curl-%curl_version%.zip
+@set curl_basedir=%~dp0api\curl-%curl_version%
+@set curl_url=http://www.confusedbycode.com/curl/%curl_zipfile%
+
+@set git_basename=PortableGit
+@set git_version=1.8.4-preview20130916
+@set git_7zipfile=%git_basename%-%git_version%.7z
+@set git_url=http://msysgit.googlecode.com/files/%git_7zipfile%
+
 @set github_raw_url=https://raw.github.com/
 @set github_ownrepo=https://github.com/sebgod/
 
@@ -43,8 +51,7 @@
 @set sysinternals_folder=live.sysinternals.com
 @set sysinternals_url=http://%sysinternals_folder%
 
-@set usbtreeview=usbtreeview
-@set usbtreeview_zipfile=%usbtreeview%.zip
+@set usbtreeview_zipfile=usbtreeview.zip
 @set usbtreeview_url=http://www.uwe-sieber.de/files/%usbtreeview_zipfile%
 
 @set tidy_cmd=%~dp0tidy.exe -config %~dp0netxml.conf
@@ -79,5 +86,5 @@
 
 @if not exist %~dp0api mkdir %~dp0api
 
-@path %path%;%~dp0api\git\cmd;%~dp0api\%sysinternals_folder%;%svn_basedir%;%~dp0api
+@path %path%;%~dp0api\git\cmd;%~dp0api\%sysinternals_folder%;%svn_basedir%;%curl_basedir%\bin;%~dp0api
 @call %cl_vsdevcmd%

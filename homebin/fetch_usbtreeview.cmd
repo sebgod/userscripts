@@ -1,8 +1,8 @@
 @call %~dp0userenv
 
 pushd %temp%
-mkdir %usbtreeview%
-pushd %usbtreeview%
+mkdir usbtreeview
+pushd usbtreeview
 wget -N %usbtreeview_url%
 7za x -y %usbtreeview_zipfile%
 
@@ -17,7 +17,7 @@ if /i %OS_ARCH_BITNESS% equ 32 (
     )
 )
 
-xcopy /y %usbtreeview%.exe %~dp0api
+xcopy /y usbtreeview.exe %~dp0api
 
 :: exe subfolder
 popd
