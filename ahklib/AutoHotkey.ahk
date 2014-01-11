@@ -95,6 +95,11 @@ return
     Pwb := ComObjCreate("InternetExplorer.Application")
     Pwb.Visible := True
 Return
+
+##::
+    pressedWinHash := true
+    Send, ^c
+return
    
 !Pause::
     winshell_activateAndLockQQ()
@@ -254,6 +259,7 @@ return
 
 ; Start VirtualBox control window
 #v::Run VirtualBox
+return
 
 ; Within the Explorer CTRL+h toggles hidden files
 #IfWinActive ahk_class CabinetWClass

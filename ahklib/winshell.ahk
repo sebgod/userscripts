@@ -14,10 +14,11 @@ winshell_UserIPCFolder() {
 }
 
 winshell_init() {
+    global pressedWinHash := false
     ramDrive := winshell_ramdriveVolume()
     ; create temp folder
-    if FileExist(ramDrive . "Clipboard") {
-        if FileExist(ramDrive . "Temp") {
+    if (FileExist(ramDrive . "Clipboard")) {
+        if (FileExist(ramDrive . "Temp")) {
             FileRemoveDir, % ramDrive . "Clipboard", 1
         } else {
             FileMoveDir, % ramDrive . "Clipboard", % ramDrive . "Temp", R
@@ -100,6 +101,8 @@ winshell_stikynot_run() {
 }
 
 winshell_onclipboardchange() {
+    global pressedWinHash
+
     Info := A_EventInfo
     ClipId := WinExist("A")
     WinGet, ClipPid, PID, ahk_id %ClipId%
@@ -109,6 +112,10 @@ winshell_onclipboardchange() {
     Name := winshell_UserIPCFolder() . "\Clipboard\" . A_NowUTC . ",info=" . Info . ",id=" . ClipId . ",pid=" . ClipPid
     if (Info < 2) {
         FileAppend, % Clipboard, *%Name%.txt
+        if (pressedWinHash) {
+            pressedWinHash := false
+            MsgBox, % Clipboard
+        }
     } else {
         FileAppend, %ClipboardAll%, %Name%.data
     }
