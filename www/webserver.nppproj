@@ -1,0 +1,52 @@
+<NotepadPlus>
+    <Project name="WWW">
+        <Folder name=".db" />
+        <Folder name=".lib">
+            <File name=".lib\FormatHelper.pas" />
+            <File name=".lib\HtmlLib.pas" />
+            <File name=".lib\MandelbrotSet.pas" />
+            <File name=".lib\MimeType.pas" />
+            <File name=".lib\SVG.pas" />
+            <File name=".lib\TestUnit.pas" />
+        </Folder>
+        <Folder name=".logs">
+            <File name=".logs\u_ncsa1.log" />
+            <File name=".logs\u_ncsa2.log" />
+        </Folder>
+        <Folder name="static">
+            <Folder name="css">
+                <File name="static\css\404.css" />
+                <File name="static\css\index.css" />
+                <File name="static\css\physics.css" />
+                <File name="static\css\systemInfo.css" />
+                <File name="static\css\codeEditor.css" />
+            </Folder>
+            <Folder name="images">
+                <File name="static\images\mandelbrot.dws" />
+            </Folder>
+            <Folder name="js">
+                <File name="static\js\blink_shim.js" />
+                <File name="static\js\smoothie.js" />
+                <File name="static\js\smoothie.min.js" />
+            </Folder>
+            <File name="static\403.html" />
+            <File name="static\404.html" />
+        </Folder>
+        <Folder name="test">
+            <File name="test\authenticated.dws" />
+            <File name="test\cpuUsage.dws" />
+            <File name="test\formpost.dws" />
+            <File name="test\hello.dws" />
+            <File name="test\hello.html" />
+            <File name="test\index.dws" />
+            <File name="test\infiniteLoop.dws" />
+            <File name="test\mandelbrot_browser.dws" />
+            <File name="test\post.dws" />
+            <File name="test\requestInfo.dws" />
+            <File name="test\rison.dws" />
+            <File name="test\sqlite.dws" />
+            <File name="test\systemMemoryInfo.dws" />
+            <File name="test\systemStats.js" />
+        </Folder>
+    </Project>
+</NotepadPlus>

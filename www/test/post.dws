@@ -1,0 +1,39 @@
+<!--pas
+WebResponse.ContentType := 'text/html; charset=utf-8';
+?-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Form Post result</title>
+    </head>
+    <body onLoad="loaded()">
+        <script type="application/javascript" defer="defer">
+            function loaded() {
+                makeBacklink('backLink');
+            }
+            function makeBacklink(id) {
+                document.getElementById(id).addEventListener('click', function (event) { event.preventDefault(); window.history.back(); }, true);
+            }
+        </script>
+        <article>
+            <nav>
+                <a id="backLink" href="<!--pas=WebRequest.Header['Referer']?-->">Go Back</a>
+            </nav>
+        <table>
+            <caption>Raw post data</caption>
+            <thead>
+                <tr>
+                    <th>Header</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Headers</td><td><pre><!--pas=WebRequest.Headers?--></pre></td></tr>
+                <tr><td>PathInfo</td><td><pre><!--pas=WebRequest.PathInfo?--></pre></td></tr>
+                <tr><td>Method</td><td><pre><!--pas=WebRequest.Method?--></pre></td></tr>
+                <tr><td>Query fields</td><td><pre><!--pas=WebRequest.QueryFields?--></pre></td></tr>                
+                <tr><td>Form fields</td><td><pre><!--pas=WebRequest.FormFields?--></pre></td></tr>
+            </tbody>
+        </table>
+    </body>
+</html>

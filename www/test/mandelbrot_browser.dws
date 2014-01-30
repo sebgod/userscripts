@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<!--pas
+    uses MandelbrotSet;
+    
+    var params := JSON.Parse(ParseRison(WebRequest.QueryString));
+    var size : integer; var z : TComplex; var zoom : float;
+    MandelbrotParams(params, size, z, zoom);
+    
+    var divisions := 12;
+    var px_steps := size / divisions;
+    var z_steps := zoom / size * divisions;    
+        
+    function mk_coords(const i, j : Integer) : string;
+    var
+        x, y : integer;
+    begin
+        x := round(i * px_steps);
+        y := round(j * px_steps);
+        exit(Format('%d,%d,%d,%d', [x, y, trunc(x+px_steps), trunc(y+px_steps)]));
+    end;    
+    
+    function mk_link(const pI, pJ, pZoom : Float) : string;
+    begin
+        exit(Format('size=%d&i=%f&j=%f&zoom=%f', [size, pI, pJ, pZoom]));
+    end;
+    
+    function mk_title(const pI, pJ : Float) : string;
+    begin
+        exit(Format('Mandelbrot set for z= %f + %fj', [pI, pJ]));
+    end;
+?-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Browse the <!--pas=mk_title(z.Re, z.Im)?--></title>
+    </head>
+    <body>
+        <article>
+            <figure>
+                <img src="/static/images/mandelbrot.dws?<!--pas=mk_link(z.Re, z.Im, zoom)?-->" alt="Mandelbrot set, full view" usemap="#mandelbrot_map" />
+                <map id="mandelbrot_map" name="mandelbrot_map">
+                <!--pas
+                    var zi : Float := z.Re;
+                    var zj : Float;
+                    var i, j : Integer;
+                    for i := 0 to divisions - 1 do begin
+                        zj := z.Im;
+                        for j := 0 to divisions - 1 do begin
+                            ?--><area shape="rect" coords="<!--pas=mk_coords(i, j)?-->" href="?<!--pas=mk_link(zi, zj, zoom*0.5)?-->" title="<!--pas=mk_title(zi, zj)?-->" /><!--pas
+                            zj += z_steps;
+                        end;
+                        zi += z_steps;
+                    end;
+                ?-->
+                    
+                </map>
+                <figcaption>
+                    The <a href="http://en.wikipedia.org/wiki/Mandelbrot_set"><!--pas=mk_title(z.Re, z.Im)?--></a> with a <!--pas=size?-->px resolution
+                </figcaption>
+            </figure>     
+        </article>
+    </body>
+</html>
