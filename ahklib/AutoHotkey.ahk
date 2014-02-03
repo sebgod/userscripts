@@ -34,21 +34,6 @@ return
 
 #Include <composeKey>
 
-#IfWinActive ahk_class ConsoleWindowClass
-Esc::send, ^{Backspace}exit{Enter}
-#IfWinActive 
-
-#IfWinActive ahk_class VirtualConsoleClass
-Esc::
-    WinGetTitle, vcc_title
-    if (RegExMatch(vcc_title, "Debian|VIM") == 0) {
-        send, {Home}exit{Space}{Enter}    
-    } else {
-        send, {Esc}
-    }
-return
-#IfWinActive
-
 #IfWinActive ahk_class HH Parent
 Esc::send, !{F4}
 #IfWinActive

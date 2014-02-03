@@ -1,5 +1,7 @@
 @if not "%ProgramNative%" == "" exit /b 0
 
+@set HOME=%userprofile%
+
 @set ProgramFiles32=%ProgramFiles(x86)%
 @if "%ProgramFiles32%" == "" (
     @set ProgramFiles64=
@@ -88,3 +90,4 @@
 
 @path %path%;%~dp0api\git\cmd;%~dp0api\%sysinternals_folder%;%svn_basedir%;%curl_basedir%\bin;%~dp0api
 @call %cl_vsdevcmd%
+@doskey /MACROFILE=%~dp0macros.txt

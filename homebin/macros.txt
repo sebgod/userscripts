@@ -1,0 +1,8 @@
+home=cd /d %userprofile%
+vs=cd /d %userprofile%\Documents\Visual Studio 2012\Projects\$1
+bin=cd /d %userprofile%\bin
+$dm=doskey /macros
+$em=edit %userprofile%\bin\macros.txt
+$rm=doskey /macrofile=%userprofile%\bin\macros.txt
+csc=cscu $*
+..=cd ..
