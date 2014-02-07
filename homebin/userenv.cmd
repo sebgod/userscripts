@@ -56,7 +56,7 @@
 @set usbtreeview_zipfile=usbtreeview.zip
 @set usbtreeview_url=http://www.uwe-sieber.de/files/%usbtreeview_zipfile%
 
-@set tidy_cmd=%~dp0tidy.exe -config %~dp0netxml.conf
+@set tidy_cmd=%~dp0api\tidy.exe -config %~dp0netxml.conf
 @set tidy_url_zip=tidy.zip
 @set tidy_url=http://www.paehl.com/open_source/?download=%tidy_url_zip%
 

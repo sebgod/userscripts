@@ -1,0 +1,8 @@
+alias cd..="cd .."
+alias home="cd ~"
+alias dir="ls"
+alias del="rm"
+alias copy="cp"
+alias ren="mv"
+alias where="which"
+alias cls="clear"
