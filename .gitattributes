@@ -8,6 +8,8 @@
 *.ZIP binary
 *.zip binary
 *.ahk text eol=crlf
+*.vim text eof=lf
+*.sh text eof=lf
 
 # Custom for Visual Studio
 *.cs     diff=csharp
