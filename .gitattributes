@@ -2,7 +2,8 @@
 * text=auto
 
 *.ico binary
-*.ico binary
+*.jpg binary
+*.png binary
 *.exe binary
 *.7z  binary
 *.ZIP binary
