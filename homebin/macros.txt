@@ -6,3 +6,6 @@ $em=edit %userprofile%\bin\macros.txt
 $rm=doskey /macrofile=%userprofile%\bin\macros.txt
 csc=cscu $*
 ..=cd ..
+gogit=cd /d %userprofile%\Documents\GitHub
+goace=cd /d %userprofile%\Documents\GitHub\ace
+ls=ls --color
