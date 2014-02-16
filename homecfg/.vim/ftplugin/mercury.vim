@@ -13,7 +13,7 @@ let b:did_mercury_ftplugin = 1
   " I find it handy to run `mtags' over the Mercury library .m files
   " and move the resulting tags file to `$HOME/mercury/tags.library'.
   "
-setlocal tags+=$HOME/mercury/tags.library,$HOME/mercury/tags.compiler
+setlocal tags+=$HOME/dev/mercury/tags.library,$HOME/dev/mercury/tags.compiler
 
   " Handy if you use `:make'.
   "

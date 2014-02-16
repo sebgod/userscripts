@@ -10,7 +10,7 @@
 *.zip binary
 *.ahk text eol=crlf
 *.vim text eol=lf
-*.sh text eol=lf
+*.sh  text eol=lf
 
 # Custom for Visual Studio
 *.cs     diff=csharp
@@ -21,13 +21,13 @@
 *.dbproj merge=union
 
 # Standard to msysgit
-*.doc	 diff=astextplain
-*.DOC	 diff=astextplain
-*.docx diff=astextplain
-*.DOCX diff=astextplain
-*.dot  diff=astextplain
-*.DOT  diff=astextplain
-*.pdf  binary
-*.PDF	 binary
-*.rtf	 diff=astextplain
-*.RTF	 diff=astextplain
+*.doc    diff=astextplain
+*.DOC    diff=astextplain
+*.docx   diff=astextplain
+*.DOCX   diff=astextplain
+*.dot    diff=astextplain
+*.DOT    diff=astextplain
+*.pdf    binary
+*.PDF    binary
+*.rtf    diff=astextplain
+*.RTF    diff=astextplain
