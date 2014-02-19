@@ -1,0 +1,1 @@
+@call mmc --use-grade-subdirs --no-detect-libgrades -s asm_fast.gc -m %*
