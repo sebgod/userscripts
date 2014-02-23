@@ -1,0 +1,3 @@
+auto_view text/html
+#auto_view image/*
+#auto_view application/octet-stream

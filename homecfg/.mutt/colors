@@ -1,0 +1,5 @@
+color body brightred default "^-.*"
+color body brightgreen default "^[+].*"
+color body brightwhite default "^diff --git.*"
+color body brightwhite default "îndex [a-f0-9].*"
+color body brightyellow default "^@@.*"

@@ -1,0 +1,19 @@
+bind index CP sidebar-prev
+bind index CN sidebar-next
+bind index CO sidebar-open
+bind pager CP sidebar-prev
+bind pager CN sidebar-next
+bind pager CO sidebar-open
+
+macro index b '<enter-command>toggle sidebar_visible<enter><refresh>'
+macro pager b '<enter-command>toggle sidebar_visible<enter><redraw-screen>'
+
+# remap bounce-message function to "B"
+bind index B bounce-message
+
+bind index <space> collapse-thread
+
+bind index R group-reply
+bind index gg first-entry
+bind index G last-entry
+bind index <tab> sync-mailbox
