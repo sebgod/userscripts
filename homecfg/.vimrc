@@ -1,5 +1,8 @@
 syntax on
 filetype plugin on
+set autoindent
+set modeline
+
 
 if has("multi_byte")
   set encoding=utf-8                     " better default than latin1
