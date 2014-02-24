@@ -8,4 +8,6 @@ csc=cscu $*
 ..=cd ..
 gogit=cd /d %userprofile%\Documents\GitHub
 goace=cd /d %userprofile%\Documents\GitHub\ace
+gomer=cd /d %userprofile%\Documents\GitHub\mercury
+goextra=cd /d %userprofile%\Documents\GitHub\mercury\extras
 ls=ls --color
