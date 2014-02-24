@@ -64,12 +64,15 @@
 @set cl_tooldir=%ProgramFiles32%\Microsoft Visual Studio 11.0\Common7\Tools
 @set cl_vsdevcmd="%cl_tooldir%\VsDevCmd"
 
-@set gv_version=2.30
+@set gv_version=2.37
 @set gv_dir=%ProgramFiles32%\Graphviz%gv_version%\bin
 @set gv_dot="%gv_dir%\dot.exe"
 
 @set npp_userdefinedlang_src=http://notepad-plus.sourceforge.net/commun/userDefinedLang/
 @set mercury_userlangxml=%npp_userdefinedlang_src%userDefineLang_Mercury.xml
+@set MERCURY_HOME=C:/mercury-14.01-mingw
+@set MERCURY_CONFIG_DIR=%MERCURY_HOME%/lib/mercury
+@set MERCURY_COMPILER=%MERCURY_HOME%/bin/mercury_compile
 
 @set sagethumbs_version=2.0.0.17
 @set sagethumbs_setup=sagethumbs_%sagethumbs_version%_setup.exe
@@ -88,6 +91,6 @@
 
 @if not exist %~dp0api mkdir %~dp0api
 
-@path %path%;%~dp0api\git\cmd;%~dp0api\%sysinternals_folder%;%svn_basedir%;%curl_basedir%\bin;%~dp0api
+@path %path%;%~dp0api\git\cmd;%MERCURY_HOME%\bin;%~dp0api\%sysinternals_folder%;%svn_basedir%;%curl_basedir%\bin
 @call %cl_vsdevcmd%
 @doskey /MACROFILE=%~dp0macros.txt
