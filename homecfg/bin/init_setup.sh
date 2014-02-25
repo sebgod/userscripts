@@ -1,7 +1,20 @@
 #!/bin/bash
 
 pushd ~
-sudo apt-get install git xterm build-essential flex bison autoconf automake xsltproc openjdk-7-jdk mono-devel cmake
+# Initialising build system
+sudo apt-get install git xterm build-essential flex bison autoconf automake xsltproc cmake
+# Java 7
+sudo apt-get install openjdk-7-jdk
+# Mono
+sudo apt-get install mono-devel
+# graphics dev
+sudo apt-get install libglu1-mesa-dev mesa-common-dev freeglut3-dev liballeggl4-dev libcairo2-dev libglfw-dev
+# graphics use
+sudo apt-get install imagemagick
+# TCL/TK 8.5
+sudo apt-get install tk-dev
+# Curses
+sudo apt-get install ncurses-dev
 
 [ -r github ] || mkdir github
 pushd github

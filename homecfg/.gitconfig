@@ -11,3 +11,8 @@
 
 [credential]
 	helper = store
+[color]
+	ui = true
+[sendemail]
+	envelopesender = sebastian.godelet+github@gmail.com
+	from = sebastian.godelet+github@gmail.com
