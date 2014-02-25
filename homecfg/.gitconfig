@@ -1,5 +1,5 @@
 [user]
-	name = Sebastian Godelet
+	name = "Sebastian Godelet"
 	email = sebastian.godelet+github@gmail.com
 [credential]
 [core]
@@ -9,3 +9,5 @@
 [push]
 	default = current
 
+[credential]
+	helper = store
