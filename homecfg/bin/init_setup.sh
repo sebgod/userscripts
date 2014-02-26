@@ -2,7 +2,9 @@
 
 pushd ~
 # Initialising build system
-sudo apt-get install git xterm build-essential flex bison autoconf automake xsltproc cmake
+sudo apt-get install git build-essential flex bison autoconf automake xsltproc cmake
+# X Window sstem
+sudo apt-get install xterm libxmu-dev libxmu-headers
 # Java 7
 sudo apt-get install openjdk-7-jdk
 # Mono
@@ -12,9 +14,11 @@ sudo apt-get install libglu1-mesa-dev mesa-common-dev freeglut3-dev liballeggl4-
 # graphics use
 sudo apt-get install imagemagick
 # TCL/TK 8.5
-sudo apt-get install tk-dev
+sudo apt-get install tk-dev libtogl-dev togl-demos
 # Curses
 sudo apt-get install ncurses-dev
+# Networking
+sudo apt-get install libssl-dev
 
 [ -r github ] || mkdir github
 pushd github
