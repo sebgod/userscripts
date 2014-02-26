@@ -1,2 +1,38 @@
 #!/bin/sh
-mmc --use-grade-subdirs --no-detect-libgrades -s asm_fast.gc -m $*
+
+FIRST=$1
+if [ -r Mercury.options ] ;
+then
+	while IFS== read key val; do
+		case $key in
+		"MAIN_TARGET")
+			MAIN_TARGET=${val%% *}
+			;;
+		esac
+	done < Mercury.options
+fi
+
+
+OPS="--use-grade-subdirs --no-detect-libgrades -s asm_fast.gc -m"
+MMC=$(which mmc)
+
+$MMC $OPS $*
+
+if [ $# -eq 0 ] ;
+then
+	FIRST=$MAIN_TARGET
+	echo FIRST is $MAIN_TARGET
+else
+	shift
+fi
+
+if ! [ -z $FIRST ] ;
+then
+	case $FIRST in
+		lib*)
+			LIB_INSTALL=${FIRST}.install
+			sudo $MMC $OPS $LIB_INSTALL $*
+			;;
+	esac
+fi
+
