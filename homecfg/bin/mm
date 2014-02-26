@@ -1,5 +1,45 @@
 #!/bin/sh
 
+MMC=$(which mmc)
+case $(basename $0) in
+	mm)
+		echo Is using mmc with asm_fast.gc
+		OPS="--use-grade-subdirs --no-detect-libgrades -s asm_fast.gc -m"
+		;;
+	mmj)
+		echo Is using mmc with java
+		OPS="-s java --no-detect-libgrades --use-grade-subdirs -m"
+		MER_LIB_DIR=$(dirname $(dirname $MMC))/lib/mercury/lib
+		MER_JAVA_LIB_DIR=$MER_LIB_DIR/java
+		MER_JAVA_CP=
+		
+		for arg in "$@" 
+		do
+			JAR=${MER_JAVA_LIB_DIR}/${arg}.jar
+			echo $JAR
+			if [ -r $JAR ] ; then
+				if [ -z $MER_JAVA_CP ] ; then
+					MER_JAVA_CP=$JAR
+				else
+					MER_JAVA_CP=$MER_JAVA_CP:$JAR
+				fi
+			fi
+		done
+		if [ ! -z $MER_JAVA_CP ] ; then
+			OPS="--java-classpath $MER_JAVA_CP $OPS"
+		fi
+		;;
+	mmcs)
+		echo Is using mmc with C# 
+		;;
+	*)
+		echo Is using an unconfigured grade $0
+		exit 1 
+		;;
+esac
+
+
+
 FIRST=$1
 if [ -r Mercury.options ] ;
 then
@@ -13,15 +53,12 @@ then
 fi
 
 
-OPS="--use-grade-subdirs --no-detect-libgrades -s asm_fast.gc -m"
-MMC=$(which mmc)
 
 $MMC $OPS $*
 
 if [ $# -eq 0 ] ;
 then
 	FIRST=$MAIN_TARGET
-	echo FIRST is $MAIN_TARGET
 else
 	shift
 fi
