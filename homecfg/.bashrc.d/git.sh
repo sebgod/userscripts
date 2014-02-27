@@ -20,6 +20,7 @@ function git-branch()
 }
 
 # useful aliases
+alias gm="git-checkout master"
 alias gs="git-status"
 alias gd="git-diff"
 alias ga="git-add"
