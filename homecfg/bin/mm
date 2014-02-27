@@ -1,14 +1,13 @@
 #!/bin/sh
 
 MMC=$(which mmc)
+OPS="--use-grade-subdirs -m"
 case $(basename $0) in
 	mm)
-		echo Is using mmc with asm_fast.gc
-		OPS="--use-grade-subdirs --no-detect-libgrades -s asm_fast.gc -m"
+		OPS="$OPS --no-detect-libgrades -s asm_fast.gc"
 		;;
 	mmj)
-		echo Is using mmc with java
-		OPS="-s java --no-detect-libgrades --use-grade-subdirs -m"
+		OPS="$OPS -s java --no-detect-libgrades"
 		MER_LIB_DIR=$(dirname $(dirname $MMC))/lib/mercury/lib
 		MER_JAVA_LIB_DIR=$MER_LIB_DIR/java
 		MER_JAVA_CP=
@@ -30,7 +29,10 @@ case $(basename $0) in
 		fi
 		;;
 	mmcs)
-		echo Is using mmc with C# 
+		OPS="$OPS -s csharp --no-detect-libgrades"
+		;;
+	mmtr)
+		OPS="$OPS --use-trail --trail-segments"
 		;;
 	*)
 		echo Is using an unconfigured grade $0
