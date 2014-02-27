@@ -8,6 +8,7 @@ if exists("b:current_syntax")
 endif
 let b:current_syntax = "mercury"
 
+set fdm=indent
   " Mercury is case sensitive.
   "
 syn case match
