@@ -8,7 +8,7 @@ if exists("b:current_syntax")
 endif
 let b:current_syntax = "mercury"
 
-set fdm=indent
+set fdm=syntax
   " Mercury is case sensitive.
   "
 syn case match
@@ -74,14 +74,15 @@ syn keyword mercuryToDo         XXX TODO NOTE
 syn keyword mercuryLogical      some all not if then else true fail false
 syn keyword mercuryLogical      try catch catch_any
 syn keyword mercuryLogical      semidet_true semidet_false semidet_fail
-syn keyword mercuryLogical      impure_true 
+syn keyword mercuryLogical      impure_true
 syn match   mercuryImplication  +<=>\|<=\|=>\|/\\\|\\/+
 syn match   mercuryNumCode      +0'.\|0[box][0-9a-fA-F]*+
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
-syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+                              contains=mercuryStringFmt
-syn match   mercuryStringFmt    +\\[abfnrtv]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+                                                                           contained
-syn region  mercuryClauseHead   start=+^[a-zA-Z]+ end=+=\|:-\|\.\s*$\|-->+                    contains=mercuryComment,mercuryCComment,mercuryAtom,mercuryString
-syn region  mercuryCComment     start=+/\*+ end=+\*/+                                         contains=mercuryToDo
+syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+                                  contains=mercuryStringFmt
+syn match   mercuryStringFmt    +\\[abfnrtv\\]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
+syn match   mercuryDot          +\.\s*$+
+syn region  mercuryClauseHead   start=+^[a-zA-Z]+ end=+=\|:-\|\.\s*$\|\(-\)?-->+                 contains=mercuryComment,mercuryCComment,mercuryAtom,mercuryString
+syn region  mercuryCComment     start=+/\*+ end=+\*/+                                         contains=mercuryToDo   transparent fold
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   " The complicated regexp here matches an 80-column string,
   " with proper treatment of tabs (assuming the tab size is 8):
@@ -108,3 +109,4 @@ hi link mercuryString           String
 hi link mercuryStringFmt        Special
 hi link mercuryAtom             Constant
 hi link mercuryTooLong          ErrorMsg
+hi link mercuryDot              Operator
