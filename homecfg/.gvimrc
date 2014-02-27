@@ -3,6 +3,7 @@
 set modeline
 set fdm=indent
 set fdc=4
+set bs=2
 :colorscheme darkblue
 
 if has("gui_running")
