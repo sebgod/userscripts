@@ -92,6 +92,6 @@
 
 @if not exist %~dp0api mkdir %~dp0api
 
-@path %path%;%~dp0api\git\cmd;%MERCURY_HOME%\bin;%~dp0api\%sysinternals_folder%;%svn_basedir%;%curl_basedir%\bin
+@path %path%;%~dp0api\git\cmd;%MERCURY_HOME%\bin;%~dp0api\%sysinternals_folder%;%svn_basedir%;%curl_basedir%\bin;%~dp0api
 @call %cl_vsdevcmd%
 @doskey /MACROFILE=%~dp0macros.txt
