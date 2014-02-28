@@ -80,8 +80,8 @@ syn match   mercuryNumCode      +0'.\|0[box][0-9a-fA-F]*+
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+                                  contains=mercuryStringFmt
 syn match   mercuryStringFmt    +\\[abfnrtv\\]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
-syn match   mercuryDot          +\.\s*$+
-syn region  mercuryClauseHead   start=+^[a-zA-Z]+ end=+=\|:-\|\.\s*$\|\(-\)?-->+                 contains=mercuryComment,mercuryCComment,mercuryAtom,mercuryString
+" syn region  mercuryClauseHead   start=+^[a-zA-Z]+ end=+=\|:-\|\.\s*$\|\(-\)?-->+                 contains=mercuryComment,mercuryCComment,mercuryAtom,mercuryString
+syn region  mercuryBlock  matchgroup=mercuryOperator     start='(' end=')'  transparent fold  contains=mercuryBlock
 syn region  mercuryCComment     start=+/\*+ end=+\*/+                                         contains=mercuryToDo   transparent fold
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   " The complicated regexp here matches an 80-column string,
@@ -109,4 +109,4 @@ hi link mercuryString           String
 hi link mercuryStringFmt        Special
 hi link mercuryAtom             Constant
 hi link mercuryTooLong          ErrorMsg
-hi link mercuryDot              Operator
+hi link mercuryOperator         Operator
