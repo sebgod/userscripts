@@ -2,6 +2,7 @@ syntax on
 filetype plugin on
 set autoindent
 set modeline
+set rnu
 
 
 if has("multi_byte")
