@@ -9,7 +9,9 @@ endif
 let b:current_syntax = "mercury"
 
 set fdm=syntax
-  " Mercury is case sensitive.
+set foldnestmax=3
+set foldminlines=10
+" Mercury is case sensitive.
   "
 syn case match
 
