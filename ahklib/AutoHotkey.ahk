@@ -33,6 +33,10 @@ OnClipboardChange:
 return
 
 #Include <composeKey>
+#Include <diablo2>
+
+^!F1::clip_ActiveWindow()
+^!F2::clip_Release()
 
 #IfWinActive ahk_class HH Parent
 Esc::send, !{F4}
@@ -109,7 +113,7 @@ CapsLock & e::tsf_switch(2057, GetKeyState("shift"))
 CapsLock::tsf_toggle_language()
 #if GetKeyState("CapsLock", "T")
 !CapsLock::SetCapsLockState AlwaysOff
-ß::Send, {U+1E9E}
+ß::Send, {U+1E9E}   
 #if
 
 #UseHook OFF
