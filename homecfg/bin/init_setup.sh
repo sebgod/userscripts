@@ -6,11 +6,11 @@ sudo apt-get install git build-essential flex bison autoconf automake xsltproc c
 # X Window sstem
 sudo apt-get install xterm libxmu-dev libxmu-headers
 # Java 7
-sudo apt-get install openjdk-7-jdk
+sudo apt-get install openjdk-7-jdk maven
 # Mono
 sudo apt-get install mono-devel
 # graphics dev
-sudo apt-get install libglu1-mesa-dev mesa-common-dev freeglut3-dev liballeggl4-dev libcairo2-dev libglfw-dev
+sudo apt-get install libglu1-mesa-dev mesa-common-dev freeglut3-dev liballeggl4-dev libcairo2-dev libglfw-dev libjpeg-dev
 # graphics use
 sudo apt-get install imagemagick
 # TCL/TK 8.5
@@ -19,6 +19,8 @@ sudo apt-get install tk-dev libtogl-dev togl-demos
 sudo apt-get install ncurses-dev
 # Networking
 sudo apt-get install libssl-dev
+# HTML/XML
+sudo apt-get install tidy libxml-dev
 
 [ -r github ] || mkdir github
 pushd github
@@ -86,6 +88,24 @@ pushd sebgod/mercury
 git pull
 # popping github/sebgod/mercury
 popd
+
+# fetching JNA
+
+[ -r jna ] || git clone https://github.com/twall/jna.git
+
+pushd jna
+git pull
+ant
+popd
+
+# fetching pl-devel
+
+[ -r pl-devel ] || (
+	git clone git://www.swi-prolog.org/home/pl/git/pl-devel.git
+	pushd pl-devel
+	./prepare
+	popd
+)
 
 # fetching libgit2
 [ -r libgit2 ] || git clone https://github.com/libgit2/libgit2.git

@@ -1,0 +1,113 @@
+; --- settings ---
+set backup-style off
+set tabstop 3
+set shiftwidth 3
+set timeoutlen 10
+set undolimit 0
+set linewrap=on
+set modeline
+
+; --- key bindings ---
+bind-key grow-window +
+bind-key shrink-window -
+bind-key next-buffer ^I
+bind-key previous-buffer v
+bind-key write-changed-buffers ^W
+bind-key beginning-of-line #H
+bind-key end-of-line #E
+
+; --- filters ---
+source filters.rc
+; something is wrong with this section - tabstop adjustment doesn't work in confmode
+define-mode yaml
+~with define-submode yaml
+	suffixes '\.\(yaml\|yml\)$'
+	comment-prefix '^\s*#'
+	comments       '^\s*#\s*$'
+	autoindent
+	notabinsert
+	tabstop 4
+	shiftwidth 4
+~endwith
+
+; --- no tabs for ruby ---
+define-mode rb
+~with define-submode rb
+	pre '^#!\s*\(\/[^\\]*\)\?\<ruby[0-9]*\>'
+	suffixes '\.rb$'
+	autoindent
+	notabinsert
+	tabstop 2
+	shiftwidth 2
+~endwith
+define-mode erb
+~with define-submode erb
+	filtername  'vile-html-filt -a'
+	before      "html"
+	suffixes '\.\(erb\|rhtml\)$'
+	autoindent
+	notabinsert
+	tabstop 2
+	shiftwidth 2
+~endwith
+define-mode htmlscript
+~with define-submode htmlscript
+	filtername  'vile-html-filt -a'
+	before      "html"
+	suffixes '\.puma$'
+~endwith
+
+; --- rcmode really sucks, clearing it ---
+define-mode rc
+~with define-submode rc
+	suffixes	'\(SomeNonsense$\)'
+~endwith
+
+; --- flex '.as' as java ---
+define-mode java
+~with define-submode java
+	suffixes '\.\(java\|jad\|as\)$'
+	cindent
+	cindent-chars &cat ':' $fences
+~endwith
+
+; --- autocolor ---
+set autocolor=100
+setv $autocolor-hook HighlightFilter
+setv $read-hook HighlightFilter
+
+; --- manual line-wrap ---
+1 store-macro
+	beginning-of-line
+	first-nonwhite
+	set-variable %indentlevel &subtract $curcol 1
+	beginning-of-line
+	~force 78 forward-character-to-eol
+	~if &gt $curcol 76
+		search-reverse " "
+		replace-char \n
+		%indentlevel insert-space
+	~else
+		down-arrow
+	~endif
+	beginning-of-line
+~endm
+bind-key execute-macro-1 ^Q #2
+
+; --- tabstop width adjustment ---
+2 store-macro
+	~if &eq &local tabstop 8
+		setl tabstop 2
+		setl shiftwidth 2
+	~elseif &eq &local tabstop 2
+		setl tabstop 3
+		setl shiftwidth 3
+	~elseif &eq &local tabstop 3
+		setl tabstop 4
+		setl shiftwidth 4
+	~else
+		setl tabstop 8
+		setl shiftwidth 8
+	~endif
+~endm
+bind-key execute-macro-2 ^? #2
