@@ -11,7 +11,7 @@ let b:current_syntax = "mercury"
 set fdm=syntax
 set foldnestmax=3
 set foldminlines=10
-" Mercury is case sensitive.
+  " Mercury is case sensitive.
   "
 syn case match
 
@@ -29,12 +29,16 @@ syn case match
   "   let mercury_no_highlight_overlong = 1
   "
   " somewhere in your `.vimrc' file.
-  "
+
+syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryModeline
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
-  syn region  mercuryComment      start=+%+ end=+.*$+                                           contains=mercuryToDo
+  syn region  mercuryComment                               start=+%+ end=+.*$+            oneline  contains=@mercuryCommentDirectives
+  syn region  mercuryCComment matchgroup=mercuryComment    start=+/\*+ end=+\*/+             fold  contains=@mercuryCommentDirectives
 else
-  syn region  mercuryComment      start=+%[-=%*_]*+ end=+.*$+he=s-1                             contains=mercuryToDo
+  syn region  mercuryComment                            start=+%[-=%*_]*+ end=+.*$+he=s-1 oneline  contains=@mercuryCommentDirectives
+  syn region  mercuryCComment matchgroup=mercuryComment start=+/\*+ end=+\*/+    transparent fold  contains=@mercuryCommentDirectives
 endif
+syn keyword mercuryAnyVar       _
 syn keyword mercuryKeyword      module use_module import_module
 syn keyword mercuryKeyword      include_module end_module
 syn keyword mercuryKeyword      initialise mutable
@@ -73,25 +77,77 @@ syn keyword mercuryCInterface   does_not_affect_liveness doesnt_affect_liveness
 syn keyword mercuryCInterface   no_sharing unknown_sharing sharing
 syn keyword mercuryImpure       impure semipure
 syn keyword mercuryToDo         XXX TODO NOTE         
-syn keyword mercuryLogical      some all not if then else true fail false
+syn keyword mercuryBool         true false
+syn keyword mercuryLogical      some all not if then else fail or and
 syn keyword mercuryLogical      try catch catch_any
 syn keyword mercuryLogical      semidet_true semidet_false semidet_fail
 syn keyword mercuryLogical      impure_true
-syn match   mercuryImplication  +<=>\|<=\|=>\|/\\\|\\/+
+syn match   mercuryLogical      "\\+"
+syn match   mercuryImplication  +<=>\|<=\|=>+
+syn match   mercuryImplication  "\\/"
+syn match   mercuryImplication  "/\\"
+syn match   mercuryOperator     "=\.\."
+syn match   mercuryOperator     "="
+syn match   mercuryOperator     "=:="
+syn match   mercuryOperator     "=<"
+syn match   mercuryOperator     "=\\="
+syn match   mercuryOperator     "@<"
+syn match   mercuryOperator     "@=<"
+syn match   mercuryOperator     "@>"
+syn match   mercuryOperator     "@>="
+syn match   mercuryOperator     ">="
+syn match   mercuryOperator     ">"
+syn match   mercuryOperator     "\\=="
+syn match   mercuryOperator     "\\="
+syn match   mercuryOperator     "\~="
+syn match   mercuryOperator     ":="
+syn match   mercuryOperator     ":-"
+syn match   mercuryOperator     "![:.]\{0,1}"
+  " The first semicolon in the line has the operator colour, matching '(,)'
+syn match   mercuryOperator     "\v^\s+;"
+  " The inline semicolon the implication colour, matching '->'
+syn match   mercuryImplication  ";"
+syn match   mercuryOperator     "++"
+syn match   mercuryOperator     "+"
+syn match   mercuryOperator     "::"
+syn match   mercuryOperator     "&"
+syn match   mercuryOperator     "--->"
+syn match   mercuryOperator     "-->"
+syn match   mercuryImplication  "->"
+syn match   mercuryOperator     "?-"
+syn match   mercuryOperator     "-"
+syn match   mercuryOperator     "/"
+syn match   mercuryOperator     "*"
+syn match   mercuryOperator     "\^"
+syn match   mercuryTerminator   "\v\.$"
 syn match   mercuryNumCode      +0'.\|0[box][0-9a-fA-F]*+
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+                                  contains=mercuryStringFmt
-syn match   mercuryStringFmt    +\\[abfnrtv\\]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
-" syn region  mercuryClauseHead   start=+^[a-zA-Z]+ end=+=\|:-\|\.\s*$\|\(-\)?-->+                 contains=mercuryComment,mercuryCComment,mercuryAtom,mercuryString
-syn region  mercuryBlock  matchgroup=mercuryOperator     start='(' end=')'  transparent fold  contains=mercuryBlock
-syn region  mercuryCComment     start=+/\*+ end=+\*/+                                         contains=mercuryToDo   transparent fold
+syn match   mercuryStringFmt    +""\|\\[abfnrtv\\"]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
+syn cluster mercuryTerms  contains=mercuryBlock,mercuryList,mercuryString,mercuryAtom,mercuryComment,mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar
+syn cluster mercuryCode   contains=@mercuryTerms,mercuryKeyword,mercuryLogical,mercuryImplication
+syn region  mercuryList      matchgroup=mercuryOperator  start='\[' end=']'    transparent fold  contains=@mercuryTerms
+syn region  mercuryBlock     matchgroup=mercuryOperator  start='(' end=')'     transparent fold  contains=@mercuryCode
+syn region  mercuryDCGAction matchgroup=mercuryOperator  start='{' end='}'     transparent fold  contains=@mercuryCode
+syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   " The complicated regexp here matches an 80-column string,
-  " with proper treatment of tabs (assuming the tab size is 8):
-  " each row consists of 10 columns, and each column consists of either 8
-  " non-tab characters, or 0-7 non-tab characters followed by a tab.
-  syn match   mercuryFirst80 +^\([^	]\{8}\|[^	]\{0,7}	\)\{10}+                                contains=ALL
-  syn match   mercuryTooLong +^\([^	]\{8}\|[^	]\{0,7}	\)\{10}..*+                             contains=mercuryFirst80
+  " with proper treatment of tabs (assuming the tab size is 4):
+  " each row consists of 20 columns, and each column consists of either 4
+  " non-tab characters, or 0-4 non-tab characters followed by a tab.
+  syn match   mercuryFirst80 +^\([^	]\{4}\|[^	]\{0,3}	\)\{20}+                                contains=ALL
+  syn match   mercuryTooLong +^\([^	]\{4}\|[^	]\{0,3}	\)\{20}..*+                             contains=mercuryFirst80
+endif
+
+  " Matching Vim modeline 
+syn match   mercuryModeline  "\vvim:([ :]((sw|ts|tw|wm)\=\d+|et|(ft\=\w+)))+" contained
+
+if !exists("mercury_no_highlight_trailing_whitespace") || !mercury_no_highlight_trailing_whitespace
+  syn match mercuryWhitespace "\v\s+$"
+endif
+
+if !exists("mercury_allow_tabs") || !mercury_allow_tabs
+  syn match mercuryWhitespace "\v\t+"
 endif
 
 syn sync fromstart
@@ -104,11 +160,16 @@ hi link mercuryKeyword          Keyword
 hi link mercuryPragma           PreProc
 hi link mercuryCInterface       PreProc
 hi link mercuryToDo             Todo
+hi link mercuryBool             Special
 hi link mercuryLogical          Special
 hi link mercuryImplication      Special
-hi link mercuryClauseHead       Statement
+hi link mercuryAnyVar           Special
+hi link mercuryOperator         Operator
+hi link mercuryInlined          Operator
 hi link mercuryString           String
 hi link mercuryStringFmt        Special
 hi link mercuryAtom             Constant
 hi link mercuryTooLong          ErrorMsg
-hi link mercuryOperator         Operator
+hi link mercuryWhitespace       ErrorMsg
+hi link mercuryTerminator       Statement
+hi link mercuryModeline         Special
