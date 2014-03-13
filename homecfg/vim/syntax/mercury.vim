@@ -207,19 +207,22 @@ endif
 
   " Comment handling
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}\s+" contained
-syn match mercuryCommentInfo "\(Main \)\?[Aa]uthor[s]\?\|Stability\|File" contained
+syn match mercuryCommentInfo "\(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\):" contained
 syn match mercuryCommentInfo "Copyright (C)" contained
 syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
   syn region  mercuryComment                                 start=+%+   end=+.*$+          oneline  contains=@mercuryCommentDirectives
-  syn region  mercuryCComment      matchgroup=mercuryComment start=+/\*+ end=+\*/+             fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
+  syn region  mercuryCComment      matchgroup=mercuryComment start=+/\*+ end="\*/"             fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
   syn region  mercuryCppLikeComment matchgroup=mercuryComment  start=+//+  end=+.*$+        oneline contained contains=@mercuryCommentDirectives
 else
   syn region  mercuryComment                                 start=+%[-=%*_]*+ end=+.*$+he=s-1 oneline  contains=@mercuryCommentDirectives
   syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/"  transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
   syn region  mercuryCppLikeComment matchgroup=mercuryComment start=+//+ matchgroup=NONE end=+.*$+ transparent oneline contained contains=@mercuryCommentDirectives
 endif
+
+  " Matching the output of the error command in extras
+syn region  mercuryCComment      matchgroup=mercuryError start="/\* ###" end="\v[^*]+\*/"         oneline
 
   " Matching Vim modeline
 syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\={-}" contained
@@ -259,6 +262,7 @@ hi link mercuryCSharpString     mercuryString
 hi link mercuryCSharpStringFmt  mercuryStringFmt
 hi link mercuryCSharpStringFmtEsc Identifier
 hi link mercuryDelimiter        Delimiter
+hi link mercuryError            ErrorMsg
 hi link mercuryImpure           Special
 hi link mercuryKeyword          Keyword
 hi link mercuryModelineParam    Identifier
@@ -276,7 +280,7 @@ hi link mercuryInlined          Operator
 hi link mercuryString           String
 hi link mercuryStringFmt        Special
 hi link mercuryToDo             Todo
-hi link mercuryTooLong          ErrorMsg
-hi link mercuryWhitespace       ErrorMsg
+hi link mercuryTooLong          mercuryError
+hi link mercuryWhitespace       mercuryError
 hi link mercuryTerminator       Delimiter
 hi link mercuryType             Type
