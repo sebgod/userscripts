@@ -116,11 +116,11 @@ syn match   mercuryOperator     "*"
 syn match   mercuryOperator     "\^"
 syn match   mercuryTerminator   "\v\.($|\s+)"
 syn match   mercuryImplication  "<=>\|<=\|=>"
-syn match   mercuryNumCode      +0'.\|0[box][0-9a-fA-F]*+
+syn match   mercuryNumCode      /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+)>/
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt
 syn match   mercuryStringFmt    +\\[abfnrtv\\"]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
-syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryAtom,mercuryComment,mercuryKeyword
+syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword
 syn cluster mercuryTerms     add=mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar,mercuryImplication
 syn cluster mercuryCode      contains=@mercuryTerms,mercuryLogical
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod
@@ -155,13 +155,14 @@ syn match mercuryCLikeBracket  "[{}()]" contained
 syn match mercuryCLikeCharEsc +\\\\\([abfnrtv]\|0[0-7]*\|[xuU][0-9a-fA-F]*\)+ contained
 syn region mercuryCLikeChar start=+'+ end=+'+ contained contains=mercuryCLikeCharEsc
 syn cluster mercuryCLike contains=mercuryCLikeKeyword,mercuryCLikeType,mercuryCLikeOperator,mercuryCComment,mercuryCLikeChar
-syn cluster mercuryCLike add=mercuryCLikeBracket,mercuryCLikeDelimiter,mercuryForeignIface
+syn cluster mercuryCLike add=mercuryNumCode,mercuryCLikeBracket,mercuryCLikeDelimiter,mercuryForeignIface
 
   " C99 Language formatting
-syn keyword mercuryCType size_t offset_t union MR_bool MR_Word contained
+syn keyword mercuryCType size_t offset_t union MR_bool MR_Word MR_Integer MR_Float contained
 syn keyword mercuryCKeyword typedef sizeof typeof offsetof contained
-syn keyword mercuryCBool MR_TRUE MR_FALSE NULL contained
-syn cluster mercuryCPredef contains=mercuryCBool
+syn keyword mercuryCConst NULL EOF contained
+syn keyword mercuryCBool MR_TRUE MR_FALSE contained
+syn cluster mercuryCPredef contains=mercuryCBool,mercuryCConst
 syn match mercuryCPreProc "#\(if\(n\?def\)\?\|else\|elif\|endif\|define\|include\|error\|warning\|line\)" contained
 syn match mercuryCStringFmt    +%[-+# *.0-9]*[dioxXucsfeEgGp]+                                contained
 syn region mercuryCString start=+""+ end=+""+ contained contains=mercuryCStringFmt,mercuryCLikeCharEsc
@@ -170,7 +171,7 @@ syn cluster mercuryC contains=@mercuryCLike,@mercuryCPredef,mercuryCType,mercury
 " C++-Style for Java and C# (bool, // comments, exception handling etc)
 syn keyword mercuryCppLikeKeyword new delete try catch instanceof abstract throw[s] extends contained
 syn keyword mercuryCppLikeBool true false contained
-syn keyword mercuryCppLikeMod public private protected internal contained
+syn keyword mercuryCppLikeMod public private protected internal virtual final readonly contained
 syn cluster mercuryCppLike contains=@mercuryC,mercuryCppLikeComment,mercuryCppLikeKeyword,mercuryCppLikeBool,mercuryCppLikeMod
 
   " Declaration for C99
@@ -250,6 +251,7 @@ hi link mercuryCLikeKeyword     Keyword
 hi link mercuryCLikeString      mercuryString
 hi link mercuryCLikeType        Type
 hi link mercuryCBool            mercuryBool
+hi link mercruyCConst           Constant
 hi link mercuryCKeyword         Keyword
 hi link mercuryCStringFmt       mercuryStringFmt
 hi link mercuryCType            Type
@@ -266,7 +268,7 @@ hi link mercuryError            ErrorMsg
 hi link mercuryImpure           Special
 hi link mercuryKeyword          Keyword
 hi link mercuryModelineParam    Identifier
-hi link mercuryNumCode          Number
+hi link mercuryNumCode          Constant
 hi link mercuryPragma           PreProc
 hi link mercuryForeignMod       mercuryForeignIface
 hi link mercuryForeignOperator  mercuryOperator
