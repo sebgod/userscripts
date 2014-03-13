@@ -207,7 +207,9 @@ endif
 
   " Comment handling
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}\s+" contained
-syn cluster mercuryCommentDirectives contains=mercuryToDo
+syn match mercuryCommentInfo "\(Main \)\?[Aa]uthor[s]\?\|Stability\|File" contained
+syn match mercuryCommentInfo "Copyright (C)" contained
+syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
   syn region  mercuryComment                                 start=+%+   end=+.*$+          oneline  contains=@mercuryCommentDirectives
@@ -232,6 +234,7 @@ hi link mercuryAtom             Constant
 hi link mercuryBracket          mercuryDelimiter
 hi link mercuryBool             Special
 hi link mercuryComment          Comment
+hi link mercuryCommentInfo      Identifier
 hi link mercuryCComment         mercuryComment
 hi link mercuryCCommentPrefix   mercuryComment
 hi link mercuryCInterface       mercuryPragma
