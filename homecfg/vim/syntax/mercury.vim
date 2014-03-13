@@ -120,8 +120,9 @@ syn match   mercuryNumCode      +0'.\|0[box][0-9a-fA-F]*+
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+                                  contains=mercuryStringFmt
 syn match   mercuryStringFmt    +\\[abfnrtv\\"]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
-syn cluster mercuryTerms  contains=mercuryBlock,mercuryList,mercuryString,mercuryAtom,mercuryComment,mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar,mercuryImplication
-syn cluster mercuryCode   contains=@mercuryTerms,mercuryKeyword,mercuryLogical
+syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryAtom,mercuryComment,mercuryKeyword
+syn cluster mercuryTerms     add=mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar,mercuryImplication
+syn cluster mercuryCode      contains=@mercuryTerms,mercuryLogical
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']'    transparent fold  contains=@mercuryTerms,mercuryForeignMod
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'     transparent fold  contains=@mercuryCode
 syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'     transparent fold  contains=@mercuryCode
@@ -172,7 +173,7 @@ syn keyword mercuryCppLikeBool true false contained
 syn cluster mercuryCppLike contains=@mercuryC,mercuryCppLikeComment,mercuryCppLikeKeyword,mercuryCppLikeBool
 
   " Declaration for C99
-syn region mercuryCCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryC
+syn region mercuryCCode      matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryC
 syn region mercuryCDecl start=/\v^:-\s+pragma\s+foreign_\w+\("C"/ matchgroup=mercuryDelimiter end=/)\.$/ transparent contains=@mercuryForeign,mercuryCCode
 
   " Declaration for C#
@@ -181,7 +182,7 @@ syn region mercuryCSharpCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"
 syn region mercuryCSharpDecl start=/\v^:-\s+pragma\s+foreign_\w+\("C#"/ matchgroup=mercuryDelimiter end=+)\.$+ transparent contains=@mercuryForeign,mercuryCSharpCode
 
   " Declaration for Java
-syn region mercuryJavaCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryCppLike,mercuryCString
+syn region mercuryJavaCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryCppLike,mercuryCString
 syn region mercuryJavaDecl start=/\v^:-\s+pragma\s+foreign_\w+\("Java"/ matchgroup=mercuryDelimiter end=+)\.$+ transparent contains=@mercuryForeign,mercuryJavaCode
 
   " The language identifier has precedence over the code blocks
@@ -199,13 +200,13 @@ endif
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}\s+" contained
 syn cluster mercuryCommentDirectives contains=mercuryToDo
 
-syn region  mercuryCppLikeComment matchgroup=mercuryComment start=+//+ end=+.*$+            oneline  contained
+syn region  mercuryCppLikeComment matchgroup=mercuryComment  start=+//+  end=+.*$+          oneline  contained
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
-  syn region  mercuryComment                               start=+%+ end=+.*$+            oneline  contains=@mercuryCommentDirectives
-  syn region  mercuryCComment   matchgroup=mercuryComment    start=+/\*+ end=+\*/+           fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
+  syn region  mercuryComment                                 start=+%+   end=+.*$+          oneline  contains=@mercuryCommentDirectives
+  syn region  mercuryCComment      matchgroup=mercuryComment start=+/\*+ end=+\*/+             fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
 else
-  syn region  mercuryComment                            start=+%[-=%*_]*+ end=+.*$+he=s-1 oneline  contains=@mercuryCommentDirectives
-  syn region  mercuryCComment   matchgroup=mercuryComment start=+/\*+ end=+\*/+  transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
+  syn region  mercuryComment                                 start=+%[-=%*_]*+ end=+.*$+he=s-1 oneline  contains=@mercuryCommentDirectives
+  syn region  mercuryCComment      matchgroup=mercuryComment start=+/\*+ end=+\*/+    transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
 endif
 
   " Matching Vim modeline
