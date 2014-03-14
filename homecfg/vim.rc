@@ -3,7 +3,7 @@ filetype plugin on
 set autoindent
 set modeline
 set rnu
-
+set tags=./tags;
 
 if has("multi_byte")
   set encoding=utf-8                     " better default than latin1
