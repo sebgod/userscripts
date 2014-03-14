@@ -16,19 +16,28 @@ set foldminlines=10
 syn case match
 
   " The default highlighting for Mercury comments is to only highlight the
-  " initial `%' and subsequent `line' punctuation characters.  To highlight
-  " everything including the comment text, add
+  " initial `%' and subsequent `line' punctuation characters, likewise
+  " the /* and */ from C-style comments.
+  " To highlight everything including the comment text, add
+  "
+  " In your .vimrc file, you can specify following options:
   "
   "   let mercury_highlight_full_comment = 1
-  "
-  " somewhere in your `.vimrc' file.
   "
   " By default, parts of lines that extend over 80 characters will be
   " highlighted.  To avoid this behaviour, add
   "
   "   let mercury_no_highlight_overlong = 1
   "
-  " somewhere in your `.vimrc' file.
+  " To facilitate better git patch management,
+  " spurious whitespace is marked as an erro, to supress these errors, use
+  "
+  "   let mercury_no_highlight_trailing_whitespace = 1
+  "
+  " Highlighting of C,Java,C# and Erlang code is supported by default,
+  " disable (if you think loading huge files is slow) with:
+  "
+  "   let mercury_no_highlight_foreign = 1
 
 syn keyword mercuryAnyVar       _
 syn keyword mercuryKeyword      module use_module import_module
@@ -75,6 +84,7 @@ syn keyword mercuryLogical      some all not if then else fail or and or_else
 syn keyword mercuryLogical      try catch catch_any
 syn keyword mercuryLogical      semidet_true semidet_false semidet_fail
 syn keyword mercuryLogical      impure_true
+syn match   mercuryImplKeyword  "\v\$(file|grade|line|pred|module)>"
 syn match   mercuryDelimiter    ","
 syn match   mercuryOperator     "-"           " substraction operator or unary minus
 syn match   mercuryOperator     "="           " unification
@@ -116,12 +126,15 @@ syn match   mercuryOperator     "*"
 syn match   mercuryOperator     "\^"
 syn match   mercuryTerminator   "\v\.($|\s+)"
 syn match   mercuryImplication  "<=>\|<=\|=>"
-syn match   mercuryNumCode      /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+)>/
+  " XXX Technically, Mercury numbers do not have suffixes, but it shouldn't
+  " hurt to include them here.
+syn match   mercuryNumCode      /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+)[lLfFm]?>/
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt
 syn match   mercuryStringFmt    +\\[abfnrtv\\"]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
-syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword
-syn cluster mercuryTerms     add=mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar,mercuryImplication
+syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,
+  \ mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,
+  \ mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar,mercuryImplication
 syn cluster mercuryCode      contains=@mercuryTerms,mercuryLogical
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode
@@ -137,87 +150,106 @@ if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn match   mercuryTooLong +^\([^	]\{4}\|[^	]\{0,3}	\)\{20}..*+                             contains=mercuryFirst80
 endif
 
-  " Basic syntax highlighting for foreign code
-syn match mercuryForeignParen "(\|)" contained
-syn cluster mercuryForeign contains=mercuryList,mercuryCInterface,mercuryKeyword,mercuryOperator,mercuryForeignLangId,mercuryForeignParen
-syn keyword mercuryForeignIface SUCCESS_INDICATOR contained
+if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
+    " Basic syntax highlighting for foreign code
+  syn match mercuryForeignParen "(\|)" contained
+  syn cluster mercuryForeign contains=mercuryList,mercuryCInterface,mercuryKeyword,mercuryOperator,mercuryForeignLangId,mercuryForeignParen
+  syn keyword mercuryForeignIface SUCCESS_INDICATOR contained
 
-  " C-Style syntax as a basis for C,C# and Java
-syn keyword mercuryCLikeKeyword if else goto switch case for while do break continue return volatile extern typedef static contained
-syn keyword mercuryCLikeType void null int char long byte unsigned signed struct float double enum contained
-syn match mercuryCLikeDelimiter ";," contained
-syn match mercuryCLikeOperator "[!-+=*/><~?:]" contained
-syn match mercuryCLikeOperator "[!-+=*/><]\?=" contained
-syn match mercuryCLikeOperator "--\|++" contained
-syn match mercuryCLikeOperator "|\{1,2}\|&\{1,2}" contained
-syn match mercuryCLikeBracket  "\[\|]" contained
-syn match mercuryCLikeBracket  "[{}()]" contained
-syn match mercuryCLikeCharEsc +\\\\\([abfnrtv]\|0[0-7]*\|[xuU][0-9a-fA-F]*\)+ contained
-syn region mercuryCLikeChar start=+'+ end=+'+ contained contains=mercuryCLikeCharEsc
-syn cluster mercuryCLike contains=mercuryCLikeKeyword,mercuryCLikeType,mercuryCLikeOperator,mercuryCComment,mercuryCLikeChar
-syn cluster mercuryCLike add=mercuryNumCode,mercuryCLikeBracket,mercuryCLikeDelimiter,mercuryForeignIface
+    " C-Style syntax as a basis for C,C# and Java
+  syn keyword mercuryCLikeKeyword if else goto switch case for while do break continue return volatile extern typedef static default contained
+  syn keyword mercuryCLikeType void int char long byte unsigned signed struct float double enum contained
+  syn match mercuryCLikeDelimiter ";," contained
+  syn match mercuryCLikeOperator "[!-+=*/><~?:]" contained
+  syn match mercuryCLikeOperator "[!-+=*/><]\?=" contained
+  syn match mercuryCLikeOperator "--\|++" contained
+  syn match mercuryCLikeOperator "|\{1,2}\|&\{1,2}" contained
+  syn match mercuryCLikeBracket  "\[\|]" contained
+  syn match mercuryCLikeBracket  "[{}()]" contained
+  syn match mercuryCLikeCharEsc +\\\\\([abfnrtv]\|0[0-7]*\|[xuU][0-9a-fA-F]*\)+ contained
+  syn region mercuryCLikeChar start=+'+ end=+'+ contained contains=mercuryCLikeCharEsc
+  syn cluster mercuryCLike contains=mercuryCLikeKeyword,mercuryCLikeType,mercuryCLikeOperator,mercuryCComment,mercuryCLikeChar
+  syn cluster mercuryCLike add=mercuryNumCode,mercuryCLikeBracket,mercuryCLikeDelimiter,mercuryForeignIface
 
-  " C99 Language formatting
-syn keyword mercuryCType size_t offset_t union MR_bool MR_Word MR_Integer MR_Float contained
-syn keyword mercuryCKeyword typedef sizeof typeof offsetof contained
-syn keyword mercuryCConst NULL EOF contained
-syn keyword mercuryCBool MR_TRUE MR_FALSE contained
-syn cluster mercuryCPredef contains=mercuryCBool,mercuryCConst
-syn match mercuryCPreProc "#\(if\(n\?def\)\?\|else\|elif\|endif\|define\|include\|error\|warning\|line\)" contained
-syn match mercuryCStringFmt    +%[-+# *.0-9]*[dioxXucsfeEgGp]+                                contained
-syn region mercuryCString start=+""+ end=+""+ contained contains=mercuryCStringFmt,mercuryCLikeCharEsc
-syn cluster mercuryC contains=@mercuryCLike,@mercuryCPredef,mercuryCType,mercuryCKeyword,mercuryCPreProc,mercuryCString
+    " C99 Language formatting
+  syn keyword mercuryCType contained const size_t pid_t offset_t union MR_bool MR_Word MR_Integer
+    \ MR_Unsigned MR_ArrayPtr MR_Float MR_file
+  syn match mercuryCType "\v<MR_((Pseudo)?TypeInfo|TypeCtor(Desc|Info)|AllocSiteInfoPtr)|MercuryLock>" contained
+  syn keyword mercuryCKeyword typedef sizeof typeof offsetof contained
+  syn keyword mercuryCConst NULL EOF  contained
+  syn keyword mercuryCBool MR_TRUE MR_FALSE contained
+  syn match mercuryCFunc "\v<MR_(list_(empty|head|tail)|incr_hp((_atomic)?|((_type)?_msg))|assert|fatal_error|make_aligned_string)>" contained
+  syn match mercuryCPreProc "#\(if\(n\?def\)\?\|else\|elif\|endif\|define\|include\|error\|warning\|line\)" contained
+  syn match mercuryCPreProc "\v(\\){1,2}$" contained
+  syn match mercuryCStringFmt    +%[-+# *.0-9]*[dioxXucsfeEgGp]+                                contained
+  syn region mercuryCString start=+""+ end=+""+ contained contains=mercuryCStringFmt,mercuryCLikeCharEsc
+  syn cluster mercuryC contains=@mercuryCLike,mercuryCType,mercuryCKeyword,mercuryCPreProc,mercuryCString,mercuryCBool,mercuryCConst,mercuryCFunc
 
-" C++-Style for Java and C# (bool, // comments, exception handling etc)
-syn keyword mercuryCppLikeKeyword new delete try catch instanceof abstract throw[s] extends contained
-syn keyword mercuryCppLikeBool true false contained
-syn keyword mercuryCppLikeMod public private protected internal virtual final readonly contained
-syn cluster mercuryCppLike contains=@mercuryC,mercuryCppLikeComment,mercuryCppLikeKeyword,mercuryCppLikeBool,mercuryCppLikeMod
+    " C++-Style for Java and C# (bool, // comments, exception handling etc)
+  syn keyword mercuryCppLikeKeyword class new delete try catch finally instanceof abstract throw[s] extends this super base synchronize[d] contained
+  syn keyword mercuryCppLikeBool true false contained
+  syn keyword mercuryCppLikeConst null[ptr] contained
+  syn keyword mercuryCppLikeMod public private protected internal virtual final readonly volatile transient contained
+  syn cluster mercuryCppLike contains=@mercuryC,mercuryCppLikeComment,mercuryCppLikeKeyword,mercuryCppLikeBool,mercuryCppLikeMod,mercuryCppLikeConst
 
-  " Declaration for C99
-syn region mercuryCCode      matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryC
-syn region mercuryCDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("C"|c)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s+)" transparent contains=@mercuryForeign,mercuryCCode
+    " Declaration for C99
+  syn region mercuryCCode      matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryC
+  syn region mercuryCDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("C"|c)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s+)" transparent contains=@mercuryForeign,mercuryCCode
 
-  " Declaration for C#
-syn match mercuryCSharpStringFmt "{[0-9]}" contained
-syn match mercuryCSharpStringFmtEsc "{{\|}}" contained
-syn region mercuryCSharpString start=+""+ end=+""+ contained contains=mercuryCLikeCharEsc,mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc
-syn region mercuryCSharpCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryCppLike,mercuryCSharpString
-syn region mercuryCSharpDecl start=/\v^:-\s+pragma\s+foreign_\w+\("C#"/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s+)" transparent contains=@mercuryForeign,mercuryCSharpCode
+    " Declaration for C#
+  syn match mercuryCSharpStringFmt "{[0-9]}" contained
+  syn match mercuryCSharpStringFmtEsc "{{\|}}" contained
+  syn keyword mercuryCSharpType object string decimal contained
+  syn match mercuryCSharpType "\v<System\.((IO|Text|Diagnostics)\.)?[A-Z][A-Za-z_0-9]+>"
+  syn region mercuryCSharpString start=+""+ end=+""+ contained contains=mercuryCLikeCharEsc,mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc
+  syn cluster mercuryCSharp contains=@mercuryCppLike,mercuryCSharpString,mercuryCSharpType
+  syn region mercuryCSharpCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryCSharp
+  syn region mercuryCSharpDecl start=/\v^:-\s+pragma\s+foreign_\w+\("C#"/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s+)" transparent contains=@mercuryForeign,mercuryCSharpCode
 
-  " Declaration for Java
-syn region mercuryJavaCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryCppLike,mercuryCString
-syn region mercuryJavaDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Java"|java)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s+)" transparent contains=@mercuryForeign,mercuryJavaCode
+    " Declaration for Java
+  syn match mercuryJavaType "\v([a-z_0-9]+\.)+[A-Z][A-Z_a-z0-9]+|<(String(Builder)?|Object|Integer|Void|Boolean|Character)>"
+  syn region mercuryJavaCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryCppLike,mercuryCString,mercuryJavaType
+  syn region mercuryJavaDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Java"|java)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s+)" transparent contains=@mercuryForeign,mercuryJavaCode
 
-  " Declaration for Erlang
-syn cluster mercuryErlang contains=mercuryComment,mercuryCLikeChar,mercuryOperator,mercuryCString
-syn cluster mercuryErlang add=mercuryImplication,mercuryList,mercuryDCGAction,mercuryBlock
-syn region mercuryErlangCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryErlang
-syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Erlang"|erlang)/ matchgroup=mercuryDelimiter end="\v[)]\.($|s+)" transparent contains=@mercuryForeign,mercuryErlangCode
+    " Declaration for .NET IL
+  syn match mercuryILType "\v<int(8|16|32|64)>" contained
+  syn cluster mercuryIL contains=@mercuryCSharp,mercuryILType
+  syn region mercuryILCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryIL
+  syn region mercuryILDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("IL"|il)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s+)/ transparent contains=@mercuryForeign,mercuryILCode
 
-  " The language identifier has precedence over the code blocks
-syn match mercuryForeignLangId +"\v(C[#]?|Erlang|IL|Java)"+ contained
+    " Declaration for Erlang
+  syn keyword mercuryErlangKeyword case of end fun throw contained
+  syn region mercuryErlangString start=+""+ end=+""+ contained
+  syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
+  \ mercuryCLikeChar,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryErlangKeyword,
+  \ mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar,mercuryImplication,mercuryLogical
+  syn region  mercuryErlangList contained matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryErlangTerms
+  syn region  mercuryErlangBlock    contained matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryErlangTerms
+  syn region  mercuryErlangDCGAction contained matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryErlangTerms
+  syn cluster mercuryErlang    contains=@mercuryErlangTerms,mercuryErlangDCGAction,mercuryForeignIface
+  syn region mercuryErlangCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryErlang
+  syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Erlang"|erlang)/ matchgroup=mercuryDelimiter end="\v[)]\.($|s+)" transparent contains=@mercuryForeign,mercuryErlangCode
+
+    " The language identifier has precedence over the code blocks
+  syn match mercuryForeignLangId +"\v(C[#]?|Erlang|IL|Java)"+ contained
+endif
 
 if !exists("mercury_no_highlight_trailing_whitespace") || !mercury_no_highlight_trailing_whitespace
   syn match mercuryWhitespace "\v\s+$"
 endif
 
-if !exists("mercury_allow_tabs") || !mercury_allow_tabs
-  syn match mercuryWhitespace "\v\t+"
-endif
-
   " Comment handling
-syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}\s+" contained
-syn match mercuryCommentInfo "\(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\):" contained
+syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
+syn match mercuryCommentInfo "\(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\)\>" contained
 syn match mercuryCommentInfo "Copyright (C)" contained
 syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
-  syn region  mercuryComment                                 start=+%+   end=+.*$+          oneline  contains=@mercuryCommentDirectives
-  syn region  mercuryCComment      matchgroup=mercuryComment start=+/\*+ end="\*/"             fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
-  syn region  mercuryCppLikeComment matchgroup=mercuryComment  start=+//+  end=+.*$+        oneline contained contains=@mercuryCommentDirectives
+  syn region  mercuryComment                                  start=+%+   end=+.*$+          oneline  contains=@mercuryCommentDirectives
+  syn region  mercuryCComment       matchgroup=mercuryComment start=+/\*+ end="\*/"             fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
+  syn region  mercuryCppLikeComment matchgroup=mercuryComment start=+//+  end=+.*$+        oneline contained contains=@mercuryCommentDirectives
 else
-  syn region  mercuryComment                                 start=+%[-=%*_]*+ end=+.*$+he=s-1 oneline  contains=@mercuryCommentDirectives
+  syn region  mercuryComment start=+%[-=%*_]*+ end=+.*$+he=s-1 oneline  contains=@mercuryCommentDirectives
   syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/"  transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
   syn region  mercuryCppLikeComment matchgroup=mercuryComment start=+//+ matchgroup=NONE end=+.*$+ transparent oneline contained contains=@mercuryCommentDirectives
 endif
@@ -242,30 +274,41 @@ hi link mercuryCommentInfo      Identifier
 hi link mercuryCComment         mercuryComment
 hi link mercuryCCommentPrefix   mercuryComment
 hi link mercuryCInterface       mercuryPragma
-hi link mercuryCLikeBracket     mercuryBracket
-hi link mercuryCLikeOperator    mercuryOperator
-hi link mercuryCLikeChar        mercuryAtom
-hi link mercuryCLikeCharEsc     Identifier
-hi link mercuryCLikeDelimiter   mercuryDelimiter
-hi link mercuryCLikeKeyword     Keyword
-hi link mercuryCLikeString      mercuryString
-hi link mercuryCLikeType        Type
-hi link mercuryCBool            mercuryBool
-hi link mercruyCConst           Constant
-hi link mercuryCKeyword         Keyword
-hi link mercuryCStringFmt       mercuryStringFmt
-hi link mercuryCType            Type
-hi link mercuryCPreProc         mercuryPragma
-hi link mercuryCppLikeBool      mercuryBool
-hi link mercuryCppLikeKeyword   Keyword
-hi link mercuryCppLikeMod       mercuryAccess
-hi link mercuryCString          mercuryString
-hi link mercuryCSharpString     mercuryString
-hi link mercuryCSharpStringFmt  mercuryStringFmt
-hi link mercuryCSharpStringFmtEsc Identifier
+if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
+  hi link mercuryForeignLangId    Identifier
+  hi link mercuryCLikeBracket     mercuryBracket
+  hi link mercuryCLikeOperator    mercuryOperator
+  hi link mercuryCLikeChar        mercuryAtom
+  hi link mercuryCLikeCharEsc     Identifier
+  hi link mercuryCLikeDelimiter   mercuryDelimiter
+  hi link mercuryCLikeKeyword     Keyword
+  hi link mercuryCLikeString      mercuryString
+  hi link mercuryCLikeType        Type
+  hi link mercuryCBool            mercuryBool
+  hi link mercuryCConst           Constant
+  hi link mercuryCFunc            Identifier
+  hi link mercuryCKeyword         Keyword
+  hi link mercuryCStringFmt       mercuryStringFmt
+  hi link mercuryCType            Type
+  hi link mercuryCPreProc         mercuryPragma
+  hi link mercuryCppLikeBool      mercuryBool
+  hi link mercuryCppLikeConst     Constant
+  hi link mercuryCppLikeKeyword   Keyword
+  hi link mercuryCppLikeMod       mercuryAccess
+  hi link mercuryCString          mercuryString
+  hi link mercuryCSharpString     mercuryString
+  hi link mercuryCSharpStringFmt  mercuryStringFmt
+  hi link mercuryCSharpStringFmtEsc Identifier
+  hi link mercuryCSharpType       mercuryType
+  hi link mercuryJavaType         mercuryType
+  hi link mercuryILType           mercuryType
+  hi link mercuryErlangKeyword    Keyword
+  hi link mercuryErlangString     mercuryString
+endif
 hi link mercuryDelimiter        Delimiter
 hi link mercuryError            ErrorMsg
 hi link mercuryImpure           Special
+hi link mercuryImplKeyword      Underlined
 hi link mercuryKeyword          Keyword
 hi link mercuryModelineParam    Identifier
 hi link mercuryNumCode          Constant
@@ -274,7 +317,6 @@ hi link mercuryForeignMod       mercuryForeignIface
 hi link mercuryForeignOperator  mercuryOperator
 hi link mercuryForeignIface     Identifier
 hi link mercuryForeignParen     mercuryDelimiter
-hi link mercuryForeignLangId    Identifier
 hi link mercuryLogical          Special
 hi link mercuryImplication      Special
 hi link mercuryOperator         Operator
