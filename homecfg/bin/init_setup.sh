@@ -2,7 +2,7 @@
 
 pushd ~
 # Initialising build system
-sudo apt-get install git build-essential flex bison autoconf automake xsltproc cmake
+sudo apt-get install git build-essential flex bison autoconf automake xsltproc cmake texinfo
 # X Window sstem
 sudo apt-get install xterm libxmu-dev libxmu-headers
 # Java 7
