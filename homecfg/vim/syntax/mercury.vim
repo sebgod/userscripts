@@ -78,12 +78,10 @@ syn keyword mercuryForeignMod   does_not_affect_liveness doesnt_affect_liveness
 syn keyword mercuryForeignMod   no_sharing unknown_sharing sharing
 syn keyword mercuryOperator     div rem mod
 syn keyword mercuryImpure       impure semipure
-syn keyword mercuryToDo         XXX TODO NOTE         
-syn keyword mercuryBool         true false
+syn keyword mercuryToDo         XXX TODO NOTE MISSING HACK       
+syn keyword mercuryBool         true false yes no semidet_true semidet_false impure_true
 syn keyword mercuryLogical      some all not if then else fail or and or_else
-syn keyword mercuryLogical      try catch catch_any
-syn keyword mercuryLogical      semidet_true semidet_false semidet_fail
-syn keyword mercuryLogical      impure_true
+syn keyword mercuryLogical      try catch catch_any semidet_fail
 syn match   mercuryImplKeyword  "\v\$(file|grade|line|pred|module)>"
 syn match   mercuryDelimiter    ","
 syn match   mercuryOperator     "-"           " substraction operator or unary minus
@@ -173,7 +171,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 
     " C99 Language formatting
   syn keyword mercuryCType contained const size_t pid_t offset_t union MR_bool MR_Word MR_Integer
-    \ MR_Unsigned MR_ArrayPtr MR_Float MR_file
+    \ MR_Unsigned MR_ArrayPtr MR_Float MR_file MercuryFile[Ptr]
   syn match mercuryCType "\v<MR_((Pseudo)?TypeInfo|TypeCtor(Desc|Info)|AllocSiteInfoPtr)|MercuryLock>" contained
   syn keyword mercuryCKeyword typedef sizeof typeof offsetof contained
   syn keyword mercuryCConst NULL EOF  contained
@@ -189,8 +187,10 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn keyword mercuryCppLikeKeyword class new delete try catch finally instanceof abstract throw[s] extends this super base synchronize[d] contained
   syn keyword mercuryCppLikeBool true false contained
   syn keyword mercuryCppLikeConst null[ptr] contained
+  syn match mercuryCppLikeType "\v<((io|runtime)\.(\_\s+)?)?(MR_)[A-Za-z_0-9]+>" contained
   syn keyword mercuryCppLikeMod public private protected internal virtual final readonly volatile transient contained
-  syn cluster mercuryCppLike contains=@mercuryC,mercuryCppLikeComment,mercuryCppLikeKeyword,mercuryCppLikeBool,mercuryCppLikeMod,mercuryCppLikeConst
+  syn cluster mercuryCppLike contains=@mercuryC,mercuryCppLikeComment,mercuryCppLikeKeyword
+  syn cluster mercuryCppLike add=mercuryCppLikeBool,mercuryCppLikeMod,mercuryCppLikeConst,mercuryCppLikeType
 
     " Declaration for C99
   syn region mercuryCCode      matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryC
@@ -207,7 +207,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn region mercuryCSharpDecl start=/\v^:-\s+pragma\s+foreign_\w+\("C#"/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s+)" transparent contains=@mercuryForeign,mercuryCSharpCode
 
     " Declaration for Java
-  syn match mercuryJavaType "\v([a-z_0-9]+\.)+[A-Z][A-Z_a-z0-9]+|<(String(Builder)?|Object|Integer|Void|Boolean|Character)>"
+  syn match mercuryJavaType "\v([a-z_0-9]+\.(\_\s+)?)+[A-Z][A-Z_a-z0-9]+|<(String(Builder)?|Object|Integer|Void|Boolean|Character|System|Runtime|boolean)>"
   syn region mercuryJavaCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryCppLike,mercuryCString,mercuryJavaType
   syn region mercuryJavaDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Java"|java)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s+)" transparent contains=@mercuryForeign,mercuryJavaCode
 
@@ -283,6 +283,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   hi link mercuryCLikeDelimiter   mercuryDelimiter
   hi link mercuryCLikeKeyword     Keyword
   hi link mercuryCLikeString      mercuryString
+  hi link mercuryCppLikeType      Type
   hi link mercuryCLikeType        Type
   hi link mercuryCBool            mercuryBool
   hi link mercuryCConst           Constant
@@ -299,9 +300,9 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   hi link mercuryCSharpString     mercuryString
   hi link mercuryCSharpStringFmt  mercuryStringFmt
   hi link mercuryCSharpStringFmtEsc Identifier
-  hi link mercuryCSharpType       mercuryType
-  hi link mercuryJavaType         mercuryType
-  hi link mercuryILType           mercuryType
+  hi link mercuryCSharpType       Type
+  hi link mercuryJavaType         Type
+  hi link mercuryILType           Type
   hi link mercuryErlangKeyword    Keyword
   hi link mercuryErlangString     mercuryString
 endif
