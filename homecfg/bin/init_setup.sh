@@ -20,7 +20,7 @@ sudo apt-get install ncurses-dev
 # Networking
 sudo apt-get install libssl-dev
 # HTML/XML
-sudo apt-get install tidy libxml-dev
+sudo apt-get install tidy libxml2-dev jing trang
 
 [ -r github ] || mkdir github
 pushd github
@@ -54,6 +54,7 @@ mer_dev=mercury-dev
 [ -r "mercury-dev" ] || git clone https://github.com/Mercury-Language/mercury.git ${mer_dev}
 
 pushd ${mer_dev}
+git checkout master
 git pull
 
 if $mmc_exists; then
@@ -84,7 +85,7 @@ popd
 )
 
 pushd sebgod/mercury
-
+git checkout master
 git pull
 # popping github/sebgod/mercury
 popd
@@ -94,6 +95,7 @@ popd
 [ -r jna ] || git clone https://github.com/twall/jna.git
 
 pushd jna
+git checkout master
 git pull
 ant
 popd
@@ -111,6 +113,7 @@ popd
 [ -r libgit2 ] || git clone https://github.com/libgit2/libgit2.git
 
 pushd libgit2
+git checkout master
 git pull
 mkdir -p build
 pushd build
@@ -119,6 +122,20 @@ cmake --build .
 sudo cmake --build . --target install
 popd
 
+# popping libgit2
+popd
+
+[ -r llvm ] || git clone https://github.com/llvm-mirror/llvm.git
+pushd llvm
+git checkout master
+git pull
+mkdir -p build
+pushd build
+cmake ..
+cmake --build .
+sudo cmake --build . --target install
+popd
+# popping llvm-mirror
 popd
 
 # popping github
