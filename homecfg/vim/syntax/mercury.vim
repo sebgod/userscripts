@@ -9,8 +9,13 @@ endif
 let b:current_syntax = "mercury"
 
 set fdm=syntax
-set foldnestmax=3
-set foldminlines=10
+if !exists("foldnestmax")
+  set foldnestmax=3
+endif
+
+if !exists("foldminlines")
+  set foldminlines=10
+endif
   " Mercury is case sensitive.
   "
 syn case match
@@ -79,10 +84,11 @@ syn keyword mercuryForeignMod   no_sharing unknown_sharing sharing
 syn keyword mercuryOperator     div rem mod
 syn keyword mercuryImpure       impure semipure
 syn keyword mercuryToDo         XXX TODO NOTE MISSING HACK       
-syn keyword mercuryBool         true false yes no semidet_true semidet_false impure_true
-syn keyword mercuryLogical      some all not if then else fail or and or_else
+syn keyword mercuryBool         yes no
+syn keyword mercuryLogical      some all not if then else true fail or and or_else
+syn keyword mercuryLogical      semidet_true semidet_false impure_true
 syn keyword mercuryLogical      try catch catch_any semidet_fail
-syn match   mercuryImplKeyword  "\v\$(file|grade|line|pred|module)>"
+syn match   mercuryImplKeyword  "\v\$(file|grade|pred|module|\d+)>"
 syn match   mercuryDelimiter    ","
 syn match   mercuryOperator     "-"           " substraction operator or unary minus
 syn match   mercuryOperator     "="           " unification
@@ -135,7 +141,7 @@ syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,
   \ mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar,mercuryImplication
 syn cluster mercuryCode      contains=@mercuryTerms,mercuryLogical
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod
-syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode
+syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode,mercuryDCGAction
 syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryCode
 syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
 
@@ -207,7 +213,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn region mercuryCSharpDecl start=/\v^:-\s+pragma\s+foreign_\w+\("C#"/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s+)" transparent contains=@mercuryForeign,mercuryCSharpCode
 
     " Declaration for Java
-  syn match mercuryJavaType "\v([a-z_0-9]+\.(\_\s+)?)+[A-Z][A-Z_a-z0-9]+|<(String(Builder)?|Object|Integer|Void|Boolean|Character|System|Runtime|boolean)>"
+  syn match mercuryJavaType "\v([a-z_0-9]+\.(\_\s+)?)+[A-Z][A-Z_a-z0-9]+|<(String(Builder)?|Object|Integer|Void|Boolean|Character|System|Runtime|boolean)>" contained
   syn region mercuryJavaCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryCppLike,mercuryCString,mercuryJavaType
   syn region mercuryJavaDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Java"|java)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s+)" transparent contains=@mercuryForeign,mercuryJavaCode
 
@@ -218,11 +224,12 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn region mercuryILDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("IL"|il)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s+)/ transparent contains=@mercuryForeign,mercuryILCode
 
     " Declaration for Erlang
-  syn keyword mercuryErlangKeyword case of end fun throw contained
+  syn keyword mercuryErlangKeyword contained after and andalso band begin bnot bor bsl bsr bxor case catch cond end fun if let not of orelse query receive throw try when xor
+  syn keyword mercuryErlangBool true false
   syn region mercuryErlangString start=+""+ end=+""+ contained
   syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
   \ mercuryCLikeChar,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryErlangKeyword,
-  \ mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar,mercuryImplication,mercuryLogical
+  \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercuryAnyVar,mercuryImplication
   syn region  mercuryErlangList contained matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryErlangTerms
   syn region  mercuryErlangBlock    contained matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryErlangTerms
   syn region  mercuryErlangDCGAction contained matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryErlangTerms
@@ -240,7 +247,7 @@ endif
 
   " Comment handling
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
-syn match mercuryCommentInfo "\(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\)\>" contained
+syn match mercuryCommentInfo "\(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\|Created on\|Date\)\>" contained
 syn match mercuryCommentInfo "Copyright (C)" contained
 syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
 
@@ -304,6 +311,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   hi link mercuryJavaType         Type
   hi link mercuryILType           Type
   hi link mercuryErlangKeyword    Keyword
+  hi link mercuryErlangBool       mercuryBool
   hi link mercuryErlangString     mercuryString
 endif
 hi link mercuryDelimiter        Delimiter
