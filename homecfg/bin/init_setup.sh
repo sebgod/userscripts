@@ -125,10 +125,31 @@ popd
 # popping libgit2
 popd
 
-[ -r llvm ] || git clone https://github.com/llvm-mirror/llvm.git
+[ -r llvm ] || git clone http://llvm.org/git/llvm.git
 pushd llvm
 git checkout master
 git pull
+
+pushd tools
+[ -r clang ] || git clone http://llvm.org/git/clang.git
+pushd clang
+git checkout master
+git pull
+
+pushd tools
+[ -r extra ] || git clone http://llvm.org/git/clang-tools-extra.git extra
+pushd extra
+git checkout master
+git pull
+# pop tools/clang/tools/extra
+popd
+# pop tools/clang/tools
+popd
+# pop tools/clang
+popd
+# pop tools
+popd
+
 mkdir -p build
 pushd build
 cmake ..
