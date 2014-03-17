@@ -139,19 +139,15 @@ syn match   mercuryStringFmt    +\\[abfnrtv\\"]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,
   \ mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,
   \ mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar,mercuryImplication
-syn cluster mercuryCode      contains=@mercuryTerms,mercuryLogical
+syn cluster mercuryCode      contains=@mercuryTerms,@mercuryFormatting,mercuryLogical
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode,mercuryDCGAction
 syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryCode
 syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
 
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
-  " The complicated regexp here matches an 80-column string,
-  " with proper treatment of tabs (assuming the tab size is 4):
-  " each row consists of 20 columns, and each column consists of either 4
-  " non-tab characters, or 0-4 non-tab characters followed by a tab.
-  syn match   mercuryFirst80 +^\([^	]\{4}\|[^	]\{0,3}	\)\{20}+                                contains=ALL
-  syn match   mercuryTooLong +^\([^	]\{4}\|[^	]\{0,3}	\)\{20}..*+                             contains=mercuryFirst80
+  syn match mercuryTooLong /\%81v.*/
+  syn cluster mercuryFormatting add=mercuryTooLong
 endif
 
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
@@ -243,6 +239,7 @@ endif
 
 if !exists("mercury_no_highlight_trailing_whitespace") || !mercury_no_highlight_trailing_whitespace
   syn match mercuryWhitespace "\v\s+$"
+  syn cluster mercuryFormatting add=mercuryWhitespace
 endif
 
   " Comment handling
