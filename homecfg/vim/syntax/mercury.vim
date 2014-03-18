@@ -136,7 +136,7 @@ syn match   mercuryNumCode      /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+)
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt
 syn match   mercuryStringFmt    +\\[abfnrtv\\"]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
-syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,
+syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
   \ mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,
   \ mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar,mercuryImplication
 syn cluster mercuryCode      contains=@mercuryTerms,@mercuryFormatting,mercuryLogical
