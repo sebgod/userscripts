@@ -44,7 +44,7 @@ syn case match
   "
   "   let mercury_no_highlight_foreign = 1
 
-syn keyword mercuryAnyVar       _
+syn match mercurySingleton "\v<_([A-Z][a-z_A-Z0-9]*)?>"
 syn keyword mercuryKeyword      module use_module import_module
 syn keyword mercuryKeyword      include_module end_module
 syn keyword mercuryKeyword      initialise mutable
@@ -138,7 +138,7 @@ syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=merc
 syn match   mercuryStringFmt    +\\[abfnrtv\\"]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
   \ mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,
-  \ mercuryCComment,mercuryBool,mercuryOperator,mercuryAnyVar,mercuryImplication
+  \ mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication
 syn cluster mercuryCode      contains=@mercuryTerms,@mercuryFormatting,mercuryLogical
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode,mercuryDCGAction
@@ -225,7 +225,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn region mercuryErlangString start=+""+ end=+""+ contained
   syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
   \ mercuryCLikeChar,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryErlangKeyword,
-  \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercuryAnyVar,mercuryImplication
+  \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercurySingleton,mercuryImplication
   syn region  mercuryErlangList contained matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryErlangTerms
   syn region  mercuryErlangBlock    contained matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryErlangTerms
   syn region  mercuryErlangDCGAction contained matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryErlangTerms
@@ -244,7 +244,7 @@ endif
 
   " Comment handling
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
-syn match mercuryCommentInfo "\(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\|Created on\|Date\)\>" contained
+syn match mercuryCommentInfo " \(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\|Created on\|Date\):" contained
 syn match mercuryCommentInfo "Copyright (C)" contained
 syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
 
@@ -262,14 +262,14 @@ endif
 syn region  mercuryCComment      matchgroup=mercuryError start="/\* ###" end="\v[^*]+\*/"         oneline
 
   " Matching Vim modeline
-syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\={-}" contained
+syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\=" contained
 syn match mercuryModelineParam "\vet|expandtab" contained
 syn region mercuryModeline matchgroup=mercuryComment  start="% vim:" end=+$+     oneline contains=mercuryModelineParam
 
 syn sync fromstart
 
 hi link mercuryAccess           Identifier
-hi link mercuryAnyVar           Identifier
+hi link mercurySingleton        Identifier
 hi link mercuryAtom             Constant
 hi link mercuryBracket          mercuryDelimiter
 hi link mercuryBool             Special
