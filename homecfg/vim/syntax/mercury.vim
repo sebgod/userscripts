@@ -44,7 +44,7 @@ syn case match
   "
   "   let mercury_no_highlight_foreign = 1
 
-syn match mercurySingleton "\v<_([A-Z][a-z_A-Z0-9]*)?>"
+syn match mercurySingletoni     "\v<_([A-Z][a-z_A-Z0-9]*)?>"
 syn keyword mercuryKeyword      module use_module import_module
 syn keyword mercuryKeyword      include_module end_module
 syn keyword mercuryKeyword      initialise mutable
@@ -140,9 +140,13 @@ syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mer
   \ mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,
   \ mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication
 syn cluster mercuryCode      contains=@mercuryTerms,@mercuryFormatting,mercuryLogical
-syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod
-syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode,mercuryDCGAction
-syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryCode
+  " first matching only a closing bracket, to catch unbalanced brackets
+syn match mercuryMisInList "}\|)" contained
+syn match mercuryMisInBlock "}\|]" contained
+syn match mercuryMisInDCGAction "]\|)" contained
+syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod,mercuryMisInList
+syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode,mercuryDCGAction,mercuryMisInBlock
+syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryCode,mercuryMisInDCGAction
 syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
 
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
@@ -323,8 +327,11 @@ hi link mercuryForeignMod       mercuryForeignIface
 hi link mercuryForeignOperator  mercuryOperator
 hi link mercuryForeignIface     Identifier
 hi link mercuryForeignParen     mercuryDelimiter
-hi link mercuryLogical          Special
 hi link mercuryImplication      Special
+hi link mercuryLogical          Special
+hi link mercuryMisInList        ErrorMsg
+hi link mercuryMisInBlock       ErrorMsg
+hi link mercuryMisInDCGAction   ErrorMsg
 hi link mercuryOperator         Operator
 hi link mercuryInlined          Operator
 hi link mercuryString           String
