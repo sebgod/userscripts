@@ -44,7 +44,7 @@ syn case match
   "
   "   let mercury_no_highlight_foreign = 1
 
-syn match mercurySingletoni     "\v<_([A-Z][a-z_A-Z0-9]*)?>"
+syn match mercurySingleton      "\v<_([A-Z][a-z_A-Z0-9]*)?>"
 syn keyword mercuryKeyword      module use_module import_module
 syn keyword mercuryKeyword      include_module end_module
 syn keyword mercuryKeyword      initialise mutable
