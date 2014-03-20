@@ -134,7 +134,7 @@ syn match   mercuryImplication  "<=>\|<=\|=>"
   " hurt to include them here (for the C, C#, Java grades).
 syn match   mercuryNumCode      /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+)[lLfFm]?>/
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
-syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt
+syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt,@mercuryFormatting
 syn match   mercuryStringFmt    +\\[abfnrtv\\"]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
 syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
   " first matching only a closing bracket, to catch unbalanced brackets
@@ -142,7 +142,7 @@ syn match mercuryMisInList "}\|)" contained
 syn match mercuryMisInBlock "}\|]" contained
 syn match mercuryMisInDCGAction "]\|)" contained
 syn match mercuryMisInAny "\v\.\s+" contained
-syn cluster mercuryFormatting add=mercuryMisInAny
+
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn match mercuryTooLong /\%81v.*/
   syn cluster mercuryFormatting add=mercuryTooLong
@@ -150,7 +150,7 @@ endif
   " The clusters contain all valid Mercury code. The nesting is done to allow
   " for matching of parens, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
-  \mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,
+  \mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,mercuryMisInAny
   \mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryInlined
 syn cluster mercuryCode      contains=@mercuryTerms,mercuryLogical
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod,mercuryMisInList
