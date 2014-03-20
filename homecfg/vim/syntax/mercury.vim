@@ -130,15 +130,16 @@ syn match   mercuryOperator     "*"
 syn match   mercuryOperator     "\^"
 syn match   mercuryTerminator   "\v\.($|\s+)"
 syn match   mercuryImplication  "<=>\|<=\|=>"
-  " XXX Technically, Mercury numbers do not have suffixes, but it shouldn't
-  " hurt to include them here.
+  " XXX Technically, Mercury numbers do not have integer literal suffixes, but it shouldn't
+  " hurt to include them here (for the C, C#, Java grades).
 syn match   mercuryNumCode      /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+)[lLfFm]?>/
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt
 syn match   mercuryStringFmt    +\\[abfnrtv\\"]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
+syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
   \ mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,
-  \ mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication
+  \ mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication,@mercuryInlined
 syn cluster mercuryCode      contains=@mercuryTerms,@mercuryFormatting,mercuryLogical
   " first matching only a closing bracket, to catch unbalanced brackets
 syn match mercuryMisInList "}\|)" contained
@@ -147,7 +148,6 @@ syn match mercuryMisInDCGAction "]\|)" contained
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod,mercuryMisInList
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode,mercuryDCGAction,mercuryMisInBlock
 syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryCode,mercuryMisInDCGAction
-syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
 
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn match mercuryTooLong /\%81v.*/
