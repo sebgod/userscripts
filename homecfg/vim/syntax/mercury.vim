@@ -137,22 +137,25 @@ syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt
 syn match   mercuryStringFmt    +\\[abfnrtv\\"]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
 syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
-syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
-  \ mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,
-  \ mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication,@mercuryInlined
-syn cluster mercuryCode      contains=@mercuryTerms,@mercuryFormatting,mercuryLogical
   " first matching only a closing bracket, to catch unbalanced brackets
 syn match mercuryMisInList "}\|)" contained
 syn match mercuryMisInBlock "}\|]" contained
 syn match mercuryMisInDCGAction "]\|)" contained
-syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod,mercuryMisInList
-syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode,mercuryDCGAction,mercuryMisInBlock
-syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryCode,mercuryMisInDCGAction
-
+syn match mercuryMisInAny "\v\.\s+" contained
+syn cluster mercuryFormatting add=mercuryMisInAny
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn match mercuryTooLong /\%81v.*/
   syn cluster mercuryFormatting add=mercuryTooLong
 endif
+  " The clusters contain all valid Mercury code. The nesting is done to allow
+  " for matching of parens, DCG terms and lists
+syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
+  \mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,
+  \mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryInlined
+syn cluster mercuryCode      contains=@mercuryTerms,mercuryLogical
+syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod,mercuryMisInList
+syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode,mercuryDCGAction,mercuryMisInBlock
+syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryCode,mercuryMisInDCGAction
 
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
@@ -332,6 +335,7 @@ hi link mercuryLogical          Special
 hi link mercuryMisInList        ErrorMsg
 hi link mercuryMisInBlock       ErrorMsg
 hi link mercuryMisInDCGAction   ErrorMsg
+hi link mercuryMisInAny         ErrorMsg
 hi link mercuryOperator         Operator
 hi link mercuryInlined          Operator
 hi link mercuryString           String
