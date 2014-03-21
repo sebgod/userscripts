@@ -150,8 +150,8 @@ endif
   " The clusters contain all valid Mercury code. The nesting is done to allow
   " for matching of parens, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
-  \mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,mercuryMisInAny
-  \mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryInlined
+  \ mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,mercuryMisInAny,
+  \ mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryInlined
 syn cluster mercuryCode      contains=@mercuryTerms,mercuryLogical
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod,mercuryMisInList
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode,mercuryDCGAction,mercuryMisInBlock
@@ -227,15 +227,16 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn region mercuryILDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("IL"|il)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/ transparent contains=@mercuryForeign,mercuryILCode
 
     " Declaration for Erlang
-  syn keyword mercuryErlangKeyword contained after and andalso band begin bnot bor bsl bsr bxor case catch cond end fun if let not of orelse query receive throw try when xor
+  syn keyword mercuryErlangKeyword contained after and andalso band begin bnot bor bsl bsr bxor case
+  \ catch cond end fun if let not of orelse query receive throw try when xor
   syn keyword mercuryErlangBool true false
   syn region mercuryErlangString start=+""+ end=+""+ contained
   syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
   \ mercuryCLikeChar,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryErlangKeyword,
-  \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercurySingleton,mercuryImplication
-  syn region  mercuryErlangList contained matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryErlangTerms
-  syn region  mercuryErlangBlock    contained matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryErlangTerms
-  syn region  mercuryErlangDCGAction contained matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryErlangTerms
+  \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryErlangDCGAction
+  syn region  mercuryErlangList contained matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryErlangTerms,mercuryMisInList
+  syn region  mercuryErlangBlock    contained matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryErlangTerms,mercuryMisInBlock
+  syn region  mercuryErlangDCGAction contained matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryErlangTerms,mercuryMisInDCGAction
   syn cluster mercuryErlang    contains=@mercuryErlangTerms,mercuryErlangDCGAction,mercuryForeignIface
   syn region mercuryErlangCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryErlang
   syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Erlang"|erlang)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/ transparent contains=@mercuryForeign,mercuryErlangCode
@@ -254,15 +255,16 @@ syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
 syn match mercuryCommentInfo " \(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\|Created on\|Date\):" contained
 syn match mercuryCommentInfo "Copyright (C)" contained
 syn match mercuryCommentTexQuote "``\|''" contained
-syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo,mercuryCommentTexQuote
+syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo,
+syn cluster mercuryCommentTex contains=mercuryCommentTexQuote
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
-  syn region  mercuryComment                                  start=+%+   end=+.*$+ oneline  contains=@mercuryCommentDirectives
-  syn region  mercuryCComment       matchgroup=mercuryComment start=+/\*+ end="\*/" keepend     fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
+  syn region  mercuryComment                                  start=+%+   end=+.*$+ oneline  contains=@mercuryCommentDirectives,@mercuryCommentTex
+  syn region  mercuryCComment       matchgroup=mercuryComment start=+/\*+ end="\*/"    fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
   syn region  mercuryCppLikeComment matchgroup=mercuryComment start=+//+  end=+.*$+          oneline  contained contains=@mercuryCommentDirectives
 else
   syn region  mercuryComment start=+%[-=%*_]*+ end=+.*$+he=s-1  oneline contains=@mercuryCommentDirectives
-  syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/" keepend transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
+  syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/" transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
   syn region  mercuryCppLikeComment matchgroup=mercuryComment start=+//+ matchgroup=NONE end=+.*$+ transparent oneline contained contains=@mercuryCommentDirectives
 endif
 
