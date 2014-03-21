@@ -253,15 +253,16 @@ endif
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
 syn match mercuryCommentInfo " \(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\|Created on\|Date\):" contained
 syn match mercuryCommentInfo "Copyright (C)" contained
-syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
+syn match mercuryCommentTexQuote "``\|''" contained
+syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo,mercuryCommentTexQuote
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
-  syn region  mercuryComment                                  start=+%+   end=+.*$+          oneline  contains=@mercuryCommentDirectives
-  syn region  mercuryCComment       matchgroup=mercuryComment start=+/\*+ end="\*/"             fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
-  syn region  mercuryCppLikeComment matchgroup=mercuryComment start=+//+  end=+.*$+        oneline contained contains=@mercuryCommentDirectives
+  syn region  mercuryComment                                  start=+%+   end=+.*$+ oneline  contains=@mercuryCommentDirectives
+  syn region  mercuryCComment       matchgroup=mercuryComment start=+/\*+ end="\*/" keepend     fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
+  syn region  mercuryCppLikeComment matchgroup=mercuryComment start=+//+  end=+.*$+          oneline  contained contains=@mercuryCommentDirectives
 else
-  syn region  mercuryComment start=+%[-=%*_]*+ end=+.*$+he=s-1 oneline  contains=@mercuryCommentDirectives
-  syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/"  transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
+  syn region  mercuryComment start=+%[-=%*_]*+ end=+.*$+he=s-1  oneline contains=@mercuryCommentDirectives
+  syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/" keepend transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix
   syn region  mercuryCppLikeComment matchgroup=mercuryComment start=+//+ matchgroup=NONE end=+.*$+ transparent oneline contained contains=@mercuryCommentDirectives
 endif
 
@@ -282,6 +283,7 @@ hi link mercuryBracket          mercuryDelimiter
 hi link mercuryBool             Special
 hi link mercuryComment          Comment
 hi link mercuryCommentInfo      Identifier
+hi link mercuryCommentTexQuote  Special
 hi link mercuryCComment         mercuryComment
 hi link mercuryCCommentPrefix   mercuryComment
 hi link mercuryCInterface       mercuryPragma
