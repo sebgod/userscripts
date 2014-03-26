@@ -3,6 +3,7 @@ filetype plugin on
 set autoindent
 set modeline
 set rnu
+set number
 set tags=./tags;
 
 if has("multi_byte")
