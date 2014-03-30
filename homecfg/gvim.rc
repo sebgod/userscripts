@@ -2,7 +2,7 @@
 :filetype plugin on
 set modeline
 set fdm=indent
-set fdc=4
+" set fdc=4
 set bs=2
 :colorscheme darkblue
 
