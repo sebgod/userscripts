@@ -2,6 +2,10 @@
 :filetype plugin on
 set modeline
 set fdm=indent
+
+
+" set fdc=4
+" vim: disabled folding column, enable absolute numbering
 set bs=2
 :colorscheme darkblue
 
