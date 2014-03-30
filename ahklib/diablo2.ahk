@@ -8,6 +8,8 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 *MButton::send, i
 *WheelUp::send, {PgUp}
 *WheelDown::send, {PgDn}
+*XButton1::send, W
 *XButton2::send, {F2}{RButton}{F1}
+Q::send, {F5}{RButton}
 
 #IfWinActive
