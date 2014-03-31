@@ -184,6 +184,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCType "\v<MR_((Pseudo)?TypeInfo|TypeCtor(Desc|Info)|AllocSiteInfoPtr)|MercuryLock>" contained
   syn keyword mercuryCKeyword typedef sizeof typeof offsetof contained
   syn keyword mercuryCConst NULL EOF  contained
+  syn match mercuryForeignIface "\v<MR_[A-Z][A-Z_0-9]+>" contained " matching builtin constants, e.g. MR_COMPARE_EQUAL
   syn keyword mercuryCBool MR_TRUE MR_FALSE contained
   syn match mercuryCFunc "\v<MR_(list_(empty|head|tail)|incr_hp((_atomic)?|((_type)?_msg))|assert|fatal_error|make_aligned_string)>" contained
   syn match mercuryCPreProc "#\(if\(n\?def\)\?\|else\|elif\|endif\|define\|include\|error\|warning\|line\)" contained
