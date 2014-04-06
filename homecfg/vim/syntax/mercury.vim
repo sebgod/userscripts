@@ -195,7 +195,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn cluster mercuryC contains=@mercuryCLike,mercuryCType,mercuryCKeyword,mercuryCPreProc,mercuryCString,mercuryCBool,mercuryCConst,mercuryCFunc
 
     " C++-Style for Java and C# (bool, // comments, exception handling etc)
-  syn keyword mercuryCppLikeKeyword class new delete try catch finally instanceof abstract throw[s] extends this super base synchronize[d] override contained
+  syn keyword mercuryCppLikeKeyword class new delete try catch finally instanceof abstract throw[s] extends this super base synchronize[d] override foreach in contained
   syn keyword mercuryCppLikeBool true false contained
   syn keyword mercuryCppLikeConst null[ptr] contained
   syn match mercuryCppLikeOperator "@" contained
@@ -224,7 +224,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn region mercuryJavaDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Java"|java)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s{-})" transparent contains=@mercuryForeign,mercuryJavaCode
 
     " Declaration for .NET IL
-  syn match mercuryILType "\v<int(8|16|32|64)>" contained
+  syn match mercuryILType "\v<[u]?int(8|16|32|64)|float(32|64)>" contained
   syn cluster mercuryIL contains=@mercuryCSharp,mercuryILType
   syn region mercuryILCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryIL
   syn region mercuryILDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("IL"|il)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/ transparent contains=@mercuryForeign,mercuryILCode
