@@ -2,7 +2,7 @@
 
 pushd ~
 # Initialising build system
-sudo apt-get install git build-essential flex bison autoconf automake xsltproc cmake texinfo
+sudo apt-get install git build-essential flex bison autoconf automake xsltproc cmake texinfo dos2unix
 # X Window sstem
 sudo apt-get install xterm libxmu-dev libxmu-headers
 # Java 7
@@ -21,6 +21,8 @@ sudo apt-get install ncurses-dev
 sudo apt-get install libssl-dev
 # HTML/XML
 sudo apt-get install tidy libxml2-dev jing trang
+# Node.js
+sudo apt-get install npm
 
 [ -r github ] || mkdir github
 pushd github
