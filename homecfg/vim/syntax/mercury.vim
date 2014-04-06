@@ -83,7 +83,7 @@ syn keyword mercuryForeignMod   does_not_affect_liveness doesnt_affect_liveness
 syn keyword mercuryForeignMod   no_sharing unknown_sharing sharing
 syn keyword mercuryOperator     div rem mod
 syn keyword mercuryImpure       impure semipure
-syn keyword mercuryToDo         XXX TODO NOTE MISSING HACK       
+syn keyword mercuryToDo         XXX TODO NOTE MISSING HACK HINT WARNING 
 syn keyword mercuryBool         yes no
 syn keyword mercuryLogical      some all not if then else true fail or and or_else
 syn keyword mercuryLogical      semidet_true semidet_false impure_true
