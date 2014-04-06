@@ -142,7 +142,7 @@ syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
 syn match mercuryMisInList "}\|)" contained
 syn match mercuryMisInBlock "}\|]" contained
 syn match mercuryMisInDCGAction "]\|)" contained
-syn match mercuryMisInAny "\v\.\s+" contained
+syn match mercuryMisInAny "\v\.(\s+|$)" contained
 
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn match mercuryTooLong /\%81v.*/
