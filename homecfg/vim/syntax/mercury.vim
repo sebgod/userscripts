@@ -63,7 +63,7 @@ syn keyword mercuryKeyword      require_erroneous require_failure
 syn keyword mercuryPragma       inline no_inline
 syn keyword mercuryPragma       type_spec source_file fact_table obsolete
 syn keyword mercuryPragma       memo loop_check minimal_model
-syn keyword mercuryPragma       terminates does_not_terminate check_termination
+syn keyword mercuryPragma       does_not_terminate check_termination
 syn keyword mercuryPragma       promise_equivalent_clauses
 syn keyword mercuryCInterface   foreign_proc foreign_decl foreign_code
 syn keyword mercuryCInterface   foreign_type foreign_import_module
@@ -78,7 +78,7 @@ syn keyword mercuryForeignMod   can_pass_as_mercury_type stable
 syn keyword mercuryForeignMod   will_not_throw_exception
 syn keyword mercuryForeignMod   may_modify_trail will_not_modify_trail
 syn keyword mercuryForeignMod   may_duplicate may_not_duplicate
-syn keyword mercuryForeignMod   affects_liveness
+syn keyword mercuryForeignMod   affects_liveness terminates
 syn keyword mercuryForeignMod   does_not_affect_liveness doesnt_affect_liveness
 syn keyword mercuryForeignMod   no_sharing unknown_sharing sharing
 syn keyword mercuryOperator     div rem mod
@@ -136,7 +136,7 @@ syn match   mercuryImplication  "<=>\|<=\|=>"
 syn match   mercuryNumCode      /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+)[lLfFm]?>/
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt,@mercuryFormatting
-syn match   mercuryStringFmt    +\\[abfnrtv\\"]\|\\x[0-9a-fA-F]*\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]+      contained
+syn match   mercuryStringFmt    /\\[abfnrtv\\"]\|\\x[0-9a-fA-F]\+\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]/      contained
 syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
   " first matching only a closing bracket, to catch unbalanced brackets
 syn match mercuryMisInList "}\|)" contained
@@ -161,7 +161,7 @@ syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  tran
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
   syn match mercuryForeignParen "(\|)" contained
-  syn cluster mercuryForeign contains=mercuryList,mercuryCInterface,mercuryKeyword,mercuryOperator,mercuryForeignLangId,mercuryForeignParen,mercuryAtom
+  syn cluster mercuryForeign contains=mercuryList,mercuryCInterface,mercuryKeyword,mercuryOperator,mercuryForeignLangId,mercuryForeignParen,mercuryAtom,mercuryComment
 
     " C-Style syntax as a basis for C,C# and Java
   syn keyword mercuryCLikeKeyword if else goto switch case for while do break continue return volatile extern typedef static default contained
