@@ -4,7 +4,7 @@ set autoindent
 set modeline
 set rnu
 set number
-set tags=./tags;
+set laststatus=2
 
 if has("multi_byte")
   set encoding=utf-8                     " better default than latin1
