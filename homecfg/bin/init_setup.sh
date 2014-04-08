@@ -23,6 +23,8 @@ sudo apt-get install libssl-dev
 sudo apt-get install tidy libxml2-dev jing trang
 # Node.js
 sudo apt-get install npm
+# Mathematics
+sudo apt-get install libgmp-dev
 
 [ -r github ] || mkdir github
 pushd github
