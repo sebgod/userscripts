@@ -6,6 +6,9 @@ set rnu
 set number
 set laststatus=2
 
+autocmd QuickFixCmdPost [^1]* nested cwindow
+autocmd QuickFixCmdPost    1* nested lwindow
+
 if has("multi_byte")
   set encoding=utf-8                     " better default than latin1
   setglobal fileencoding=utf-8           " change default file encoding when writing new files
