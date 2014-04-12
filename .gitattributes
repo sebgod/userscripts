@@ -11,6 +11,8 @@
 *.ahk text eol=crlf
 *.vim text eol=lf
 *.sh  text eol=lf
+*.m   text eof=lf
+*.moo text eof=lf
 *rc text eol=lf
 
 # Custom for Visual Studio
