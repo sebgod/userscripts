@@ -43,9 +43,6 @@
 @set fart_version=199b_win64
 @set fart_url=http://sourceforge.net/projects/%fart_basename%-it/files/latest/download
 
-@set mono_lib_getline_file=migueldeicaza/muget/master/getline.cs
-@set mono_lib_getline_url=%github_raw_url%%mono_lib_getline_file%
-
 :: maybe use http://launcher.nirsoft.net/download.html
 @set nirsoft_www=www.nirsoft.net
 @set nirsoft_x64_zip=x64tools.zip
