@@ -83,9 +83,11 @@
 @set unicodeconsole_url=%github_ownrepo%%unicodeconsole_proj%/archive/master.zip
 
 @set unicode_www=www.unicode.org
-@set unicode_version=6.2.0
+@set unicode_version=6.3.0
 @set unicode_url=http://%unicode_www%/Public/zipped/%unicode_version%/
 @set unicode_reports=http://%unicode_www%/reports/
+
+@set jq_url=http://stedolan.github.io/jq/download/win%OS_ARCH_BITNESS%/jq.exe
 
 @set iso-639-6_www=www.geolang.com
 @set iso-639-6_url=http://%iso-639-6_www%/iso639-6
