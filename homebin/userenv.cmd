@@ -69,7 +69,7 @@
 @set gv_dir=%ProgramFiles32%\Graphviz%gv_version%\bin
 @set gv_dot="%gv_dir%\dot.exe"
 
-@set npp_userdefinedlang_src=http://notepad-plus.sourceforge.net/commun/userDefinedLang/
+@set npp_userdefinedlang_src=http://notepad-plus.sourceforge.net/common/userDefinedLang/
 @set mercury_userlangxml=%npp_userdefinedlang_src%userDefineLang_Mercury.xml
 @set MERCURY_HOME=C:/mercury-14.01-mingw
 @set MERCURY_CONFIG_DIR=%MERCURY_HOME%/lib/mercury
