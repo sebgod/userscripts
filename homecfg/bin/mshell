@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ -x $1 ]; then
+    SCRIPT=$1
+    shift
+    MODULE=$(basename $SCRIPT .m)_
+    FILE=${MODULE}.m
+    DIR=$(dirname $SCRIPT)
+    echo ":- module ${MODULE}.">$DIR/$FILE
+    echo ":- interface.
+    :- import_module io.
+    :- pred main(io::di, io::uo) is cc_multi.
+    :- implementation.
+    :- import_module list,string,float.">>$DIR/$FILE
+    tail -n +2 $SCRIPT>>$DIR/$FILE
+    cd $DIR
+    MCFLAGS="--infer-all --no-inform-inferred --make --use-grade-subdirs"
+    (mmc $MCFLAGS -- $MODULE 2>/dev/null && rm ${MODULE}.err) || cat ${MODULE}.err
+    exec ./${MODULE} $*
+fi
