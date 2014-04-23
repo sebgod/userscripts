@@ -17,7 +17,7 @@ setlocal tags+=$HOME/dev/mercury/tags.library,$HOME/dev/mercury/tags.compiler
 
   " Handy if you use `:make'.
   "
-setlocal makeprg=mmake
+setlocal makeprg=mmc -m
 
   " Don't wrap over-long lines.
   "
