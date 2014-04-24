@@ -3,18 +3,24 @@
 if [ -x $1 ]; then
     SCRIPT=$1
     shift
-    MODULE=$(basename $SCRIPT .m)_
-    FILE=${MODULE}.m
+    SOURCE_MODULE=$(basename $SCRIPT .m)
+    TARGET_MODULE=${SOURCE_MODULE}_
+    TARGET_FILE=${TARGET_MODULE}.m
     DIR=$(dirname $SCRIPT)
-    echo ":- module ${MODULE}.">$DIR/$FILE
-    echo ":- interface.
-    :- import_module io.
-    :- pred main(io::di, io::uo) is cc_multi.
-    :- implementation.
-    :- import_module list,string,float.">>$DIR/$FILE
-    tail -n +2 $SCRIPT>>$DIR/$FILE
+    echo ":- module ${TARGET_MODULE}.">$DIR/$TARGET_FILE
+    echo "
+:- interface.
+:- import_module io.
+:- pred main(io::di, io::uo) is cc_multi.
+:- implementation.
+:- import_module list,string,enum,float,math,int,dir.
+:- pragma source_file(\"${SOURCE_MODULE}.m\").
+#2">>$DIR/$TARGET_FILE
+    tail -n +2 $SCRIPT>>$DIR/$TARGET_FILE
     cd $DIR
     MCFLAGS="--infer-all --no-inform-inferred --make --use-grade-subdirs"
-    (mmc $MCFLAGS -- $MODULE 2>/dev/null && rm ${MODULE}.err) || cat ${MODULE}.err
-    exec ./${MODULE} $*
+    (  ( mmc $MCFLAGS -- $TARGET_MODULE 2>/dev/null ) && \
+       ( rm ${TARGET_MODULE}.err ) && \
+       exec ./${TARGET_MODULE} $*
+    ) || cat ${TARGET_MODULE}.err
 fi
