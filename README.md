@@ -1,4 +1,9 @@
 cmdtools
 ========
 
-AHK Scripts, ~\bin\*.cmd, ConEmu XML settings
+Contains:
+ - AHK Scripts
+ - `~\bin\*.cmd`
+ - ConEmu XML settings
+ - `.vim/*`
+ - `~/bin/*.sh`
