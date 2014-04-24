@@ -13,14 +13,20 @@ if [ -x $1 ]; then
 :- import_module io.
 :- pred main(io::di, io::uo) is cc_multi.
 :- implementation.
-:- import_module list,string,enum,float,math,int,dir.
+'\$0' = \"$SCRIPT\".
+'\$dp0' = \"$DIR\".
+'\$#' = $#.
+'\$pwd' = \"$PWD\".
+:- import_module list,string, enum, float, math, int, dir, maybe.
 :- pragma source_file(\"${SOURCE_MODULE}.m\").
 #2">>$DIR/$TARGET_FILE
-    tail -n +2 $SCRIPT>>$DIR/$TARGET_FILE
+    tail -n +2 $SCRIPT | \
+	   sed 's/^main\s*:-/main(!IO) :- command_line_arguments(Args, !IO),/'>>\
+	        $DIR/$TARGET_FILE
     cd $DIR
     MCFLAGS="--infer-all --no-inform-inferred --make --use-grade-subdirs"
-    (  ( mmc $MCFLAGS -- $TARGET_MODULE 2>/dev/null ) && \
-       ( rm ${TARGET_MODULE}.err ) && \
+    (  mmc $MCFLAGS -- $TARGET_MODULE 2>/dev/null && \
+       rm ${TARGET_MODULE}.err && \
        exec ./${TARGET_MODULE} $*
     ) || cat ${TARGET_MODULE}.err
 fi
