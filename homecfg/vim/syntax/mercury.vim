@@ -260,7 +260,7 @@ endif
 
   " Comment handling
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
-syn match mercuryCommentInfo " \(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\|Created on\|Date\):" contained
+syn match mercuryCommentInfo " \(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\|Created on\|Date\|Source\):" contained
 syn match mercuryCommentInfo "Copyright (C)" contained
 syn match mercuryCommentTexQuote "``\|''" contained
 syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo,
@@ -283,6 +283,7 @@ syn region  mercuryCComment      matchgroup=mercuryError start="/\* ###" end="\v
 syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\=" contained
 syn match mercuryModelineParam "\vet|expandtab" contained
 syn region mercuryModeline matchgroup=mercuryComment  start="% vim:" end=+$+     oneline contains=mercuryModelineParam
+syn region mercuryShebang matchgroup=mercuryComment  start="\v^#!/" end=/\v.+$/     oneline
 
 syn sync fromstart
 
