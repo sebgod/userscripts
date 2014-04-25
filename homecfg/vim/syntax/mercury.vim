@@ -126,6 +126,7 @@ syn match   mercuryOperator     "++"         " concat operator
 syn match   mercuryOperator     "::"
 syn match   mercuryOperator     "&"
 syn match   mercuryOperator     "?-"
+syn match   mercuryOperator     "/"
 syn match   mercuryOperator     "//"
 syn match   mercuryOperator     "*"
 syn match   mercuryOperator     "\^"
@@ -233,7 +234,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn keyword mercuryErlangKeyword contained after and andalso band begin bnot bor bsl bsr bxor case
   \ catch cond end fun if let not of orelse query receive throw try when xor
   syn keyword mercuryErlangBool true false
-  syn match mercuryErlangOperator "\v[/?]" contained
+  syn match mercuryErlangOperator "\v[?]" contained
   syn region mercuryErlangString start=+""+ end=+""+ contained
   syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
   \ mercuryCLikeChar,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryErlangKeyword,mercuryErlangOperator,
