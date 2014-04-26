@@ -1,9 +1,0 @@
-<!--pas
-uses ChunkedEncoding;
-WebResponse.Header['Transfer-Encoding'] := 'chunked';
-WebResponse.Header['Content-Type'] := 'text/plain; charset=utf-8';
-PrintChunk('Wiki');
-PrintChunk('pedia' + #13#10);
-PrintChunk('Hello');
-PrintChunk('');
-?-->

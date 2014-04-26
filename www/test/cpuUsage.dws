@@ -1,5 +1,0 @@
-<!--pas
-WebResponse.ContentType := 'text/plain';
-WebResponse.Header['Cache-Control'] := 'no-cache';
-WebResponse.ContentData := Format('%.1f/%.1f', [CPUInfo.ProcessUsage, CPUInfo.SystemUsage]);
-?-->

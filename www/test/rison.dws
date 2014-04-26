@@ -1,6 +1,0 @@
-<!--pas
-uses MimeType;
-
-WebResponse.ContentType := MimeToString(TMimeType.UTF8Text);
-WebResponse.ContentData := JSON.Parse(ParseRison(WebRequest.QueryString));
-?-->
