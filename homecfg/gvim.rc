@@ -1,15 +1,13 @@
-:syn on
-:filetype plugin on
+syn on
+filetype plugin on
 set modeline
 set fdm=indent
-" vim: disabled folding column, enable absolute numbering
-" set fdc=4
 set bs=2
-:colorscheme darkblue
+colorscheme darkblue
 
 if has("gui_running")
   if has("gui_gtk2")
-    set guifont=Inconsolata\ 12
+    set guifont=Inconsolata\ 10
   elseif has("gui_macvim")
     set guifont=Menlo\ Regular:h14
   elseif has("gui_win32")
