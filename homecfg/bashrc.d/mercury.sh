@@ -1,4 +1,5 @@
-[ -z $MERCURY_HOME ] || ( [ -d $MERCURY_HOME/bin ] && export PATH=$MERCURY_HOME/bin:$PATH )
+export MERCURY_HOME=/usr/local/mercury-DEV
+[ -d $MERCURY_HOME/bin ] && export PATH=$MERCURY_HOME/bin:$PATH
 SEGO_GITHUB=$HOME/github/sebgod
 MERCURY_FORK=$SEGO_GITHUB/mercury
 MERCURY_MAIN=$HOME/github/mercury/mercury-dev
