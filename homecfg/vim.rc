@@ -1,14 +1,27 @@
 syntax on
-filetype plugin on
+filetype plugin indent on
 set autoindent
+set smartcase
+set incsearch
+set autowrite
+set hidden
+set showcmd
 set mouse=a
 set modeline
 set rnu
 set number
 set laststatus=2
+set backspace=indent,eol,start
+set nocompatible
+set history=50
+set suffixes=.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg,.inx,.out,.toc,.mh,.err
 
 autocmd QuickFixCmdPost [^1]* nested cwindow
 autocmd QuickFixCmdPost    1* nested lwindow
+
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
 
 if has("multi_byte")
   set encoding=utf-8                     " better default than latin1
