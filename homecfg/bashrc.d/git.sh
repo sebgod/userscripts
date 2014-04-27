@@ -5,7 +5,7 @@ export GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
 [ -d /usr/lib/git-core ] && export PATH=/usr/lib/git-core:$PATH
 
-git_branch_bin=$(which git-branch 2>/dev/null)
+git_branch_bin="git branch"
 function git-branch()
 {
     local delete=no
@@ -33,3 +33,10 @@ alias gll="git gr"
 alias gu="git up"
 alias git-gr="git gr"
 alias git-bv="git bv"
+
+# useful functions
+function git-sego()
+{
+    cd ~/github/sebgod
+    git clone https://github.com/sebgod/$1
+}
