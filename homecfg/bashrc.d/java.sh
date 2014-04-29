@@ -1,4 +1,7 @@
 #!/bin/sh
 
 JAVA_HOME=$(dirname $(locate ASSEMBLY_EXCEPTION))
-[ -d $JAVA_HOME ] && export JAVA_HOME
+for dir in $JAVA_HOME:
+do
+	[ -d $dir ] && export JAVA_HOME=$dir && break
+done
