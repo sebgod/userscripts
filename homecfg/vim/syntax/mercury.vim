@@ -283,7 +283,8 @@ syn region  mercuryCComment      matchgroup=mercuryError start="/\* ###" end="\v
   " Matching Vim modeline
 syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\=" contained
 syn match mercuryModelineParam "\vet|expandtab" contained
-syn region mercuryModeline matchgroup=mercuryComment  start="% vim:" end=+$+     oneline contains=mercuryModelineParam
+syn match mercuryModelineValue "\<mercury\>" contained
+syn region mercuryModeline matchgroup=mercuryComment  start="% vim:" end=+$+     oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
 syn region mercuryShebang matchgroup=mercuryComment  start="\v^#!/" end=/\v.+$/     oneline
 
 syn sync fromstart
@@ -340,6 +341,7 @@ hi link mercuryImpure           Special
 hi link mercuryImplKeyword      Underlined
 hi link mercuryKeyword          Keyword
 hi link mercuryModelineParam    Identifier
+hi link mercuryModelineValue    Constant
 hi link mercuryNumCode          Constant
 hi link mercuryPragma           PreProc
 hi link mercuryForeignMod       mercuryForeignIface
