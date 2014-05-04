@@ -1,3 +1,4 @@
+" vim: ft=vim ts=2 sw=2 et wm=0 tw=0
 syntax on
 filetype plugin indent on
 set autoindent
@@ -30,3 +31,6 @@ if has("multi_byte")
     let &termencoding = &encoding
   endif
 endif
+
+auto BufEnter * :set title | let &titlestring = 'v:' . expand('%')
+auto VimLeave * :set t_ts=k\
