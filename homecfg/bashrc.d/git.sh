@@ -33,6 +33,7 @@ alias gll="git gr"
 alias gu="git up"
 alias git-gr="git gr"
 alias git-bv="git bv"
+alias git-ff="git ff"
 
 # useful functions
 function git-sego()
