@@ -1,14 +1,15 @@
 #!/bin/sh
 
 if [ -x $1 ]; then
+    SHELL_SCRIPT=$(basename $0)
     SCRIPT=$1
+    mv -f $SCRIPT ${SCRIPT}.tmp
     shift
-    SOURCE_MODULE=$(basename $SCRIPT .m)
-    TARGET_MODULE=${SOURCE_MODULE}_
-    TARGET_FILE=${TARGET_MODULE}.m
+    MODULE=$(basename $SCRIPT .m)
+    TARGET_FILE=${MODULE}.m
     DIR=$(dirname $SCRIPT)
-    echo ":- module ${TARGET_MODULE}.">$DIR/$TARGET_FILE
-    echo "
+    echo "% automatically generated from: $SCRIPT">$DIR/$TARGET_FILE
+    echo ":- module ${MODULE}.
 :- interface.
 :- import_module io.
 :- pred main(io::di, io::uo) is cc_multi.
@@ -18,15 +19,16 @@ if [ -x $1 ]; then
 '\$#' = $#.
 '\$pwd' = \"$PWD\".
 :- import_module list,string, enum, float, math, int, dir, maybe.
-:- pragma source_file(\"${SOURCE_MODULE}.m\").
+:- pragma source_file(\"${MODULE}.m\").
 #2">>$DIR/$TARGET_FILE
-    tail -n +2 $SCRIPT | \
-	   sed 's/^main\s*:-/main(!IO) :- command_line_arguments(Args, !IO),/'>>\
-	        $DIR/$TARGET_FILE
+    tail -n +2 ${SCRIPT}.tmp | \
+        sed 's/^main\((!IO)\)\?\s*:-/main(!IO) :- command_line_arguments(Args, !IO),/'>>$DIR/$TARGET_FILE
     cd $DIR
     MCFLAGS="--infer-all --no-inform-inferred --make --use-grade-subdirs"
-    (  mmc $MCFLAGS -- $TARGET_MODULE 2>/dev/null && \
-       rm ${TARGET_MODULE}.err && \
-       exec ./${TARGET_MODULE} $*
-    ) || cat ${TARGET_MODULE}.err
+    (  mmc $MCFLAGS -- $MODULE 2>/dev/null && \
+       mv -f ${SCRIPT}.tmp ${SCRIPT} && \
+       rm ${MODULE}.err && \
+       exec ./${MODULE} $*
+       ) || (  mv -f ${SCRIPT}.tmp ${SCRIPT} && \
+	       cat ${MODULE}.err )
 fi
