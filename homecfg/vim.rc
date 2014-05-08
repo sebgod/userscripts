@@ -22,6 +22,9 @@ set nocompatible
 set history=50
 set suffixes=.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg,.inx,.out,.toc,.mh,.err
 
+" :let g:html_no_progress=1
+:let g:html_use_encoding="UTF-8"
+
 autocmd QuickFixCmdPost [^1]* nested cwindow
 autocmd QuickFixCmdPost    1* nested lwindow
 
