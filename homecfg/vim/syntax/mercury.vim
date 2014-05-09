@@ -239,12 +239,17 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
   \ mercuryCLikeChar,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryErlangKeyword,mercuryErlangOperator,
   \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryErlangDCGAction
-  syn region  mercuryErlangList contained matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryErlangTerms,mercuryMisInList
-  syn region  mercuryErlangBlock    contained matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryErlangTerms,mercuryMisInBlock
-  syn region  mercuryErlangDCGAction contained matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryErlangTerms,mercuryMisInDCGAction
+  syn region  mercuryErlangList contained matchgroup=mercuryBracket
+  \ start='\[' end=']' transparent fold  contains=@mercuryErlangTerms,mercuryMisInList
+  syn region  mercuryErlangBlock    contained matchgroup=mercuryBracket
+  \ start='(' end=')'  transparent fold  contains=@mercuryErlangTerms,mercuryMisInBlock
+  syn region  mercuryErlangDCGAction contained matchgroup=mercuryBracket
+  \ start='{' end='}'  transparent fold  contains=@mercuryErlangTerms,mercuryMisInDCGAction
   syn cluster mercuryErlang    contains=@mercuryErlangTerms,mercuryErlangDCGAction,mercuryForeignIface
-  syn region mercuryErlangCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryErlang
-  syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Erlang"|erlang)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/ transparent contains=@mercuryForeign,mercuryErlangCode
+  syn region mercuryErlangCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+
+  \ transparent fold contained contains=@mercuryErlang
+  syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Erlang"|erlang)/
+  \ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/ transparent contains=@mercuryForeign,mercuryErlangCode
     " Matching foreign interface builtins and success indicator
   syn keyword mercuryForeignIface SUCCESS_INDICATOR contained
   syn match mercuryForeignIface "\v<builtin.[A-Z][A-Z_0-9]+>" contained
@@ -262,19 +267,25 @@ endif
   " Comment handling
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
 syn match mercuryCommentInfo " \(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\|Created on\|Date\|Source\):" contained
-syn match mercuryCommentInfo "Copyright (C)" contained
+syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
+syn match mercuryCommentInfo "Copyright (C)" contained nextgroup=mercuryCopyrightYear
 syn match mercuryCommentTexQuote "``\|''" contained
-syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo,
+syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
 syn cluster mercuryCommentTex contains=mercuryCommentTexQuote
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
-  syn region  mercuryComment                                  start="%"   end=/\v(\S|\s+\S)*$?/ oneline  contains=@mercuryCommentDirectives,@mercuryCommentTex,@mercuryFormatting
-  syn region  mercuryCComment       matchgroup=mercuryComment start="/\*" end="\*/"    fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
-  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//"  end=/\v(\S|\s+\S)*$?/          oneline  contained contains=@mercuryCommentDirectives,@mercuryFormatting
+  syn region  mercuryComment start="%" end=/\v(\S|\s+\S)*$?/ oneline 
+  \ contains=@mercuryCommentDirectives,@mercuryCommentTex,@mercuryFormatting
+  syn region  mercuryCComment       matchgroup=mercuryComment start="/\*" end="\*/"
+  \ fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
+  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//"  end=/\v(\S|\s+\S)*$?/
+  \ oneline  contained contains=@mercuryCommentDirectives,@mercuryFormatting
 else
   syn region  mercuryComment start=+%[-=%*_]*+ matchgroup=NONE end=/\v(\S|\s+\S)*$?/he=s-1 oneline contains=@mercuryCommentDirectives,@mercuryFormatting
-  syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/" transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
-  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//" matchgroup=NONE end=/\v(\S|\s+\S)*$?/ transparent oneline contained contains=@mercuryCommentDirectives,@mercuryFormatting
+  syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/"
+  \ transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
+  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//"
+  \ matchgroup=NONE end=/\v(\S|\s+\S)*$?/ transparent oneline contained contains=@mercuryCommentDirectives,@mercuryFormatting
 endif
 
   " Matching the output of the error command in extras
@@ -283,7 +294,7 @@ syn region  mercuryCComment      matchgroup=mercuryError start="/\* ###" end="\v
   " Matching Vim modeline
 syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\=" contained
 syn match mercuryModelineParam "\vet|expandtab" contained
-syn match mercuryModelineValue "\<mercury\>" contained
+syn match mercuryModelineValue "\<\(mercury\|unix\)\>" contained
 syn region mercuryModeline matchgroup=mercuryComment  start="% vim:" end=+$+     oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
 syn region mercuryShebang matchgroup=mercuryComment  start="\v^#!/" end=/\v.+$/     oneline
 
@@ -297,6 +308,7 @@ hi link mercuryBool             Special
 hi link mercuryComment          Comment
 hi link mercuryCommentInfo      Identifier
 hi link mercuryCommentTexQuote  Special
+hi link mercuryCopyrightYear    Constant
 hi link mercuryCComment         mercuryComment
 hi link mercuryCCommentPrefix   mercuryComment
 hi link mercuryCInterface       mercuryPragma
