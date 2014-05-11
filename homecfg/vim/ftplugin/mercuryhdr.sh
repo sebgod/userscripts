@@ -3,10 +3,10 @@
 cat <<EOF
 %------------------------------------------------------------------------------%
 % File: $1
-% Main author: $GIT_AUTHOR_NAME <$GIT_AUTHOR_EMAIL>
-% Copyright (C)
-% Created on: $(date)
 % vim: ft=mercury ff=unix ts=4 sw=4 et
+% Copyright (C) 2014 $GIT_AUTHOR_NAME
+% Main author: $GIT_AUTHOR_NAME <$GIT_AUTHOR_EMAIL>
+% Created on: $(date)
 %
 %------------------------------------------------------------------------------%
 
