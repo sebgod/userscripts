@@ -29,7 +29,7 @@ syn case match
   "
   "   let mercury_highlight_full_comment = 1
   "
-  " By default, parts of lines that extend over 80 characters will be
+  " By default, parts of lines that extend over 78 characters will be
   " highlighted.  To avoid this behaviour, add
   "
   "   let mercury_no_highlight_overlong = 1
@@ -73,7 +73,7 @@ syn keyword mercuryForeignMod   may_call_mercury will_not_call_mercury
 syn keyword mercuryForeignMod   thread_safe not_thread_safe maybe_thread_safe
 syn keyword mercuryForeignMod   promise_pure promise_semipure
 syn keyword mercuryForeignMod   tabled_for_io local untrailed trailed
-syn keyword mercuryForeignMod   attach_to_io_state
+syn keyword mercuryForeignMod   attach_to_io_state max_stack_size
 syn keyword mercuryForeignMod   can_pass_as_mercury_type stable
 syn keyword mercuryForeignMod   will_not_throw_exception
 syn keyword mercuryForeignMod   may_modify_trail will_not_modify_trail
@@ -146,7 +146,7 @@ syn match mercuryMisInDCGAction "]\|)" contained
 syn match mercuryMisInAny "\v\.(\s+|$)" contained
 
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
-  syn match mercuryTooLong /\%81v.*/
+  syn match mercuryTooLong /\%79v[^")}\]%]*/
   syn cluster mercuryFormatting add=mercuryTooLong
 endif
   " The clusters contain all valid Mercury code. The nesting is done to allow
