@@ -1,6 +1,6 @@
 " Vim syntax file
 " Language:     Mercury
-" Maintainer:   Ralph Becket <rafe@cs.mu.oz.au>
+" Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
 " vim: ts=2 sw=2 et
 
 if exists("b:current_syntax")
@@ -132,9 +132,8 @@ syn match   mercuryOperator     "*"
 syn match   mercuryOperator     "\^"
 syn match   mercuryTerminator   "\v\.($|\s+)"
 syn match   mercuryImplication  "<=>\|<=\|=>"
-  " XXX Technically, Mercury numbers do not have integer literal suffixes, but it shouldn't
-  " hurt to include them here (for the C, C#, Java grades).
-syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?)[lLfFm]?>/
+syn match   mercuryNumCode /\v<0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+/
+syn match   mercuryFloat /\v<[0-9]+\.[0-9]+([eE][-+]?[0-9]+)?/
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt,@mercuryFormatting
 syn match   mercuryStringFmt    /\\[abfnrtv\\"]\|\\x[0-9a-fA-F]\+\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]/      contained
@@ -153,11 +152,10 @@ endif
   " for matching of parens, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
       \ mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,mercuryMisInAny,
-      \ mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryInlined
-syn cluster mercuryCode      contains=@mercuryTerms,mercuryLogical
+      \ mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod,mercuryMisInList
-syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryCode,mercuryDCGAction,mercuryMisInBlock
-syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryCode,mercuryMisInDCGAction
+syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction,mercuryMisInBlock
+syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryTerms,mercuryMisInDCGAction
 
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
@@ -362,7 +360,8 @@ hi link mercuryImplKeyword      Underlined
 hi link mercuryKeyword          Keyword
 hi link mercuryModelineParam    Identifier
 hi link mercuryModelineValue    Constant
-hi link mercuryNumCode          Constant
+hi link mercuryNumCode          Number
+hi link mercuryFloat            Float
 hi link mercuryPragma           PreProc
 hi link mercuryForeignMod       mercuryForeignIface
 hi link mercuryForeignOperator  mercuryOperator
