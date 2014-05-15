@@ -133,7 +133,7 @@ syn match   mercuryOperator     "\^"
 syn match   mercuryTerminator   "\v\.($|\s+)"
 syn match   mercuryImplication  "<=>\|<=\|=>"
 syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+)/
-syn match   mercuryFloat /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+))?/
+syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt,@mercuryFormatting
 syn match   mercuryStringFmt    /\\[abfnrtv\\"]\|\\x[0-9a-fA-F]\+\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]/      contained
@@ -151,7 +151,7 @@ endif
   " The clusters contain all valid Mercury code. The nesting is done to allow
   " for matching of parens, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
-      \ mercuryAtom,mercuryNumCode,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,mercuryMisInAny,
+      \ mercuryAtom,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,mercuryMisInAny,
       \ mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod,mercuryMisInList
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction,mercuryMisInBlock
@@ -176,7 +176,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCLikeCharEsc +\\\\\([abfnrtv]\|0[0-7]*\|[xuU][0-9a-fA-F]*\)+ contained
   syn region mercuryCLikeChar start=+'+ end=+'+ contained contains=mercuryCLikeCharEsc
   syn cluster mercuryCLike contains=mercuryCLikeKeyword,mercuryCLikeType,mercuryCLikeOperator,mercuryCComment,mercuryCLikeChar
-  syn cluster mercuryCLike add=mercuryNumCode,mercuryCLikeBracket,mercuryCLikeDelimiter,mercuryForeignIface
+  syn cluster mercuryCLike add=mercuryNumCode,mercuryFloat,mercuryCLikeBracket
+  syn cluster mercuryCLike add=mercuryCLikeDelimiter,mercuryForeignIface
 
     " ISO C Language formatting
   syn keyword mercuryCType contained const size_t pid_t offset_t union MR_bool MR_Word MR_Integer
