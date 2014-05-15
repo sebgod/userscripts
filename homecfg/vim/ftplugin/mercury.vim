@@ -42,8 +42,8 @@ setlocal formatoptions=trcq
 
   " <C-X>l inserts a comment line.
   "
-nnoremap <C-X>l o0<C-D>%------------------------------------------------------------------------------%<CR><ESC>x
-inoremap <C-X>l --------------------------------------------------------------------------------<ESC>80<BAR>C%<CR>
+nnoremap <C-X>l o0<C-D>%----------------------------------------------------------------------------%<CR><ESC>x
+inoremap <C-X>l ------------------------------------------------------------------------------<ESC>80<BAR>C%<CR>
 
   " <F6> attempts to wrap a call up with { } braces for DCG escapes.
   "

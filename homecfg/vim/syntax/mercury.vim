@@ -132,8 +132,8 @@ syn match   mercuryOperator     "*"
 syn match   mercuryOperator     "\^"
 syn match   mercuryTerminator   "\v\.($|\s+)"
 syn match   mercuryImplication  "<=>\|<=\|=>"
-syn match   mercuryNumCode /\v<0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+/
-syn match   mercuryFloat /\v<[0-9]+\.[0-9]+([eE][-+]?[0-9]+)?/
+syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+)/
+syn match   mercuryFloat /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+))?/
 syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
 syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt,@mercuryFormatting
 syn match   mercuryStringFmt    /\\[abfnrtv\\"]\|\\x[0-9a-fA-F]\+\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]/      contained
@@ -272,7 +272,7 @@ endif
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
 syn match mercuryCommentInfo " \(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\|Created on\|Date\|Source\):" contained
 syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
-syn match mercuryCommentInfo "Copyright (C)" contained nextgroup=mercuryCopyrightYear
+syn match mercuryCommentInfo "\vCopyright (\([cC]\)|©)" contained nextgroup=mercuryCopyrightYear
 syn match mercuryCommentTexQuote "``\|''" contained
 syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
 syn cluster mercuryCommentTex contains=mercuryCommentTexQuote
