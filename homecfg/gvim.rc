@@ -3,7 +3,7 @@ filetype plugin on
 set modeline
 set fdm=indent
 set bs=2
-colorscheme darkblue
+colorscheme torte
 
 if has("gui_running")
   if has("gui_gtk2")
