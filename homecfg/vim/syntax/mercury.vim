@@ -181,7 +181,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 
     " ISO C Language formatting
   syn keyword mercuryCType contained const size_t pid_t offset_t union MR_bool MR_Word MR_Integer
-    \ MR_Unsigned MR_ArrayPtr MR_Float MR_file MercuryFile[Ptr]
+    \ MR_Unsigned MR_ArrayPtr MR_Float MR_file MercuryFile[Ptr] MR_String MR_ConstString
   syn match mercuryCType "\v<MR_((Pseudo)?TypeInfo|TypeCtor(Desc|Info)|AllocSiteInfoPtr)|MercuryLock>" contained
   syn match mercuryCType "\v<[u]?int(8|16|32|64)_t>" contained
   syn keyword mercuryCKeyword typedef sizeof typeof offsetof contained
