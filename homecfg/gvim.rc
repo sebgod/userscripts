@@ -3,11 +3,11 @@ filetype plugin on
 set modeline
 set fdm=indent
 set bs=2
-colorscheme darkblue
+colorscheme torte
 
 if has("gui_running")
   if has("gui_gtk2")
-    set guifont=Inconsolata\ 10
+    set guifont=Monospace\ 11
   elseif has("gui_macvim")
     set guifont=Menlo\ Regular:h14
   elseif has("gui_win32")
