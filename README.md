@@ -1,9 +1,13 @@
-cmdtools
-========
+userscripts
+===========
 
-Contains:
+##Windows
  - AHK Scripts
  - `~\bin\*.cmd`
  - ConEmu XML settings
- - `.vim/*`
+
+##Linux
  - `~/bin/*.sh`
+
+##Common
+ - `.vim/*`
