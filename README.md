@@ -1,13 +1,13 @@
 userscripts
-===========
+-----------
 
-##Windows
+#Windows
  - AHK Scripts
  - `~\bin\*.cmd`
  - ConEmu XML settings
 
-##Linux
+#Linux
  - `~/bin/*.sh`
 
-##Common
+#Common
  - `.vim/*`
