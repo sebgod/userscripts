@@ -3,7 +3,7 @@ userscripts
 
 #Windows
  - AHK Scripts
- - `~\bin\*.cmd`
+ - Windows Batch scripts in /bin
  - ConEmu XML settings
 
 #Linux
