@@ -68,7 +68,7 @@
 
 @set npp_userdefinedlang_src=http://notepad-plus.sourceforge.net/common/userDefinedLang/
 @set mercury_userlangxml=%npp_userdefinedlang_src%userDefineLang_Mercury.xml
-@set MERCURY_HOME=C:/mercury-dev
+@set MERCURY_HOME=C:\mercury-dev
 
 @set sagethumbs_version=2.0.0.17
 @set sagethumbs_setup=sagethumbs_%sagethumbs_version%_setup.exe

@@ -13,5 +13,5 @@
 @if not [%jcp%] == [] (
    set jcp=--java-classpath %jcp%
 )
-@call mercury_compile --use-grade-subdirs --no-detect-libgrades -s java %jcp% -m %*
+@call mercury --use-grade-subdirs --no-detect-libgrades -s java %jcp% -m %*
 @endlocal
