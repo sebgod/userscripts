@@ -1,4 +1,4 @@
-@call userenv
+@call %~dp0userenv
 
 @setlocal enabledelayedexpansion
 
@@ -10,5 +10,8 @@
         set jcp=!jcp!;%%J
     )
 )
-@call %mercury_compiler% --use-grade-subdirs --no-detect-libgrades -s java --java-classpath %jcp% -m %*
+@if not [%jcp%] == [] (
+   set jcp=--java-classpath %jcp%
+)
+@call mercury_compile --use-grade-subdirs --no-detect-libgrades -s java %jcp% -m %*
 @endlocal

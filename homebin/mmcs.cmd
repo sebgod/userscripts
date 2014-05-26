@@ -1,5 +1,5 @@
-@call userenv
+@call %~dp0userenv
 @setlocal
 @set keyfile="%userprofile%\Documents\GitHub\mercury\mercury.snk"
-@call %mercury_compiler% --use-grade-subdirs --no-detect-libgrades --sign-assembly %keyfile% -s csharp -m  %*
+@call mercury_compile --use-grade-subdirs --no-detect-libgrades --sign-assembly %keyfile% -s csharp -m %*
 @endlocal

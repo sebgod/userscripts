@@ -1,2 +1,2 @@
-@call userenv
-@call %MERCURY_COMPILER% --use-grade-subdirs --no-detect-libgrades -s asm_fast.gc -m %*
+@call %~dp0userenv
+@call mercury_compile --use-grade-subdirs --no-detect-libgrades -s asm_fast.gc -m %*
