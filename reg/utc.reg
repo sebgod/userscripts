@@ -2,6 +2,7 @@ Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation]
 "RealTimeIsUniversal"=dword:00000001
+"DynamicDaylightTimeDisabled"=dword:00000001
 
 [HKEY_LOCAL_MACHINE\Software\Microsoft\Clock]
 "AutoDST"=dword:00000000
