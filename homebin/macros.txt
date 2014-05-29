@@ -1,6 +1,5 @@
 home=cd /d %userprofile%
-vs=cd /d %userprofile%\Documents\Visual Studio 2012\Projects\$1
-bin=cd /d %userprofile%\bin
+bin=cd /d %userprofile%\Documents\GitHub\userscripts\homebin
 $dm=doskey /macros
 $em=edit %userprofile%\bin\macros.txt
 $rm=doskey /macrofile=%userprofile%\bin\macros.txt
@@ -11,4 +10,8 @@ goace=cd /d %userprofile%\Documents\GitHub\ace
 gomer=cd /d %userprofile%\Documents\GitHub\mercury
 goextra=cd /d %userprofile%\Documents\GitHub\mercury\extras
 goucd=cd /d %userprofile%\Documents\GitHub\mercury-unicode
+gocfg=cd /d %userprofile%\Documents\GitHub\userscripts
 ls=ls --color
+gs=git status $*
+gll=git gr
+git-sego=cd /d %userprofile%\Documents\GitHub$Tgit clone https://github.com/sebgod/$*
