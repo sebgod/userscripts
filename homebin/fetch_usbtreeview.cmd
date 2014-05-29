@@ -1,4 +1,8 @@
+@setlocal enabledelayedexpansion
 @call %~dp0userenv
+
+@set usbtreeview_zipfile=usbtreeview.zip
+@set usbtreeview_url=http://www.uwe-sieber.de/files/%usbtreeview_zipfile%
 
 pushd %temp%
 mkdir usbtreeview

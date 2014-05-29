@@ -1,7 +1,12 @@
-call %~dp0userenv
+@setlocal enabledelayedexpansion
+@call %~dp0userenv
+
+:: maybe use http://launcher.nirsoft.net/download.html
+@set nirsoft_www=www.nirsoft.net
+@set nirsoft_x64_zip=x64tools.zip
+@set nirsoft_url=http://%nirsoft_www%/packages/%nirsoft_x64_zip%
 
 pushd %~dp0
-setlocal enabledelayedexpansion
 
 pushd %TEMP%
 wget -N %nirsoft_url%
@@ -15,5 +20,4 @@ pushd %target%
 7za x -y %absZipPath%
 popd
 
-endlocal
 popd

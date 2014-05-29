@@ -1,5 +1,8 @@
 @setlocal enabledelayedexpansion
+@call %~dp0userenv
 
+@set iso-639-6_www=www.geolang.com
+@set iso-639-6_url=http://%iso-639-6_www%/iso639-6
 @set isoName=iso-639-6
 @set targetDir=%~dp0data\%isoName%
 @set tempDir=%temp%\%isoName%
