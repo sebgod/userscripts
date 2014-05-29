@@ -1,7 +1,12 @@
+@setlocal enabledelayedexpansion
 @call %~dp0userenv
 
-@setlocal enabledelayedexpansion
-
+@set mercury_config_dir=mercury
+@for %%P in (mercury.bat) do @(
+    @set mercury_config_dir=%%~dp$PATH:P
+    @set mercury_compiler=!mercury_config_dir!mercury_compile
+    @set mercury_config_dir=!mercury_config_dir:\bin\=\lib\mercury!
+)
 @set jcp=
 @for %%J in (%mercury_config_dir%\lib\java\*.jar) do @(
     if [!jcp!]==[] (
@@ -10,8 +15,7 @@
         set jcp=!jcp!;%%J
     )
 )
-@if not [%jcp%] == [] (
+@if not [%jcp%] == [] @(
    set jcp=--java-classpath %jcp%
 )
-@call mercury --use-grade-subdirs --no-detect-libgrades -s java %jcp% -m %*
-@endlocal
+@call %mercury_compiler% --use-grade-subdirs --no-detect-libgrades -s java %jcp% -m %*
