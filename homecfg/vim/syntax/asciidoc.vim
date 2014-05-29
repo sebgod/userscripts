@@ -180,7 +180,7 @@ highlight asciidocQuotedSubscript term=bold ctermfg=darkyellow guifg=darkyellow
 highlight asciidocQuotedSuperscript term=bold ctermfg=darkyellow guifg=darkyellow
 highlight asciidocReference term=underline ctermfg=darkmagenta guifg=darkmagenta
 highlight asciidocReplacements term=standout ctermfg=darkcyan guifg=darkcyan
-highlight asciidocRevisionInfo term=standout ctermfg=blue guifg=darkblue gui=bold
+highlight asciidocRevisionInfo term=standout ctermfg=blue guifg=lightblue gui=bold
 highlight asciidocSource term=standout ctermfg=darkyellow guifg=darkyellow
 highlight asciidocToDo term=reverse ctermfg=black ctermbg=yellow guifg=black guibg=yellow
 highlight asciidocTripplePlusPassthrough term=underline ctermfg=darkmagenta guifg=darkmagenta
@@ -238,8 +238,8 @@ highlight asciidocTablePrefix2 term=standout ctermfg=darkcyan guifg=darkcyan
 highlight asciidocTablePrefix term=standout ctermfg=darkcyan guifg=darkcyan
 
 "Comments
-highlight asciidocCommentBlock term=standout ctermfg=darkblue guifg=darkblue
-highlight asciidocCommentLine term=standout ctermfg=darkblue guifg=darkblue
+highlight asciidocCommentBlock term=standout ctermfg=lightblue guifg=lightblue
+highlight asciidocCommentLine term=standout ctermfg=lightblue guifg=lightblue
 
 "Macros
 highlight asciidocAnchorMacro term=standout ctermfg=darkred guifg=darkred
