@@ -14,7 +14,7 @@ set hidden
 set showcmd
 set mouse=a
 set modeline
-if has("rnu")
+if exists('+relativenumber')
    set rnu
    set number
 endif
