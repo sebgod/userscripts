@@ -1,5 +1,10 @@
+@setlocal enabledelayedexpansion
 @call %~dp0userenv
 
+@set unicode_www=www.unicode.org
+@set unicode_version=6.3.0
+@set unicode_url=http://%unicode_www%/Public/zipped/%unicode_version%/
+@set unicode_reports=http://%unicode_www%/reports/
 @set unicode_temp=%TEMP%\unidata_%unicode_version%
 
 for %%z in (UCD Unihan) do (
