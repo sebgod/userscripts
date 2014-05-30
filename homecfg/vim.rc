@@ -14,8 +14,10 @@ set hidden
 set showcmd
 set mouse=a
 set modeline
-set rnu
-set number
+if has("rnu")
+   set rnu
+   set number
+endif
 set laststatus=2
 set backspace=indent,eol,start
 set nocompatible
