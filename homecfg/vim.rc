@@ -14,8 +14,10 @@ set hidden
 set showcmd
 set mouse=a
 set modeline
-set rnu
-set number
+if exists('+relativenumber') && (v:version > 703)
+   set rnu
+   set number
+endif
 set laststatus=2
 set backspace=indent,eol,start
 set nocompatible
@@ -24,7 +26,7 @@ set suffixes=.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg,.inx
 set pastetoggle=<F2>
 
 " :let g:html_no_progress=1
-:let g:html_use_encoding="UTF-8"
+let g:html_use_encoding="UTF-8"
 
 autocmd QuickFixCmdPost [^1]* nested cwindow
 autocmd QuickFixCmdPost    1* nested lwindow
