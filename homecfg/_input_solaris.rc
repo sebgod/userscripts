@@ -1,3 +1,6 @@
+set input-meta on
+set output-meta on
+
 "\e[1~": beginning-of-line 
 "\e[3~": delete-char 
 "\e[4~": end-of-line
@@ -5,5 +8,10 @@
 "\e[6~": end-of-history
 "\e[214z": beginning-of-line
 "\e[220z": end-of-line
-"\e[C": forward-word
-"\e[D": backward-word
+$if term=sun
+    "\e[[C": forward-char
+    "\e[[D": backward-char
+$else
+    "\eOC": forward-word
+    "\eOD": backward-word
+$endif
