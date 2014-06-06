@@ -1,35 +1,57 @@
-#!/bin/sh
-
+#!/bin/env bash
+# vim: ft=sh ff=unix ts=4 sw=4 et
+DIR=$( cd "$( dirname "$1" )" && pwd )
+MODULE=$(echo $(basename "$1" ) | sed 's/\.m$//')
+PARENT=$(basename $(echo $DIR | sed 's/src$//' ))
+case "$MODULE" in
+    *\.*)
+        unset PARENT
+        ;;
+    *)
+        if [ $PARENT == $MODULE ] ; then
+            unset PARENT
+        else
+            PARENT="${PARENT}."
+        fi
+        ;;
+esac
+FILE="${MODULE}.m"
 cat <<EOF
 %----------------------------------------------------------------------------%
 % vim: ft=mercury ff=unix ts=4 sw=4 et
 %----------------------------------------------------------------------------%
-% File: $1
-% Copyright © 2014 $GIT_AUTHOR_NAME
+% File: $FILE
+% Copyright © $(date +%Y) $GIT_AUTHOR_NAME
 % Main author: $GIT_AUTHOR_NAME <$GIT_AUTHOR_EMAIL>
 % Created on: $(date)
-%
+% Stability: low
+%----------------------------------------------------------------------------%
+% TODO: module documentation
 %----------------------------------------------------------------------------%
 
-:- module $(echo $1 | sed 's/\./__/g;s/__m$//').
+:- module $PARENT$MODULE.
 
 :- interface.
 
-:- import_module io.
+% TODO: include/import/use modules
 
-:- pred main(io::di, io::uo) is det.
+%----------------------------------------------------------------------------%
+
+% TODO: insert predicates & functions
 
 %----------------------------------------------------------------------------%
 %----------------------------------------------------------------------------%
 
 :- implementation.
 
-%----------------------------------------------------------------------------%
-
-main(!IO) :-
+% TODO: include/import/use modules
 
 %----------------------------------------------------------------------------%
-:- end_module $(echo $1 | sed 's/\./__/g;s/__m$//').
+
+% TODO: implement predicates & functions
+
+%----------------------------------------------------------------------------%
+:- end_module $PARENT$MODULE
 % -*- Mode: Mercury; column: 80; indent-tabs-mode: nil; tabs-width: 4 -*-
 %----------------------------------------------------------------------------%
 EOF
