@@ -51,7 +51,6 @@ cat <<EOF
 % TODO: implement predicates & functions
 
 %----------------------------------------------------------------------------%
-:- end_module $PARENT$MODULE
-% -*- Mode: Mercury; column: 80; indent-tabs-mode: nil; tabs-width: 4 -*-
+:- end_module $PARENT$MODULE.
 %----------------------------------------------------------------------------%
 EOF
