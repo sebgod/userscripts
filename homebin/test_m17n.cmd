@@ -1,4 +1,4 @@
-@chcp 65001 & (cmd /c type "%~dpn0.cmd") & goto :EOF
+@call "%~dp0type_utf16" "%~f0" & exit /b 0
 
 English:     texts, web pages and documents
 Graves,etc:  à á â ã ä å æ ç è é ê ë ì í î ï
