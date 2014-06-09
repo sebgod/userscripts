@@ -2,6 +2,12 @@
 :AirlineTheme	airline.txt	/*:AirlineTheme*
 :AirlineToggle	airline.txt	/*:AirlineToggle*
 :AirlineToggleWhitespace	airline.txt	/*:AirlineToggleWhitespace*
+AnsiEsc	AnsiEsc.txt	/*AnsiEsc*
+AnsiEsc-contents	AnsiEsc.txt	/*AnsiEsc-contents*
+AnsiEsc-copyright	AnsiEsc.txt	/*AnsiEsc-copyright*
+AnsiEsc-history	AnsiEsc.txt	/*AnsiEsc-history*
+AnsiEsc-manual	AnsiEsc.txt	/*AnsiEsc-manual*
+AnsiEsc.txt	AnsiEsc.txt	/*AnsiEsc.txt*
 add_statusline_func	airline.txt	/*add_statusline_func*
 airline	airline.txt	/*airline*
 airline-accents	airline.txt	/*airline-accents*
