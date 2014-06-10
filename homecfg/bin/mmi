@@ -1,5 +1,8 @@
 #!/bin/sh
 
+if [ $# -eq 0 ]; then
+    exit 1 # the first argument *MUST* be the executed script
+fi
 if [ -x $1 ]; then
     SHELL_SCRIPT=$(basename $0)
     SCRIPT=$1
@@ -31,4 +34,6 @@ if [ -x $1 ]; then
        exec ./${MODULE} $*
        ) || (  mv -f ${SCRIPT}.tmp ${SCRIPT} && \
 	       cat ${MODULE}.err )
+else
+    exit 2
 fi
