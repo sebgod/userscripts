@@ -20,7 +20,7 @@ endif
   "
 syn case match
 
-  " The default highlighting for Mercury comments is to only highlight the
+  " The default high lighting for Mercury comments is to only highlight the
   " initial `%' and subsequent `line' punctuation characters, likewise
   " the /* and */ from C-style comments.
   " To highlight everything including the comment text, add
@@ -144,6 +144,20 @@ syn match mercuryMisInDCGAction "]\|)" contained
 syn match mercuryMisInAny "\v\.(\s+|$)" contained
 syn match   mercuryTerminator   "\v\.($|\s+)"
 
+if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
+  hi link Conceal Special
+  set conceallevel=2
+" ∈, λ , mod, div, rem ? ≤ ≥ ⧺, c.f. https://github.com/Twinside/vim-haskellConceal
+  syn match mercuryOperator "/\\" conceal cchar=∧
+  syn match mercuryOperator "\\/" conceal cchar=∨
+  syn match mercuryOperator "`xor`" conceal cchar=⊻
+  syn match mercuryOperator "`compose`" conceal cchar=∘
+  syn match mercuryLogical "\\+"  conceal cchar=¬
+  syn keyword mercuryLogical not  conceal cchar=¬
+  syn keyword mercuryLogical some conceal cchar=∃
+  syn keyword mercuryLogical all  conceal cchar=∀
+endif
+
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn match mercuryTooLong /\%79v[^")}\]%]*/
   syn cluster mercuryFormatting add=mercuryTooLong
@@ -265,7 +279,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 endif
 
 if !exists("mercury_no_highlight_trailing_whitespace") || !mercury_no_highlight_trailing_whitespace
-  syn match mercuryWhitespace "\v\.?\s+$"
+  syn match mercuryWhitespace " \v\.?\s+$"
   syn cluster mercuryFormatting add=mercuryWhitespace
 endif
 
@@ -311,6 +325,9 @@ syn region mercuryModeline matchgroup=mercuryComment  start="% vim:" end=+$+
       \ oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
 syn region mercuryShebang matchgroup=mercuryComment  start="\v^#!/" end=/\v.+$/     oneline
 
+   " Maybe should try something more performant, fromstart can be slow for
+   " files like library/io.m, maybe a comment line would be a good point for
+   " synchronization
 syn sync fromstart
 
 hi link mercuryAccess           Identifier
