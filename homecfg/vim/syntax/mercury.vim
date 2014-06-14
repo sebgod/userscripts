@@ -272,8 +272,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn cluster mercuryErlang    contains=@mercuryErlangTerms,mercuryErlangDCGAction,mercuryForeignIface
   syn region mercuryErlangCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+
         \ transparent fold contained contains=@mercuryErlang
-  syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("Erlang"|erlang)/ end=/\v[)]\.($|\s{-})/
-        \ matchgroup=mercuryDelimiter transparent contains=@mercuryForeign,mercuryErlangCode
+  syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("Erlang"|erlang)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/
+        \ transparent contains=@mercuryForeign,mercuryErlangCode
     " Matching foreign interface builtins and success indicator
   syn keyword mercuryForeignIface SUCCESS_INDICATOR contained
   syn match mercuryForeignIface "\v<builtin.[A-Z][A-Z_0-9]+>" contained
