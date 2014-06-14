@@ -43,7 +43,12 @@ syn case match
   " disable (if you think loading huge files is slow) with:
   "
   "   let mercury_no_highlight_foreign = 1
-
+  "
+  " If you use Vim 7.3+ with conceal enabled but do not want concealing of
+  " mathematical operators, use:
+  "
+  "   let mercury_no_coneal = 1
+  "
 syn match mercurySingleton      "\v<_([A-Z][a-z_A-Z0-9]*)?>"
 syn keyword mercuryKeyword      module use_module import_module
 syn keyword mercuryKeyword      include_module end_module
@@ -279,7 +284,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 endif
 
 if !exists("mercury_no_highlight_trailing_whitespace") || !mercury_no_highlight_trailing_whitespace
-  syn match mercuryWhitespace " \v\.?\s+$"
+  syn match mercuryWhitespace "\v\.?\s+$"
   syn cluster mercuryFormatting add=mercuryWhitespace
 endif
 
