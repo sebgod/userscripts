@@ -130,7 +130,6 @@ syn match   mercuryOperator     "&"
 syn match   mercuryOperator     "?-"
 syn match   mercuryOperator     "*"
 syn match   mercuryOperator     "\^"
-syn match   mercuryTerminator   "\v\.($|\s+)"
 syn match   mercuryImplication  "<=>\|<=\|=>"
 syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+)/
 syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
@@ -143,6 +142,7 @@ syn match mercuryMisInList "}\|)" contained
 syn match mercuryMisInBlock "}\|]" contained
 syn match mercuryMisInDCGAction "]\|)" contained
 syn match mercuryMisInAny "\v\.(\s+|$)" contained
+syn match   mercuryTerminator   "\v\.($|\s+)"
 
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn match mercuryTooLong /\%79v[^")}\]%]*/
@@ -161,7 +161,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
   syn match mercuryForeignParen "(\|)" contained
   syn cluster mercuryForeign contains=mercuryList,mercuryCInterface,mercuryKeyword,mercuryOperator,mercuryForeignLangId,
-        \ mercuryForeignParen,mercuryAtom,mercuryComment,mercuryDelimiter
+        \ mercuryForeignParen,mercuryAtom,mercuryComment,mercuryDelimiter,mercurySingleton
 
     " C-Style syntax as a basis for C,C# and Java
   syn keyword mercuryCLikeKeyword if else goto switch case for while do break continue return volatile extern typedef static default contained
@@ -207,7 +207,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 
     " Declaration for ISO C
   syn region mercuryCCode      matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryC
-  syn region mercuryCDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("C"|c)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s{-})"
+  syn region mercuryCDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("C"|c)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s{-})"
         \ transparent contains=@mercuryForeign,mercuryCCode
     " Declaration for C#
   syn match mercuryCSharpStringFmt "{[0-9]}" contained
@@ -217,7 +217,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn region mercuryCSharpString start=+""+ end=+""+ contained contains=mercuryCLikeCharEsc,mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc
   syn cluster mercuryCSharp contains=@mercuryCppLike,mercuryCSharpString,mercuryCSharpType
   syn region mercuryCSharpCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryCSharp
-  syn region mercuryCSharpDecl start=/\v^:-\s+pragma\s+foreign_\w+\("C#"/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s{-})"
+  syn region mercuryCSharpDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("C#"|csharp)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s{-})"
         \ transparent contains=@mercuryForeign,mercuryCSharpCode
 
     " Declaration for Java
@@ -225,14 +225,14 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryJavaType "\v<(String(Builder)?|Override|Object|Integer|Short|Float|Double|Void|Boolean|Character|System|Runtime|boolean)>" contained
   syn region mercuryJavaCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+
         \ transparent fold contained contains=@mercuryCppLike,mercuryCString,mercuryJavaType
-  syn region mercuryJavaDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Java"|java)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s{-})"
+  syn region mercuryJavaDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("Java"|java)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s{-})"
         \ transparent contains=@mercuryForeign,mercuryJavaCode
 
     " Declaration for .NET IL
   syn match mercuryILType "\v<[u]?int(8|16|32|64)|float(32|64)>" contained
   syn cluster mercuryIL contains=@mercuryCSharp,mercuryILType
   syn region mercuryILCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryIL
-  syn region mercuryILDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("IL"|il)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/
+  syn region mercuryILDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("IL"|il)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/
         \ transparent contains=@mercuryForeign,mercuryILCode
 
     " Declaration for Erlang
@@ -253,8 +253,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn cluster mercuryErlang    contains=@mercuryErlangTerms,mercuryErlangDCGAction,mercuryForeignIface
   syn region mercuryErlangCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+
         \ transparent fold contained contains=@mercuryErlang
-  syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_\w+\(("Erlang"|erlang)/
-        \ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/ transparent contains=@mercuryForeign,mercuryErlangCode
+  syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("Erlang"|erlang)/ end=/\v[)]\.($|\s{-})/
+        \ matchgroup=mercuryDelimiter transparent contains=@mercuryForeign,mercuryErlangCode
     " Matching foreign interface builtins and success indicator
   syn keyword mercuryForeignIface SUCCESS_INDICATOR contained
   syn match mercuryForeignIface "\v<builtin.[A-Z][A-Z_0-9]+>" contained
@@ -320,7 +320,7 @@ hi link mercuryCComment         mercuryComment
 hi link mercuryCCommentPrefix   mercuryComment
 hi link mercuryCInterface       mercuryPragma
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
-  hi link mercuryForeignLangId    Identifier
+  hi link mercuryForeignLangId    mercuryString
   hi link mercuryCLikeBracket     mercuryBracket
   hi link mercuryCLikeOperator    mercuryOperator
   hi link mercuryCLikeChar        mercuryAtom
