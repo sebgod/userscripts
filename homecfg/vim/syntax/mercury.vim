@@ -271,12 +271,18 @@ endif
 
   " Comment handling
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
-syn match mercuryCommentInfo " \(\(Main \)\?[Aa]uthor[s]\?\|Stability\|File\|Created on\|Date\|Source\):" contained
+syn match mercuryCommentInfo " \(\(Main \|Original \)\?[Aa]uthor[s]\?\|File\|Created on\|Date\|Source\):" contained
+syn match mercuryCommentInfo " Stability: " contained nextgroup=@mercuryStability
 syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
 syn match mercuryCommentInfo "\vCopyright (\([cC]\)|©)" contained nextgroup=mercuryCopyrightYear
 syn match mercuryCommentTexQuote "``\|''" contained
 syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
 syn cluster mercuryCommentTex contains=mercuryCommentTexQuote
+syn keyword mercuryStabilityLow low contained nextgroup=mercuryStabilityTo
+syn keyword mercuryStabilityMedium medium contained nextgroup=mercuryStabilityTo
+syn keyword mercuryStabilityHigh high contained
+syn match mercuryStabilityTo "-\| to " contained nextgroup=@mercuryStability
+syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
   syn region  mercuryComment start="%" end=/\v(\S|\s+\S)*$?/ oneline
@@ -376,6 +382,10 @@ hi link mercuryMisInDCGAction   ErrorMsg
 hi link mercuryMisInAny         ErrorMsg
 hi link mercuryOperator         Operator
 hi link mercuryInlined          Operator
+hi link mercuryStabilityLow     Constant
+hi link mercuryStabilityMedium  Operator
+hi link mercuryStabilityHigh    Type
+hi link mercuryStabilityTo      Delimiter
 hi link mercuryString           String
 hi link mercuryStringFmt        Special
 hi link mercuryToDo             Todo
