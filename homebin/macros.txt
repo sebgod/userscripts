@@ -1,6 +1,6 @@
 home=cd /d %userprofile%
 desk=cd /d %userprofile%\Desktop
-goshare=cd /d %userprofile%\Desktop\share
+gist=cd /d %userprofile%\Desktop\share
 bin=cd /d %userprofile%\Documents\GitHub\userscripts\homebin
 $dm=doskey /macros
 $em=edit %userprofile%\bin\macros.txt
