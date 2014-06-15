@@ -122,6 +122,7 @@ syn match   mercuryOperator     "<"
 syn match   mercuryOperator     "<<"
 syn match   mercuryOperator     "\\="
 syn match   mercuryOperator     "\\=="
+syn match   mercuryOperator     "\~"
 syn match   mercuryOperator     "\~="
 syn match   mercuryOperator     ":="
 syn match   mercuryOperator     ":-"
@@ -175,7 +176,7 @@ if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn match mercuryTooLong /\%79v[^")}\]%]*/
   syn cluster mercuryFormatting add=mercuryTooLong
 endif
-  " The clusters contain all valid Mercury code. The nesting is done to allow
+  " The clusters contain all valid Mercury code. The nesting is don e to allow
   " for matching of parens, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
       \ mercuryAtom,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,mercuryMisInAny,
@@ -283,6 +284,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
         \ transparent fold contained contains=@mercuryErlang
   syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("Erlang"|erlang)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/
         \ transparent contains=@mercuryForeign,mercuryErlangCode
+
     " Matching foreign interface builtins and success indicator
   syn keyword mercuryForeignIface SUCCESS_INDICATOR contained
   syn match mercuryForeignIface "\v<builtin.[A-Z][A-Z_0-9]+>" contained
@@ -299,17 +301,17 @@ endif
 
   " Comment handling
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
-syn match mercuryCommentInfo " \(\(Main \|Original \)\?[Aa]uthor[s]\?\|File\|Created on\|Date\|Source\):" contained
+syn match mercuryCommentInfo "\v ((Main |Original )?[Aa]uthor[s]?|File|Created on|Date|Source):" contained
 syn match mercuryCommentInfo " Stability: " contained nextgroup=@mercuryStability
 syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
 syn match mercuryCommentInfo "\vCopyright (\([cC]\)|©)" contained nextgroup=mercuryCopyrightYear
-syn match mercuryCommentTexQuote "``\|''" contained
+syn match mercuryCommentTexQuote "\v``|''" contained
 syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
 syn cluster mercuryCommentTex contains=mercuryCommentTexQuote
 syn keyword mercuryStabilityLow low contained nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityMedium medium contained nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityHigh high contained
-syn match mercuryStabilityTo "-\| to " contained nextgroup=@mercuryStability
+syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
