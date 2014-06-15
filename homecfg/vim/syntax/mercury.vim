@@ -157,11 +157,9 @@ syn match   mercuryStringEsc    /\v\\x\x+\\/           contained
 syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
 syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
   " first matching only a closing bracket, to catch unbalanced brackets
-syn match mercuryMisInList      "}\|)" contained
-syn match mercuryMisInBlock     "}\|]" contained
-syn match mercuryMisInDCGAction "]\|)" contained
+syn match mercuryMisInAny       "(\|\[{\|}\|\]\|)"
 syn match mercuryMisInAny       "\v\.($|\s+)" contained
-syn match mercuryTerminator     "\v\.($|\s+)"
+syn match mercuryTerminator     "\v\.($|\s+)" " to overdo it: conceal cchar=∎
 
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   hi clear Conceal
@@ -182,13 +180,14 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
     syn match mercuryOperator  "\*\*"   conceal cchar=ⁿ
     syn match mercuryOperator  "//"     conceal cchar=÷
     syn match mercuryOperator  "++"     conceal cchar=⧺
-    syn match mercuryImplication "=>"   conceal cchar=⇒
-    syn match mercuryImplication "<="   conceal cchar=⇐
-    syn match mercuryImplication "<=>"  conceal cchar=⇔
+       " unforunately, Vim does not allow different conceal colours
+    " syn match mercuryImplication "=>"   conceal cchar=⇒
+    " syn match mercuryImplication "<="   conceal cchar=⇐
+    " syn match mercuryImplication "<=>"  conceal cchar=⇔
+    " syn keyword mercuryNumCode  inf     conceal cchar=∞
     syn keyword mercuryLogical  not     conceal cchar=¬
     syn keyword mercuryLogical  some    conceal cchar=∃
     syn keyword mercuryLogical  all     conceal cchar=∀
-    syn keyword mercuryNumCode  inf     conceal cchar=∞
   endif
 endif
 
@@ -202,9 +201,9 @@ endif
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
       \ mercuryAtom,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,mercuryMisInAny,
       \ mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical
-syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod,mercuryMisInList
-syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction,mercuryMisInBlock
-syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryTerms,mercuryMisInDCGAction
+syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod
+syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction
+syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryTerms
 
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
@@ -314,11 +313,11 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
         \ mercuryCLikeChar,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryErlangKeyword,mercuryErlangOperator,
         \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryErlangDCGAction,mercuryErlangLogical
   syn region  mercuryErlangList contained matchgroup=mercuryBracket
-        \ start='\[' end=']' transparent fold  contains=@mercuryErlangTerms,mercuryMisInList
+        \ start='\[' end=']' transparent fold  contains=@mercuryErlangTerms
   syn region  mercuryErlangBlock    contained matchgroup=mercuryBracket
-        \ start='(' end=')'  transparent fold  contains=@mercuryErlangTerms,mercuryMisInBlock
+        \ start='(' end=')'  transparent fold  contains=@mercuryErlangTerms
   syn region  mercuryErlangDCGAction contained matchgroup=mercuryBracket
-        \ start='{' end='}'  transparent fold  contains=@mercuryErlangTerms,mercuryMisInDCGAction
+        \ start='{' end='}'  transparent fold  contains=@mercuryErlangTerms
   syn cluster mercuryErlang    contains=@mercuryErlangTerms,mercuryErlangDCGAction,mercuryForeignIface
   syn region mercuryErlangCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+
         \ transparent fold contained contains=@mercuryErlang
@@ -453,9 +452,6 @@ hi link mercuryForeignParen     mercuryDelimiter
 hi link mercuryImplication      Special
 hi link mercuryLogical          Special
 hi link mercuryEscErr           ErrorMsg
-hi link mercuryMisInList        ErrorMsg
-hi link mercuryMisInBlock       ErrorMsg
-hi link mercuryMisInDCGAction   ErrorMsg
 hi link mercuryMisInAny         ErrorMsg
 hi link mercuryOperator         Operator
 hi link mercuryInlined          Operator
