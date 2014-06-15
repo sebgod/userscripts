@@ -35,7 +35,7 @@ syn case match
   "   let mercury_no_highlight_overlong = 1
   "
   " To facilitate better git patch management,
-  " spurious whitespace is marked as an erro, to supress these errors, use
+  " spurious whitespace is marked as an error, to suppress these errors, use
   "
   "   let mercury_no_highlight_trailing_whitespace = 1
   "
@@ -48,6 +48,10 @@ syn case match
   " mathematical operators, use:
   "
   "   let mercury_no_coneal = 1
+  "
+  " To enable even more concealing (requires a good Unicode font), define:
+  "
+  "   let mercury_conceal_extra = 1
   "
 syn match mercurySingleton      "\v<_([A-Z][a-z_A-Z0-9]*)?>"
 syn keyword mercuryKeyword      module use_module import_module
@@ -159,17 +163,31 @@ syn match mercuryMisInAny       "\v\.(\s+|$)" contained
 syn match mercuryTerminator     "\v\.($|\s+)"
 
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
-  hi link Conceal Special
+  hi clear Conceal
+  hi link Conceal mercuryOperator
   set conceallevel=2
-" ∈, λ , mod, div, rem ? ≤ ≥ ⧺, c.f. https://github.com/Twinside/vim-haskellConceal
+    " c.f. https://github.com/Twinside/vim-haskellConceal
   syn match mercuryOperator  "/\\"       conceal cchar=∧
   syn match mercuryOperator  "\\/"       conceal cchar=∨
   syn match mercuryOperator  "`xor`"     conceal cchar=⊻
   syn match mercuryOperator  "`compose`" conceal cchar=∘
+  syn match mercuryOperator  "`member`"  conceal cchar=∈
+  syn match mercuryOperator  ">="        conceal cchar=≥
+  syn match mercuryOperator  "=<"        conceal cchar=≤
+  syn match mercuryOperator  "\\="       conceal cchar=≠
   syn match mercuryLogical   "\\+"       conceal cchar=¬
-  syn keyword mercuryLogical not  conceal cchar=¬
-  syn keyword mercuryLogical some conceal cchar=∃
-  syn keyword mercuryLogical all  conceal cchar=∀
+  if !exists("mercury_conceal_extra") || !mercury_conceal_extra
+    syn match mercuryOperator  "*"      conceal cchar=×
+    syn match mercuryOperator  "\*\*"     conceal cchar=ⁿ
+    syn match mercuryOperator  "++"     conceal cchar=⧺
+    syn match mercuryImplication "=>"   conceal cchar=⇒
+    syn match mercuryImplication "<="   conceal cchar=⇔
+    syn match mercuryImplication "<=>"  conceal cchar=⇔
+    syn keyword mercuryLogical  not     conceal cchar=¬
+    syn keyword mercuryLogical  some    conceal cchar=∃
+    syn keyword mercuryLogical  all     conceal cchar=∀
+    syn keyword mercuryOperator inf     conceal cchar=∞
+  endif
 endif
 
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
@@ -195,12 +213,12 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn keyword mercuryCLikeKeyword if else goto switch case for while do break continue return volatile extern typedef static default contained
   syn keyword mercuryCLikeType void int char long byte unsigned signed struct float double enum contained
   syn match mercuryCLikeDelimiter ";\|," contained
-  syn match mercuryCLikeOperator "[!-+=*/><~?:]" contained
+  syn match mercuryCLikeOperator "\v[!-+=*/><~?:]" contained
   syn match mercuryCLikeOperator "[!-+=*/><]\?=" contained
   syn match mercuryCLikeOperator "--\|++" contained
   syn match mercuryCLikeOperator "|\{1,2}\|&\{1,2}" contained
   syn match mercuryCLikeBracket  "\[\|]" contained
-  syn match mercuryCLikeBracket  "[{}()]" contained
+  syn match mercuryCLikeBracket  "\v[{}()]" contained
   syn match mercuryCLikeCharEsc +\\\\""+ contained
   syn match mercuryCLikeCharEsc /\v\\\\([abfnrtv]|0[0-7]*|[xuU]\x+)/ contained
   syn region mercuryCLikeChar start=+'+ end=+'+ contained contains=mercuryCLikeCharEsc
@@ -208,19 +226,28 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn cluster mercuryCLike add=mercuryNumCode,mercuryFloat,mercuryCLikeBracket
   syn cluster mercuryCLike add=mercuryCLikeDelimiter,mercuryForeignIface
 
-    " ISO C Language formatting
-  syn keyword mercuryCType contained const size_t pid_t offset_t union MR_bool MR_Word MR_Integer
-    \ MR_Unsigned MR_ArrayPtr MR_Float MR_file MercuryFile[Ptr] MR_String MR_ConstString
+    " ISO/(POSIX) C Language formatting
+  syn keyword mercuryCType contained const size_t pid_t offset_t union
+  syn keyword mercuryCType contained MR_bool MR_Word MR_Integer MR_Unsigned
+  syn keyword mercuryCType contained MR_ArrayPtr MR_Float MR_file MercuryFile[Ptr]
+  syn keyword mercuryCType contained MR_String MR_ConstString
   syn match mercuryCType "\v<MR_((Pseudo)?TypeInfo|TypeCtor(Desc|Info)|AllocSiteInfoPtr)|MercuryLock>" contained
-  syn match mercuryCType "\v<[u]?int(8|16|32|64)_t>" contained
-  syn keyword mercuryCKeyword typedef sizeof typeof offsetof contained
-  syn keyword mercuryCConst NULL EOF  contained
-  syn keyword mercuryCBool MR_TRUE MR_FALSE contained
+  syn match mercuryCType "\v<(MR_)?[u]?int(_least|_fast)?(8|16|32|64)_t>" contained
+  syn match mercuryForeignIface "\v<(MR_)?[U]?INT(_LEAST|_FAST)?(8|16|32|64)_(TYPE|LENGTH_MODIFIER)>" contained
+  syn keyword mercuryCKeyword contained typedef sizeof typeof offsetof
+  syn keyword mercuryCConst contained NULL EOF
+  syn keyword mercuryCConst contained CHAR_BIT CHAR_MAX CHAR_MIN
+  syn keyword mercuryCConst contained SCHAR_BIT SCHAR_MAX SCHAR_MIN
+  syn keyword mercuryCConst contained LONG_MAX ULONG_MAX LONG_MIN
+  syn keyword mercuryCConst contained LLONG_MAX ULLONG_MAX LLONG_MIN
+  syn keyword mercuryCConst contained INT_MAX UINT_MAX INT_MIN
+  syn keyword mercuryCConst contained SHRT_MAX USHRT_MAX SHRT_MIN
+  syn keyword mercuryCBool  contained MR_TRUE MR_FALSE
   syn match mercuryForeignIface "\v<MR_[A-Z]+_LENGTH_MODIFIER>" contained
   syn match mercuryCFunc "\v<MR_(list_(empty|head|tail)|incr_hp((_atomic)?|((_type)?_msg))|assert|fatal_error|make_aligned_string)>" contained
   syn match mercuryCPreProc "#\(if\(n\?def\)\?\|else\|elif\|endif\|define\|include\|error\|warning\|line\)" contained
-  syn match mercuryCPreProc "\v(\\){1,2}$" contained
-  syn match mercuryCStringFmt    +%[-+# *.0-9]*[dioxXucsfeEgGp]+                                contained
+  syn match mercuryCPreProc    "\v(\\){1,2}$" contained
+  syn match mercuryCStringFmt  /%[I]\?[-+# *.0-9]*[dioxXucsfeEgGp]/ contained
   syn region mercuryCString start=+""+ end=+""+ contained contains=mercuryCStringFmt,mercuryCLikeCharEsc
   syn cluster mercuryC contains=@mercuryCLike,mercuryCType,mercuryCKeyword,mercuryCPreProc,mercuryCString,mercuryCBool,mercuryCConst,mercuryCFunc
 
@@ -238,10 +265,11 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn region mercuryCCode      matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryC
   syn region mercuryCDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("C"|c)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s{-})"
         \ transparent contains=@mercuryForeign,mercuryCCode
-    " Declaration for C#
+
+   " Declaration for C#
   syn match mercuryCSharpStringFmt "{[0-9]}" contained
   syn match mercuryCSharpStringFmtEsc "{{\|}}" contained
-  syn keyword mercuryCSharpType object string decimal bool contained
+  syn keyword mercuryCSharpType contained object string decimal bool
   syn match mercuryCSharpType "\v<System\.((IO|Text|Diagnostics)\.)?[A-Z][A-Za-z_0-9]+>"
   syn region mercuryCSharpString start=+""+ end=+""+ contained contains=mercuryCLikeCharEsc,mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc
   syn cluster mercuryCSharp contains=@mercuryCppLike,mercuryCSharpString,mercuryCSharpType
@@ -286,9 +314,9 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
         \ transparent contains=@mercuryForeign,mercuryErlangCode
 
     " Matching foreign interface builtins and success indicator
-  syn keyword mercuryForeignIface SUCCESS_INDICATOR contained
+  syn keyword mercuryForeignIface contained SUCCESS_INDICATOR
   syn match mercuryForeignIface "\v<builtin.[A-Z][A-Z_0-9]+>" contained
-  syn match mercuryForeignIface "\v<MR_(VERSION|FULLARCH|CYGWIN|WIN32|COMPARE_(LESS|EQUAL|GREATER)|ALLOC_ID)>" contained
+  syn match mercuryForeignIface "\v<MR_(VERSION|FULLARCH|CYGWIN|WIN32|MINGW64|COMPARE_(LESS|EQUAL|GREATER)|ALLOC_ID)>" contained
 
     " The language identifier has precedence over the code blocks
   syn match mercuryForeignLangId +"\v(C[#]?|Erlang|IL|Java)"+ contained
@@ -307,10 +335,10 @@ syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" 
 syn match mercuryCommentInfo "\vCopyright (\([cC]\)|©)" contained nextgroup=mercuryCopyrightYear
 syn match mercuryCommentTexQuote "\v``|''" contained
 syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
-syn cluster mercuryCommentTex contains=mercuryCommentTexQuote
-syn keyword mercuryStabilityLow low contained nextgroup=mercuryStabilityTo
-syn keyword mercuryStabilityMedium medium contained nextgroup=mercuryStabilityTo
-syn keyword mercuryStabilityHigh high contained
+syn cluster mercuryCommentTex        contains=mercuryCommentTexQuote
+syn keyword mercuryStabilityLow    contained low    nextgroup=mercuryStabilityTo
+syn keyword mercuryStabilityMedium contained medium nextgroup=mercuryStabilityTo
+syn keyword mercuryStabilityHigh   contained high
 syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
 
@@ -331,7 +359,7 @@ else
 endif
 
   " Matching the output of the error command in extras
-syn region  mercuryCComment      matchgroup=mercuryError start="/\* ###" end="\v[^*]+\*/" oneline
+syn region  mercuryCComment  matchgroup=mercuryError start="/\* ###" end="\v[^*]+\*/" oneline
 
   " Matching Vim modeline
 syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\=" contained
