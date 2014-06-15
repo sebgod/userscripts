@@ -16,11 +16,11 @@ endif
 if !exists("foldminlines")
   set foldminlines=10
 endif
+
   " Mercury is case sensitive.
-  "
 syn case match
 
-  " The default high lighting for Mercury comments is to only highlight the
+  " The default high lighting for  Mercury comments is to only highlight the
   " initial `%' and subsequent `line' punctuation characters, likewise
   " the /* and */ from C-style comments.
   " To highlight everything including the comment text, add
@@ -136,28 +136,36 @@ syn match   mercuryOperator     "?-"
 syn match   mercuryOperator     "*"
 syn match   mercuryOperator     "\^"
 syn match   mercuryImplication  "<=>\|<=\|=>"
-syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9]+)/
+syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x\x+|[0-9]+)/
 syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
-syn region  mercuryAtom         start=+'+ skip=+\\.+ end=+'+
-syn region  mercuryString       start=+"+ skip=+\\.+ end=+"+       contains=mercuryStringFmt,@mercuryFormatting
-syn match   mercuryStringFmt    /\\[abfnrtv\\"]\|\\x[0-9a-fA-F]\+\\\|%[-+# *.0-9]*[dioxXucsfeEgGp]/      contained
+syn region  mercuryAtom      start=+'+ skip=+\\'+     end=+'+  contains=mercuryStringEsc,@mercuryFormatting,mercuryEscErr
+syn region  mercuryString    start=+"+ skip=+\\"\|""+ end=+"+
+  \ contains=mercuryStringFmt,mercuryStringEsc,@mercuryFormatting,mercuryEscErr
+syn match   mercuryStringFmt    /%[-+# *.0-9]*[dioxXucsfeEgGp]/       contained
+syn match   mercuryEscErr "\\[uUx]" contained
+syn match   mercuryStringEsc    /\\$/ contained " matching escaped newline
+syn match   mercuryStringEsc    /\v\\[abfnrtv\\"]/     contained
+syn match   mercuryStringEsc    /\v\\u\x{4}/           contained
+syn match   mercuryStringEsc    /\v\\U00(10|0\x)\x{4}/ contained
+syn match   mercuryStringEsc    /\v\\x\x+\\/           contained
+syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
 syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
   " first matching only a closing bracket, to catch unbalanced brackets
-syn match mercuryMisInList "}\|)" contained
-syn match mercuryMisInBlock "}\|]" contained
+syn match mercuryMisInList      "}\|)" contained
+syn match mercuryMisInBlock     "}\|]" contained
 syn match mercuryMisInDCGAction "]\|)" contained
-syn match mercuryMisInAny "\v\.(\s+|$)" contained
-syn match   mercuryTerminator   "\v\.($|\s+)"
+syn match mercuryMisInAny       "\v\.(\s+|$)" contained
+syn match mercuryTerminator     "\v\.($|\s+)"
 
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   hi link Conceal Special
   set conceallevel=2
 " ∈, λ , mod, div, rem ? ≤ ≥ ⧺, c.f. https://github.com/Twinside/vim-haskellConceal
-  syn match mercuryOperator "/\\" conceal cchar=∧
-  syn match mercuryOperator "\\/" conceal cchar=∨
-  syn match mercuryOperator "`xor`" conceal cchar=⊻
-  syn match mercuryOperator "`compose`" conceal cchar=∘
-  syn match mercuryLogical "\\+"  conceal cchar=¬
+  syn match mercuryOperator  "/\\"       conceal cchar=∧
+  syn match mercuryOperator  "\\/"       conceal cchar=∨
+  syn match mercuryOperator  "`xor`"     conceal cchar=⊻
+  syn match mercuryOperator  "`compose`" conceal cchar=∘
+  syn match mercuryLogical   "\\+"       conceal cchar=¬
   syn keyword mercuryLogical not  conceal cchar=¬
   syn keyword mercuryLogical some conceal cchar=∃
   syn keyword mercuryLogical all  conceal cchar=∀
@@ -185,14 +193,15 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " C-Style syntax as a basis for C,C# and Java
   syn keyword mercuryCLikeKeyword if else goto switch case for while do break continue return volatile extern typedef static default contained
   syn keyword mercuryCLikeType void int char long byte unsigned signed struct float double enum contained
-  syn match mercuryCLikeDelimiter ";," contained
+  syn match mercuryCLikeDelimiter ";\|," contained
   syn match mercuryCLikeOperator "[!-+=*/><~?:]" contained
   syn match mercuryCLikeOperator "[!-+=*/><]\?=" contained
   syn match mercuryCLikeOperator "--\|++" contained
   syn match mercuryCLikeOperator "|\{1,2}\|&\{1,2}" contained
   syn match mercuryCLikeBracket  "\[\|]" contained
   syn match mercuryCLikeBracket  "[{}()]" contained
-  syn match mercuryCLikeCharEsc +\\\\\([abfnrtv]\|0[0-7]*\|[xuU][0-9a-fA-F]*\)+ contained
+  syn match mercuryCLikeCharEsc +\\\\""+ contained
+  syn match mercuryCLikeCharEsc /\v\\\\([abfnrtv]|0[0-7]*|[xuU]\x+)/ contained
   syn region mercuryCLikeChar start=+'+ end=+'+ contained contains=mercuryCLikeCharEsc
   syn cluster mercuryCLike contains=mercuryCLikeKeyword,mercuryCLikeType,mercuryCLikeOperator,mercuryCComment,mercuryCLikeChar
   syn cluster mercuryCLike add=mercuryNumCode,mercuryFloat,mercuryCLikeBracket
@@ -320,7 +329,7 @@ else
 endif
 
   " Matching the output of the error command in extras
-syn region  mercuryCComment      matchgroup=mercuryError start="/\* ###" end="\v[^*]+\*/"         oneline
+syn region  mercuryCComment      matchgroup=mercuryError start="/\* ###" end="\v[^*]+\*/" oneline
 
   " Matching Vim modeline
 syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\=" contained
@@ -328,7 +337,7 @@ syn match mercuryModelineParam "\vet|expandtab" contained
 syn match mercuryModelineValue "\<\(mercury\|unix\)\>" contained
 syn region mercuryModeline matchgroup=mercuryComment  start="% vim:" end=+$+
       \ oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
-syn region mercuryShebang matchgroup=mercuryComment  start="\v^#!/" end=/\v.+$/     oneline
+syn region mercuryShebang matchgroup=mercuryComment  start="^\%1l#!/" end=/\v.+$/     oneline
 
    " Maybe should try something more performant, fromstart can be slow for
    " files like library/io.m, maybe a comment line would be a good point for
@@ -352,7 +361,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   hi link mercuryCLikeBracket     mercuryBracket
   hi link mercuryCLikeOperator    mercuryOperator
   hi link mercuryCLikeChar        mercuryAtom
-  hi link mercuryCLikeCharEsc     Identifier
+  hi link mercuryCLikeCharEsc     mercuryStringEsc
   hi link mercuryCLikeDelimiter   mercuryDelimiter
   hi link mercuryCLikeKeyword     Keyword
   hi link mercuryCLikeString      mercuryString
@@ -398,6 +407,7 @@ hi link mercuryForeignIface     Identifier
 hi link mercuryForeignParen     mercuryDelimiter
 hi link mercuryImplication      Special
 hi link mercuryLogical          Special
+hi link mercuryEscErr           ErrorMsg
 hi link mercuryMisInList        ErrorMsg
 hi link mercuryMisInBlock       ErrorMsg
 hi link mercuryMisInDCGAction   ErrorMsg
@@ -409,6 +419,7 @@ hi link mercuryStabilityMedium  Operator
 hi link mercuryStabilityHigh    Type
 hi link mercuryStabilityTo      Delimiter
 hi link mercuryString           String
+hi link mercuryStringEsc        Identifier
 hi link mercuryStringFmt        Special
 hi link mercuryToDo             Todo
 hi link mercuryTooLong          mercuryError
