@@ -160,7 +160,7 @@ syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
 syn match mercuryMisInList      "}\|)" contained
 syn match mercuryMisInBlock     "}\|]" contained
 syn match mercuryMisInDCGAction "]\|)" contained
-syn match mercuryMisInAny       "\v\.(\s+|$)" contained
+syn match mercuryMisInAny       "\v\.($|\s+)" contained
 syn match mercuryTerminator     "\v\.($|\s+)"
 
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
@@ -196,7 +196,8 @@ if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn match mercuryTooLong /\%79v[^")}\]%]*/
   syn cluster mercuryFormatting add=mercuryTooLong
 endif
-  " The clusters contain all valid Mercury code. The nesting is don e to allow
+
+  " The clusters contain all valid Mercury code. The nesting is done to allow
   " for matching of parens, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
       \ mercuryAtom,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,mercuryMisInAny,
