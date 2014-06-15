@@ -170,7 +170,7 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
     " c.f. https://github.com/Twinside/vim-haskellConceal
   syn match mercuryOperator  "/\\"       conceal cchar=∧
   syn match mercuryOperator  "\\/"       conceal cchar=∨
-  syn match mercuryOperator  "`xor`"     conceal cchar=⊻
+  syn match mercuryOperator  "`xor`"     conceal cchar=⊕
   syn match mercuryOperator  "`compose`" conceal cchar=∘
   syn match mercuryOperator  "`member`"  conceal cchar=∈
   syn match mercuryOperator  ">="        conceal cchar=≥
@@ -180,9 +180,10 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   if !exists("mercury_no_conceal_extra") || !mercury_no_conceal_extra
     syn match mercuryOperator  "*"      conceal cchar=×
     syn match mercuryOperator  "\*\*"   conceal cchar=ⁿ
+    syn match mercuryOperator  "//"     conceal cchar=÷
     syn match mercuryOperator  "++"     conceal cchar=⧺
     syn match mercuryImplication "=>"   conceal cchar=⇒
-    syn match mercuryImplication "<="   conceal cchar=⇔
+    syn match mercuryImplication "<="   conceal cchar=⇐
     syn match mercuryImplication "<=>"  conceal cchar=⇔
     syn keyword mercuryLogical  not     conceal cchar=¬
     syn keyword mercuryLogical  some    conceal cchar=∃
