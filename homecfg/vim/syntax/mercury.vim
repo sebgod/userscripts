@@ -263,6 +263,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 
     " Declaration for ISO C
   syn region mercuryCCode      matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryC
+  syn region mercuryCDecl start=/\v^:-\s+pragma\s+foreign_type\(("C"|c)/ matchgroup=mercuryDelimiter end=")"
+        \ transparent contains=@mercuryForeign,mercuryCCode
   syn region mercuryCDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("C"|c)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s{-})"
         \ transparent contains=@mercuryForeign,mercuryCCode
 
@@ -274,14 +276,18 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn region mercuryCSharpString start=+""+ end=+""+ contained contains=mercuryCLikeCharEsc,mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc
   syn cluster mercuryCSharp contains=@mercuryCppLike,mercuryCSharpString,mercuryCSharpType
   syn region mercuryCSharpCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryCSharp
+  syn region mercuryCSharpDecl start=/\v^:-\s+pragma\s+foreign_type\(("C#"|csharp)/ matchgroup=mercuryDelimiter end=")"
+        \ transparent contains=@mercuryForeign,mercuryCSharpCode
   syn region mercuryCSharpDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("C#"|csharp)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s{-})"
         \ transparent contains=@mercuryForeign,mercuryCSharpCode
 
     " Declaration for Java
   syn match mercuryJavaType "\v([a-z_0-9]+\.(\_\s+)?)+[A-Z][A-Z_a-z0-9]+" contained
-  syn match mercuryJavaType "\v<(String(Builder)?|Override|Object|Integer|Short|Float|Double|Void|Boolean|Character|System|Runtime|boolean)>" contained
+  syn match mercuryJavaType "\v<(String(Builder)?|Override|Object|Integer|Byte|Short|Float|Double|Void|Boolean|Character|System|Runtime|boolean)>" contained
   syn region mercuryJavaCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+
         \ transparent fold contained contains=@mercuryCppLike,mercuryCString,mercuryJavaType
+  syn region mercuryJavaDecl start=/\v^:-\s+pragma\s+foreign_type\(("Java"|java)/ matchgroup=mercuryDelimiter end=")"
+        \ transparent contains=@mercuryForeign,mercuryJavaCode
   syn region mercuryJavaDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("Java"|java)/ matchgroup=mercuryDelimiter end="\v[)]\.($|\s{-})"
         \ transparent contains=@mercuryForeign,mercuryJavaCode
 
@@ -289,6 +295,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryILType "\v<[u]?int(8|16|32|64)|float(32|64)>" contained
   syn cluster mercuryIL contains=@mercuryCSharp,mercuryILType
   syn region mercuryILCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryIL
+  syn region mercuryILDecl start=/\v^:-\s+pragma\s+foreign_type\(("IL"|il)/ matchgroup=mercuryDelimiter end=/)/
+        \ transparent contains=@mercuryForeign,mercuryILCode
   syn region mercuryILDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("IL"|il)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/
         \ transparent contains=@mercuryForeign,mercuryILCode
 
@@ -310,6 +318,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn cluster mercuryErlang    contains=@mercuryErlangTerms,mercuryErlangDCGAction,mercuryForeignIface
   syn region mercuryErlangCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+
         \ transparent fold contained contains=@mercuryErlang
+  syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_type\(("Erlang"|erlang)/ matchgroup=mercuryDelimiter end=/)/
+        \ transparent contains=@mercuryForeign,mercuryErlangCode
   syn region mercuryErlangDecl start=/\v^:-\s+pragma\s+foreign_(code|proc|decl)\(("Erlang"|erlang)/ matchgroup=mercuryDelimiter end=/\v[)]\.($|\s{-})/
         \ transparent contains=@mercuryForeign,mercuryErlangCode
 
