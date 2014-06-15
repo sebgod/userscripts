@@ -49,9 +49,10 @@ syn case match
   "
   "   let mercury_no_coneal = 1
   "
-  " To enable even more concealing (requires a good Unicode font), define:
+  " To disable concealing which requires a good Unicode font (and good eyes),
+  " define:
   "
-  "   let mercury_conceal_extra = 1
+  "   let mercury_no_conceal_extra = 1
   "
 syn match mercurySingleton      "\v<_([A-Z][a-z_A-Z0-9]*)?>"
 syn keyword mercuryKeyword      module use_module import_module
@@ -111,35 +112,35 @@ syn match   mercuryOperator     "/\\"         " (binary) and
 syn match   mercuryOperator     "\\"          " (bitwise) complement
 syn match   mercuryOperator     "\\/"         " (binary) or
 syn match   mercuryLogical      "\\+"         " logical not
-syn match   mercuryOperator     "=\.\."
-syn match   mercuryOperator     "=<"
-syn match   mercuryOperator     "=\\="
+syn match   mercuryOperator     "=\.\."       " Prolog univ
+syn match   mercuryOperator     "=<"          " greater equal or contravariant
+syn match   mercuryOperator     "=\\="        " not structual equal (for Prolog)
 syn match   mercuryOperator     "@"
 syn match   mercuryOperator     "@<"
 syn match   mercuryOperator     "@=<"
 syn match   mercuryOperator     "@>"
 syn match   mercuryOperator     "@>="
-syn match   mercuryOperator     ">="
-syn match   mercuryOperator     ">"
-syn match   mercuryOperator     ">>"
-syn match   mercuryOperator     "<"
-syn match   mercuryOperator     "<<"
-syn match   mercuryOperator     "\\="
-syn match   mercuryOperator     "\\=="
+syn match   mercuryOperator     ">="         " smaller equal or co-variant
+syn match   mercuryOperator     ">"          " greater
+syn match   mercuryOperator     ">>"         " right shift
+syn match   mercuryOperator     "<"          " smaller
+syn match   mercuryOperator     "<<"         " left shift
+syn match   mercuryOperator     "\\="        " not unify
+syn match   mercuryOperator     "\\=="       " not unify (for Prolog)
 syn match   mercuryOperator     "\~"
 syn match   mercuryOperator     "\~="
-syn match   mercuryOperator     ":="
-syn match   mercuryOperator     ":-"
-syn match   mercuryOperator     "=:="
-syn match   mercuryOperator     "![:.]\?"
-syn match   mercuryImplication  ";"
+syn match   mercuryOperator     ":="         " field update
+syn match   mercuryOperator     ":-"         " reverse implication
+syn match   mercuryOperator     "=:="        " Structural equality (for Prolog)
+syn match   mercuryOperator     "![:.]\?"    " State variable accessors
+syn match   mercuryImplication  ";"          " Disjunction
 syn match   mercuryOperator     "+"          " addition operator or unary plus
-syn match   mercuryOperator     "++"         " concat operator
-syn match   mercuryOperator     "::"
-syn match   mercuryOperator     "&"
-syn match   mercuryOperator     "?-"
-syn match   mercuryOperator     "*"
-syn match   mercuryOperator     "\^"
+syn match   mercuryOperator     "++"         " concatenation
+syn match   mercuryOperator     "::"         " Type/Mode specifier
+syn match   mercuryOperator     "&"          " Parallel conjuction
+syn match   mercuryOperator     "?-"         " Prolog compatability
+syn match   mercuryOperator     "*"          " multiply
+syn match   mercuryOperator     "\^"         " field access
 syn match   mercuryImplication  "<=>\|<=\|=>"
 syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x\x+|[0-9]+)/
 syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
@@ -176,9 +177,9 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   syn match mercuryOperator  "=<"        conceal cchar=≤
   syn match mercuryOperator  "\\="       conceal cchar=≠
   syn match mercuryLogical   "\\+"       conceal cchar=¬
-  if !exists("mercury_conceal_extra") || !mercury_conceal_extra
+  if !exists("mercury_no_conceal_extra") || !mercury_no_conceal_extra
     syn match mercuryOperator  "*"      conceal cchar=×
-    syn match mercuryOperator  "\*\*"     conceal cchar=ⁿ
+    syn match mercuryOperator  "\*\*"   conceal cchar=ⁿ
     syn match mercuryOperator  "++"     conceal cchar=⧺
     syn match mercuryImplication "=>"   conceal cchar=⇒
     syn match mercuryImplication "<="   conceal cchar=⇔
@@ -186,7 +187,7 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
     syn keyword mercuryLogical  not     conceal cchar=¬
     syn keyword mercuryLogical  some    conceal cchar=∃
     syn keyword mercuryLogical  all     conceal cchar=∀
-    syn keyword mercuryOperator inf     conceal cchar=∞
+    syn keyword mercuryNumCode  inf     conceal cchar=∞
   endif
 endif
 
@@ -305,10 +306,11 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   \ catch cond end fun if let not of orelse query receive throw try when xor
   syn keyword mercuryErlangBool true false
   syn match mercuryErlangOperator "\v[?]" contained
+  syn match mercuryErlangLogical "\v[,;.]" contained
   syn region mercuryErlangString start=+""+ end=+""+ contained
   syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
         \ mercuryCLikeChar,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryErlangKeyword,mercuryErlangOperator,
-        \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryErlangDCGAction
+        \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryErlangDCGAction,mercuryErlangLogical
   syn region  mercuryErlangList contained matchgroup=mercuryBracket
         \ start='\[' end=']' transparent fold  contains=@mercuryErlangTerms,mercuryMisInList
   syn region  mercuryErlangBlock    contained matchgroup=mercuryBracket
@@ -430,6 +432,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   hi link mercuryErlangOperator   Operator
   hi link mercuryErlangBool       mercuryBool
   hi link mercuryErlangString     mercuryString
+  hi link mercuryErlangLogical    mercuryLogical
 endif
 hi link mercuryDelimiter        Delimiter
 hi link mercuryError            ErrorMsg
