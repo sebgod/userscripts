@@ -1,9 +1,15 @@
+" vim: ft=vim et
 syn on
 filetype plugin on
 set modeline
 set fdm=indent
 set bs=2
-colorscheme torte
+
+if (localtime() % 86400) >= ((86400 / 24) * 15)
+  colorscheme sebgod
+else
+  colorscheme delek
+endif
 
 if has("gui_running")
   if has("gui_gtk2")
@@ -12,5 +18,6 @@ if has("gui_running")
     set guifont=Menlo\ Regular:h14
   elseif has("gui_win32")
     set guifont=Consolas:h11:cANSI
+    au GUIEnter * simalt ~x
   endif
 endif
