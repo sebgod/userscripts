@@ -8,7 +8,7 @@ set bs=2
 if (localtime() % 86400) >= ((86400 / 24) * 15)
   colorscheme sebgod
 else
-  colorscheme delek
+  colorscheme sebgod_bright
 endif
 
 if has("gui_running")
