@@ -1,10 +1,10 @@
-" Vim color file
-" Maintainer:	David Schweikert <dws@ee.ethz.ch>
-" Last Change:	2006 Apr 30
+" vim: ft=vim sw=2 tw=2 et
+" Maintainer:	Sebastian Godelet <sebastian.godelet+github@gmail.com>
+" Last Change:	2014-06-18
 
 hi clear
 
-let colors_name = "delek"
+let colors_name = "sebgod_bright"
 
 " Normal should come first
 hi Normal     guifg=Black  guibg=White
@@ -46,6 +46,4 @@ hi Identifier cterm=NONE ctermfg=DarkCyan    gui=NONE guifg=cyan4
 hi PreProc    cterm=NONE ctermfg=DarkMagenta gui=NONE guifg=magenta3
 hi Special    cterm=NONE ctermfg=LightRed    gui=NONE guifg=deeppink
 hi Statement  cterm=bold ctermfg=Blue	     gui=bold guifg=blue
-hi Type	      cterm=NONE ctermfg=Blue	     gui=bold guifg=blue
-
-" vim: sw=2
+hi Type	      cterm=NONE ctermfg=DarkGreen	 gui=bold guifg=DarkGreen
