@@ -16,5 +16,6 @@ goucd=cd /d %userprofile%\Documents\GitHub\mercury-unicode
 homecfg=cd /d %userprofile%\Documents\GitHub\userscripts
 ls=ls --color
 gs=git status $*
+hs=hg status $*
 gll=git gr
 git-sego=cd /d %userprofile%\Documents\GitHub$Tgit clone https://github.com/sebgod/$*
