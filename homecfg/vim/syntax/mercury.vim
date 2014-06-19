@@ -1,7 +1,8 @@
-" Vim syntax file
+" vim: ft=vim ts=2 sw=2 et
 " Language:     Mercury
 " Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
-" vim: ts=2 sw=2 et
+" Extensions:   *.m *.moo
+" Last Change:  2014-07-19
 
 if exists("b:current_syntax")
   finish
@@ -163,7 +164,7 @@ syn match mercuryTerminator     "\v\.($|\s+)" " to overdo it: conceal cchar=∎
 
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   hi clear Conceal
-  hi link Conceal mercuryOperator
+  hi def link Conceal mercuryOperator
   set conceallevel=2
     " c.f. https://github.com/Twinside/vim-haskellConceal
   syn match mercuryOperator  "/\\"       conceal cchar=∧
@@ -346,18 +347,18 @@ syn match mercuryCommentInfo "\v ((Main |Original )?[Aa]uthor[s]?|File|Created o
 syn match mercuryCommentInfo " Stability: " contained nextgroup=@mercuryStability
 syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
 syn match mercuryCommentInfo "\vCopyright (\([cC]\)|©)" contained nextgroup=mercuryCopyrightYear
-syn match mercuryCommentTexQuote "\v``|''" contained
-syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo
-syn cluster mercuryCommentTex        contains=mercuryCommentTexQuote
+syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo,mercuryCommentTex
 syn keyword mercuryStabilityLow    contained low    nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityMedium contained medium nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityHigh   contained high
 syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
 
+syn region mercuryCommentTex matchgroup=mercuryCommentTexQuote start=+``+ end=+''+ contained oneline
+
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
   syn region  mercuryComment start="%" end=/\v(\S|\s+\S)*$?/ oneline
-        \ contains=@mercuryCommentDirectives,@mercuryCommentTex,@mercuryFormatting
+        \ contains=@mercuryCommentDirectives,@mercuryFormatting
   syn region  mercuryCComment       matchgroup=mercuryComment start="/\*" end="\*/"
         \ fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
   syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//"  end=/\v(\S|\s+\S)*$?/
@@ -367,8 +368,9 @@ else
         \ oneline contains=@mercuryCommentDirectives,@mercuryFormatting
   syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/"
         \ transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
-  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//"
-        \ matchgroup=NONE end=/\v(\S|\s+\S)*$?/ transparent oneline contained contains=@mercuryCommentDirectives,@mercuryFormatting
+  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//" matchgroup=NONE end=/\v(\S|\s+\S)*$?/
+        \ transparent oneline contained
+        \ contains=@mercuryCommentDirectives,@mercuryFormatting
 endif
 
   " Matching the output of the error command in extras
@@ -382,88 +384,90 @@ syn region mercuryModeline matchgroup=mercuryComment  start="% vim:" end=+$+
       \ oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
 syn region mercuryShebang matchgroup=mercuryComment  start="^\%1l#!/" end=/\v.+$/     oneline
 
-   " Maybe should try something more performant, fromstart can be slow for
-   " files like library/io.m, maybe a comment line would be a good point for
-   " synchronization
-syn sync fromstart
+   " XXX: Maybe should try something more performant, loading for files like
+   " library/io.m can be slow, maybe a comment line would be a good point
+   " for synchronization using "syn sync match"-magic
+syn sync clear
+syn sync minlines=60
+syn sync maxlines=200
 
-hi link mercuryAccess           Identifier
-hi link mercurySingleton        Identifier
-hi link mercuryAtom             Constant
-hi link mercuryBracket          mercuryDelimiter
-hi link mercuryBool             Special
-hi link mercuryComment          Comment
-hi link mercuryCommentInfo      Identifier
-hi link mercuryCommentTexQuote  Special
-hi link mercuryCopyrightYear    Constant
-hi link mercuryCComment         mercuryComment
-hi link mercuryCCommentPrefix   mercuryComment
-hi link mercuryCInterface       mercuryPragma
+hi def link mercuryAccess           Identifier
+hi def link mercurySingleton        Identifier
+hi def link mercuryAtom             Constant
+hi def link mercuryBracket          mercuryDelimiter
+hi def link mercuryBool             Special
+hi def link mercuryComment          Comment
+hi def link mercuryCommentInfo      Identifier
+hi def link mercuryCommentTexQuote  Special
+hi def link mercuryCopyrightYear    Constant
+hi def link mercuryCComment         mercuryComment
+hi def link mercuryCCommentPrefix   mercuryComment
+hi def link mercuryCInterface       mercuryPragma
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
-  hi link mercuryForeignLangId    mercuryString
-  hi link mercuryCLikeBracket     mercuryBracket
-  hi link mercuryCLikeOperator    mercuryOperator
-  hi link mercuryCLikeChar        mercuryAtom
-  hi link mercuryCLikeCharEsc     mercuryStringEsc
-  hi link mercuryCLikeDelimiter   mercuryDelimiter
-  hi link mercuryCLikeKeyword     Keyword
-  hi link mercuryCLikeString      mercuryString
-  hi link mercuryCppLikeType      Type
-  hi link mercuryCLikeType        Type
-  hi link mercuryCBool            mercuryBool
-  hi link mercuryCConst           Constant
-  hi link mercuryCFunc            Identifier
-  hi link mercuryCKeyword         Keyword
-  hi link mercuryCStringFmt       mercuryStringFmt
-  hi link mercuryCType            Type
-  hi link mercuryCPreProc         mercuryPragma
-  hi link mercuryCppLikeBool      mercuryBool
-  hi link mercuryCppLikeConst     Constant
-  hi link mercuryCppLikeKeyword   Keyword
-  hi link mercuryCppLikeMod       mercuryAccess
-  hi link mercuryCppLikeOperator  mercuryOperator
-  hi link mercuryCString          mercuryString
-  hi link mercuryCSharpString     mercuryString
-  hi link mercuryCSharpStringFmt  mercuryStringFmt
-  hi link mercuryCSharpStringFmtEsc Identifier
-  hi link mercuryCSharpType       Type
-  hi link mercuryJavaType         Type
-  hi link mercuryILType           Type
-  hi link mercuryErlangKeyword    Keyword
-  hi link mercuryErlangOperator   Operator
-  hi link mercuryErlangBool       mercuryBool
-  hi link mercuryErlangString     mercuryString
-  hi link mercuryErlangLogical    mercuryLogical
+  hi def link mercuryForeignLangId    mercuryString
+  hi def link mercuryCLikeBracket     mercuryBracket
+  hi def link mercuryCLikeOperator    mercuryOperator
+  hi def link mercuryCLikeChar        mercuryAtom
+  hi def link mercuryCLikeCharEsc     mercuryStringEsc
+  hi def link mercuryCLikeDelimiter   mercuryDelimiter
+  hi def link mercuryCLikeKeyword     Keyword
+  hi def link mercuryCLikeString      mercuryString
+  hi def link mercuryCppLikeType      Type
+  hi def link mercuryCLikeType        Type
+  hi def link mercuryCBool            mercuryBool
+  hi def link mercuryCConst           Constant
+  hi def link mercuryCFunc            Identifier
+  hi def link mercuryCKeyword         Keyword
+  hi def link mercuryCStringFmt       mercuryStringFmt
+  hi def link mercuryCType            Type
+  hi def link mercuryCPreProc         mercuryPragma
+  hi def link mercuryCppLikeBool      mercuryBool
+  hi def link mercuryCppLikeConst     Constant
+  hi def link mercuryCppLikeKeyword   Keyword
+  hi def link mercuryCppLikeMod       mercuryAccess
+  hi def link mercuryCppLikeOperator  mercuryOperator
+  hi def link mercuryCString          mercuryString
+  hi def link mercuryCSharpString     mercuryString
+  hi def link mercuryCSharpStringFmt  mercuryStringFmt
+  hi def link mercuryCSharpStringFmtEsc Identifier
+  hi def link mercuryCSharpType       Type
+  hi def link mercuryJavaType         Type
+  hi def link mercuryILType           Type
+  hi def link mercuryErlangKeyword    Keyword
+  hi def link mercuryErlangOperator   Operator
+  hi def link mercuryErlangBool       mercuryBool
+  hi def link mercuryErlangString     mercuryString
+  hi def link mercuryErlangLogical    mercuryLogical
 endif
-hi link mercuryDelimiter        Delimiter
-hi link mercuryError            ErrorMsg
-hi link mercuryImpure           Special
-hi link mercuryImplKeyword      Underlined
-hi link mercuryKeyword          Keyword
-hi link mercuryModelineParam    Identifier
-hi link mercuryModelineValue    Constant
-hi link mercuryNumCode          Number
-hi link mercuryFloat            Float
-hi link mercuryPragma           PreProc
-hi link mercuryForeignMod       mercuryForeignIface
-hi link mercuryForeignOperator  mercuryOperator
-hi link mercuryForeignIface     Identifier
-hi link mercuryForeignParen     mercuryDelimiter
-hi link mercuryImplication      Special
-hi link mercuryLogical          Special
-hi link mercuryEscErr           ErrorMsg
-hi link mercuryMisInAny         ErrorMsg
-hi link mercuryOperator         Operator
-hi link mercuryInlined          Operator
-hi link mercuryStabilityLow     Constant
-hi link mercuryStabilityMedium  Operator
-hi link mercuryStabilityHigh    Type
-hi link mercuryStabilityTo      Delimiter
-hi link mercuryString           String
-hi link mercuryStringEsc        Identifier
-hi link mercuryStringFmt        Special
-hi link mercuryToDo             Todo
-hi link mercuryTooLong          mercuryError
-hi link mercuryWhitespace       mercuryError
-hi link mercuryTerminator       Delimiter
-hi link mercuryType             Type
+hi def link mercuryDelimiter        Delimiter
+hi def link mercuryError            ErrorMsg
+hi def link mercuryImpure           Special
+hi def link mercuryImplKeyword      Underlined
+hi def link mercuryKeyword          Keyword
+hi def link mercuryModelineParam    Identifier
+hi def link mercuryModelineValue    Constant
+hi def link mercuryNumCode          Number
+hi def link mercuryFloat            Float
+hi def link mercuryPragma           PreProc
+hi def link mercuryForeignMod       mercuryForeignIface
+hi def link mercuryForeignOperator  mercuryOperator
+hi def link mercuryForeignIface     Identifier
+hi def link mercuryForeignParen     mercuryDelimiter
+hi def link mercuryImplication      Special
+hi def link mercuryLogical          Special
+hi def link mercuryEscErr           ErrorMsg
+hi def link mercuryMisInAny         ErrorMsg
+hi def link mercuryOperator         Operator
+hi def link mercuryInlined          Operator
+hi def link mercuryStabilityLow     Constant
+hi def link mercuryStabilityMedium  Operator
+hi def link mercuryStabilityHigh    Type
+hi def link mercuryStabilityTo      Delimiter
+hi def link mercuryString           String
+hi def link mercuryStringEsc        Identifier
+hi def link mercuryStringFmt        Special
+hi def link mercuryToDo             Todo
+hi def link mercuryTooLong          mercuryError
+hi def link mercuryWhitespace       mercuryError
+hi def link mercuryTerminator       Delimiter
+hi def link mercuryType             Type
