@@ -1,8 +1,8 @@
 " vim: ft=vim tw=2 sw=2 et
-" Language:	Modula 2
-" Maintainer:	Sebastian Godelet <sebastian.godelet+github@gmail.com>
-" Extension:	*.mod *.def
-" Last Change:	2014-07-14
+" Language:    Modula 2
+" Maintainer:  Sebastian Godelet <sebastian.godelet+github@gmail.com>
+" Extension:   *.mod *.def
+" Last Change: 2014-07-19
 "
 
 if version < 600
@@ -114,38 +114,26 @@ syn match modula2Literal "'[^']'\|''''"
 syn match modula2CharCode "\v\d+C"
 
 " Define the default highlighting.
-" For version 5.7 and earlier: only when not done already
-" For version 5.8 and later: only when an item doesn't have highlighting yet
-if version >= 508 || !exists("did_modula2_syntax_inits")
-  if version < 508
-    let did_modula2_syntax_inits = 1
-    command -nargs=+ HiLink hi link <args>
-  else
-    command -nargs=+ HiLink hi def link <args>
-  endif
 
-  " The default methods for highlighting.  Can be overridden later
-  HiLink modula2Delim           Delimiter
-  HiLink modula2ParenError	Error
-  HiLink modula2Keyword         Statement
-  HiLink modula2Bool            Identifier
-  HiLink modula2Block           Statement
-  HiLink modula2Comment         Comment
-  HiLink modula2Comment3        Comment
-  HiLink modula2Operator        Operator
-  HiLink modula2Directive       Special
-  HiLink modula2Number          Constant
-  HiLink modula2String	        String
-  HiLink modula2CharCode        Character
-  HiLink modula2Literal	        Character
-  HiLink modula2Include	        Statement
-  HiLink modula2Type	        Type
-  HiLink modula2Builtin         Function
-  HiLink modula2BuiltinNoParen	Function
-  HiLink modula2Warning         ToDo
-
-  delcommand HiLink
-endif
+" The default methods for highlighting.  Can be overridden later
+hi def link modula2Delim           Delimiter
+hi def link modula2ParenError      Error
+hi def link modula2Keyword         Statement
+hi def link modula2Bool            Identifier
+hi def link modula2Block           Statement
+hi def link modula2Comment         Comment
+hi def link modula2Comment3        Comment
+hi def link modula2Operator        Operator
+hi def link modula2Directive       Special
+hi def link modula2Number          Constant
+hi def link modula2String          String
+hi def link modula2CharCode        Character
+hi def link modula2Literal         Character
+hi def link modula2Include         Statement
+hi def link modula2Type            Type
+hi def link modula2Builtin         Function
+hi def link modula2BuiltinNoParen  Function
+hi def link modula2Warning         ToDo
 
 syn sync fromstart
 let b:current_syntax = "modula2ex"
