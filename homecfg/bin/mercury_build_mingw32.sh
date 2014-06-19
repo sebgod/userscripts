@@ -40,26 +40,29 @@
 #	   compiler is from the stage 2 directory.
 #
 #	   If you don't want to do a parallel make, comment out the
-#	   `parallel=-j3' line below.
+#	   `parallel=-j3' line below. 
+# XXX: Doesn't work on my system
 
 # parallel=-j3
-cd "$HOME/GitHub/mercury"
-TARGET=${MERCURY_HOME-"c:/mercury-dev"}
+cd "$HOME/Documents/GitHub/mercury"
 
-if [ -r ${TARGET}/bin ] ; then
-    PATH=${TARGET}/bin:$PATH
+if [ -r /c/mercury-dev/bin ] ; then
+    PATH=/c/mercury-dev/bin:$PATH
+    export PATH
+elif [ -r /c/mercury-rotd/bin ] ; then
+    PATH=/c/mercury-rotd/bin:$PATH
     export PATH
 fi
 
 mmake realclean
 aclocal -I m4 &&
 autoconf &&
-./configure --prefix=${TARGET} --enable-csharp-grade \
+./configure --prefix=c:/mercury-dev --enable-csharp-grade \
     --enable-java-grade --enable-new-mercuryfile-struct &&
 touch Mmake.params &&
 touch Mercury.options &&
 mmake depend &&
-mmake MMAKEFLAGS=$parallel &&
+mmake &&
 #tools/bootcheck $parallel &&
 #cd stage2 &&
 mmake install MMAKEFLAGS=$parallel &&
