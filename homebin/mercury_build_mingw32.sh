@@ -54,6 +54,11 @@ elif [ -r /c/mercury-rotd/bin ] ; then
     export PATH
 fi
 
+if [ -w /b/Temp ] ; then
+    TMPDIR=/b/Temp
+    export TMPDIR
+fi
+
 mmake realclean
 aclocal -I m4 &&
 autoconf &&
