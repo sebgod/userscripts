@@ -43,5 +43,6 @@ if has("multi_byte")
   endif
 endif
 
+map <F12> :vertical wincmd f<CR>
 auto BufEnter * :set title | let &titlestring = 'v:' . expand('%')
 auto VimLeave * :set t_ts=k\
