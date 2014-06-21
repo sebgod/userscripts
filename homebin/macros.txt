@@ -19,3 +19,4 @@ gs=git status $*
 hs=hg status $*
 gll=git gr
 git-sego=cd /d %userprofile%\Documents\GitHub$Tgit clone https://github.com/sebgod/$*
+vs=cd /d %userprofile%\Documents\Visual Studio 2012\Projects\$*
