@@ -25,6 +25,12 @@ set history=50
 set suffixes=.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg,.inx,.out,.toc,.mh,.err,.init
 set pastetoggle=<F2>
 
+" disable that annoying visual/audible bell
+set noerrorbells
+set novisualbell
+set t_vb=
+autocmd! GUIEnter * set vb t_vb=
+
 " :let g:html_no_progress=1
 let g:html_use_encoding="UTF-8"
 
