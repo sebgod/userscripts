@@ -12,7 +12,6 @@
 :MAKE
 @make MMC=%MMC% %*
 @set MAKE_RESULT=%ERRORLEVEL%
-@echo result=%MAKE_RESULT%
 @exit /b %MAKE_RESULT%
 
 :SET_HOME
