@@ -2,7 +2,7 @@
 " Language:     Mercury
 " Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
 " Extensions:   *.m *.moo
-" Last Change:  2014-07-19
+" Last Change:  2014-07-21
 
 if exists("b:current_syntax")
   finish
@@ -21,7 +21,7 @@ endif
   " Mercury is case sensitive.
 syn case match
 
-  " The default high lighting for  Mercury comments is to only highlight the
+  " The default high lighting for  Mercury comments  is to only highlight the
   " initial `%' and subsequent `line' punctuation characters, likewise
   " the /* and */ from C-style comments.
   " To highlight everything including the comment text, add
@@ -55,6 +55,7 @@ syn case match
   "
   "   let mercury_no_conceal_extra = 1
   "
+
 syn match mercurySingleton      "\v<_([A-Z][a-z_A-Z0-9]*)?>"
 syn keyword mercuryKeyword      module use_module import_module
 syn keyword mercuryKeyword      include_module end_module
@@ -142,6 +143,7 @@ syn match   mercuryOperator     "&"          " Parallel conjuction
 syn match   mercuryOperator     "?-"         " Prolog compatability
 syn match   mercuryOperator     "*"          " multiply
 syn match   mercuryOperator     "\^"         " field access
+syn match   mercuryOperator     /\v`\w(\d|\w)+`/ " inlined operator
 syn match   mercuryImplication  "<=>\|<=\|=>"
 syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x\x+|[0-9]+)/
 syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
@@ -156,7 +158,6 @@ syn match   mercuryStringEsc    /\v\\u\x{4}/           contained
 syn match   mercuryStringEsc    /\v\\U00(10|0\x)\x{4}/ contained
 syn match   mercuryStringEsc    /\v\\x\x+\\/           contained
 syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
-syn region  mercuryInlined   matchgroup=mercuryOperator  start='`' end='`'
   " first matching only a closing bracket, to catch unbalanced brackets
 syn match mercuryMisInAny       "(\|\[{\|}\|\]\|)"
 syn match mercuryMisInAny       "\v\.($|\s+)" contained
@@ -167,11 +168,13 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   hi def link Conceal mercuryOperator
   set conceallevel=2
     " c.f. https://github.com/Twinside/vim-haskellConceal
-  syn match mercuryOperator  "/\\"       conceal cchar=∧
-  syn match mercuryOperator  "\\/"       conceal cchar=∨
-  syn match mercuryOperator  "`xor`"     conceal cchar=⊕
-  syn match mercuryOperator  "`compose`" conceal cchar=∘
-  syn match mercuryOperator  "`member`"  conceal cchar=∈
+  if !has("win32")
+    syn match mercuryOperator  "/\\"       conceal cchar=∧
+    syn match mercuryOperator  "\\/"       conceal cchar=∨
+    syn match mercuryOperator  "`xor`"     conceal cchar=⊕
+    syn match mercuryOperator  "`compose`" conceal cchar=∘
+    syn match mercuryOperator  "`member`"  conceal cchar=∈
+  endif
   syn match mercuryOperator  ">="        conceal cchar=≥
   syn match mercuryOperator  "=<"        conceal cchar=≤
   syn match mercuryOperator  "\\="       conceal cchar=≠
@@ -192,12 +195,7 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   endif
 endif
 
-if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
-  syn match mercuryTooLong /\%79v[^")}\]%]*/
-  syn cluster mercuryFormatting add=mercuryTooLong
-endif
-
-  " The clusters contain all valid Mercury code. The nesting is done to allow
+  " The clusters contain all valid Mercury code. The nesting is don e to allow
   " for matching of parens, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
       \ mercuryAtom,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,mercuryMisInAny,
@@ -210,11 +208,11 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
   syn match mercuryForeignParen "(\|)" contained
   syn cluster mercuryForeign contains=mercuryList,mercuryCInterface,mercuryKeyword,mercuryOperator,mercuryForeignLangId,
-        \ mercuryForeignParen,mercuryAtom,mercuryComment,mercuryDelimiter,mercurySingleton
+        \ mercuryForeignParen,mercuryAtom,mercuryComment,mercuryDelimiter,mercurySingleton,@mercuryFormatting
 
     " C-Style syntax as a basis for C,C# and Java
   syn keyword mercuryCLikeKeyword if else goto switch case for while do break continue return volatile extern typedef static default contained
-  syn keyword mercuryCLikeType void int char long byte unsigned signed struct float double enum contained
+  syn keyword mercuryCLikeType contained void int char long byte unsigned signed struct float double enum
   syn match mercuryCLikeDelimiter ";\|," contained
   syn match mercuryCLikeOperator "\v[!-+=*/><~?:]" contained
   syn match mercuryCLikeOperator "[!-+=*/><]\?=" contained
@@ -347,14 +345,15 @@ syn match mercuryCommentInfo "\v ((Main |Original )?[Aa]uthor[s]?|File|Created o
 syn match mercuryCommentInfo " Stability: " contained nextgroup=@mercuryStability
 syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
 syn match mercuryCommentInfo "\vCopyright (\([cC]\)|©)" contained nextgroup=mercuryCopyrightYear
-syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo,mercuryCommentTex
+syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo,@mercuryCommentTex
 syn keyword mercuryStabilityLow    contained low    nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityMedium contained medium nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityHigh   contained high
 syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
 
-syn region mercuryCommentTex matchgroup=mercuryCommentTexQuote start=+``+ end=+''+ contained oneline
+syn match mercuryCommentTexDblQuote +``\|''+ contained
+syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
   syn region  mercuryComment start="%" end=/\v(\S|\s+\S)*$?/ oneline
@@ -384,7 +383,13 @@ syn region mercuryModeline matchgroup=mercuryComment  start="% vim:" end=+$+
       \ oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
 syn region mercuryShebang matchgroup=mercuryComment  start="^\%1l#!/" end=/\v.+$/     oneline
 
-   " XXX: Maybe should try something more performant, loading for files like
+  " Matching overlong lines
+if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
+  syn match mercuryTooLong /\%80v[^")}\]%]*/
+  syn cluster mercuryFormatting add=mercuryTooLong
+endif
+
+   " XXX: Maybe should try something more performant, lo ading for files like
    " library/io.m can be slow, maybe a comment line would be a good point
    " for synchronization using "syn sync match"-magic
 syn sync clear
@@ -398,7 +403,7 @@ hi def link mercuryBracket          mercuryDelimiter
 hi def link mercuryBool             Special
 hi def link mercuryComment          Comment
 hi def link mercuryCommentInfo      Identifier
-hi def link mercuryCommentTexQuote  Special
+hi def link mercuryCommentTexDblQuote  Special
 hi def link mercuryCopyrightYear    Constant
 hi def link mercuryCComment         mercuryComment
 hi def link mercuryCCommentPrefix   mercuryComment
