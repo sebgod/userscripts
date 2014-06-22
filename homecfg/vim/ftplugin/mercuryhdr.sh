@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/sh
 # vim: ft=sh ff=unix ts=4 sw=4 et
 DIR=$( cd "$( dirname "$1" )" && pwd )
 MODULE=$(echo $(basename "$1" ) | sed 's/\.m$//')
@@ -8,7 +8,7 @@ case "$MODULE" in
         unset PARENT
         ;;
     *)
-        if [ $PARENT == $MODULE ] ; then
+        if [ "$PARENT" = "$MODULE" ] ; then
             unset PARENT
         else
             PARENT="${PARENT}."
