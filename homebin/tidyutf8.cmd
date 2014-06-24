@@ -1,1 +1,1 @@
-@call "%~dp0api\tidy" --input-encoding=utf8 --output-encoding=utf8 %*
+@call "%~dp0api\tidy2" --char-encoding utf8 %*
