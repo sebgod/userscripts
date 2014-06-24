@@ -3,8 +3,8 @@ desk=cd /d %userprofile%\Desktop
 gist=cd /d %userprofile%\Desktop\share
 bin=cd /d %userprofile%\Documents\GitHub\userscripts\homebin
 $dm=doskey /macros
-$em=edit %userprofile%\bin\macros.txt
-$rm=doskey /macrofile=%userprofile%\bin\macros.txt
+$em=gvim "%userprofile%\Documents\GitHub\userscripts\homebin\macros.txt"
+$rm=doskey /macrofile="%userprofile%\Documents\GitHub\userscripts\homebin\macros.txt"
 $vim=cd /d %userprofile%\Documents\GitHub\userscripts\homecfg\vim
 csc=cscu $*
 ..=cd ..
