@@ -1,5 +1,5 @@
 @setlocal enabledelayedexpansion
-@call %~dp0mercury_dev_env
+@call "%~dp0mercury_dev_env""
 @chcp 850
 
 @if defined MERCURY_HOME (

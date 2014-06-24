@@ -1,12 +1,11 @@
 @setlocal enabledelayedexpansion
-@call %~dp0userenv
+@call "%~dp0userenv"
 
 @set fart_basename=fart
-@set fart_version=199b_win64
-@set fart_url=http://sourceforge.net/projects/%fart_basename%-it/files/latest/download
+@set fart_version=199b_win%OS_ARCH_BITNESS%
+@set fart_url=http://sourceforge.net/projects/fart-it/files/fart-it/1.99b/fart%fart_version%.zip/download
+@wget -P%TEMP% -N "%fart_url%"
 
-wget -P%TEMP% -N "%fart_url%"
-
-pushd %~dp0api
-7za x -y "%TEMP%\%fart_basename%%fart_version%.zip"
-popd
+@pushd %~dp0api
+@7za x -y "%TEMP%\fart%fart_version%.zip"
+@popd

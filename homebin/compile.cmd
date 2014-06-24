@@ -1,1 +1,1 @@
-@call %~dp0execute compile "%~1"
+@call "%~dp0execute" compile "%~1"

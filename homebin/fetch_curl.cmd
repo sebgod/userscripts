@@ -1,5 +1,5 @@
 @setlocal enabledelayedexpansion
-@call %~dp0userenv
+@call "%~dp0userenv"
 
 @set curl_zipfile=curl-%CURL_VERSION%.zip
 @set curl_url=http://www.confusedbycode.com/curl/%curl_zipfile%

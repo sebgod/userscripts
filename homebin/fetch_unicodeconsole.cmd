@@ -1,5 +1,5 @@
 @setlocal enabledelayedexpansion
-@call %~dp0userenv
+@call "%~dp0userenv"
 
 @set unicodeconsole_proj=UnicodeConsole
 @set unicodeconsole_url=%GITHUB_OWNREPO%%unicodeconsole_proj%/archive/master.zip

@@ -1,5 +1,5 @@
 @setlocal enabledelayedexpansion
-@call %~dp0userenv
+@call "%~dp0userenv"
 
 @set iso-639-6_www=www.geolang.com
 @set iso-639-6_url=http://%iso-639-6_www%/iso639-6

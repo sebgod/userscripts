@@ -1,5 +1,5 @@
 @setlocal enabledelayedexpansion
-@call %~dp0userenv
+@call "%~dp0userenv"
 
 @set svn_url=http://sourceforge.net/projects/svnportable/files/latest/download
 @set svn_version=v1.00BETA_(SVN_1.6.15)

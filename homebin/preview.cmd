@@ -1,1 +1,1 @@
-@call %~dp0execute preview "%~1"
+@call "%~dp0execute" preview "%~1"

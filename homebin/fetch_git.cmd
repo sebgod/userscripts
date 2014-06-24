@@ -1,5 +1,5 @@
 @setlocal enabledelayedexpansion
-@call %~dp0userenv
+@call "%~dp0userenv"
 
 @set git_basename=PortableGit
 @set git_version=1.8.4-preview20130916

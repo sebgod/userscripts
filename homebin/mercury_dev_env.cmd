@@ -1,4 +1,4 @@
-@call %~dp0userenv
+@call "%~dp0userenv"
 
 @set INCLUDE_ORIG=%INCLUDE%
 @call :FIND_IN_INCLUDE Win32.Mak

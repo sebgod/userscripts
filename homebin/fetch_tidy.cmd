@@ -1,5 +1,5 @@
 @setlocal enabledelayedexpansion
-@call %~dp0userenv
+@call "%~dp0userenv"
 
 @set tidy_url_zip=tidy.zip
 @set tidy_url=http://www.paehl.com/open_source/?download=%tidy_url_zip%

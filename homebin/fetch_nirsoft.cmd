@@ -1,5 +1,5 @@
 @setlocal enabledelayedexpansion
-@call %~dp0userenv
+@call "%~dp0userenv"
 
 :: maybe use http://launcher.nirsoft.net/download.html
 @set nirsoft_www=www.nirsoft.net

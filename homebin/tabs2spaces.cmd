@@ -1,4 +1,4 @@
-@call %~dp0userenv
+@call "%~dp0userenv"
 
 @if [%~1] == [] (
     @echo Please specify a wildcard for the files 

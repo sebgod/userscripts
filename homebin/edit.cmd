@@ -1,1 +1,1 @@
-@call %~dp0execute edit "%~1"
+@call "%~dp0execute" edit "%~1"

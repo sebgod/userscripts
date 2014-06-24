@@ -1,5 +1,5 @@
 @setlocal enabledelayedexpansion
-@call %~dp0userenv
+@call "%~dp0userenv"
 
 @set sagethumbs_version=2.0.0.17
 @set sagethumbs_setup=sagethumbs_%sagethumbs_version%_setup.exe
