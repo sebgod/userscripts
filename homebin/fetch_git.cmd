@@ -2,7 +2,7 @@
 @call "%~dp0userenv"
 
 @set git_basename=PortableGit
-@set git_version=1.8.4-preview20130916
+@set git_version=1.9.0-preview20140217
 @set git_7zipfile=%git_basename%-%git_version%.7z
 @set git_url=http://msysgit.googlecode.com/files/%git_7zipfile%
 
