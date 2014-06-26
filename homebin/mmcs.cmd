@@ -7,8 +7,16 @@
 )
 @if %oldCP% NEQ %newCP% chcp %newCP% 1>nul
 @call "%~dp0userenv"
-@set keyfile="%userprofile%\Documents\GitHub\mercury\mercury.snk"
-@call mercury --use-grade-subdirs --no-detect-libgrades --sign-assembly %keyfile% -s csharp -m %*
+@if not exist mercury.snk @(
+    copy "%HOME%\Documents\GitHub\mercury\mercury.snk" . 2>nul
+)
+@set mercury_config_dir=mercury
+@for %%P in (mercury.bat) do @(
+    @set mercury_config_dir=%%~dp$PATH:P
+    @set mercury_compiler=!mercury_config_dir!mercury_compile
+    @set mercury_config_dir=!mercury_config_dir:\bin\=\lib\mercury!
+)
+@call "%mercury_compiler%" --use-grade-subdirs --no-detect-libgrades --sign-assembly mercury.snk -s csharp -m %*
 @set result=%ERRORLEVEL%
 @if %oldCP% NEQ %newCP% chcp %oldCP% 1>nul
 @exit /b %result%
