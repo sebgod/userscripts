@@ -12,7 +12,8 @@
 @set did_copy_snk=0
 @if /i "%cd%" NEQ "%mdev%" @(
     if not exist mercury.snk (
-        copy "%mdev%\mercury.snk" . 1>nul 2>nul
+        mklink /H mercury.snk "%mdev%\mercury.snk" 1>nul 2>nul
+        if errorlevel 1 copy "%mdev%\mercury.snk" . 1>nul 2>nul
         set did_copy_snk=1
     )
 )
