@@ -7,8 +7,14 @@
 )
 @if %oldCP% NEQ %newCP% chcp %newCP% 1>nul
 @call "%~dp0userenv"
-@if not exist mercury.snk @(
-    copy "%HOME%\Documents\GitHub\mercury\mercury.snk" . 2>nul
+
+@set mdev=%HOME%\Documents\GitHub\mercury
+@set did_copy_snk=0
+@if /i "%cd%" NEQ "%mdev%" @(
+    if not exist mercury.snk (
+        copy "%mdev%\mercury.snk" . 1>nul 2>nul
+        set did_copy_snk=1
+    )
 )
 @set mercury_config_dir=mercury
 @for %%P in (mercury.bat) do @(
@@ -18,5 +24,8 @@
 )
 @call "%mercury_compiler%" --use-grade-subdirs --no-detect-libgrades --sign-assembly mercury.snk -s csharp -m %*
 @set result=%ERRORLEVEL%
+@if %result% GEQ 1 @(
+    if %did_copy_snk% EQU 1 del mercury.snk
+)
 @if %oldCP% NEQ %newCP% chcp %oldCP% 1>nul
 @exit /b %result%
