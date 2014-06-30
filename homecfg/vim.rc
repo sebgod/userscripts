@@ -25,9 +25,8 @@ set history=50
 set suffixes=.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg,.inx,.out,.toc,.mh,.err,.init
 set pastetoggle=<F2>
 
-" Mercury syntax config
-let mercury_no_highlight_overlong = 1
-" let mercury_no_syntax_fold = 1
+" Folding
+set foldminlines=10
 
 " disable that annoying visual/audible bell
 set noerrorbells
