@@ -9,15 +9,6 @@ if exists("b:current_syntax")
 endif
 let b:current_syntax = "mercury"
 
-set fdm=syntax
-if !exists("foldnestmax")
-  set foldnestmax=3
-endif
-
-if !exists("foldminlines")
-  set foldminlines=10
-endif
-
   " Mercury is case sensitive.
 syn case match
 
@@ -29,6 +20,11 @@ syn case match
   " In your .vimrc file, you can specify following options:
   "
   "   let mercury_highlight_full_comment = 1
+  "
+  " The syntax highlighting supports folding by syntax,
+  " this can be very slow for large files, if that is the case please use
+  "
+  "   let mercury_no_syntax_fold = 1
   "
   " By default, parts of lines that extend over 78 characters will be
   " highlighted.  To avoid this behaviour, add
@@ -55,6 +51,17 @@ syn case match
   "
   "   let mercury_no_conceal_extra = 1
   "
+
+if !exists("mercury_no_syntax_fold") || !mercury_no_syntax_fold
+  set fdm=syntax
+  if !exists("foldnestmax")
+    set foldnestmax=3
+  endif
+
+  if !exists("foldminlines")
+    set foldminlines=10
+  endif
+endif
 
 syn match mercurySingleton      "\v<_([A-Z][a-z_A-Z0-9]*)?>"
 syn keyword mercuryKeyword      module use_module import_module
