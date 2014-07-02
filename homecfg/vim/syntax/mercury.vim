@@ -336,7 +336,12 @@ syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
 syn match mercuryCommentInfo "\v ((Main |Original )?[Aa]uthor[s]?|File|Created on|Date|Source):" contained
 syn match mercuryCommentInfo " Stability: " contained nextgroup=@mercuryStability
 syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
-syn match mercuryCommentInfo "\vCopyright (\([cC]\)|©)" contained nextgroup=mercuryCopyrightYear
+if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
+  syn match mercuryCopyrightSymbol "\v\([cC]\)|©" conceal cchar=© contained nextgroup=mercuryCopyrightYear
+else
+  syn match mercuryCopyrightSymbol "\v\([cC]\)|©" contained nextgroup=mercuryCopyrightYear
+endif
+syn match mercuryCommentInfo "\v Copyright " contained nextgroup=mercuryCopyrightSymbol
 syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo,@mercuryCommentTex
 syn keyword mercuryStabilityLow    contained low    nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityMedium contained medium nextgroup=mercuryStabilityTo
@@ -396,6 +401,7 @@ hi def link mercuryBool             Special
 hi def link mercuryComment          Comment
 hi def link mercuryCommentInfo      Identifier
 hi def link mercuryCommentTexDblQuote  Special
+hi def link mercuryCopyrightSymbol  Operator
 hi def link mercuryCopyrightYear    Constant
 hi def link mercuryCComment         mercuryComment
 hi def link mercuryCCommentPrefix   mercuryComment
