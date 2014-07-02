@@ -214,7 +214,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
         \ transparent fold contained contains=@mercuryForeign,mercuryErlangCode,mercuryBlock
   syn cluster mercuryForeignBlock contains=mercuryForeignCBlock,mercuryForeignCSharpBlock,
         \ mercuryForeignJavaBlock,mercuryForeignErlangBlock,mercuryForeignILBlock
-  syn match   mercuryPragmaForeign /\v^:-\s+pragma\s+foreign_(code|proc|decl|type|export|enum)/ transparent nextgroup=@mercuryForeignBlock
+  syn match   mercuryPragmaForeign /\v^:-\s+pragma\s+foreign_(code|proc|decl|type|export(_enum)?|enum|import_module)/
+      \ transparent nextgroup=@mercuryForeignBlock
 
     " C-Style syntax as a basis for C,C# and Java
   syn keyword mercuryCLikeKeyword if else goto switch case for while do break continue return volatile extern typedef static default contained
