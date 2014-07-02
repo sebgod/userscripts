@@ -386,12 +386,11 @@ if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn cluster mercuryFormatting add=mercuryTooLong
 endif
 
-   " XXX: Maybe should try something more performant, lo ading for files like
+   " XXX: Maybe should try something more performant, loading for files like
    " library/io.m can be slow, maybe a comment line would be a good point
    " for synchronization using "syn sync match"-magic
 syn sync clear
-syn sync minlines=60
-syn sync maxlines=200
+syn sync fromstart
 
 hi def link mercuryAccess           Identifier
 hi def link mercurySingleton        Identifier
