@@ -199,21 +199,21 @@ syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  tran
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
   syn cluster mercuryForeign contains=mercuryList,mercuryCInterface,mercuryKeyword,mercuryOperator,
-        \ mercuryForeignLangId,mercuryAtom,mercuryComment,mercuryDelimiter,mercurySingleton,
-        \ @mercuryFormatting
+        \ mercuryAtom,mercuryComment,mercuryDelimiter,mercurySingleton,
+        \ @mercuryFormatting,mercuryForeignId
 
-  syn region  mercuryForeignCBlock       contained matchgroup=mercuryBracket start='(\("C"\|c\)'  end=')'  transparent fold contains=
-      \ mercuryCCode,mercuryBlock,@mercuryForeign
-  syn region  mercuryForeignCSharpBlock  contained matchgroup=mercuryBracket start='(\("C#"\|csharp\)'     end=')'  transparent fold contains=
-      \ mercuryCSharpCode,mercuryBlock,@mercuryForeign
-  syn region  mercuryForeignJavaBlock    contained matchgroup=mercuryBracket start='(\("Java"\|java\)'     end=')'  transparent fold contains=
-      \ mercuryJavaCode,mercuryBlock,@mercuryForeign
-  syn region  mercuryForeignILBlock      contained matchgroup=mercuryBracket start='(\("IL"\|il\)'         end=')'  transparent fold contains=
-      \ mercuryIlCode,mercuryBlock,@mercuryForeign
-  syn region  mercuryForeignErlangBlock  contained matchgroup=mercuryBracket start='(\("Erlang"\|erlang\)' end=')'  transparent fold contains=
-      \ mercuryErlangCode,mercuryBlock,@mercuryForeign
-  syn cluster mercuryForeignBlock contains=
-      \ mercuryForeignCBlock,mercuryForeignCSharpBlock,mercuryForeignJavaBlock,mercuryForeignILBlock,mercuryForeignErlangBlock
+  syn region  mercuryForeignCBlock       matchgroup=mercuryBracket start=/\v\(("C"|c)/rs=s+1 end=')'
+        \ transparent fold contained contains=@mercuryForeign,mercuryCCode,mercuryBlock
+  syn region  mercuryForeignCSharpBlock  matchgroup=mercuryBracket start=/\v\(("C#"|csharp)/rs=s+1 end=')'
+        \ transparent fold contained contains=@mercuryForeign,mercuryCSharpCode,mercuryBlock
+  syn region  mercuryForeignJavaBlock    matchgroup=mercuryBracket start=/\v\(("Java"|java)/rs=s+1 end=')'
+        \ transparent fold contained contains=@mercuryForeign,mercuryJavaCode,mercuryBlock
+  syn region  mercuryForeignILBlock      matchgroup=mercuryBracket start=/\v\(("IL"|il)/rs=s+1 end=')'
+        \ transparent fold contained contains=@mercuryForeign,mercuryILCode,mercuryBlock
+  syn region  mercuryForeignErlangBlock  matchgroup=mercuryBracket start=/\v\(("Erlang"|erlang)/rs=s+1 end=')'
+        \ transparent fold contained contains=@mercuryForeign,mercuryErlangCode,mercuryBlock
+  syn cluster mercuryForeignBlock contains=mercuryForeignCBlock,mercuryForeignCSharpBlock,
+        \ mercuryForeignJavaBlock,mercuryForeignErlangBlock,mercuryForeignILBlock
   syn match   mercuryPragmaForeign /\v^:-\s+pragma\s+foreign_(code|proc|decl|type|export|enum)/ transparent nextgroup=@mercuryForeignBlock
 
     " C-Style syntax as a basis for C,C# and Java
@@ -311,13 +311,14 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn region mercuryErlangCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+
         \ transparent fold contained contains=@mercuryErlang
 
+    " Matching the foreign language name identifiers, this comes after all the
+    " code blocks, to match the identifiers in quotes
+  syn match mercuryForeignId /\vc|csharp|java|il|erlang|("(C#|Java|C|I[Ll]|Erlang)")/ contained
+
     " Matching foreign interface builtins and success indicator
   syn keyword mercuryForeignIface contained SUCCESS_INDICATOR
   syn match mercuryForeignIface "\v<builtin.[A-Z][A-Z_0-9]+>" contained
   syn match mercuryForeignIface "\v<MR_(VERSION|FULLARCH|CYGWIN|WIN32|MINGW64|COMPARE_(LESS|EQUAL|GREATER)|ALLOC_ID)>" contained
-
-    " The language identifier has precedence over the code blocks
-  syn match mercuryForeignLangId +"\v(C[#]?|Erlang|IL|Java)"+ contained
 endif
 
 if !exists("mercury_no_highlight_trailing_whitespace") || !mercury_no_highlight_trailing_whitespace
@@ -400,7 +401,7 @@ hi def link mercuryCComment         mercuryComment
 hi def link mercuryCCommentPrefix   mercuryComment
 hi def link mercuryCInterface       mercuryPragma
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
-  hi def link mercuryForeignLangId    mercuryString
+  hi def link mercuryForeignId        Identifier
   hi def link mercuryCLikeBracket     mercuryBracket
   hi def link mercuryCLikeOperator    mercuryOperator
   hi def link mercuryCLikeChar        mercuryAtom
