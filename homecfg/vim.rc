@@ -14,9 +14,11 @@ set hidden
 set showcmd
 set mouse=a
 set modeline
-if exists('+relativenumber') && (v:version > 703)
+if exists('+relativenumber')
    set rnu
-   set number
+   if v:version > 703
+     set number
+   endif
 endif
 set laststatus=2
 set backspace=indent,eol,start
