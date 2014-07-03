@@ -1,4 +1,6 @@
 @setlocal enabledelayedexpansion
+
+:: For the C# compiler, we MUST NOT use the UTF-8 codepage
 @set newCP=850
 @for /F "usebackq tokens=2 delims=:" %%A in (`chcp`) do @(
     set oldCP=%%A
@@ -6,6 +8,7 @@
     set oldCP=!oldCP:.=!
 )
 @if %oldCP% NEQ %newCP% chcp %newCP% 1>nul
+
 @call "%~dp0userenv"
 
 @set mdev=%HOME%\Documents\GitHub\mercury
@@ -28,5 +31,7 @@
 @if %result% GEQ 1 @(
     if %did_copy_snk% EQU 1 del mercury.snk
 )
+
+:: Restoring the previous codepage
 @if %oldCP% NEQ %newCP% chcp %oldCP% 1>nul
 @exit /b %result%
