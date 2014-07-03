@@ -15,6 +15,15 @@
     @set OS_ARCH_BITNESS=32
 )
 
+@set GNU_COLOR=auto
+@if defined ConEmuANSI (
+    @if /i "%ConEmuANSI%" EQU "ON" set GNU_COLOR=always
+)
+
+@set GREP_PERL="%ProgramFiles32%\gnuwin32\bin\grep.exe"
+@if not exist %GREP_PERL% @set GREP_PERL=grep
+@set GREP_PERL=%GREP_PERL% -P --color=%GNU_COLOR%
+
 @set CURL_VERSION=7.34.0-win%OS_ARCH_BITNESS%
 @set CURL_HOME=%~dp0api\curl-%CURL_VERSION%
 
