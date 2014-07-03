@@ -159,7 +159,7 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   hi clear Conceal
   hi def link Conceal mercuryOperator
   set conceallevel=2
-    " c.f. https://github.com/Twinside/vim-haskellConceal
+    " cf. https://github.com/Twinside/vim-haskellConceal
   if !has("win32")
     syn match mercuryOperator  "/\\"       conceal cchar=∧
     syn match mercuryOperator  "\\/"       conceal cchar=∨
@@ -257,10 +257,12 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCPreProc    "\v(\\){1,2}$" contained
   syn match mercuryCStringFmt  /%[I]\?[-+# *.0-9]*[dioxXucsfeEgGp]/ contained
   syn region mercuryCString start=+""+ end=+""+ contained contains=mercuryCStringFmt,mercuryCLikeCharEsc
-  syn cluster mercuryC contains=@mercuryCLike,mercuryCType,mercuryCKeyword,mercuryCPreProc,mercuryCString,mercuryCBool,mercuryCConst,mercuryCFunc
+  syn cluster mercuryC contains=@mercuryCLike,mercuryCType,mercuryCKeyword
+  syn cluster mercuryC add=mercuryCPreProc,mercuryCString,mercuryCBool,mercuryCConst,mercuryCFunc
 
     " C++-Style for Java and C# (bool, // comments, exception handling etc)
-  syn keyword mercuryCppLikeKeyword class new delete try catch finally instanceof abstract throw[s] extends this super base synchronize[d] override foreach in using contained
+  syn keyword mercuryCppLikeKeyword class new delete try catch finally instanceof abstract
+        \ throw[s] extends this super base synchronize[d] override foreach in using contained
   syn keyword mercuryCppLikeBool true false contained
   syn keyword mercuryCppLikeConst null[ptr] contained
   syn match mercuryCppLikeOperator "@" contained
@@ -277,9 +279,11 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCSharpStringFmtEsc "{{\|}}" contained
   syn keyword mercuryCSharpType contained object string decimal bool
   syn match mercuryCSharpType "\v<System\.((IO|Text|Diagnostics)\.)?[A-Z][A-Za-z_0-9]+>"
-  syn region mercuryCSharpString start=+""+ end=+""+ contained contains=mercuryCLikeCharEsc,mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc
+  syn region mercuryCSharpString start=+""+ end=+""+ contained contains=mercuryCLikeCharEsc,mercuryCSharpStringFmt,
+        \ mercuryCSharpStringFmtEsc
   syn cluster mercuryCSharp contains=@mercuryCppLike,mercuryCSharpString,mercuryCSharpType
-  syn region mercuryCSharpCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained contains=@mercuryCSharp
+  syn region mercuryCSharpCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained
+        \ contains=@mercuryCSharp
 
     " Declaration for Java
   syn match mercuryJavaType "\v([a-z_0-9]+\.(\_\s+)?)+[A-Z][A-Z_a-z0-9]+" contained
@@ -294,14 +298,15 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 
     " Declaration for Erlang
   syn keyword mercuryErlangKeyword contained after and andalso band begin bnot bor bsl bsr bxor case
-  \ catch cond end fun if let not of orelse query receive throw try when xor
+        \ catch cond end fun if let not of orelse query receive throw try when xor
   syn keyword mercuryErlangBool true false
   syn match mercuryErlangOperator "\v[?]" contained
   syn match mercuryErlangLogical "\v[,;.]" contained
   syn region mercuryErlangString start=+""+ end=+""+ contained
   syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
         \ mercuryCLikeChar,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryErlangKeyword,mercuryErlangOperator,
-        \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryErlangDCGAction,mercuryErlangLogical
+        \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercurySingleton,mercuryImplication,
+        \ mercuryErlangDCGAction,mercuryErlangLogical
   syn region  mercuryErlangList contained matchgroup=mercuryBracket
         \ start='\[' end=']' transparent fold  contains=@mercuryErlangTerms
   syn region  mercuryErlangBlock    contained matchgroup=mercuryBracket
@@ -314,7 +319,9 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 
     " Matching the foreign language name identifiers, this comes after all the
     " code blocks, to match the identifiers in quotes
-  syn match mercuryForeignId /\vc|csharp|java|il|erlang|("(C#|Java|C|I[Ll]|Erlang)")/ contained
+  syn match mercuryForeignId /\vc|csharp|java|il|erlang/ contained
+  syn region mercuryForeignId contained matchgroup=mercuryString
+        \ start=+\v["](C#|Java|C|I[Ll]|Erlang)["]{-}+rs=s+1 end=+"+
 
     " Matching foreign interface builtins and success indicator
   syn keyword mercuryForeignIface contained SUCCESS_INDICATOR
