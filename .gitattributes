@@ -14,6 +14,7 @@
 *.m   text eof=lf
 *.moo text eof=lf
 *rc text eol=lf
+*.cmd text eol=lf
 mm* text eol=lf
 Makefile text eol=lf
 
