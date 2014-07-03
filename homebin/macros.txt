@@ -9,6 +9,7 @@ $vim=cd /d %userprofile%\Documents\GitHub\userscripts\homecfg\vim
 csc=cscu $*
 ..=cd ..
 gogit=cd /d %userprofile%\Documents\GitHub
+sego=cd /d %userprofile%\Documents\GitHub
 goace=cd /d %userprofile%\Documents\GitHub\ace
 mdev=cd /d %userprofile%\Documents\GitHub\mercury
 goextra=cd /d %userprofile%\Documents\GitHub\mercury\extras
