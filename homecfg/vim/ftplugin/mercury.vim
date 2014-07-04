@@ -54,6 +54,8 @@ nnoremap <F6> I{ <ESC>%a }<ESC>j
 nnoremap <F7> 0i% <ESC>j
 nnoremap <F8> :s/% //e<CR>j
 
+nnoremap <F9> :call MercuryMarkCurrentPred()<CR>
+
   " <C-X>h runs `$HOME/.vim/ftplugin/mercuryhdr.sh' which inserts all the
   " usual boilerplate for a new Mercury module.
   "
@@ -82,10 +84,10 @@ fu! s:Highlight_Matching_Variables()
     let l:variable = s:GetCurrentCursorVariable()
 
     let l:lineL1PredStart = search("^[:a-z']", 'nWb')
-    let l:posEnd = searchpos('\v[.]\s*$', 'nW')
+    let l:posEnd = searchpos('\v[.]($|\s+)', 'nW')
 
     while s:CurrentSynIsTransparent(l:posEnd) > 0
-        let l:posEnd = searchpos('\v[.]\s*$%>' . l:posEnd[0] . 'l', 'nW')
+        let l:posEnd = searchpos('\v[.]($|\s+)%>' . l:posEnd[0] . 'l', 'nW')
     endwhile
 
     let l:lineL1PredEnd = l:posEnd[0]
@@ -106,6 +108,7 @@ fu! s:Highlight_Matching_Variables()
     let w:variable        = l:variable
     let w:lineL1PredStart = l:lineL1PredStart
     let w:lineL1PredEnd   = l:lineL1PredEnd
+    let w:lineL1PredEndCol = l:posEnd[1]
 
       " Abort if there is no variable under the cursor
     if l:variable == ""|return|endif
@@ -119,6 +122,7 @@ fu! s:Highlight_Matching_Variables()
 endfu
 
 fu! s:CurrentSynIsTransparent(pos)
+    if a:pos[0] == 0|return 0|endif
     let l:id = synID(a:pos[0], a:pos[1], 0)
     return l:id == synIDtrans(l:id) ? 1 : 0
 endfu
@@ -131,4 +135,10 @@ fu! s:GetCurrentCursorVariable()
     else
         return l:word
     endif
+endfu
+
+fu! MercuryMarkCurrentPred()
+    call setpos('.', [0, w:lineL1PredStart, 1])
+    normal! v
+    call setpos('.', [1, w:lineL1PredEnd, w:lineL1PredEndCol])
 endfu
