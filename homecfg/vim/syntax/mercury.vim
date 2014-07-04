@@ -319,7 +319,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 
     " Matching the foreign language name identifiers, this comes after all the
     " code blocks, to match the identifiers in quotes
-  syn match mercuryForeignId /\vc|csharp|java|il|erlang/ contained
+  syn match mercuryForeignId /\v<(c|csharp|java|il|erlang)>/ contained
   syn region mercuryForeignId contained matchgroup=mercuryString
         \ start=+\v["](C#|Java|C|I[Ll]|Erlang)["]{-}+rs=s+1 end=+"+
 
