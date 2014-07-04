@@ -447,7 +447,7 @@ endif
 hi def link mercuryDelimiter        Delimiter
 hi def link mercuryError            ErrorMsg
 hi def link mercuryImpure           Special
-hi def link mercuryImplKeyword      Underlined
+hi def link mercuryImplKeyword      Identifier
 hi def link mercuryKeyword          Keyword
 hi def link mercuryModelineParam    Identifier
 hi def link mercuryModelineValue    Constant
@@ -463,9 +463,9 @@ hi def link mercuryEscErr           ErrorMsg
 hi def link mercuryMisInAny         ErrorMsg
 hi def link mercuryOperator         Operator
 hi def link mercuryInlined          Operator
-hi def link mercuryStabilityLow     Constant
-hi def link mercuryStabilityMedium  Operator
-hi def link mercuryStabilityHigh    Type
+hi mercuryStabilityLow     ctermfg=red        guifg=red
+hi mercuryStabilityMedium  ctermfg=darkyellow guifg=darkyellow
+hi mercuryStabilityHigh    ctermfg=darkgreen  guifg=darkgreen
 hi def link mercuryStabilityTo      Delimiter
 hi def link mercuryString           String
 hi def link mercuryStringEsc        Identifier
