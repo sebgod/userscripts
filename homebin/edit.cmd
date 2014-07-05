@@ -9,6 +9,6 @@
     if "%file:%pattern%=%" EQU "%file%" (
         call "%~dp0execute" edit "%~1"
     ) else (
-        call %EDITOR% -p "%file%"
+        start "" %EDITOR% -p "%file%"
     )
 )
