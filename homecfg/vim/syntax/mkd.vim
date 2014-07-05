@@ -36,7 +36,7 @@ endif
 
 syn spell toplevel
 syn case ignore
-syn sync linebreaks=1
+syn sync fromstart
 
 "additions to HTML groups
 syn region htmlItalic start="\\\@<!\*\S\@=" end="\S\@<=\\\@<!\*" keepend oneline
