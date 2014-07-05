@@ -156,8 +156,10 @@ fu! MercuryRenameVariable()
     let l:new = input('Enter a new variable name: ', w:variable)
     call inputrestore()
       " Allow for a silent return if the input is empty (most likely it means
-      " the user pressed ESC
-    if empty(l:new)|return|endif
+      " the user pressed ESC, or if input is unchanged
+    if empty(l:new) || l:new ==# w:variable
+      return
+    endif
       " using the predicate range as a boundary for a global %s
     let l:variableMatch = s:CreateVariableMatch(w:variable,
           \ w:lineL1PredStart, w:lineL1PredEnd)
