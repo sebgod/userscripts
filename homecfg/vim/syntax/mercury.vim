@@ -135,7 +135,7 @@ syn match   mercuryOperator     "&"          " Parallel conjuction
 syn match   mercuryOperator     "?-"         " Prolog compatability
 syn match   mercuryOperator     "*"          " multiply
 syn match   mercuryOperator     "\^"         " field access
-syn match   mercuryOperator     /\v`\w(\d|\w)+`/ " inlined operator
+syn match   mercuryOperator     /\v`[^`']+`/ " inlined operator
 syn match   mercuryImplication  "<=>\|<=\|=>"
 syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x\x+|[0-9]+)/
 syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
