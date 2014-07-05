@@ -45,6 +45,10 @@ setlocal formatoptions=trcq
 nnoremap <C-X>l o0<C-D>%----------------------------------------------------------------------------%<CR><ESC>x
 inoremap <C-X>l ------------------------------------------------------------------------------<ESC>80<BAR>C%<CR>
 
+  " <F2> is for renaming variables
+  "
+nnoremap <F2> :call MercuryRenameVariable()<CR>
+
   " <F6> attempts to wrap a call up with { } braces for DCG escapes.
   "
 nnoremap <F6> I{ <ESC>%a }<ESC>j
@@ -54,6 +58,9 @@ nnoremap <F6> I{ <ESC>%a }<ESC>j
 nnoremap <F7> 0i% <ESC>j
 nnoremap <F8> :s/% //e<CR>j
 
+  " <F9> visually selects the current code block (e.g. predicate defintion,
+  " declaration, pragma, bascially everything from (:-|^atom) to terminal .
+  "
 nnoremap <F9> :call MercuryMarkCurrentPred()<CR>
 
   " <C-X>h runs `$HOME/.vim/ftplugin/mercuryhdr.sh' which inserts all the
@@ -70,75 +77,99 @@ autocmd! FileChangedShell *.err vi!
   " Match all the occurances of the variable under the cursor
   "
 augroup mercuryMatchVar
-    autocmd! CursorMoved,CursorMovedI,WinEnter <buffer> call s:Highlight_Matching_Variables()
+  autocmd! CursorMoved,CursorMovedI,WinEnter <buffer> call s:Highlight_Matching_Variables()
 augroup END
 
 fu! s:Highlight_Matching_Variables()
-      " Avoid that we remove the popup menu.
-      " Return when there are no colors (looks like the cursor jumps).
-    if pumvisible() || (&t_Co < 8 && !has("gui_running"))
-        return
-    endif
+    " Avoid that we remove the popup menu.
+    " Return when there are no colors (looks like the cursor jumps).
+  if pumvisible() || (&t_Co < 8 && !has("gui_running"))
+    return
+  endif
 
-      " Get variable under cursor, or "" if empty
-    let l:variable = s:GetCurrentCursorVariable()
+    " Get variable under cursor, or "" if empty
+  let l:variable = s:GetCurrentCursorVariable()
 
-    let l:lineL1PredStart = search("^[:a-z']", 'nWb')
-    let l:posEnd = searchpos('\v[.]($|\s+)', 'nW')
+  let l:lineL1PredStart = search("^[:a-z']", 'nWb')
+  let l:posEnd = searchpos('\v[.]($|\s+)', 'nW')
 
-    while s:CurrentSynIsTransparent(l:posEnd) > 0
-        let l:posEnd = searchpos('\v[.]($|\s+)%>' . l:posEnd[0] . 'l', 'nW')
-    endwhile
+  while s:CurrentSynIsTransparent(l:posEnd) > 0
+    let l:posEnd = searchpos('\v[.]($|\s+)%>' . l:posEnd[0] . 'l', 'nW')
+  endwhile
 
-    let l:lineL1PredEnd = l:posEnd[0]
-    if l:lineL1PredStart <= 0|let l:lineL1PredStart = line('w0')|endif
-    if l:lineL1PredEnd   <= 0|let l:lineL1PredEnd   = line('w$')|endif
+  let l:lineL1PredEnd = l:posEnd[0]
+  if l:lineL1PredStart <= 0|let l:lineL1PredStart = line('w0')|endif
+  if l:lineL1PredEnd   <= 0|let l:lineL1PredEnd   = line('w$')|endif
 
     " If we are still on the same spot, then abort
-    if exists('w:variable') && l:variable == w:variable &&
-          \ l:lineL1PredStart == w:lineL1PredStart &&
-          \ l:lineL1PredEnd   == w:lineL1PredEnd
-      return
-    elseif exists('w:variable_hl_on') && w:variable_hl_on
-        " Remove any previous match.
-      2match none
-      let w:variable_hl_on = 0
-    endif
+  if exists('w:variable') && l:variable == w:variable &&
+        \ l:lineL1PredStart == w:lineL1PredStart &&
+        \ l:lineL1PredEnd   == w:lineL1PredEnd
+    return
+  elseif exists('w:variable_hl_on') && w:variable_hl_on
+    " Remove any previous match.
+    2match none
+    let w:variable_hl_on = 0
+  endif
 
-    let w:variable        = l:variable
-    let w:lineL1PredStart = l:lineL1PredStart
-    let w:lineL1PredEnd   = l:lineL1PredEnd
-    let w:lineL1PredEndCol = l:posEnd[1]
+  let w:variable        = l:variable
+  let w:lineL1PredStart = l:lineL1PredStart
+  let w:lineL1PredEnd   = l:lineL1PredEnd
+  let w:lineL1PredEndCol = l:posEnd[1]
 
-      " Abort if there is no variable under the cursor
-    if l:variable == ""|return|endif
+    " Abort if there is no variable under the cursor
+  if l:variable == ""|return|endif
 
-      " Underline all Variable occurances in the current (outer)
-      " predicate/function/pragma scope
-    exe '2match Underlined /\v<' . escape(l:variable, '\') . '>' .
-      \ '%>' . (l:lineL1PredStart - 1) . 'l' .
-      \ '%<' . (l:lineL1PredEnd   + 1) . 'l' . '/'
-    let w:variable_hl_on = 1
+    " Underline all Variable occurances in the current (outer)
+    " predicate/function/pragma scope
+  let l:variableMatch = s:CreateVariableMatch(l:variable,
+        \ l:lineL1PredStart, l:lineL1PredEnd)
+  exe '2match Underlined ' . l:variableMatch
+  let w:variable_hl_on = 1
+endfu
+
+fu! s:CreateVariableMatch(variable, start, end)
+  return '/\v<' . escape(a:variable, '\') . '>' .
+        \ '%>' . (a:start - 1) . 'l' .
+        \ '%<' . (a:end   + 1) . 'l' . '/'
 endfu
 
 fu! s:CurrentSynIsTransparent(pos)
-    if a:pos[0] == 0|return 0|endif
-    let l:id = synID(a:pos[0], a:pos[1], 0)
-    return l:id == synIDtrans(l:id) ? 1 : 0
+  if a:pos[0] == 0|return 0|endif
+  let l:id = synID(a:pos[0], a:pos[1], 0)
+  return l:id == synIDtrans(l:id) ? 1 : 0
 endfu
 
 fu! s:GetCurrentCursorVariable()
     " returns the variable under the cursor
-    let l:word = expand("<cword>")
-    if empty(matchstr(l:word, '\v^[A-Z]'))
-        return ""
-    else
-        return l:word
-    endif
+  let l:word = expand("<cword>")
+  if empty(matchstr(l:word, '\v^[A-Z]'))
+    return ""
+  else
+    return l:word
+  endif
+endfu
+
+fu! MercuryRenameVariable()
+  if empty(w:variable)
+    echoerr 'Please move your cursor over a variable'
+    return
+  endif
+  call inputsave()
+  let l:new = input('Enter variable name: ')
+  call inputrestore()
+  if empty(l:new)
+    echoerr 'The new variable name cannot be empty'
+    return
+  endif
+    " using the predicate range as a boundary for a global %s
+  let l:variableMatch = s:CreateVariableMatch(w:variable,
+        \ w:lineL1PredStart, w:lineL1PredEnd)
+  exe '%s' . l:variableMatch . escape(l:new, '\') . '/g'
 endfu
 
 fu! MercuryMarkCurrentPred()
-    call setpos('.', [0, w:lineL1PredStart, 1])
-    normal! v
-    call setpos('.', [1, w:lineL1PredEnd, w:lineL1PredEndCol])
+  call setpos('.', [0, w:lineL1PredStart, 1])
+  normal! v
+  call setpos('.', [1, w:lineL1PredEnd, w:lineL1PredEndCol])
 endfu
