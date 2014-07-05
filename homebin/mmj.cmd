@@ -8,4 +8,25 @@
     @set mercury_config_dir=!mercury_config_dir:\bin\=\lib\mercury!
 )
 
+@set next_ml=0
+:check_for_ml
+@if "%~1" NEQ "" (
+    if !next_ml! EQU 1 (
+        echo Library: %~1
+    )
+
+    if "%~1" EQU "--ml" (
+        set next_ml=1
+    ) else (
+        if "%~1" EQU "--mercury-library" (
+            set next_ml=1
+        ) else (
+            set next_ml=0
+        )
+    )
+
+    shift
+    goto :check_for_ml
+)
+
 @call mercury --use-grade-subdirs --no-detect-libgrades -s java -m %*
