@@ -143,7 +143,7 @@ endfu
 fu! s:GetCurrentCursorVariable()
     " returns the variable under the cursor
   let l:word = expand("<cword>")
-  if empty(matchstr(l:word, '\v^[A-Z]'))
+  if empty(matchstr(l:word, '\v^[A-Z]\c')) || l:word[0] ==# tolower(l:word[0])
     return ""
   else
     return l:word
