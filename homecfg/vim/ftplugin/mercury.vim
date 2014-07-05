@@ -45,10 +45,6 @@ setlocal formatoptions=trcq
 nnoremap <C-X>l o0<C-D>%----------------------------------------------------------------------------%<CR><ESC>x
 inoremap <C-X>l ------------------------------------------------------------------------------<ESC>80<BAR>C%<CR>
 
-  " <F2> is for renaming variables
-  "
-nnoremap <F2> :call MercuryRenameVariable()<CR>
-
   " <F6> attempts to wrap a call up with { } braces for DCG escapes.
   "
 nnoremap <F6> I{ <ESC>%a }<ESC>j
@@ -62,6 +58,10 @@ nnoremap <F8> :s/% //e<CR>j
   " declaration, pragma, bascially everything from (:-|^atom) to terminal .
   "
 nnoremap <F9> :call MercuryMarkCurrentPred()<CR>
+
+  " <F10> is for renaming variables
+  "
+nnoremap <F10> :call MercuryRenameVariable()<CR>
 
   " <C-X>h runs `$HOME/.vim/ftplugin/mercuryhdr.sh' which inserts all the
   " usual boilerplate for a new Mercury module.
@@ -151,20 +151,20 @@ fu! s:GetCurrentCursorVariable()
 endfu
 
 fu! MercuryRenameVariable()
-  if empty(w:variable)
-    echoerr 'Please move your cursor over a variable'
-    return
+  if !empty(w:variable)
+    call inputsave()
+    let l:new = input('Enter a new variable name: ', w:variable)
+    call inputrestore()
+      " Allow for a silent return if the input is empty (most likely it means
+      " the user pressed ESC
+    if empty(l:new)|return|endif
+      " using the predicate range as a boundary for a global %s
+    let l:variableMatch = s:CreateVariableMatch(w:variable,
+          \ w:lineL1PredStart, w:lineL1PredEnd)
+    exe '%s' . l:variableMatch . escape(l:new, '\') . '/g'
+  else
+    echoerr 'Nothing selected to be renamed!'
   endif
-  call inputsave()
-  let l:new = input('Enter variable name: ')
-  call inputrestore()
-    " Allow for a silent return if the input is empty (most likely it means
-    " the user pressed ESC
-  if empty(l:new)|return|endif
-    " using the predicate range as a boundary for a global %s
-  let l:variableMatch = s:CreateVariableMatch(w:variable,
-        \ w:lineL1PredStart, w:lineL1PredEnd)
-  exe '%s' . l:variableMatch . escape(l:new, '\') . '/g'
 endfu
 
 fu! MercuryMarkCurrentPred()
