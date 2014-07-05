@@ -91,7 +91,7 @@ syn keyword mercuryToDo         XXX TODO NOTE MISSING HACK HINT WARNING
 syn keyword mercuryBool         yes no
 syn keyword mercuryLogical      some all not if then else true fail or and or_else
 syn keyword mercuryLogical      semidet_true semidet_false impure_true
-syn keyword mercuryLogical      try catch catch_any semidet_fail
+syn keyword mercuryLogical      try catch catch_any semidet_fail semidet_succeed
 syn match   mercuryImplKeyword  "\v\$(file|grade|pred|module|line|\d+)>"
 syn match   mercuryOperator     "/"           " divide
 syn match   mercuryOperator     "//"          " (integer) divide
