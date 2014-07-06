@@ -20,7 +20,6 @@ GroupAdd, MetroWindowGroup, ahk_class Windows.UI.Core.CoreWindow
 GroupAdd, MetroWindowGroup, ahk_class ImmersiveLauncher
 
 #Include <winos>
-#include <vistaswitcher>
 #Include <winshell>
 
 Menu, Tray, Icon, % A_MyDocuments . "\AutoHotkey\lib\icons\enter_key.ico"
@@ -79,11 +78,6 @@ Esc::
     }
 return
 #IfWinActive
-
-#+e::
-    Pwb := ComObjCreate("InternetExplorer.Application")
-    Pwb.Visible := True
-Return
 
 ##::
     pressedWinHash := true
@@ -261,16 +255,6 @@ CapsLock & Left::Send, {Browser_Back}
 CapsLock & Right::Send, {Browser_Forward}
 
 #IfWinActive ahk_class IEFrame
-Esc::
-    ControlGetFocus, ieframe_cntrl
-    if (ieframe_cntrl == "Internet Explorer_Server1") {
-        send, ^w
-    }  else if (ieframe_cntrl == "DirectUIHWND1") {
-        send, !{F4}
-    } else {
-        send, {ESC}
-    }
-return
 ^y::send, {Browser_Favorites}
 ^+Space::winshell_IETabTreeGui()
 #IfWinActive
