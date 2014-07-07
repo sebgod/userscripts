@@ -1,8 +1,19 @@
 @setlocal enabledelayedexpansion
+
+:: For the C# compiler, we MUST NOT use the UTF-8 codepage
+@set newCP=850
+@for /F "usebackq tokens=2 delims=:" %%A in (`chcp`) do @(
+    set oldCP=%%A
+    set oldCP=!oldCP: =!
+    set oldCP=!oldCP:.=!
+)
+@if %oldCP% NEQ %newCP% chcp %newCP% 1>nul
+
+
 @if defined MERCURY_HOME (
    call :SET_HOME MMC
 ) else (
-   call :FIND_IN_PATH mercury.bat MMC MERCRUY_HOME
+   call :FIND_IN_PATH mercury.bat MMC MERCURY_HOME
 )
 
 @if defined MMC goto :MAKE
@@ -12,6 +23,8 @@
 :MAKE
     make MMC=%MMC% MERCURY_HOME=%MERCURY_HOME% %*
     @set MAKE_RESULT=%ERRORLEVEL%
+    @rem ember the previous codepage (very important for Windows XP)
+    @if %oldCP% NEQ %newCP% chcp %oldCP% 1>nul
     @exit /b %MAKE_RESULT%
 
 :SET_HOME
