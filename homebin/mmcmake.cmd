@@ -10,9 +10,9 @@
 @exit /b 1
 
 :MAKE
-make MMC=%MMC% MERCURY_HOME=%MERCURY_HOME% %*
-@set MAKE_RESULT=%ERRORLEVEL%
-@exit /b %MAKE_RESULT%
+    make MMC=%MMC% MERCURY_HOME=%MERCURY_HOME% %*
+    @set MAKE_RESULT=%ERRORLEVEL%
+    @exit /b %MAKE_RESULT%
 
 :SET_HOME
     @setlocal enabledelayedexpansion
