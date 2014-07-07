@@ -263,12 +263,12 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " C++-Style for Java and C# (bool, // comments, exception handling etc)
   syn keyword mercuryCppLikeKeyword class new delete try catch finally instanceof abstract
         \ throw[s] extends this super base synchronize[d] override foreach in using contained
-  syn keyword mercuryCppLikeBool true false contained
-  syn keyword mercuryCppLikeConst null[ptr] contained
+  syn keyword mercuryCppLikeBool contained true false
+  syn keyword mercuryCppLikeConst contained null[ptr]
   syn match mercuryCppLikeOperator "@" contained
   syn match mercuryCppLikeType "\v<((io|runtime)\.(\_\s+)?)?(MR_)[A-Za-z_0-9]+>" contained
-  syn keyword mercuryCppLikeMod public private protected internal virtual final readonly volatile transient contained
-  syn cluster mercuryCppLike contains=@mercuryC,mercuryCppLikeComment,mercuryCppLikeKeyword
+  syn keyword mercuryCppLikeMod contained public private protected internal virtual final readonly volatile transient
+  syn cluster mercuryCppLike contains=@mercuryCLike,mercuryCPreProc,mercuryCString,mercuryCppLikeComment,mercuryCppLikeKeyword
   syn cluster mercuryCppLike add=mercuryCppLikeBool,mercuryCppLikeMod,mercuryCppLikeConst,mercuryCppLikeType,mercuryCppLikeOperator
 
     " Declaration for ISO C
@@ -278,6 +278,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCSharpStringFmt "{[0-9]}" contained
   syn match mercuryCSharpStringFmtEsc "{{\|}}" contained
   syn keyword mercuryCSharpType contained object string decimal bool
+  syn match mercuryCSharpType contained "\v<mr_bool>\."he=e-1 nextgroup=mercuryCSharpBool
+  syn match mercuryCSharpBool contained "\v<(YES|NO)>"
   syn match mercuryCSharpType "\v<System\.((IO|Text|Diagnostics)\.)?[A-Z][A-Za-z_0-9]+>"
   syn region mercuryCSharpString start=+""+ end=+""+ contained contains=mercuryCLikeCharEsc,mercuryCSharpStringFmt,
         \ mercuryCSharpStringFmtEsc
@@ -288,6 +290,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Declaration for Java
   syn match mercuryJavaType "\v([a-z_0-9]+\.(\_\s+)?)+[A-Z][A-Z_a-z0-9]+" contained
   syn match mercuryJavaType "\v<(String(Builder)?|Override|Object|Integer|Byte|Short|Float|Double|Void|Boolean|Character|System|Runtime|boolean)>" contained
+  syn match mercuryJavaType "\v<bool>\."he=e-1 contained nextgroup=mercuryJavaBool
+  syn match mercuryJavaBool contained "\v<(YES|NO)>"
   syn region mercuryJavaCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+
         \ transparent fold contained contains=@mercuryCppLike,mercuryCString,mercuryJavaType
 
@@ -432,10 +436,12 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   hi def link mercuryCppLikeMod       mercuryAccess
   hi def link mercuryCppLikeOperator  mercuryOperator
   hi def link mercuryCString          mercuryString
+  hi def link mercuryCSharpBool       mercuryBool
   hi def link mercuryCSharpString     mercuryString
   hi def link mercuryCSharpStringFmt  mercuryStringFmt
   hi def link mercuryCSharpStringFmtEsc Identifier
   hi def link mercuryCSharpType       Type
+  hi def link mercuryJavaBool         mercuryBool
   hi def link mercuryJavaType         Type
   hi def link mercuryILType           Type
   hi def link mercuryErlangKeyword    Keyword
