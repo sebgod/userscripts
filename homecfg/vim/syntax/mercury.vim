@@ -164,34 +164,35 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
     syn match mercuryOperator  "/\\"       conceal cchar=∧
     syn match mercuryOperator  "\\/"       conceal cchar=∨
     syn match mercuryOperator  "`xor`"     conceal cchar=⊕
-    syn match mercuryOperator  "`compose`" conceal cchar=∘
     syn match mercuryOperator  "`member`"  conceal cchar=∈
   endif
+  syn match mercuryOperator  "`compose`" conceal cchar=o
   syn match mercuryOperator  ">="        conceal cchar=≥
   syn match mercuryOperator  "=<"        conceal cchar=≤
   syn match mercuryOperator  "\\="       conceal cchar=≠
   syn match mercuryLogical   "\\+"       conceal cchar=¬
   if !exists("mercury_no_conceal_extra") || !mercury_no_conceal_extra
-    syn match mercuryOperator  "*"      conceal cchar=×
-    syn match mercuryOperator  "\*\*"   conceal cchar=ⁿ
+    syn match mercuryOperator  "\v[*]{1}"      conceal cchar=×
     syn match mercuryOperator  "//"     conceal cchar=÷
-    syn match mercuryOperator  "++"     conceal cchar=⧺
        " unforunately, Vim does not allow different conceal colours
     " syn match mercuryImplication "=>"   conceal cchar=⇒
     " syn match mercuryImplication "<="   conceal cchar=⇐
     " syn match mercuryImplication "<=>"  conceal cchar=⇔
     " syn keyword mercuryNumCode  inf     conceal cchar=∞
-    syn keyword mercuryLogical  not     conceal cchar=¬
-    syn keyword mercuryLogical  some    conceal cchar=∃
-    syn keyword mercuryLogical  all     conceal cchar=∀
+    " syn keyword mercuryLogical  some    conceal cchar=∃
+    " syn keyword mercuryLogical  all     conceal cchar=∀
   endif
 endif
+
+  " matching the `double star' after the multiplication operator
+syn match mercuryOperator "\v[*]{2}"
 
   " The clusters contain all valid Mercury code. The nesting is done to allow
   " for matching of parens, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
-      \ mercuryAtom,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryImplKeyword,@mercuryFormatting,mercuryMisInAny,
-      \ mercuryCComment,mercuryBool,mercuryOperator,mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical
+      \ mercuryAtom,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryImplKeyword,
+      \ @mercuryFormatting,mercuryMisInAny,mercuryCComment,mercuryBool,mercuryOperator,
+      \ mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction
 syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryTerms
