@@ -23,4 +23,4 @@ make MMC=%MMC% MERCURY_HOME=%MERCURY_HOME% %*
     @set RESULT=%~dp$PATH:1
     @set STRIP=%RESULT%~~~
     @set HOME=%STRIP:bin~~~=%
-    @endlocal && ( set %2=%RESULT%mmc ) && ( set %3=%HOME% exit /b 0
+    @endlocal && ( set %2=%RESULT%mmc ) && ( set %3=%HOME% ) && exit /b 0
