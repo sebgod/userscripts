@@ -1,6 +1,7 @@
 " Vim syntax file
 " Language:     Mercury
-" Maintainer:   Ralph Becket <rafe@cs.mu.oz.au>
+" Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
+" Last Change:  2014-07-07
 " vim: ts=2 sw=2 et
 
 if exists("b:did_mercury_ftplugin")
@@ -57,11 +58,17 @@ nnoremap <F8> :s/% //e<CR>j
   " <F9> visually selects the current code block (e.g. predicate defintion,
   " declaration, pragma, bascially everything from (:-|^atom) to terminal .
   "
-nnoremap <F9> :call MercuryMarkCurrentPred()<CR>
+inoremap <F9> <ESC>:call <SID>MarkCurrentPred()<CR>
+nnoremap <F9> :call <SID>MarkCurrentPred()<CR>
 
-  " <F10> is for renaming variables
+  " <C-K>r is for renaming variables, and filling out the current name
+  " <C-K>R is for renaming variables, starting with an empty name
   "
-nnoremap <F10> :call MercuryRenameVariable()<CR>
+inoremap <C-K>r <ESC> :call <SID>RenameCurrentVariable(1)<CR>
+nnoremap <C-K>r :call <SID>RenameCurrentVariable(1)<CR>
+
+inoremap <C-K>R <ESC> :call <SID>RenameCurrentVariable(0)<CR>
+nnoremap <C-K>R :call <SID>RenameCurrentVariable(0)<CR>
 
   " <C-X>h runs `$HOME/.vim/ftplugin/mercuryhdr.sh' which inserts all the
   " usual boilerplate for a new Mercury module.
@@ -150,10 +157,14 @@ fu! s:GetCurrentCursorVariable()
   endif
 endfu
 
-fu! MercuryRenameVariable()
+fu! s:RenameCurrentVariable(keepName)
   if !empty(w:variable)
     call inputsave()
-    let l:new = input('Enter a new variable name: ', w:variable)
+    if a:keepName
+      let l:new = input('Enter a new variable name: ', w:variable)
+    else
+      let l:new = input('Enter a new variable name: ')
+    endif
     call inputrestore()
       " Allow for a silent return if the input is empty (most likely it means
       " the user pressed ESC, or if input is unchanged
@@ -169,7 +180,7 @@ fu! MercuryRenameVariable()
   endif
 endfu
 
-fu! MercuryMarkCurrentPred()
+fu! s:MarkCurrentPred()
   call setpos('.', [0, w:lineL1PredStart, 1])
   normal! v
   call setpos('.', [1, w:lineL1PredEnd, w:lineL1PredEndCol])
