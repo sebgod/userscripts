@@ -19,7 +19,7 @@
 *.cmd text eol=lf
 mm* text eol=lf
 Makefile text eol=lf
-LICENSE text eol=f
+LICENSE text eol=lf
 
 # Custom for Visual Studio
 *.cs     diff=csharp
