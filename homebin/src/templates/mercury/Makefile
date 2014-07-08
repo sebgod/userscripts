@@ -1,6 +1,6 @@
 PROJ_NAME := $(notdir $(shell pwd))
 DOT_FILES := .gitignore .gitattributes
-SCRIPTS := build.cmd results.cmd build.sh
+SCRIPTS := build.cmd results.cmd build.sh results.sh
 HARDLINK := ln -f -T
 
 .PHONY: update
