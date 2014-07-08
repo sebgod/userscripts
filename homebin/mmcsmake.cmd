@@ -1,1 +1,1 @@
-@call %~dp0mmcmake GRADE=csharp %*
+@call "%~dp0mmcmake" GRADE=csharp %*

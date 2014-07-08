@@ -1,1 +1,1 @@
-@call %~dp0mmcmake GRADE=java %*
+@call "%~dp0mmcmake" GRADE=java %*
