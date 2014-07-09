@@ -10,7 +10,7 @@ update: $(DOT_FILES) $(SCRIPTS) LICENSE
 build.cmd: $(CMD_DIR)/mmcmake.cmd
 	$(HARDLINK) $< $@
 
-results.cmd: $(TMPL_DIR)/results.cmd convert_utf8to16.cmd empty_utf16le_bom.txt
+results.cmd: $(TMPL_DIR)/results.cmd convert_utf8to16.cmd .empty_utf16le_bom.txt
 	$(HARDLINK) $< $@
 
 %.cmd: $(CMD_DIR)/%.cmd
@@ -22,7 +22,7 @@ results.cmd: $(TMPL_DIR)/results.cmd convert_utf8to16.cmd empty_utf16le_bom.txt
 .%: $(TMPL_DIR)/_%.tmpl
 	$(HARDLINK) $< $@
 
-empty_%.txt: $(CMD_DIR)/empty_%.txt
+.empty_%.txt: $(CMD_DIR)/.empty_%.txt
 	$(HARDLINK) $< $@
 
 %: $(TMPL_DIR)/%.tmpl
