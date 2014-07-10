@@ -5,15 +5,15 @@ MODULES:=$(wildcard *.m)
 
 .PHONY: default
 default:
-	$(MMC) $(MCFLAGS) -m $(PROJ_LIBNAME)
+	$(MMC) $(MCFLAGS) --make $(PROJ_LIBNAME) $(MLLIBS) $(MLCLASSPATH)
 
 .PHONY: rebuild
 rebuild:
-	$(MMC) --rebuild $(PROJ_LIBNAME)
+	$(MMC) --rebuild $(PROJ_LIBNAME) $(MLLIBS) $(MLCLASSPATH)
 
 .PHONY: install
 install:
-	$(MMC) --make $(PROJ_LIBNAME).install
+	$(MMC) --make $(PROJ_LIBNAME).install $(MLLIBS) $(MLCLASSPATH)
 
 tags: $(MODULES)
 	$(MTAGS) $^

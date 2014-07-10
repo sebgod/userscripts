@@ -16,7 +16,7 @@ tags: $(MODULES)
 	$(MTAGS) $^
 
 test_$(PROJ_CNAME): Mercury.modules
-	$(MMC) $(MCFLAGS) -m $@
+	$(MMC) $(MCFLAGS) --make $@ $(MLLIBS) $(MLCLASSPATH)
 
 .PHONY: realclean
 realclean:
