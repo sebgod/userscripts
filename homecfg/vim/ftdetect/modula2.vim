@@ -1,4 +1,4 @@
-" vim: ft=vim
+" vim: ft=vim ts=2 sw=2 et
 
 au! BufNewFile,BufRead *.mod
     \ if getline(1) =~ 'IMPLEMENTATION' |

@@ -1,7 +1,8 @@
 " Vim syntax file
+" vim: ft=vim ts=2 sw=2 et
 " Language:         GRM (Gold PARSER)
-" Maintainer:       Abderraouf El Gasser
-" Last Change:      August 8, 2002
+" Maintainer:       Sebastian Godelet <sebastian.godelet+github@gmail.com>
+" Last Change:      2014-07-10
 
 " Quit when a syntax file was already loaded  {{{
 if version < 600
@@ -10,6 +11,8 @@ elseif exists("b:current_syntax")
   finish
 endif
 "}}}
+
+let b:current_syntax = "grm"
 
 "  Syntax rules
 "  
