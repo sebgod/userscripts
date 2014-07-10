@@ -10,10 +10,10 @@ update: $(DOT_FILES) $(SCRIPTS) LICENSE
 build.cmd: $(CMD_DIR)/mmcmake.cmd
 	$(HARDLINK) $< $@
 
-results.cmd: $(TMPL_DIR)/results.cmd convert_utf8to16.cmd .empty_utf16le_bom.txt
+results.cmd: $(TMPL_DIR)/results.cmd tools/convert_utf8to16.cmd tools/.empty_utf16le_bom.txt
 	$(HARDLINK) $< $@
 
-%.cmd: $(CMD_DIR)/%.cmd
+tools/%.cmd: $(CMD_DIR)/%.cmd
 	$(HARDLINK) $< $@
 
 %.sh: $(TMPL_DIR)/%.sh
@@ -22,7 +22,7 @@ results.cmd: $(TMPL_DIR)/results.cmd convert_utf8to16.cmd .empty_utf16le_bom.txt
 .%: $(TMPL_DIR)/_%.tmpl
 	$(HARDLINK) $< $@
 
-.empty_%.txt: $(CMD_DIR)/.empty_%.txt
+tools/.empty_%.txt: $(CMD_DIR)/.empty_%.txt
 	$(HARDLINK) $< $@
 
 %: $(TMPL_DIR)/%.tmpl
@@ -31,5 +31,6 @@ results.cmd: $(TMPL_DIR)/results.cmd convert_utf8to16.cmd .empty_utf16le_bom.txt
 .PHONY: init
 init: update
 	@mkdir -p src
+	@mkdir -p tools
 	@echo Initialised $(PROJ_TYPE):$(PROJ_NAME) with template in $(TMPL_DIR)
 
