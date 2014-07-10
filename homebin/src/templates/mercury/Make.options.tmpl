@@ -1,0 +1,6 @@
+MMC:=mmc
+
+ifdef GRADE
+    MCFLAGS += -s $(GRADE) --no-detect-libgrades
+endif
+

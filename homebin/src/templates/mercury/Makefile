@@ -4,7 +4,7 @@ SCRIPTS := build.cmd results.cmd build.sh results.sh
 HARDLINK := ln -f -T
 
 .PHONY: update
-update: $(DOT_FILES) $(SCRIPTS) LICENSE
+update: $(DOT_FILES) $(SCRIPTS) LICENSE Makefile Make.options
 	@echo Updated existing files in $(PROJ_TYPE):$(PROJ_NAME)
 
 build.cmd: $(CMD_DIR)/mmcmake.cmd
@@ -32,5 +32,6 @@ tools/.empty_%.txt: $(CMD_DIR)/.empty_%.txt
 init: update
 	@mkdir -p src
 	@mkdir -p tools
+	@mkdir -p tests
 	@echo Initialised $(PROJ_TYPE):$(PROJ_NAME) with template in $(TMPL_DIR)
 
