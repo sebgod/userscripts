@@ -16,10 +16,12 @@
    call :FIND_IN_PATH mercury.bat MMC MERCURY_HOME
 )
 
-@if exist "%~dp0src\Makefile" (
-    @set SRC_SUBDIR=%~dp0src
-) else (
-    if exist "%cd%\src\Makefile" set SRC_SUBDIR=%cd%\src
+@if not exist "Makefile" (
+    if exist "%cd%\src\Makefile" (
+        set SRC_SUBDIR=%cd%\src
+    ) else (
+        if exist "%~dp0src\Makefile" set SRC_SUBDIR=%~dp0src
+    )
 )
 
 @if defined MMC goto :MAKE
