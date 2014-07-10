@@ -1,6 +1,6 @@
 @setlocal enabledelayedexpansion enableextensions
 
-:: For the C# compiler, we MUST NOT use the UTF-8 codepage
+@rem ember that for the C# compiler, we MUST NOT use the UTF-8 codepage
 @set newCP=850
 @for /F "usebackq tokens=2 delims=:" %%A in (`chcp`) do @(
     set oldCP=%%A
