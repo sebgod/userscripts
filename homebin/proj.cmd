@@ -26,7 +26,6 @@
     exit /b 4
 )
 
-@set CMD_DIR=%~dp0~~~
-@set CMD_DIR=%CMD_DIR:\~~~=%
-@set macros= PROJ_TYPE="%projtype%" TMPL_DIR="%tmpldir%" CMD_DIR="%CMD_DIR%"
+@set CMD_DIR=%~dp0
+@set macros= PROJ_TYPE="%projtype%" TMPL_DIR="%tmpldir:\=/%" CMD_DIR="%CMD_DIR:\=/%"
 @make -f "%mkfile%" %macros% "%command%"

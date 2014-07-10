@@ -1,5 +1,6 @@
 MMC:=mmc
 MTAGS:=mtags
+MCFLAGS:= --use-grade-subdirs -O5
 
 ifdef GRADE
     MCFLAGS += -s $(GRADE) --no-detect-libgrades
