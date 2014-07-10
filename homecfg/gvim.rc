@@ -4,6 +4,8 @@ filetype plugin on
 set modeline
 set fdm=indent
 set bs=2
+set ff=unix
+set ffs=unix,dos
 
 if (localtime() % 86400) >= ((86400 / 24) * 15)
   colorscheme sebgod
