@@ -63,10 +63,10 @@ hi def link grmSetNode          Special
 hi def link grmParam            PreProc
 hi def link grmParamStart       Statement
 hi def link grmString           String
-hi def link grmOperator         ctermfg=1 guifg=red
 hi def link grmComment          Comment
-hi def link grmOr               ctermfg=1 gui=bold guifg=red
 hi def link grmRuleNode         Identifier
 hi def link grmTerminalNode     Type
 hi def link grmEnumBlock        Constant
+hi grmOperator         ctermfg=1 guifg=red
+hi grmOr               ctermfg=1 gui=bold guifg=red
 hi grmDefinitionParam  gui=italic guifg=blue
