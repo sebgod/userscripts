@@ -1,6 +1,10 @@
 MMC:=mmc
+MTAGS:=mtags
 
 ifdef GRADE
     MCFLAGS += -s $(GRADE) --no-detect-libgrades
 endif
 
+ifeq ($(OS),Windows_NT)
+    DIFF_FLAGS:=--strip-trailing-cr
+endif
