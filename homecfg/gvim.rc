@@ -1,4 +1,4 @@
-" vim: ft=vim et
+" vim: ft=vim sw=2 et
 syn on
 filetype plugin on
 set modeline
@@ -14,6 +14,10 @@ else
 endif
 
 if has("gui_running")
+  " this is for testing balloon expressions
+  " set bexpr=MyBalloonExpr()
+  " set ballooneval
+
   if has("gui_gtk2")
     set guifont=Monospace\ 11
   elseif has("gui_macvim")
@@ -23,3 +27,10 @@ if has("gui_running")
     au GUIEnter * simalt ~x
   endif
 endif
+
+function! MyBalloonExpr()
+  return 'Cursor is at line ' . v:beval_lnum .
+		\', column ' . v:beval_col .
+		\ ' of file ' .  bufname(v:beval_bufnr) .
+		\ ' on word "' . v:beval_text . '"'
+endfunction
