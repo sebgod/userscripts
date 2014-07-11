@@ -22,3 +22,7 @@ realclean:
 tags:
 	cd src && $(MAKE) tags
 	cd tests && $(MAKE) tags
+
+.PHONY: doc
+doc:
+	cd doc && $(MAKE) doc
