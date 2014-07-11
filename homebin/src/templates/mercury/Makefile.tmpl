@@ -17,3 +17,8 @@ runtests:
 realclean:
 	cd src && $(MAKE) realclean
 	cd tests && $(MAKE) realclean
+
+.PHONY: tags
+tags:
+	cd src && $(MAKE) tags
+	cd tests && $(MAKE) tags
