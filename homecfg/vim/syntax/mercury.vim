@@ -156,7 +156,7 @@ syn match mercuryMisInAny       "\v\.($|\s+)" contained
 syn match mercuryTerminator     "\v\.($|\s+)" " to overdo it: conceal cchar=∎
 
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
-  hi clear Conceal
+  hi clear Conceal 
   hi def link Conceal mercuryOperator
   set conceallevel=2
     " cf. https://github.com/Twinside/vim-haskellConceal
@@ -165,6 +165,7 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
     syn match mercuryOperator  "\\/"       conceal cchar=∨
     syn match mercuryOperator  "`xor`"     conceal cchar=⊕
     syn match mercuryOperator  "`member`"  conceal cchar=∈
+    syn match mercuryOperator  "`contains`" conceal cchar=∋
   endif
   syn match mercuryOperator  "`compose`" conceal cchar=o
   syn match mercuryOperator  ">="        conceal cchar=≥
