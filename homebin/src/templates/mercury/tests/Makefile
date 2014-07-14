@@ -12,14 +12,14 @@ RESS:=$(patsubst %.exp,%.res,$(EXPS))
 runtests:  compile $(RESS)
 
 %.res: %.exp
-	@./run_test.sh "test_$(PROJ_CNAME)" "$*" >"$@"
+	@./run_test.sh "test_$(PROJ_CNAME)" "$*" >"$@" 2>&1 || true
 	@( $(DIFF) $(DIFF_FLAGS) $*.exp $@ 1>$*.diff && \
 		echo $*>>SUCCESS) || ( echo $*>>FAILED )
 
 .PHONY: runtests-verbose
 runtests-verbose: runtests
-	@echo "@@ SUCCESS" && cat SUCCESS
-	@echo "@@ FAILED" && cat FAILED
+	@echo "@@ SUCCESS" && sort -u SUCCESS
+	@echo "@@ FAILED" && sort -u FAILED
 
 Mercury.modules: $(MODULES)
 	@$(MMC) -f $^
@@ -31,8 +31,6 @@ tags: $(MODULES)
 
 .PHONY: compile
 compile: Mercury.modules
-	@rm -f SUCCESS && touch SUCCESS
-	@rm -f FAILED  && touch FAILED
 	@$(foreach test,$(TESTS),$(MMC) --make $(test);)
 
 .PHONY: clean
