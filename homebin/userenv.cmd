@@ -22,7 +22,9 @@
     @prompt %USERNAME%@%COMPUTERNAME%:$M$P$_$G
 )
 
-@set GREP_PERL="%ProgramFiles32%\gnuwin32\bin\grep.exe"
+@set GNUWIN32_HOME=%ProgramFiles32%\gnuwin32
+:: testing for a grep with -P (perl regex) support
+@set GREP_PERL="%GNUWIN32_HOME%\bin\grep.exe"
 @if not exist %GREP_PERL% @set GREP_PERL=grep
 @set GREP_PERL=%GREP_PERL% -P --color=%GNU_COLOR%
 
