@@ -11,10 +11,10 @@
 
 @pushd "%TEMP%"
     @call wget -N "%nirsoft_pad_url%"
-    @set absPadZip="%cd%\%nirsoft_pads%"
+    @set abs_pad_zip="%cd%\%nirsoft_pads%"
     @if not exist nirsoft_pads mkdir nirsoft_pads
     @pushd nirsoft_pads
-        @call 7za x -y %absPadZip%
+        @call 7za x -y %abs_pad_zip%
         :: iterating over the pad.xml files
         :: assumes that the tags and their content are on the same line
         @for %%X in (*.xml) do @(
@@ -36,4 +36,4 @@
 @popd
 
 :: if we have an x64 system, then overwrite the bitness specific programs
-@if defined abs64zip 7za x -o"%target%" -y %abs_64zip%
+@if defined abs_64zip 7za x -o"%target%" -y %abs_64zip%
