@@ -1,6 +1,5 @@
 @if defined ProgramNative exit /b 0
 
-@prompt $E[4;32m%USERNAME%@%COMPUTERNAME%$E[0m:$E[1;35m$M$E[1;34m$P$E[0m$_$G
 @set HOME=%userprofile%
 
 @set ProgramFiles32=%ProgramFiles(x86)%
@@ -18,6 +17,9 @@
 @set GNU_COLOR=auto
 @if defined ConEmuANSI (
     @if /i "%ConEmuANSI%" EQU "ON" set GNU_COLOR=always
+    @prompt $E[4;32m%USERNAME%@%COMPUTERNAME%$E[0m:$E[1;35m$M$E[1;34m$P$E[0m$_$G
+) else (
+    @prompt %USERNAME%@%COMPUTERNAME%:$M$P$_$G
 )
 
 @set GREP_PERL="%ProgramFiles32%\gnuwin32\bin\grep.exe"
