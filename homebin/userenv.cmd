@@ -14,19 +14,16 @@
     @set OS_ARCH_BITNESS=32
 )
 
-@set GNU_COLOR=auto
-@if defined ConEmuANSI (
-    @if /i "%ConEmuANSI%" EQU "ON" set GNU_COLOR=always
+@set GNUWIN32_COLOR=no
+@if defined ConEmuANSI @if /i "%ConEmuANSI%" EQU "ON" set GNUWIN32_COLOR=always
+
+@if /i "%GNUWIN32_COLOR%" NEQ "no" (
     @prompt $E[4;32m%USERNAME%@%COMPUTERNAME%$E[0m:$E[1;35m$M$E[1;34m$P$E[0m$_$G
 ) else (
     @prompt %USERNAME%@%COMPUTERNAME%:$M$P$_$G
 )
 
 @set GNUWIN32_HOME=%ProgramFiles32%\gnuwin32
-:: testing for a grep with -P (perl regex) support
-@set GREP_PERL="%GNUWIN32_HOME%\bin\grep.exe"
-@if not exist %GREP_PERL% @set GREP_PERL=grep
-@set GREP_PERL=%GREP_PERL% -P --color=%GNU_COLOR%
 
 @set CURL_VERSION=7.34.0-win%OS_ARCH_BITNESS%
 @set CURL_HOME=%~dp0api\curl-%CURL_VERSION%
