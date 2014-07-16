@@ -1,4 +1,4 @@
-@call tail -n +2 "%~f0" | "%~dp0convert_utf8to16" & exit /b 0
+@call "%~dp0gnu_coreutil" tail -n +2 "%~f0" | call "%~dp0convert_utf8to16" & exit /b 0
 
 English:     texts, web pages and documents
 Graves,etc:  à á â ã ä å æ ç è é ê ë ì í î ï
