@@ -39,7 +39,4 @@
 :: if we have an x64 system, then overwrite the bitness specific programs
 @if defined abs_64zip 7za x -o"%target%" -y %abs_64zip%
 
-@for %%E in ("%target%\*.exe") do @(
-     if exist "%~dp0api\%%~nxE" del "%~dp0api\%%~nxE"
-     call mklink /H "%~dp0api\%%~nxE" "%%~E"
-)
+@for %%E in ("%target%\*.exe") do @call mkhardlink "%%~E" "%~dp0api\%%~nxE"
