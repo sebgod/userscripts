@@ -42,7 +42,6 @@
 
 @path %path%;%~dp0api\git\cmd
 @path %path%;%~dp0api\svnportable\SVN
-@path %path%;%~dp0api\live.sysinternals.com
 @path %path%;%CURL_HOME%\bin
 @path %path%;%~dp0api
 @set MS_VS_HOME=%ProgramFiles32%\Microsoft Visual Studio 11.0
