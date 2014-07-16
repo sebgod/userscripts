@@ -1,3 +1,2 @@
-@setlocal enabledelayedexpansion
-@call "%~dp0userenv"
-@call %GREP_PERL% %*
+@setlocal enabledelayedexpansion enableextensions
+@call "%~dp0gnu_coreutil" grep -P %*

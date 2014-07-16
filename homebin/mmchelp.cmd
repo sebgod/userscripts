@@ -1,2 +1,2 @@
-@call "%~dp0userenv"
-@call mercury --help | %GREP_PERL% -P --color=always --after=2 --before=5 -- %*
+@setlocal enabledelayedexpansion enableextensions
+@call mercury --help | @call pgrepc --after=2 --before=5 -- %*

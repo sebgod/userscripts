@@ -1,2 +1,2 @@
-@call %~dp0userenv
-@call %GREP_PERL% -n -r --include="*.m" "%~1" .
+@setlocal enabledelayedexpansion enableextensions
+@call pgrepc -n -r --include="*.m" "%~1" .
