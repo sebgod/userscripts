@@ -3,10 +3,11 @@
 
 @set nirsoft_pads=pads.zip
 @set nirsoft_x64_zip=x64tools.zip
-@set nirsoft_x64_url=http://www.nirsoft.net/packages/%nirsoft_x64_zip%
-@set nirsoft_pad_url=http://www.nirsoft.net/pad/%nirsoft_pads%
+@set nirsoft_www=www.nirsoft.net
+@set nirsoft_x64_url=http://%nirsoft_www%/packages/%nirsoft_x64_zip%
+@set nirsoft_pad_url=http://%nirsoft_www%/pad/%nirsoft_pads%
 
-@set target=%~dp0api\live.sysinternals.com
+@set target=%~dp0api\%nirsoft_www%
 @if not exist "%target%" mkdir "%target%"
 
 @pushd "%TEMP%"
@@ -37,3 +38,8 @@
 
 :: if we have an x64 system, then overwrite the bitness specific programs
 @if defined abs_64zip 7za x -o"%target%" -y %abs_64zip%
+
+@for %%E in ("%target%\*.exe") do @(
+     if exist "%~dp0api\%%~nxE" del "%~dp0api\%%~nxE"
+     call mklink /H "%~dp0api\%%~nxE" "%%~E"
+)
