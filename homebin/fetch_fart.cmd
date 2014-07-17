@@ -7,5 +7,5 @@
 @wget -P%TEMP% -N "%fart_url%"
 
 @pushd %~dp0api
-@7za x -y "%TEMP%\fart%fart_version%.zip"
+    @7za x -y "%TEMP%\fart%fart_version%.zip"
 @popd
