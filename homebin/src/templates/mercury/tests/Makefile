@@ -7,6 +7,7 @@ EXPS:=$(wildcard *.exp)
 TESTS:=$(patsubst test_%.m,test_%,$(TEST_MODULES))
 DIFFS:=$(patsubst %.exp,%.diff,$(EXPS))
 RESS:=$(patsubst %.exp,%.res,$(EXPS))
+OUTCOMES:=SUCCESS FAILED
 
 .PHONY: runtests
 runtests:  compile $(RESS)
@@ -18,8 +19,7 @@ runtests:  compile $(RESS)
 
 .PHONY: runtests-verbose
 runtests-verbose: runtests
-	@echo "@@ SUCCESS" && $(SORT) -u SUCCESS -o SUCCESS && cat SUCCESS && echo "@@"
-	@echo "@@ FAILED"  && $(SORT) -u FAILED  -o FAILED  && cat FAILED  && echo "@@"
+	@$(foreach outcome,$(OUTCOMES),./sort_test_results.sh "$(SORT)" "$(outcome)";)
 
 Mercury.modules: $(MODULES)
 	@$(MMC) -f $^
