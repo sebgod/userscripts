@@ -9,7 +9,6 @@
 )
 @if %oldCP% NEQ %newCP% chcp %newCP% 1>nul
 
-
 @if defined MERCURY_HOME (
    call :SET_HOME MMC
 ) else (
@@ -26,13 +25,14 @@
 
 @if defined MMC goto :MAKE
 @echo Cannot find Mercury compiler executable, MERCURY_HOME=%MERCURY_HOME%
+@rem ember the previous codepage (very important for Windows XP)
+@if %oldCP% NEQ %newCP% chcp %oldCP% 1>nul
 @exit /b 1
 
 :MAKE
     @if defined SRC_SUBDIR @pushd "%SRC_SUBDIR%"
         @make MMC=%MMC:\=/% MERCURY_HOME=%MERCURY_HOME:\=/% %*
         @set MAKE_RESULT=%ERRORLEVEL%
-        @rem going back to the current working directory
     @if defined SRC_SUBDIR @popd
     @rem ember the previous codepage (very important for Windows XP)
     @if %oldCP% NEQ %newCP% chcp %oldCP% 1>nul
@@ -43,7 +43,7 @@
     @endlocal && ( set %1="%MERCURY_HOME%\bin\mmc" ) && exit /b 0
 
 :FIND_IN_PATH
-    @setlocal enabledelayedexpansion
+    @setlocal enabledelayedexpansion enableextensions
     @set RESULT=%~dp$PATH:1
     @set STRIP=%RESULT%~~~
     @set HOME=%STRIP:bin~~~=%
