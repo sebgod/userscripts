@@ -41,7 +41,7 @@
 
 :SET_HOME
     @setlocal enabledelayedexpansion
-    @endlocal && ( set %1="%MERCURY_HOME%\bin\mercury_compile" ) && exit /b 0
+    @endlocal && (set %1="%MERCURY_HOME%\bin\mercury_compile") && exit /b 0
 
 :FIND_IN_PATH
     @setlocal enabledelayedexpansion enableextensions
