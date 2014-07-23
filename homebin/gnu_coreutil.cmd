@@ -1,7 +1,7 @@
 @setlocal enabledelayedexpansion enableextensions
 @call "%~dp0userenv"
 
-@for %%P in ("%GNUWIN32_HOME%\bin") do @(
+@for %%P in ("%GNUWIN32_HOME%\bin" "%systemdrive%\MinGW\msys\1.0\bin") do @(
     if exist "%%~P\%~1.exe" @(
         set GNU_COMP_PATH=%%~P
         goto :CALL_GNU_COMP
