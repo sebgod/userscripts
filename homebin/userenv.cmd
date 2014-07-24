@@ -1,6 +1,7 @@
 @if defined ProgramNative exit /b 0
 
-@set HOME=%userprofile%
+@set HOME=%SystemDrive%\Users\%username%
+@if not exist "%HOME%" set HOME=%userprofile%
 
 @set ProgramFiles32=%ProgramFiles(x86)%
 @if defined ProgramFiles32 (
@@ -29,6 +30,7 @@
 @set CURL_HOME=%~dp0api\curl-%CURL_VERSION%
 
 @set GITHUB_OWNREPO=https://github.com/sebgod/
+@set GITHUB_DOCS=%home%\Documents\GitHub
 
 @set MERCURY_HOME=C:\mercury-dev
 @if not exist "%MERCURY_HOME%" (
