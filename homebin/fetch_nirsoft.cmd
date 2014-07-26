@@ -11,7 +11,7 @@
 @if not exist "%target%" mkdir "%target%"
 
 @pushd "%TEMP%"
-    @call wget -N "%nirsoft_pad_url%"
+    @call wget -nv -N "%nirsoft_pad_url%"
     @set abs_pad_zip="%cd%\%nirsoft_pads%"
     @if not exist nirsoft_pads mkdir nirsoft_pads
     @pushd nirsoft_pads
@@ -20,7 +20,7 @@
         :: assumes that the tags and their content are on the same line
         @for %%X in (*.xml) do @(
             @for /F "usebackq tokens=2,3 delims=^<^>" %%A in (%%X) do @(
-                if /i "%%A" == "Primary_Download_URL" call wget -N "%%B"
+                if /i "%%A" == "Primary_Download_URL" call wget -nv -N "%%B"
             )
         )
         :: extract each program to the target directory
@@ -32,7 +32,7 @@
         )
     @popd
 
-    @call wget -N "%nirsoft_x64_url%"
+    @call wget -nv -N "%nirsoft_x64_url%"
     @if %OS_ARCH_BITNESS% EQU 64 set abs_64zip="%cd%\%nirsoft_x64_zip%"
 @popd
 
