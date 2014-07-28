@@ -59,8 +59,6 @@
 
 :: API is for external executables which wrap important WinAPI functions,
 :: e.g. sysinternals distribution, or Nirsoft
-@if not exist "%~dp0api" mkdir "%~dp0api"
-
 @path %path%;%~dp0api\git\cmd
 @path %path%;%~dp0api\svnportable\SVN
 @path %path%;%CURL_HOME%\bin
