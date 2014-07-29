@@ -1,9 +1,10 @@
-@echo off
+@setlocal enabledelayedexpansion enableextensions
+@set sp=%%20
+@set file=%~1
+@set file=!file: =%sp%!
 
-setlocal enabledelayedexpansion
-set file=%~1
-set usetype=0
-if [%file%]==[] (
+@set usetype=0
+@if [%file%]==[] @(
     mkdir B:\Temp
     pushd B:\Temp
     set file=listing.txt
@@ -13,12 +14,10 @@ if [%file%]==[] (
     pushd %userprofile%\Videos
 )
 
-wget -c "http://sfip1.no-ip.org:27081/%file%"
+@wget -c "http://sfip1.no-ip.org:27081/%file%"
 
-if %usetype% equ 1 (
+@if %usetype% equ 1 @(
     type %file%
 )
 
-popd
-
-endlocal
+@popd
