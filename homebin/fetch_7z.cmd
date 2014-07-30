@@ -8,12 +8,10 @@
 @pushd "%TEMP%"
     @wget -N %sevenzip_url%
 
-    @call "%~dp0api\7za" >nul
-    @if errorlevel 8080 (
-        @call "%~dp0unzip" "%sevenzip_zipfile%"
-    ) else (
-        @call "%~dp0api\7za" x -y "%sevenzip_zipfile%"
-    )
+    @call "%~dp0api\7za" >nul 2>&1
+    @set unzip_cmd="%~dp0api\7za" x -y
+    @if errorlevel 8080 @set unzip_cmd="%~dp0unzip"
+    @call %unzip_cmd% "%sevenzip_zipfile%"
     @set absFilePath=%cd%\7za.exe
 @popd
 
