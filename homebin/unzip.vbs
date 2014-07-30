@@ -1,8 +1,6 @@
 '
 ' UnZip a file script
 '
-' It's a mess, I know!!!
-'
 
 ' Dim ArgObj, var1, var2
 Set ArgObj = WScript.Arguments
@@ -21,7 +19,4 @@ outFolder = sCurPath & "\"
 Set objShell = CreateObject( "Shell.Application" )
 Set objSource = objShell.NameSpace(strZipFile).Items()
 Set objTarget = objShell.NameSpace(outFolder)
-intOptions = 256 + 512 + 16
-objTarget.CopyHere objSource, intOptions
-
-
+objTarget.CopyHere objSource, &H214&
