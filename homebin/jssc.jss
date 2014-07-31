@@ -37,7 +37,7 @@ function Compile(file : FileInfo) {
     switch (fileExt) {
         case ".JSS":
             startInfo = new ProcessStartInfo("jsc", "/codepage:65001 /nologo " +
-                "\"" + file.FullName + "\"");
+                    "\"" + file.FullName + "\"");
         break;
         default:
             throw new ArgumentException("Extension \"" + file.Extension +
