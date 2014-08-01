@@ -7,6 +7,7 @@ import System.Text;
 var args: String[] = Environment.GetCommandLineArgs();
 var files: String[];
 var pwd: DirectoryInfo = new DirectoryInfo(".");
+var utf8: Encoding = new UTF8Encoding(false);
 
 if (args.Length == 1) {
     files = [args[0], "*.jss"];
@@ -35,11 +36,16 @@ function Compile(file : FileInfo) {
     var startInfo : ProcessStartInfo = null;
     var fileExt : String = file.Extension.ToUpperInvariant();
     var quotedFile : String = "\"" + file.FullName + "\"";
+    var batchFile : String = file.FullName.Substring(0,
+            file.FullName.Length - fileExt.Length) + ".cmd";
 
     switch (fileExt) {
         case ".JSS":
             startInfo = new ProcessStartInfo("jsc", "/codepage:65001 /nologo " +
                     quotedFile);
+            File.WriteAllText(batchFile,
+                    "@jsc /codepage:65001 /nologo \"%~dpn0.jss\" && \"%~dpn0\" %*\n",
+                    utf8);
             break;
         default:
             throw new ArgumentException("Extension \"" + file.Extension + "\"" +
