@@ -8,6 +8,7 @@
 *.7z  binary
 *.ZIP binary
 *.zip binary
+*.jss text eol=lf
 *.tmpl text eol=lf
 *.ahk text eol=crlf
 *.vim text eol=lf
