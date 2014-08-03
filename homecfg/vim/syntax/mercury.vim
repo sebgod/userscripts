@@ -154,6 +154,7 @@ syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
 syn match mercuryMisInAny       "(\|\[{\|}\|\]\|)"
 syn match mercuryMisInAny       "\v\.($|\s+)" contained
 syn match mercuryTerminator     "\v\.($|\s+)" " to overdo it: conceal cchar=∎
+syn match mercuryOperator       "\.\."        " this comes after the mercuryTerminator
 
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   hi clear Conceal 
