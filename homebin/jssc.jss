@@ -44,7 +44,7 @@ function Compile(file : FileInfo) {
             startInfo = new ProcessStartInfo("jsc", "/codepage:65001 /nologo " +
                     quotedFile);
             File.WriteAllText(batchFile,
-                    "@jsc /codepage:65001 /nologo \"%~dpn0.jss\" && \"%~dpn0\" %*\n",
+                    "@jsc /codepage:65001 /nologo /fast+ \"%~dpn0.jss\" && \"%~dpn0\" %*\n",
                     utf8);
             break;
         default:
