@@ -47,7 +47,8 @@ function Compile(file : FileInfo) {
             var options : String = extraOptions + commonOptions;
             startInfo = new ProcessStartInfo("jsc", options + quotedFile);
             File.WriteAllText(batchFile,
-                    "@jsc " + options + "\"%~dpn0.jss\" && \"%~dpn0\" %*\n",
+                    "@jsc " + options + "\"%~dpn0.jss\"" +
+                    (firstIsUpCase ? "\n" : " && \"%~dpn0\" %*\n"),
                     utf8);
             break;
         default:
