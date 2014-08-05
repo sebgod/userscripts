@@ -11,8 +11,6 @@ var makeVersion : String = proc.StandardOutput.ReadToEnd();
 proc.WaitForExit();
 var makeIsGNU : Boolean = makeVersion.Contains("GNU Make");
 
-Console.Out.WriteLine("Make is GNU: {0}", makeIsGNU);
-
 function RunMake(args : String[]) : Process {
     var startInfo = new ProcessStartInfo("make", String.Join(" ", args));
     startInfo.RedirectStandardOutput = true;
