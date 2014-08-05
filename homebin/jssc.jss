@@ -42,9 +42,9 @@ function Compile(file : FileInfo) {
 
     switch (fileExt) {
         case ".JSS":
-            var extraOptions : String  = firstIsUpCase ? "/t:library " : "";
-            var commonOptions : String = "/codepage:65001 /nologo /fast+ ";
-            var options : String = extraOptions + commonOptions;
+            var options : String =
+                (firstIsUpCase ? "/t:library " : "") +
+                "/codepage:65001 /nologo /fast+ ";
             startInfo = new ProcessStartInfo("jsc", options + quotedFile);
             File.WriteAllText(batchFile,
                     "@jsc " + options + "\"%~dpn0.jss\"" +
