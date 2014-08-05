@@ -36,6 +36,7 @@ function Compile(file : FileInfo) {
     var startInfo : ProcessStartInfo = null;
     var fileExt : String = file.Extension.ToUpperInvariant();
     var firstIsUpCase : Boolean = Char.IsUpper(file.Name, 0);
+    var isSelf : Boolean = file.Name == "jssc.jss";
     var quotedFile : String = "\"" + file.FullName + "\"";
     var batchFile : String = file.FullName.Substring(0,
             file.FullName.Length - fileExt.Length) + ".cmd";
@@ -44,11 +45,28 @@ function Compile(file : FileInfo) {
         case ".JSS":
             var options : String =
                 (firstIsUpCase ? "/t:library " : "") +
-                "/codepage:65001 /nologo /fast+ ";
-            startInfo = new ProcessStartInfo("jsc", options + quotedFile);
+                "/codepage:65001 /nologo /utf8output /fast+ ";
+
+            var target : String;
+            if (isSelf) {
+                target = Path.Combine("%TEMP%", "_jssc.exe");
+                startInfo = null;
+            } else {
+                target = "%~dpn0";
+                startInfo = new ProcessStartInfo("jsc", options + quotedFile);
+            }
+            var quotedTarget : String = '"' + target + '"';
             File.WriteAllText(batchFile,
-                    "@jsc " + options + "\"%~dpn0.jss\"" +
-                    (firstIsUpCase ? "\n" : " && \"%~dpn0\" %*\n"),
+                    "@setlocal enabledelayedexpansion enableextensions\n" +
+                    "@jsc " + options +
+                    (isSelf ? "/out:" + quotedTarget + " " : "") +
+                    "\"%~dpn0.jss\"" +
+                    (firstIsUpCase ? "\n" : " && " + quotedTarget + " %*\n") +
+                    (isSelf && !firstIsUpCase
+                        ? "@set res=%ERRORLEVEL%\n" +
+                          "@del /q " + quotedTarget + "\n" +
+                          "@exit /b %res%"
+                        : ""),
                     utf8);
             break;
         default:
@@ -62,6 +80,9 @@ function Compile(file : FileInfo) {
         Console.Out.WriteLine("Compiling {0}", file.FullName);
         startInfo.UseShellExecute = false;
         startInfo.CreateNoWindow = true;
-        Process.Start(startInfo);
+        startInfo.RedirectStandardOutput = true;
+        var proc : Process = Process.Start(startInfo);
+        Console.Write(proc.StandardOutput.ReadToEnd());
+        proc.WaitForExit();
     }
 }
