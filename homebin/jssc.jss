@@ -35,20 +35,24 @@ function Compile(file : FileInfo) {
 
     var startInfo : ProcessStartInfo = null;
     var fileExt : String = file.Extension.ToUpperInvariant();
+    var firstIsUpCase : Boolean = Char.IsUpper(file.Name, 0);
     var quotedFile : String = "\"" + file.FullName + "\"";
     var batchFile : String = file.FullName.Substring(0,
             file.FullName.Length - fileExt.Length) + ".cmd";
 
     switch (fileExt) {
         case ".JSS":
-            startInfo = new ProcessStartInfo("jsc", "/codepage:65001 /nologo " +
-                    quotedFile);
+            var extraOptions : String  = firstIsUpCase ? "/t:library " : "";
+            var commonOptions : String = "/codepage:65001 /nologo /fast+ ";
+            var options : String = extraOptions + commonOptions;
+            startInfo = new ProcessStartInfo("jsc", options + quotedFile);
             File.WriteAllText(batchFile,
-                    "@jsc /codepage:65001 /nologo /fast+ \"%~dpn0.jss\" && \"%~dpn0\" %*\n",
+                    "@jsc " + options + "\"%~dpn0.jss\" && \"%~dpn0\" %*\n",
                     utf8);
             break;
         default:
-            throw new ArgumentException("Extension \"" + file.Extension + "\"" +
+            throw new ArgumentException(
+                    "Extension \"" + file.Extension + "\"" + 
                     "is not supported!", "file");
             break;
     }
