@@ -45,28 +45,30 @@ function Compile(file : FileInfo) {
         case ".JSS":
             var options : String =
                 (firstIsUpCase ? "/t:library " : "") +
-                "/codepage:65001 /nologo /utf8output /fast+ ";
+                "/codepage:65001 /nologo /fast+ ";
 
             var target : String;
+            var jsscNamePattern : String = "_jssc_{0}.exe";
+            var jsscAll : String =
+                '"' + Path.Combine("%TEMP%", String.Format(jsscNamePattern, "*")) + '"';
             if (isSelf) {
-                target = Path.Combine("%TEMP%", "_jssc.exe");
+                target = Path.Combine("%TEMP%",
+                        String.Format(jsscNamePattern, "%ID%"));
                 startInfo = null;
             } else {
                 target = "%~dpn0";
-                startInfo = new ProcessStartInfo("jsc", options + quotedFile);
+                startInfo = new ProcessStartInfo("jsc",
+                        options + "/utf8output " + quotedFile);
             }
             var quotedTarget : String = '"' + target + '"';
             File.WriteAllText(batchFile,
                     "@setlocal enabledelayedexpansion enableextensions\n" +
+                    (isSelf ? "@set ID=%RANDOM%_%RANDOM%\n" : "") +
+                    (isSelf ? "@del /q /f " + jsscAll + "\n" : "") +
                     "@jsc " + options +
                     (isSelf ? "/out:" + quotedTarget + " " : "") +
                     "\"%~dpn0.jss\"" +
-                    (firstIsUpCase ? "\n" : " && " + quotedTarget + " %*\n") +
-                    (isSelf && !firstIsUpCase
-                        ? "@set res=%ERRORLEVEL%\n" +
-                          "@del /q " + quotedTarget + "\n" +
-                          "@exit /b %res%"
-                        : ""),
+                    (firstIsUpCase ? "\n" : " && " + quotedTarget + " %*\n"),
                     utf8);
             break;
         default:
