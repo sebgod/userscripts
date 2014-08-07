@@ -64,7 +64,7 @@ function Compile(file : FileInfo) {
             File.WriteAllText(batchFile,
                     "@setlocal enabledelayedexpansion enableextensions\n" +
                     (isSelf ? "@set ID=%RANDOM%_%RANDOM%\n" : "") +
-                    (isSelf ? "@del /q /f " + jsscAll + "\n" : "") +
+                    (isSelf ? "@del /q /f " + jsscAll + " 1>nul 2>&1\n" : "") +
                     "@jsc " + options +
                     (isSelf ? "/out:" + quotedTarget + " " : "") +
                     "\"%~dpn0.jss\"" +
