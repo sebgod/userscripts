@@ -1,4 +1,5 @@
 import System;
+import System.IO;
 
 package Utils {
     public class TimeUtils {
@@ -21,6 +22,24 @@ package Utils {
             }
             var now : DateTime = utc ? DateTime.UtcNow : DateTime.Now;
             return now.ToString(format);
+        }
+    }
+
+    public class EnvUtils {
+        static function FindGnuCommand(command : String) : String {
+            var gnuWinHome : String = Environment.GetEnvironmentVariable("gnuwin32_home");
+            var sysDrive : String = Environment.GetEnvironmentVariable("systemdrive");
+            var dirs : String[] = [
+                Path.Combine(gnuWinHome, "bin"),
+                Path.Combine(sysDrive, "MinGW", "msys", "1.0", "bin")
+            ];
+            for (var i = 0; i < dirs.Length; i++) {
+                var file : String = (Path.Combine(dirs[i], command + ".exe"))
+                if (File.Exists(file)) {
+                    return file;
+                }
+            }
+            return null;
         }
     }
 }
