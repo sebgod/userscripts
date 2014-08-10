@@ -8,7 +8,7 @@ import Utils;
 var cmdArgs : String[] = Environment.GetCommandLineArgs();
 var makeExe : String = "make";
 var makeIsGNU : Boolean = MakeIsGNU(makeExe);
-makeExe = makeIsGNU ? EnvUtils.FindGnuCommand(makeExe) : makeExe;
+makeExe = makeIsGNU ? makeExe : EnvUtils.FindGnuCommand(makeExe);
 if (String.IsNullOrEmpty(makeExe)) {
     Environment.ExitCode = 9009;
 } else {
