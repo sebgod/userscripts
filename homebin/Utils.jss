@@ -28,13 +28,14 @@ package Utils {
     public class EnvUtils {
         static function FindGnuCommand(command : String) : String {
             var gnuWinHome : String = Environment.GetEnvironmentVariable("gnuwin32_home");
-            var sysDrive : String = Environment.GetEnvironmentVariable("systemdrive");
+            var sysDrive   : String = Environment.GetEnvironmentVariable("systemdrive");
+            var sysRoot    : String = sysDrive + Path.DirectorySeparatorChar;
             var dirs : String[] = [
                 Path.Combine(gnuWinHome, "bin"),
-                Path.Combine(sysDrive, "MinGW", "msys", "1.0", "bin")
+                Path.Combine(sysRoot, "MinGW", "msys", "1.0", "bin")
             ];
             for (var i = 0; i < dirs.Length; i++) {
-                var file : String = (Path.Combine(dirs[i], command + ".exe"))
+                var file : String = (Path.Combine(dirs[i], command + ".exe"));
                 if (File.Exists(file)) {
                     return file;
                 }
