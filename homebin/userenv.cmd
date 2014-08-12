@@ -55,7 +55,12 @@
     set MAKE_IS_GNU=%%C
 )
 
-@if %MAKE_IS_GNU% EQU 0 @set MAKE=gmake
+@if %MAKE_IS_GNU% EQU 0 @(
+    for /f "usebackq delims=" %%M in (`gmake_path`) do @(
+        set MAKE=%%M
+        if errorlevel 9009 (set MAKE_IS_GNU=0) else (set MAKE_IS_GNU=1)
+    )
+)
 
 :: API is for external executables which wrap important WinAPI functions,
 :: e.g. sysinternals distribution, or Nirsoft

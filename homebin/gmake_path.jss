@@ -12,11 +12,7 @@ makeExe = makeIsGNU ? makeExe : EnvUtils.FindGnuCommand(makeExe);
 if (String.IsNullOrEmpty(makeExe)) {
     Environment.ExitCode = 9009;
 } else {
-    var proc : Process = RunMake(makeExe, cmdArgs, 1);
-
-    Console.Out.Write(proc.StandardOutput.ReadToEnd());
-    Console.Error.Write(proc.StandardError.ReadToEnd());
-    proc.WaitForExit();
+    Console.Out.WriteLine(makeExe);
 }
 
 function MakeIsGNU(exe : String) {
