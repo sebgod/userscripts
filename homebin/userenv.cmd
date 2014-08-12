@@ -56,6 +56,7 @@
 )
 
 @if %MAKE_IS_GNU% EQU 0 @(
+    @call Utils
     for /f "usebackq delims=" %%M in (`gmake_path`) do @(
         set MAKE=%%M
         if errorlevel 9009 (set MAKE_IS_GNU=0) else (set MAKE_IS_GNU=1)
