@@ -35,20 +35,45 @@ function Compile(file : FileInfo) {
 
     var startInfo : ProcessStartInfo = null;
     var fileExt : String = file.Extension.ToUpperInvariant();
+    var firstIsUpCase : Boolean = Char.IsUpper(file.Name, 0);
+    var isSelf : Boolean = file.Name == "jssc.jss";
     var quotedFile : String = "\"" + file.FullName + "\"";
     var batchFile : String = file.FullName.Substring(0,
             file.FullName.Length - fileExt.Length) + ".cmd";
 
     switch (fileExt) {
         case ".JSS":
-            startInfo = new ProcessStartInfo("jsc", "/codepage:65001 /nologo " +
-                    quotedFile);
+            var options : String =
+                (firstIsUpCase ? "/t:library " : "") +
+                "/codepage:65001 /nologo /fast+ ";
+
+            var target : String;
+            var jsscNamePattern : String = "_jssc_{0}.exe";
+            var jsscAll : String =
+                '"' + Path.Combine("%TEMP%", String.Format(jsscNamePattern, "*")) + '"';
+            if (isSelf) {
+                target = Path.Combine("%TEMP%",
+                        String.Format(jsscNamePattern, "%ID%"));
+                startInfo = null;
+            } else {
+                target = "%~dpn0";
+                startInfo = new ProcessStartInfo("jsc",
+                        options + "/utf8output " + quotedFile);
+            }
+            var quotedTarget : String = '"' + target + '"';
             File.WriteAllText(batchFile,
-                    "@jsc /codepage:65001 /nologo \"%~dpn0.jss\" && \"%~dpn0\" %*\n",
+                    "@setlocal enabledelayedexpansion enableextensions\n" +
+                    (isSelf ? "@set ID=%RANDOM%_%RANDOM%\n" : "") +
+                    (isSelf ? "@del /q /f " + jsscAll + " 1>nul 2>&1\n" : "") +
+                    "@jsc " + options +
+                    (isSelf ? "/out:" + quotedTarget + " " : "") +
+                    "\"%~dpn0.jss\"" +
+                    (firstIsUpCase ? "\n" : " && " + quotedTarget + " %*\n"),
                     utf8);
             break;
         default:
-            throw new ArgumentException("Extension \"" + file.Extension + "\"" +
+            throw new ArgumentException(
+                    "Extension \"" + file.Extension + "\"" + 
                     "is not supported!", "file");
             break;
     }
@@ -57,6 +82,9 @@ function Compile(file : FileInfo) {
         Console.Out.WriteLine("Compiling {0}", file.FullName);
         startInfo.UseShellExecute = false;
         startInfo.CreateNoWindow = true;
-        Process.Start(startInfo);
+        startInfo.RedirectStandardOutput = true;
+        var proc : Process = Process.Start(startInfo);
+        Console.Write(proc.StandardOutput.ReadToEnd());
+        proc.WaitForExit();
     }
 }

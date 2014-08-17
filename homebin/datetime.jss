@@ -1,9 +1,9 @@
 import System;
-var args: String[] = Environment.GetCommandLineArgs();
-var format : String;
-if (args.Length <= 1) {
-    format = "yyyyMMddhhmmss.ffffffzzz";
-} else {
-    format = args[1];
+import Utils;
+
+try {
+    var args : String[] = Environment.GetCommandLineArgs();
+    Console.Out.WriteLine(TimeUtils.FormatTime(args, 1));
+} catch (ex : Exception) {
+    Console.Error.WriteLine(ex.Message + "\n" + ex.StackTrace);
 }
-Console.Out.WriteLine(DateTime.Now.ToString(format));

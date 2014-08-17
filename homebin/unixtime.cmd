@@ -1,1 +1,2 @@
-@jsc /codepage:65001 /nologo "%~dpn0.jss" && "%~dpn0" %*
+@setlocal enabledelayedexpansion enableextensions
+@jsc /codepage:65001 /nologo /fast+ "%~dpn0.jss" && "%~dpn0" %*
