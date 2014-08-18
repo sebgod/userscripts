@@ -1,4 +1,4 @@
-@setlocal enabledelayedexpansion enableexpansion
+@setlocal enabledelayedexpansion enableextensions
 @call "%~dp0userenv"
 
 @set sevenzip_version=920
