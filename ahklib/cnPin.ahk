@@ -3,7 +3,42 @@
 #Warn
 
 cnPin_init() {
+    global tsf_cnPinRepl
     
+    static tsf_cnPinIsInit := 0
+
+    if (tsf_cnPinIsInit)
+    {
+        return
+    }
+
+    tsf_cnPinIsInit := 1
+    tsf_cnPinRepl := Object()
+
+    i := 0
+    Loop, Read, pinyin.txt
+    {
+        i += 1
+        j := 0
+        Loop, Parse, A_LoopReadLine, %A_Space%
+        {
+            j += 1
+            tsf_cnPinRepl[i,j] := A_LoopField
+        }
+    }
+
+    tsf_cnPinRepl[0] := i
+}
+
+cnPin_AccentiseNumPinyinFromText(pText) {
+    global tsf_cnPinRepl
+
+    cnPin_init()
+    Loop % tsf_cnPinRepl[0]
+    {
+        StringReplace, pText, pText, % tsf_cnPinRepl[A_Index,1], % tsf_cnPinRepl[A_Index,2], all
+    }
+    return pText
 }
 
 #If tsf_langCode == 2052001
@@ -26,6 +61,11 @@ cnPin_init() {
 :*?C:ing2::íng
 :*?C:ing3::ǐng
 :*?C:ing4::ìng
+
+:*?C:ai1::āi
+:*?C:ai2::ái
+:*?C:ai3::ǎi
+:*?C:ai4::ài
 
 :*?C:an1::ān
 :*?C:an2::án
@@ -51,6 +91,16 @@ cnPin_init() {
 :*?C:ong2::óng
 :*?C:ong3::ǒng
 :*?C:ong4::òng
+
+:*?C:ou1::ōu
+:*?C:ou2::óu
+:*?C:ou3::ǒu
+:*?C:ou4::òu
+
+:*?C:un1::ūn
+:*?C:un2::ún
+:*?C:un3::ǔn
+:*?C:un4::ùn
 
 :*?C:i1::ī
 :*?C:i2::í
@@ -86,4 +136,9 @@ cnPin_init() {
 :*?C:e2::é
 :*?C:e3::ě
 :*?C:e4::è
+
+:*?C:ng1::n̄g
+:*?C:ng2::ńg
+:*?C:ng3::ňg
+:*?C:ng4::ǹg
 #If

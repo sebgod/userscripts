@@ -28,7 +28,7 @@ winshell_init()
 winshell_active_loop()
 
 OnClipboardChange: 
-    winshell_onclipboardchange()
+    winshell_onclipboardchange(Clipboard)
 return
 
 #Include <composeKey>

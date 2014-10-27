@@ -100,7 +100,7 @@ winshell_stikynot_run() {
     WinSet, AlwaysOnTop, On
 }
 
-winshell_onclipboardchange() {
+winshell_onclipboardchange(pClip) {
     global pressedWinHash
 
     Info := A_EventInfo
@@ -111,13 +111,15 @@ winshell_onclipboardchange() {
 
     Name := winshell_UserIPCFolder() . "\Clipboard\" . A_NowUTC . ",info=" . Info . ",id=" . ClipId . ",pid=" . ClipPid
     if (Info < 2) {
-        FileAppend, % Clipboard, *%Name%.txt
+        FileAppend, % pClip, *%Name%.txt
         if (pressedWinHash) {
             pressedWinHash := false
-            MsgBox, % Clipboard
+        } else {
+            return
         }
     } else {
         FileAppend, %ClipboardAll%, %Name%.data
+        return
     }
 }
 
