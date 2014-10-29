@@ -80,7 +80,7 @@ return
 #IfWinActive
 
 ##::
-    pressedWinHash := true
+    winshell_setPressedWinHash()
     Send, ^c
 return
    
