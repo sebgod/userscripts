@@ -82,6 +82,11 @@ cnPin_AccentiseNumPinyinFromText(pText) {
 :*?C:en3::ěn
 :*?C:en4::èn
 
+:*?C:er1::ēr
+:*?C:er2::ér
+:*?C:er3::ěr
+:*?C:er4::èr
+
 :*?C:eng1::ēng
 :*?C:eng2::éng
 :*?C:eng3::ěng
@@ -141,4 +146,10 @@ cnPin_AccentiseNumPinyinFromText(pText) {
 :*?C:ng2::ńg
 :*?C:ng3::ňg
 :*?C:ng4::ǹg
+
+:*?C:Ng1::N̄g
+:*?C:Ng2::Ńg
+:*?C:Ng3::Ňg
+:*?C:Ng4::Ǹg
+
 #If

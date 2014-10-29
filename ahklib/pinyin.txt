@@ -30,6 +30,10 @@ en1 ēn
 en2 én
 en3 ěn
 en4 èn
+er1 ēr
+er2 ér
+er3 ěr
+er4 èr
 eng1 ēng
 eng2 éng
 eng3 ěng
@@ -74,8 +78,11 @@ e1 ě
 e2 é
 e3 ě
 e4 è
-
 ng1 n̄g
 ng2 ńg
 ng3 ňg
 ng4 ǹg
+Ng1 N̄g
+Ng2 Ńg
+Ng3 Ňg
+Ng4 Ǹg
