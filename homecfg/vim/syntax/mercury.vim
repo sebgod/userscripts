@@ -307,12 +307,14 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn keyword mercuryErlangKeyword contained after and andalso band begin bnot bor bsl bsr bxor case
         \ catch cond end fun if let not of orelse query receive throw try when xor
   syn keyword mercuryErlangBool true false
+  syn match mercuryErlangExtNumLiteral "\v([2-9]|[12][0-9]|3[0-6])#[A-Za-z0-9]+" contained
   syn match mercuryErlangOperator "\v[?]" contained
   syn match mercuryErlangLogical "\v[,;.]" contained
   syn region mercuryErlangString start=+""+ end=+""+ contained
   syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
-        \ mercuryCLikeChar,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryErlangKeyword,mercuryErlangOperator,
-        \ mercuryCComment,mercuryErlangBool,mercuryOperator,mercurySingleton,mercuryImplication,
+        \ mercuryCLikeChar,mercuryNumCode,mercuryErlangExtNumLiteral,mercuryFloat,mercuryComment,mercuryKeyword,
+        \ mercuryErlangKeyword, mercuryErlangOperator, mercuryCComment,mercuryErlangBool,
+        \ mercuryOperator,mercurySingleton,mercuryImplication,
         \ mercuryErlangDCGAction,mercuryErlangLogical
   syn region  mercuryErlangList contained matchgroup=mercuryBracket
         \ start='\[' end=']' transparent fold  contains=@mercuryErlangTerms
@@ -450,6 +452,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   hi def link mercuryErlangKeyword    Keyword
   hi def link mercuryErlangOperator   Operator
   hi def link mercuryErlangBool       mercuryBool
+  hi def link mercuryErlangExtNumLiteral Number
   hi def link mercuryErlangString     mercuryString
   hi def link mercuryErlangLogical    mercuryLogical
 endif
