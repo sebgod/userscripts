@@ -26,6 +26,14 @@ package Utils {
     }
 
     public class EnvUtils {
+        static function ExecutingAssembly() : String {
+            return new Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+        }
+
+        static function ExecutingAssemblyDir() : String {
+            return Path.GetDirectoryName(ExecutingAssembly());
+        }
+
         static function FindGnuCommand(command : String) : String {
             var gnuWinHome : String = Environment.GetEnvironmentVariable("gnuwin32_home");
             var sysDrive   : String = Environment.GetEnvironmentVariable("systemdrive");
