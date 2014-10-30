@@ -35,7 +35,7 @@ function Compile(file : FileInfo) {
 
     var startInfo : ProcessStartInfo = null;
     var fileExt : String = file.Extension.ToUpperInvariant();
-    var firstIsUpCase : Boolean = Char.IsUpper(file.Name, 0);
+    var fileIsLibrary : Boolean = Char.IsUpper(file.Name, 0);
     var isSelf : Boolean = file.Name == "jssc.jss";
     var quotedFile : String = "\"" + file.FullName + "\"";
     var batchFile : String = file.FullName.Substring(0,
@@ -44,7 +44,7 @@ function Compile(file : FileInfo) {
     switch (fileExt) {
         case ".JSS":
             var options : String =
-                (firstIsUpCase ? "/t:library " : "") +
+                (fileIsLibrary ? "/t:library " : "") +
                 "/codepage:65001 /nologo /fast+ ";
 
             var target : String;
@@ -56,7 +56,7 @@ function Compile(file : FileInfo) {
                         String.Format(jsscNamePattern, "%ID%"));
                 startInfo = null;
             } else {
-                target = "%~dpn0";
+                target = "%~dpn0." + (fileIsLibrary ? "dll" : "exe");
                 startInfo = new ProcessStartInfo("jsc",
                         options + "/utf8output " + quotedFile);
             }
@@ -65,10 +65,9 @@ function Compile(file : FileInfo) {
                     "@setlocal enabledelayedexpansion enableextensions\n" +
                     (isSelf ? "@set ID=%RANDOM%_%RANDOM%\n" : "") +
                     (isSelf ? "@del /q /f " + jsscAll + " 1>nul 2>&1\n" : "") +
-                    "@jsc " + options +
-                    (isSelf ? "/out:" + quotedTarget + " " : "") +
+                    "@jsc " + options + "/out:" + quotedTarget + " " +
                     "\"%~dpn0.jss\"" +
-                    (firstIsUpCase ? "\n" : " && " + quotedTarget + " %*\n"),
+                    (fileIsLibrary ? "\n" : " && " + quotedTarget + " %*\n"),
                     utf8);
             break;
         default:
