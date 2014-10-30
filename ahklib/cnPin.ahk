@@ -16,7 +16,7 @@ cnPin_init() {
     tsf_cnPinRepl := Object()
 
     i := 0
-    Loop, Read, pinyin.txt
+    Loop, Read, ..\homebin\src\pinyin.txt
     {
         i += 1
         j := 0
@@ -42,6 +42,15 @@ cnPin_AccentiseNumPinyinFromText(pText) {
 }
 
 #If tsf_langCode == 2052001
+::##::◆
+::1.::①
+::2.::②
+::3.::③
+::4.::④
+::5.::⑤
+::6.::⑥
+::7.::⑦
+
 :*?C:ao1::āo
 :*?C:ao2::áo
 :*?C:ao3::ǎo
