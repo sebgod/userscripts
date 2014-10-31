@@ -30,10 +30,10 @@ if [ -x $1 ]; then
     MCFLAGS="--infer-all --no-inform-inferred --make --use-grade-subdirs"
     (  mmc $MCFLAGS -- $MODULE 2>/dev/null && \
        mv -f ${SCRIPT}.tmp ${SCRIPT} && \
-       rm ${MODULE}.err && \
        exec ./${MODULE} $*
-       ) || (  mv -f ${SCRIPT}.tmp ${SCRIPT} && \
+    ) || ( ([ -r ${SCRIPT}.tmp ] && mv -f ${SCRIPT}.tmp ${SCRIPT} || true ) && \
 	       cat ${MODULE}.err )
+    rm ${MODULE}.err
 else
     exit 2
 fi
