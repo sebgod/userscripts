@@ -54,6 +54,9 @@ if has("multi_byte")
   if &termencoding == ""
     let &termencoding = &encoding
   endif
+  " for some mathematical characters, it is better to have double with,
+  " but this leads to problems with some pīnyīn characters.
+  " setglobal ambiwidth=double
 endif
 
 map <F12> :vertical wincmd f<CR>

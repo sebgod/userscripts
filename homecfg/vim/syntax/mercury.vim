@@ -2,7 +2,7 @@
 " Language:     Mercury
 " Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
 " Extensions:   *.m *.moo
-" Last Change:  2014-07-07
+" Last Change:  2014-11-09
 
 if exists("b:current_syntax")
   finish
@@ -153,15 +153,17 @@ syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
   " first matching only a closing bracket, to catch unbalanced brackets
 syn match mercuryMisInAny       "(\|\[{\|}\|\]\|)"
 syn match mercuryMisInAny       "\v\.($|\s+)" contained
-syn match mercuryTerminator     "\v\.($|\s+)" " to overdo it: conceal cchar=∎
+syn match mercuryTerminator     "\v\.($|\s+)"
 syn match mercuryOperator       "\.\."        " this comes after the mercuryTerminator
 
+  " cf. https://github.com/Twinside/vim-haskellConceal
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
-  hi clear Conceal 
+  hi clear Conceal
   hi def link Conceal mercuryOperator
   set conceallevel=2
-    " cf. https://github.com/Twinside/vim-haskellConceal
-  if !has("win32")
+    " these characters only display properly on some machines if
+    " setglobal ambiw=double
+  if has("multi_byte") && (exists("ambiw") && ambiw == "double")
     syn match mercuryOperator  "/\\"       conceal cchar=∧
     syn match mercuryOperator  "\\/"       conceal cchar=∨
     syn match mercuryOperator  "`xor`"     conceal cchar=⊕
@@ -237,7 +239,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn cluster mercuryCLike add=mercuryNumCode,mercuryFloat,mercuryCLikeBracket
   syn cluster mercuryCLike add=mercuryCLikeDelimiter,mercuryForeignIface
 
-    " ISO/(POSIX) C Language formatting
+    " C-Language formatting with Mercury types MR_*
   syn keyword mercuryCType contained const size_t pid_t offset_t union
   syn keyword mercuryCType contained MR_bool MR_Word MR_Integer MR_Unsigned
   syn keyword mercuryCType contained MR_ArrayPtr MR_Float MR_file MercuryFile[Ptr]
@@ -398,9 +400,11 @@ if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn cluster mercuryFormatting add=mercuryTooLong
 endif
 
-   " XXX: Maybe should try something more performant, loading for files like
-   " library/io.m can be slow, maybe a comment line would be a good point
-   " for synchronization using "syn sync match"-magic
+   " XXX: syn sync fromstart is the safest operation, which can cover
+   " arbitrary large string literals, but it is also the slowest option for
+   " huge source files, e.g. library/io.m.
+   " One could use a comment line for synchronization
+   " using "syn sync match"-magic
 syn sync clear
 syn sync fromstart
 
