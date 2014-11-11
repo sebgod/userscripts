@@ -2,7 +2,7 @@
 syn on
 filetype plugin on
 set modeline
-set fdm=indent
+" set fdm=indent
 set bs=2
 set ff=unix
 set ffs=unix,dos
