@@ -13,22 +13,46 @@ let b:current_syntax = "mercury"
 syn case match
 set synmaxcol=85
 
-  " The default high lighting for  Mercury comments  is to only highlight the
+if has("folding") && !exists("mercury_no_folding") || !mercury_no_folding
+    " folding is only changed (if not forced) if the Vim default (manual) is active,
+    " this avoids conflicts with existing user settings
+  if (&fdm == "manual") || (exists("mercury_folding_force") && mercury_folding_force)
+    set fdm=indent
+  endif
+    " the default foldminlines = 1 is not appropriate for Mercury,
+    " so we set it higher
+  if &foldminlines == 1
+    set foldminlines=10
+  endif
+endif
+
+  " In your .vimrc file, you can specify following options:
+  "
+  " The default highlighting for  Mercury comments is to only highlight the
   " initial `%' and subsequent `line' punctuation characters, likewise
   " the /* and */ from C-style comments.
-  " To highlight everything including the comment text, add
-  "
-  " In your .vimrc file, you can specify following options:
+  " To highlight everything including the comment text, add:
   "
   "   let mercury_highlight_full_comment = 1
   "
   " By default, parts of lines that extend over 78 characters will be
-  " highlighted.  To avoid this behaviour, add
+  " highlighted.  To avoid this behaviour, add:
   "
   "   let mercury_no_highlight_overlong = 1
   "
+  " If folding is supported by the running Vim version, the setting of the
+  " preferred folding mode for Mercury (currently indent, as it is the fastest)
+  " can be disabled by
+  "
+  "    let mercury_no_folding = 1
+  "
+  " If you want to force the folding setting to indent (despite other setting in the
+  " vimrc file), you can enforce it:
+  "
+  "    let mercury_folding_force = 1
+  "
   " To facilitate better git patch management,
-  " spurious whitespace is marked as an error, to suppress these errors, use
+  " spurious whitespace is marked as an error, to suppress these errors, use:
   "
   "   let mercury_no_highlight_trailing_whitespace = 1
   "
@@ -42,10 +66,16 @@ set synmaxcol=85
   "
   "   let mercury_no_coneal = 1
   "
-  " To disable concealing which requires a good Unicode font (and good eyes),
-  " define:
+  " To enable concealing for characters which require a good Unicode font
+  " and might be "too much" for some users, define:
   "
-  "   let mercury_no_conceal_extra = 1
+  "   let mercury_conceal_extra = 1
+  "
+  " If concealing of extra characters is enabled, one can additionally
+  " enable concealing for logical operators, such as <=> => <= some inf
+  " by setting:
+  "
+  "   let mercury_conceal_logical = 1
   "
 
 syn match mercurySingleton      "\v<_([A-Z][a-z_A-Z0-9]*)?>"
@@ -164,27 +194,30 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
     " these characters only display properly on some machines if
     " setglobal ambiw=double
   if has("multi_byte") && (exists("ambiw") && ambiw == "double")
-    syn match mercuryOperator  "/\\"       conceal cchar=∧
-    syn match mercuryOperator  "\\/"       conceal cchar=∨
-    syn match mercuryOperator  "`xor`"     conceal cchar=⊕
-    syn match mercuryOperator  "`member`"  conceal cchar=∈
+    syn match mercuryOperator  "/\\"        conceal cchar=∧
+    syn match mercuryOperator  "\\/"        conceal cchar=∨
+    syn match mercuryOperator  "`xor`"      conceal cchar=⊕
+    syn match mercuryOperator  "`member`"   conceal cchar=∈
     syn match mercuryOperator  "`contains`" conceal cchar=∋
   endif
   syn match mercuryOperator  "`compose`" conceal cchar=o
   syn match mercuryOperator  ">="        conceal cchar=≥
   syn match mercuryOperator  "=<"        conceal cchar=≤
   syn match mercuryOperator  "\\="       conceal cchar=≠
-  syn match mercuryLogical   "\\+"       conceal cchar=¬
-  if !exists("mercury_no_conceal_extra") || !mercury_no_conceal_extra
-    syn match mercuryOperator  "\v[*]{1}"      conceal cchar=×
-    syn match mercuryOperator  "//"     conceal cchar=÷
-       " unforunately, Vim does not allow different conceal colours
-    " syn match mercuryImplication "=>"   conceal cchar=⇒
-    " syn match mercuryImplication "<="   conceal cchar=⇐
-    " syn match mercuryImplication "<=>"  conceal cchar=⇔
-    " syn keyword mercuryNumCode  inf     conceal cchar=∞
-    " syn keyword mercuryLogical  some    conceal cchar=∃
-    " syn keyword mercuryLogical  all     conceal cchar=∀
+  if exists("mercury_conceal_extra") && mercury_conceal_extra
+    syn match mercuryLogical   "\\+"       conceal cchar=¬
+    syn match mercuryOperator  "\v[*]{1}"  conceal cchar=×
+    syn match mercuryOperator  "//"        conceal cchar=÷
+       " unforunately, Vim does not allow different conceal colours,
+       " so these are not concealed by default
+    if exists("mercury_conceal_logical") && mercury_conceal_logical
+      syn match mercuryImplication "=>"   conceal cchar=⇒
+      syn match mercuryImplication "<="   conceal cchar=⇐
+      syn match mercuryImplication "<=>"  conceal cchar=⇔
+      syn keyword mercuryNumCode  inf     conceal cchar=∞
+      syn keyword mercuryLogical  some    conceal cchar=∃
+      syn keyword mercuryLogical  all     conceal cchar=∀
+    endif
   endif
 endif
 
