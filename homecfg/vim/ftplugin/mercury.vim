@@ -73,7 +73,11 @@ nnoremap <C-K>R :call <SID>RenameCurrentVariable(0)<CR>
   " <C-X>h runs `$HOME/.vim/ftplugin/mercuryhdr.sh' which inserts all the
   " usual boilerplate for a new Mercury module.
   "
-nnoremap <C-X>h !!$HOME/.vim/ftplugin/mercuryhdr.sh %<CR>:set ft=mercury ff=unix ts=4 sw=4 et<CR>
+if has("win32")
+  nnoremap <C-X>h !!sh "\%userprofile\%\\.vim\\ftplugin\\mercuryhdr.sh" %<CR>:set ft=mercury ff=unix ts=4 sw=4 et<CR>
+else
+  nnoremap <C-X>h !!$HOME/.vim/ftplugin/mercuryhdr.sh %<CR>:set ft=mercury ff=unix ts=4 sw=4 et<CR>
+endif
 
   " Go to the bottom window and rerun the last mmake command.
   " Reload any .err buffers that have changed.
