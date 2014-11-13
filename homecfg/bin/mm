@@ -46,6 +46,9 @@ case `basename $0` in
     mmcs)
         OPS="$OPS -s csharp --no-detect-libgrades"
         ;;
+    mme)
+        OPS="$OPS -s erlang --no-detect-libgrades"
+        ;;
     mmtr)
         OPS="$OPS --use-trail --trail-segments"
         ;;
