@@ -29,4 +29,4 @@
     goto :check_for_ml
 )
 
-@call mercury --target-env-type windows --use-grade-subdirs --no-detect-libgrades -s java -m %*
+@call mercury --env-type windows --use-grade-subdirs --no-detect-libgrades -s java -m %*
