@@ -1,9 +1,10 @@
 PROJ_NAME := $(notdir $(shell pwd))
 PROJ_CNAME := $(subst -,_,$(PROJ_NAME))
 DOT_FILES := .gitignore .gitattributes
-SCRIPTS := build.cmd results.cmd build.sh results.sh
+SCRIPTS := build.cmd results.cmd build.sh results.sh editor.cmd editor.sh
 HARDLINK := ln -f -T
 FOLDERS := tools doc
+CHMOD := chmod
 
 .PHONY: update
 update: folders $(DOT_FILES) $(SCRIPTS) LICENSE Makefile Make.options
@@ -15,11 +16,15 @@ build.cmd: $(CMD_DIR)/mmcmake.cmd
 results.cmd: $(TMPL_DIR)/results.cmd tools/convert_utf8to16.cmd tools/.empty_utf16le_bom.txt
 	$(HARDLINK) $< $@
 
+editor.cmd: $(TMPL_DIR)/editor.cmd
+	$(HARDLINK) $< $@
+
 tools/%.cmd: $(CMD_DIR)/%.cmd
 	$(HARDLINK) $< $@
 
 %.sh: $(TMPL_DIR)/%.sh
 	$(HARDLINK) $< $@
+	$(CHMOD) +x $@ || true
 
 .%: $(TMPL_DIR)/_%.tmpl
 	$(HARDLINK) $< $@
@@ -45,6 +50,7 @@ Project.options:
 %/.gitignore:
 	@mkdir -p $*
 	@touch $*/.gitignore
-	@for file in "$(TMPL_DIR)/$*/*" ; do \
-		cp "$(TMPL_DIR)/$*/$$(basename $$file)" $* ; \
-	done
+	@$(foreach FILE, $(wildcard $(TMPL_DIR)/$*/*), echo $(FILE))
+
+XXXXX:
+	echo "$* / $$file: $(TMPL_DIR)/$*/$$(basename $file)" $* ; \
