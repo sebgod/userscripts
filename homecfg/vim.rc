@@ -31,6 +31,13 @@ set pastetoggle=<F2>
 
 " Mercury related settings
 let mercury_conceal_extra = 1
+if v:version >= 703
+  set colorcolumn=+1
+  set fo-=t " do not automatically wrap text
+  set fo+=c " auto wrap comments, using comment leader
+  set fo+=r " automatically insert the comment leader after <CR>
+  set fo+=q " enable tq feature
+endif
 
 " disable that annoying visual/audible bell
 set noerrorbells

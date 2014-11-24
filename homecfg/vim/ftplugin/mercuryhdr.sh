@@ -1,8 +1,8 @@
 #!/bin/sh
-# vim: ft=sh ff=unix ts=4 sw=4 et
+# vim: ft=sh ff=unix ts=4 sw=4 tw=78 et
 DIR=$( cd "$( dirname "$1" )" && pwd )
 MODULE=$(echo $(basename "$1" ) | sed 's/\.m$//')
-PARENT=$(basename $(echo $DIR | sed 's/src$//' ))
+PARENT=$(basename $(echo $DIR | sed 's/src$//' | sed 's/-/_/g' ))
 case "$MODULE" in
     *\.*)
         unset PARENT
