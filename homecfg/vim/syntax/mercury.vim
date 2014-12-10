@@ -79,49 +79,111 @@ endif
   "
 
 syn match mercurySingleton      "\v<_([A-Z][a-z_A-Z0-9]*)?>"
-syn keyword mercuryKeyword      module use_module import_module
-syn keyword mercuryKeyword      include_module end_module
-syn keyword mercuryKeyword      initialise mutable
-syn keyword mercuryKeyword      initialize finalize finalise
-syn keyword mercuryKeyword      interface implementation
-syn keyword mercuryKeyword      pred mode func type inst solver any_pred any_func
-syn keyword mercuryKeyword      is semidet det nondet multi erroneous failure
-syn keyword mercuryKeyword      cc_nondet cc_multi
-syn keyword mercuryKeyword      typeclass instance where
-syn keyword mercuryKeyword      pragma promise external
-syn keyword mercuryKeyword      trace atomic
+syn keyword mercuryKeyword      any_func
+syn keyword mercuryKeyword      any_pred
+syn keyword mercuryKeyword      atomic
+syn keyword mercuryKeyword      cc_multi
+syn keyword mercuryKeyword      cc_nondet
+syn keyword mercuryKeyword      det
+syn keyword mercuryKeyword      end_module
+syn keyword mercuryKeyword      erroneous
+syn keyword mercuryKeyword      external
+syn keyword mercuryKeyword      failure
+syn keyword mercuryKeyword      finalize finalise
+syn keyword mercuryKeyword      func
+syn keyword mercuryKeyword      implementation
+syn keyword mercuryKeyword      import_module
+syn keyword mercuryKeyword      include_module
+syn keyword mercuryKeyword      initialise initialize
+syn keyword mercuryKeyword      inst
+syn keyword mercuryKeyword      instance
+syn keyword mercuryKeyword      interface
+syn keyword mercuryKeyword      is
+syn keyword mercuryKeyword      mode
+syn keyword mercuryKeyword      module
+syn keyword mercuryKeyword      multi
+syn keyword mercuryKeyword      mutable
+syn keyword mercuryKeyword      nondet
+syn keyword mercuryKeyword      or_else
+syn keyword mercuryKeyword      pragma
+syn keyword mercuryKeyword      pred
+syn keyword mercuryKeyword      promise
+syn keyword mercuryKeyword      require_cc_multi
+syn keyword mercuryKeyword      require_cc_nondet
 syn keyword mercuryKeyword      require_complete_switch
-syn keyword mercuryKeyword      require_det require_semidet require_multi
-syn keyword mercuryKeyword      require_nondet require_cc_multi require_cc_nondet
-syn keyword mercuryKeyword      require_erroneous require_failure
-syn keyword mercuryPragma       inline no_inline
-syn keyword mercuryPragma       type_spec source_file fact_table obsolete
-syn keyword mercuryPragma       memo loop_check minimal_model
-syn keyword mercuryPragma       does_not_terminate check_termination
+syn keyword mercuryKeyword      require_det
+syn keyword mercuryKeyword      require_erroneous
+syn keyword mercuryKeyword      require_failure
+syn keyword mercuryKeyword      require_multi
+syn keyword mercuryKeyword      require_nondet
+syn keyword mercuryKeyword      require_semidet
+syn keyword mercuryKeyword      require_switch_arms_cc_multi
+syn keyword mercuryKeyword      require_switch_arms_cc_nondet
+syn keyword mercuryKeyword      require_switch_arms_det
+syn keyword mercuryKeyword      require_switch_arms_erroneous
+syn keyword mercuryKeyword      require_switch_arms_failure
+syn keyword mercuryKeyword      require_switch_arms_multi
+syn keyword mercuryKeyword      require_switch_arms_nondet
+syn keyword mercuryKeyword      require_switch_arms_semidet
+syn keyword mercuryKeyword      semidet
+syn keyword mercuryKeyword      solver
+syn keyword mercuryKeyword      trace
+syn keyword mercuryKeyword      type
+syn keyword mercuryKeyword      typeclass
+syn keyword mercuryKeyword      use_module
+syn keyword mercuryKeyword      where
+
+syn keyword mercuryPragma       check_termination
+syn keyword mercuryPragma       does_not_terminate
+syn keyword mercuryPragma       fact_table
+syn keyword mercuryPragma       inline
+syn keyword mercuryPragma       loop_check
+syn keyword mercuryPragma       memo
+syn keyword mercuryPragma       minimal_model
+syn keyword mercuryPragma       no_inline
+syn keyword mercuryPragma       obsolete
 syn keyword mercuryPragma       promise_equivalent_clauses
-syn keyword mercuryCInterface   foreign_proc foreign_decl foreign_code
-syn keyword mercuryCInterface   foreign_type foreign_import_module
-syn keyword mercuryCInterface   foreign_export_enum foreign_export
+syn keyword mercuryPragma       source_file
+syn keyword mercuryPragma       terminates
+syn keyword mercuryPragma       type_spec
+
+syn keyword mercuryCInterface   foreign_code
+syn keyword mercuryCInterface   foreign_decl
 syn keyword mercuryCInterface   foreign_enum
-syn keyword mercuryForeignMod   may_call_mercury will_not_call_mercury
-syn keyword mercuryForeignMod   thread_safe not_thread_safe maybe_thread_safe
-syn keyword mercuryForeignMod   promise_pure promise_semipure
-syn keyword mercuryForeignMod   tabled_for_io local untrailed trailed
-syn keyword mercuryForeignMod   attach_to_io_state max_stack_size
+syn keyword mercuryCInterface   foreign_export
+syn keyword mercuryCInterface   foreign_export_enum
+syn keyword mercuryCInterface   foreign_import_module
+syn keyword mercuryCInterface   foreign_proc
+syn keyword mercuryCInterface   foreign_type
+
+syn keyword mercuryForeignMod   affects_liveness
+syn keyword mercuryForeignMod     does_not_affect_liveness
+syn keyword mercuryForeignMod     doesnt_affect_liveness
+syn keyword mercuryForeignMod   attach_to_io_state
 syn keyword mercuryForeignMod   can_pass_as_mercury_type stable
-syn keyword mercuryForeignMod   will_not_throw_exception
-syn keyword mercuryForeignMod   may_modify_trail will_not_modify_trail
+syn keyword mercuryForeignMod   may_call_mercury will_not_call_mercury
 syn keyword mercuryForeignMod   may_duplicate may_not_duplicate
-syn keyword mercuryForeignMod   affects_liveness terminates
-syn keyword mercuryForeignMod   does_not_affect_liveness doesnt_affect_liveness
+syn keyword mercuryForeignMod   may_modify_trail will_not_modify_trail
 syn keyword mercuryForeignMod   no_sharing unknown_sharing sharing
-syn keyword mercuryOperator     div rem mod
-syn keyword mercuryImpure       impure semipure
+syn keyword mercuryForeignMod   tabled_for_io local untrailed trailed
+syn keyword mercuryForeignMod   thread_safe not_thread_safe maybe_thread_safe
+syn keyword mercuryForeignMod   will_not_throw_exception
+
+syn keyword mercuryImpure       impure semipure promise_pure promise_semipure
+
 syn keyword mercuryToDo         XXX TODO NOTE MISSING HACK HINT WARNING
+
+syn keyword mercuryLogical      fail false true
+syn keyword mercuryLogical      if then else
+syn keyword mercuryLogical      impure_true
+syn keyword mercuryLogical      semidet_fail semidet_false
+syn keyword mercuryLogical      semidet_succeed semidet_true
+syn keyword mercuryLogical      some all not
+syn keyword mercuryLogical      try catch catch_any
+
 syn keyword mercuryBool         yes no
-syn keyword mercuryLogical      some all not if then else true fail or and or_else
-syn keyword mercuryLogical      semidet_true semidet_false impure_true
-syn keyword mercuryLogical      try catch catch_any semidet_fail semidet_succeed
+syn keyword mercuryOperator     div rem mod
+
 syn match   mercuryImplKeyword  "\v\$(file|grade|pred|module|line|\d+)>"
 syn match   mercuryOperator     "/"           " divide
 syn match   mercuryOperator     "//"          " (integer) divide
@@ -229,7 +291,7 @@ syn match mercuryOperator "\v[*]{2}"
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
       \ mercuryAtom,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryImplKeyword,
       \ @mercuryFormatting,mercuryMisInAny,mercuryCComment,mercuryBool,mercuryOperator,
-      \ mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical
+      \ mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical,mercuryImpure
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction
 syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryTerms
