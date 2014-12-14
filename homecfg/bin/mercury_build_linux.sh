@@ -56,7 +56,7 @@ mmake depend &&
 mmake MMAKEFLAGS=$parallel &&
 #tools/bootcheck $parallel &&
 #cd stage2 &&
-mmake tags
+#mmake tags
 sudo mmake install MMAKEFLAGS=$parallel &&
 true
 
