@@ -2,7 +2,7 @@
 " Language:     Mercury
 " Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
 " Extensions:   *.m *.moo
-" Last Change:  2014-11-09
+" Last Change:  2014-12-14
 
 if exists("b:current_syntax")
   finish
@@ -249,27 +249,36 @@ syn match mercuryTerminator     "\v\.($|\s+)"
 syn match mercuryOperator       "\.\."        " this comes after the mercuryTerminator
 
   " cf. https://github.com/Twinside/vim-haskellConceal
+  " cf. http://rapidtables.com/math/symbols/Basic_Math_Symbols.htm
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   hi clear Conceal
   hi def link Conceal mercuryOperator
   set conceallevel=2
-    " these characters only display properly on some machines if
-    " setglobal ambiw=double
-  if has("multi_byte") && (exists("ambiw") && ambiw == "double")
-    syn match mercuryOperator  "/\\"        conceal cchar=∧
-    syn match mercuryOperator  "\\/"        conceal cchar=∨
-    syn match mercuryOperator  "`xor`"      conceal cchar=⊕
-    syn match mercuryOperator  "`member`"   conceal cchar=∈
-    syn match mercuryOperator  "`contains`" conceal cchar=∋
-  endif
   syn match mercuryOperator  "`compose`" conceal cchar=o
   syn match mercuryOperator  ">="        conceal cchar=≥
   syn match mercuryOperator  "=<"        conceal cchar=≤
   syn match mercuryOperator  "\\="       conceal cchar=≠
   if exists("mercury_conceal_extra") && mercury_conceal_extra
+      " these characters only display properly on some machines if
+      " setglobal ambiw=double
+    if has("multi_byte") && (!has("win32") || (exists("ambiw") && ambiw == "double"))
+      syn match mercuryOperator  "/\\"          conceal cchar=∧
+      syn match mercuryOperator  "\\/"          conceal cchar=∨
+      syn match mercuryOperator  "`xor`"        conceal cchar=⊕
+      syn match mercuryOperator  "`member`"     conceal cchar=∈
+      syn match mercuryOperator  "`contains`"   conceal cchar=∋
+      syn match mercuryOperator  "`union`"      conceal cchar=∪
+      syn match mercuryOperator  "`intersect`"  conceal cchar=∩
+      syn match mercuryOperator  "`difference`" conceal cchar=∆
+      syn match mercuryOperator  "`insert`"     conceal cchar=⎀
+      syn match mercuryOperator  "`delete`"     conceal cchar=\
+      syn match mercuryOperator  "`subset`"     conceal cchar=⊆
+      syn match mercuryOperator  "`superset`"   conceal cchar=⊇
+    endif
     syn match mercuryLogical   "\\+"       conceal cchar=¬
-    syn match mercuryOperator  "\v[*]{1}"  conceal cchar=×
+    syn match mercuryOperator  "`x`"       conceal cchar=×
     syn match mercuryOperator  "//"        conceal cchar=÷
+
        " unforunately, Vim does not allow different conceal colours,
        " so these are not concealed by default
     if exists("mercury_conceal_logical") && mercury_conceal_logical
