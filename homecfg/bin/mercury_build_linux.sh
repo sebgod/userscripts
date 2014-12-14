@@ -48,7 +48,7 @@ parallel=-j8
 sudo mmake realclean
 aclocal -I m4 &&
 autoconf &&
-./configure --enable-java-grade --enable-csharp-grade --enable-erlang-grade && \
+./configure --enable-libgrades=asm_fast.gc,java,csharp,erlang && \
     --enable-new-mercuryfile-struct
 touch Mmake.params &&
 touch Mercury.options &&
