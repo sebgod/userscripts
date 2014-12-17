@@ -600,6 +600,6 @@ hi def link mercuryStringEsc        Identifier
 hi def link mercuryStringFmt        Special
 hi def link mercuryToDo             Todo
 hi def link mercuryTooLong          mercuryError
-hi def link mercuryWhitespace       mercuryError
+hi def link mercuryWhitespace       mercuryTodo
 hi def link mercuryTerminator       Delimiter
 hi def link mercuryType             Type
