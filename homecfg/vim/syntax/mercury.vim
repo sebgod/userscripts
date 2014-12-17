@@ -2,7 +2,7 @@
 " Language:     Mercury
 " Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
 " Extensions:   *.m *.moo
-" Last Change:  2014-12-14
+" Last Change:  2014-12-17
 
 if exists("b:current_syntax")
   finish
@@ -165,11 +165,15 @@ syn keyword mercuryForeignMod   may_call_mercury will_not_call_mercury
 syn keyword mercuryForeignMod   may_duplicate may_not_duplicate
 syn keyword mercuryForeignMod   may_modify_trail will_not_modify_trail
 syn keyword mercuryForeignMod   no_sharing unknown_sharing sharing
+syn keyword mercuryForeignMod   promise_pure
 syn keyword mercuryForeignMod   tabled_for_io local untrailed trailed
 syn keyword mercuryForeignMod   thread_safe not_thread_safe maybe_thread_safe
 syn keyword mercuryForeignMod   will_not_throw_exception
 
-syn keyword mercuryImpure       impure semipure promise_pure promise_semipure
+syn keyword mercuryPurity       impure
+syn keyword mercuryPurity       promise_pure
+syn keyword mercuryPurity       promise_semipure
+syn keyword mercuryPurity       semipure
 
 syn keyword mercuryToDo         XXX TODO NOTE MISSING HACK HINT WARNING
 
@@ -294,20 +298,24 @@ endif
 
   " matching the `double star' after the multiplication operator
 syn match mercuryOperator "\v[*]{2}"
-
+  " All valid Mercury comments
+syn cluster mercuryComments contains=mercuryComment,mercuryCComment
   " The clusters contain all valid Mercury code. The nesting is done to allow
   " for matching of parens, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
-      \ mercuryAtom,mercuryNumCode,mercuryFloat,mercuryComment,mercuryKeyword,mercuryImplKeyword,
-      \ @mercuryFormatting,mercuryMisInAny,mercuryCComment,mercuryBool,mercuryOperator,
-      \ mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical,mercuryImpure
-syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms,mercuryForeignMod
+      \ mercuryAtom,mercuryNumCode,mercuryFloat,@mercuryComments,mercuryKeyword,mercuryImplKeyword,
+      \ @mercuryFormatting,mercuryMisInAny,mercuryBool,mercuryOperator,
+      \ mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical,mercuryPurity
+syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction
 syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryTerms
+syn region  mercuryForeignModList matchgroup=mercuryBracket   start='\[' end=']'
+      \ transparent fold  contained contains=mercuryForeignMod,mercuryDelimiter,@mercuryComments,mercuryString,mercuryOperator
 
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
-  syn cluster mercuryForeign contains=mercuryList,mercuryCInterface,mercuryKeyword,mercuryOperator,
+  syn cluster mercuryForeign contains=mercuryForeignModList,mercuryCInterface,
+        \ mercuryKeyword,mercuryOperator,
         \ mercuryAtom,mercuryComment,mercuryDelimiter,mercurySingleton,
         \ @mercuryFormatting,mercuryForeignId
 
@@ -566,7 +574,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 endif
 hi def link mercuryDelimiter        Delimiter
 hi def link mercuryError            ErrorMsg
-hi def link mercuryImpure           Special
+hi def link mercuryPurity           Special
 hi def link mercuryImplKeyword      Identifier
 hi def link mercuryKeyword          Keyword
 hi def link mercuryModelineParam    Identifier
