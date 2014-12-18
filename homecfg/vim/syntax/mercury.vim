@@ -165,7 +165,7 @@ syn keyword mercuryForeignMod   may_call_mercury will_not_call_mercury
 syn keyword mercuryForeignMod   may_duplicate may_not_duplicate
 syn keyword mercuryForeignMod   may_modify_trail will_not_modify_trail
 syn keyword mercuryForeignMod   no_sharing unknown_sharing sharing
-syn keyword mercuryForeignMod   promise_pure
+syn keyword mercuryForeignMod   promise_pure promise_semipure
 syn keyword mercuryForeignMod   tabled_for_io local untrailed trailed
 syn keyword mercuryForeignMod   thread_safe not_thread_safe maybe_thread_safe
 syn keyword mercuryForeignMod   will_not_throw_exception
