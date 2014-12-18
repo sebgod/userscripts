@@ -378,8 +378,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn cluster mercuryC add=mercuryCPreProc,mercuryCString,mercuryCBool,mercuryCConst,mercuryCFunc
 
     " C++-Style for Java and C# (bool, // comments, exception handling etc)
-  syn keyword mercuryCppLikeKeyword class new delete try catch finally instanceof abstract
-        \ throw[s] extends this super base synchronize[d] override foreach in using contained
+  syn keyword mercuryCppLikeKeyword contained class new delete try catch finally instanceof abstract
+        \ throw[s] extends this super base synchronize[d] override foreach in using import
   syn keyword mercuryCppLikeBool contained true false
   syn keyword mercuryCppLikeConst contained null[ptr]
   syn match mercuryCppLikeOperator "@" contained
