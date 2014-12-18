@@ -338,7 +338,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn keyword mercuryCLikeKeyword if else goto switch case for while do break continue return volatile extern typedef static default contained
   syn keyword mercuryCLikeType contained void int char long byte unsigned signed struct float double enum
   syn match mercuryCLikeDelimiter ";\|," contained
-  syn match mercuryCLikeOperator "\v[-!+=*/><~?:]" contained
+  syn match mercuryCLikeOperator "\v[-!+=*/><~?:%]" contained
   syn match mercuryCLikeOperator "[-!+=*/><]\?=" contained
   syn match mercuryCLikeOperator "--\|++" contained
   syn match mercuryCLikeOperator "|\{1,2}\|&\{1,2}" contained
