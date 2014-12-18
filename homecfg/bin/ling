@@ -1,5 +1,0 @@
-#!/bin/sh
-
-PREV_PWD=$PWD
-cd ~/github/sebgod/linguist 
-exec bundle exec linguist ${1-$PREV_PWD} --breakdown
