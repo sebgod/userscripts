@@ -33,7 +33,7 @@
 :: for GNU Win32 Modules
 @set GNUWIN32_HOME=%ProgramFiles32%\gnuwin32
 
-@set CURL_VERSION=7.34.0-win%OS_ARCH_BITNESS%
+@set CURL_VERSION=7.39.0-win%OS_ARCH_BITNESS%
 @set CURL_HOME=%~dp0api\curl-%CURL_VERSION%
 
 :: Variables used for quick doskey-based navigation
