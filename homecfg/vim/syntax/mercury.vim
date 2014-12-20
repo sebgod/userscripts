@@ -395,7 +395,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
    " Declaration for C#
   syn match mercuryCSharpStringFmt "{[0-9]}" contained
   syn match mercuryCSharpStringFmtEsc "{{\|}}" contained
-  syn keyword mercuryCSharpType contained object string decimal bool
+  syn keyword mercuryCSharpType contained object string decimal bool uint ulong sbyte ushort
   syn match mercuryCSharpType contained "\v<mr_bool>\."he=e-1 nextgroup=mercuryCSharpBool
   syn match mercuryCSharpBool contained "\v<(YES|NO)>"
   syn match mercuryCSharpType "\v<System\.((IO|Text|Diagnostics)\.)?[A-Z][A-Za-z_0-9]+>"
