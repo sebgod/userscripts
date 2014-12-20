@@ -310,7 +310,8 @@ syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' tran
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction
 syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryTerms
 syn region  mercuryForeignModList matchgroup=mercuryBracket   start='\[' end=']'
-      \ transparent fold  contained contains=mercuryForeignMod,mercuryDelimiter,@mercuryComments,mercuryString,mercuryOperator
+      \ transparent fold  contained contains=mercuryForeignMod,mercuryDelimiter,
+      \ @mercuryComments,mercuryString,mercuryOperator,mercuryBlock
 
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
