@@ -2,11 +2,10 @@
 @call "%~dp0userenv"
 
 @set git_basename=PortableGit
-@set git_version=1.9.0-preview20140217
+@set git_version=1.9.5-preview20141217
 @set git_7zipfile=%git_basename%-%git_version%.7z
-@set git_url=http://msysgit.googlecode.com/files/%git_7zipfile%
-
-wget -P%TEMP% -N "%git_url%"
+@set git_url=https://github.com/msysgit/msysgit/releases/download/Git-%git_version%/%git_7zipfile%
+curl -L -o %TEMP%\%git_7zipfile% "%git_url%"
 
 pushd %~dp0api
 7za x -y -ogit "%TEMP%\%git_7zipfile%"
