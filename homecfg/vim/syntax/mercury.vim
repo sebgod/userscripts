@@ -309,9 +309,9 @@ syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mer
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction
 syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryTerms
-syn region  mercuryForeignModList matchgroup=mercuryBracket   start='\[' end=']'
-      \ transparent fold  contained contains=mercuryForeignMod,mercuryDelimiter,
-      \ @mercuryComments,@mercuryFormatting,mercuryString,mercuryOperator,mercuryBlock
+syn region  mercuryForeignModList matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contained contains=
+      \ mercuryForeignMod,mercuryDelimiter,@mercuryComments,@mercuryFormatting,
+      \ mercuryString,mercuryOperator,mercuryBlock
 
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
@@ -332,8 +332,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
         \ transparent fold contained contains=@mercuryForeign,mercuryErlangCode,mercuryBlock
   syn cluster mercuryForeignBlock contains=mercuryForeignCBlock,mercuryForeignCSharpBlock,
         \ mercuryForeignJavaBlock,mercuryForeignErlangBlock,mercuryForeignILBlock
-  syn match   mercuryPragmaForeign /\v^:-\s+pragma\s+foreign_(code|proc|decl|type|export(_enum)?|enum|import_module)/
-      \ transparent nextgroup=@mercuryForeignBlock
+  syn match   mercuryPragmaForeign /\v^\s*:-\s+pragma\s+foreign_(code|proc|decl|type|export(_enum)?|enum|import_module)/
+        \ transparent nextgroup=@mercuryForeignBlock
 
     " C-Style syntax as a basis for C,C# and Java
   syn keyword mercuryCLikeKeyword if else goto switch case for while do break continue return volatile extern typedef static default contained
@@ -380,7 +380,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 
     " C++-Style for Java and C# (bool, // comments, exception handling etc)
   syn keyword mercuryCppLikeKeyword contained class new delete try catch finally instanceof abstract
-        \ throw[s] extends this super base synchronize[d] override foreach in using import
+        \ throw[s] extends this super base synchronize[d] override foreach in using import ref
   syn keyword mercuryCppLikeBool contained true false
   syn keyword mercuryCppLikeConst contained null[ptr]
   syn match mercuryCppLikeOperator "@" contained
