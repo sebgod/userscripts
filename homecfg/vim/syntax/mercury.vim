@@ -2,7 +2,7 @@
 " Language:     Mercury
 " Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
 " Extensions:   *.m *.moo
-" Last Change:  2014-12-17
+" Last Change:  2014-12-22
 
 if exists("b:current_syntax")
   finish
@@ -11,7 +11,7 @@ let b:current_syntax = "mercury"
 
   " Mercury is case sensitive.
 syn case match
-set synmaxcol=85
+set synmaxcol=90
 
 if has("folding") && !exists("mercury_no_folding") || !mercury_no_folding
     " folding is only changed (if not forced) if the Vim default (manual) is active,
