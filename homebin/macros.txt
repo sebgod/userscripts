@@ -26,3 +26,4 @@ vs=cd /d %home%\Documents\Visual Studio 2012\Projects\$*
 $=start /b /wait cmd /c $*
 gmake=%MAKE% $*
 agm=ag --color --mercury $*
+bm=%MAKE% MMC=%MERCURY_HOME:\=/%/bin/mmc $*
