@@ -39,6 +39,7 @@
 :: Variables used for quick doskey-based navigation
 @set GITHUB_OWNREPO=https://github.com/sebgod/
 @set GITHUB_DOCS=%home%\Documents\GitHub
+@set GIT_EDITOR=gvim
 
 :: Home of the mainly used Mercury distribution (usually bootstrapped)
 @set MERCURY_HOME=C:\mercury-dev
@@ -69,7 +70,7 @@
 @path %path%;%~dp0api\svnportable\SVN
 @path %path%;%CURL_HOME%\bin
 @path %path%;%~dp0api
-:: HACK pdate this when/if updating Visual Studio.
+:: HACK update this when/if updating Visual Studio.
 :: This SHOULD actually use the registry to detect the main VS version
 @set MS_VS_HOME=%ProgramFiles32%\Microsoft Visual Studio 11.0
 @if not exist "%MS_VS_HOME%" (
