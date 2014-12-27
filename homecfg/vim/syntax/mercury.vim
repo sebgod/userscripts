@@ -336,8 +336,11 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
         \ transparent nextgroup=@mercuryForeignBlock
 
     " C-Style syntax as a basis for C,C# and Java
-  syn keyword mercuryCLikeKeyword if else goto switch case for while do break continue return volatile extern typedef static default contained
-  syn keyword mercuryCLikeType contained void int char long byte unsigned signed struct float double enum
+  syn keyword mercuryCLikeKeyword contained if else goto switch case for while
+  syn keyword mercuryCLikeKeyword contained do break continue return volatile
+  syn keyword mercuryCLikeKeyword contained extern typedef static default
+  syn keyword mercuryCLikeType contained void int char long byte unsigned signed
+  syn keyword mercuryCLikeType contained struct float double enum
   syn match mercuryCLikeDelimiter ";\|," contained
   syn match mercuryCLikeOperator "\v[-!+=*/><~?:%]" contained
   syn match mercuryCLikeOperator "[-!+=*/><]\?=" contained
@@ -385,7 +388,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn keyword mercuryCppLikeConst contained null[ptr]
   syn match mercuryCppLikeOperator "@" contained
   syn match mercuryCppLikeType "\v<((io|runtime)\.(\_\s+)?)?(MR_)[A-Za-z_0-9]+>" contained
-  syn keyword mercuryCppLikeMod contained public private protected internal virtual final readonly volatile transient
+  syn keyword mercuryCppLikeMod contained public private protected internal virtual
+  syn keyword mercuryCppLikeMod contained final readonly volatile transient
   syn cluster mercuryCppLike contains=@mercuryCLike,mercuryCPreProc,mercuryCString,mercuryCppLikeComment,mercuryCppLikeKeyword
   syn cluster mercuryCppLike add=mercuryCppLikeBool,mercuryCppLikeMod,mercuryCppLikeConst,mercuryCppLikeType,mercuryCppLikeOperator
 
@@ -395,7 +399,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
    " Declaration for C#
   syn match mercuryCSharpStringFmt "{[0-9]}" contained
   syn match mercuryCSharpStringFmtEsc "{{\|}}" contained
-  syn keyword mercuryCSharpType contained object string decimal bool uint ulong sbyte ushort
+  syn keyword mercuryCSharpType contained object string decimal bool uint
+  syn keyword mercuryCSharpType contained ulong sbyte ushort
   syn match mercuryCSharpType contained "\v<mr_bool>\."he=e-1 nextgroup=mercuryCSharpBool
   syn match mercuryCSharpBool contained "\v<(YES|NO)>"
   syn match mercuryCSharpType "\v<System\.((IO|Text|Diagnostics)\.)?[A-Z][A-Za-z_0-9]+>"
@@ -454,13 +459,13 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 endif
 
 if !exists("mercury_no_highlight_trailing_whitespace") || !mercury_no_highlight_trailing_whitespace
-  syn match mercuryWhitespace "\v\.?\s+$"
+  syn match mercuryWhitespace "\v\.?[ \t]+[\n]@="
   syn cluster mercuryFormatting add=mercuryWhitespace
 endif
 
   " Comment handling
 syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
-syn match mercuryCommentInfo "\v ((Main |Original )?[Aa]uthor[s]?|File|Created on|Date|Source):" contained
+syn match mercuryCommentInfo contained "\v ((Main |Original )?[Aa]uthor[s]?|File|Created on|Date|Source):"
 syn match mercuryCommentInfo " Stability: " contained nextgroup=@mercuryStability
 syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
