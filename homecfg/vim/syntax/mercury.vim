@@ -13,7 +13,7 @@ let b:current_syntax = "mercury"
 syn case match
 set synmaxcol=90
 
-if has("folding") && !exists("mercury_no_folding") || !mercury_no_folding
+if has("folding") && (!exists("mercury_no_folding") || !mercury_no_folding)
     " folding is only changed (if not forced) if the Vim default (manual) is active,
     " this avoids conflicts with existing user settings
   if (&fdm == "manual") || (exists("mercury_folding_force") && mercury_folding_force)
