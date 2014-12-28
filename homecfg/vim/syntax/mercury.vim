@@ -169,6 +169,7 @@ syn keyword mercuryForeignMod   promise_pure promise_semipure
 syn keyword mercuryForeignMod   tabled_for_io local untrailed trailed
 syn keyword mercuryForeignMod   thread_safe not_thread_safe maybe_thread_safe
 syn keyword mercuryForeignMod   will_not_throw_exception
+syn keyword mercuryForeignMod   terminates
 
 syn keyword mercuryPurity       impure
 syn keyword mercuryPurity       promise_pure
