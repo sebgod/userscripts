@@ -2,7 +2,7 @@
 " Language:     Mercury
 " Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
 " Extensions:   *.m *.moo
-" Last Change:  2014-12-22
+" Last Change:  2014-12-28
 
 if exists("b:current_syntax")
   finish
@@ -46,15 +46,20 @@ endif
   "
   "    let mercury_no_folding = 1
   "
-  " If you want to force the folding setting to indent (despite other setting in the
-  " vimrc file), you can enforce it:
+  " If you want to force the folding setting to indent (despite a different 
+  " setting in the vimrc file), you can enforce it:
   "
   "    let mercury_folding_force = 1
   "
   " To facilitate better git patch management,
-  " spurious whitespace is marked as an error, to suppress these errors, use:
+  " spurious whitespace is marked as a warning, to suppress these, use:
   "
   "   let mercury_no_highlight_trailing_whitespace = 1
+  "
+  " For the same reasons, tabs are marked as a warning,
+  " if you are on the tab side of the "tabs vs spaces" war, please use:
+  "
+  "   let mercury_no_highlight_tabs = 1
   "
   " Highlighting of C,Java,C# and Erlang code is supported by default,
   " disable (if you think loading huge files is slow) with:
@@ -236,9 +241,10 @@ syn match   mercuryOperator     /\v`[^`']+`/ " inlined operator
 syn match   mercuryImplication  "<=>\|<=\|=>"
 syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x\x+|[0-9]+)/
 syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
-syn region  mercuryAtom      start=+'+ skip=+\\'+     end=+'+  contains=mercuryStringEsc,@mercuryFormatting,mercuryEscErr
-syn region  mercuryString    start=+"+ skip=+\\"\|""+ end=+"+
-  \ contains=mercuryStringFmt,mercuryStringEsc,@mercuryFormatting,mercuryEscErr
+syn region  mercuryAtom      start=+'+ skip=+\\'+     end=+'+  contains=mercuryStringEsc,
+      \ @mercuryFormatting,mercuryEscErr
+syn region  mercuryString    start=+"+ skip=+\\"\|""+ end=+"+  contains=mercuryStringFmt,
+      \ mercuryStringEsc,@mercuryFormatting,mercuryEscErr
 syn match   mercuryStringFmt    /%[-+# *.0-9]*[dioxXucsfeEgGp]/       contained
 syn match   mercuryEscErr "\\[uUx]" contained
 syn match   mercuryStringEsc    /\\$/ contained " matching escaped newline
@@ -249,8 +255,8 @@ syn match   mercuryStringEsc    /\v\\x\x+\\/           contained
 syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
   " first matching only a closing bracket, to catch unbalanced brackets
 syn match mercuryMisInAny       "(\|\[{\|}\|\]\|)"
-syn match mercuryMisInAny       "\v\.($|\s+)" contained
-syn match mercuryTerminator     "\v\.($|\s+)"
+syn match mercuryMisInAny       "\v\.(\s+)@=" contained
+syn match mercuryTerminator     "\v\.(\s+)@="
 syn match mercuryOperator       "\.\."        " this comes after the mercuryTerminator
 
   " cf. https://github.com/Twinside/vim-haskellConceal
@@ -352,7 +358,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCLikeCharEsc +\\\\""+ contained
   syn match mercuryCLikeCharEsc /\v\\\\([abfnrtv]|0[0-7]*|[xuU]\x+)/ contained
   syn region mercuryCLikeChar start=+'+ end=+'+ contained contains=mercuryCLikeCharEsc
-  syn cluster mercuryCLike contains=mercuryCLikeKeyword,mercuryCLikeType,mercuryCLikeOperator,mercuryCComment,mercuryCLikeChar
+  syn cluster mercuryCLike contains=mercuryCLikeKeyword,mercuryCLikeType,
+  syn cluster mercuryCLike add=mercuryCLikeOperator,mercuryCComment,mercuryCLikeChar
   syn cluster mercuryCLike add=mercuryNumCode,mercuryFloat,mercuryCLikeBracket
   syn cluster mercuryCLike add=mercuryCLikeDelimiter,mercuryForeignIface
 
@@ -460,7 +467,12 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 endif
 
 if !exists("mercury_no_highlight_trailing_whitespace") || !mercury_no_highlight_trailing_whitespace
-  syn match mercuryWhitespace "\v\.?[ \t]+[\n]@="
+  syn match mercuryWhitespace "\v[ ]+[\n]@="
+  syn cluster mercuryFormatting add=mercuryWhitespace
+endif
+
+if !exists("mercury_no_highlight_tabs") || !mercury_no_highlight_tabs
+  syn match mercuryWhitespace "\t"
   syn cluster mercuryFormatting add=mercuryWhitespace
 endif
 
