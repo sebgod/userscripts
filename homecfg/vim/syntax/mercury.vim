@@ -279,7 +279,6 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
       syn match mercuryOperator  "`subset`"     conceal cchar=⊆
       syn match mercuryOperator  "`superset`"   conceal cchar=⊇
     endif
-    syn match mercuryLogical   "\\+"       conceal cchar=¬
     syn match mercuryOperator  "`x`"       conceal cchar=×
     syn match mercuryOperator  "//"        conceal cchar=÷
 
@@ -292,6 +291,7 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
       syn keyword mercuryNumCode  inf     conceal cchar=∞
       syn keyword mercuryLogical  some    conceal cchar=∃
       syn keyword mercuryLogical  all     conceal cchar=∀
+      syn match mercuryLogical    "\\+"   conceal cchar=¬
     endif
   endif
 endif
