@@ -30,7 +30,7 @@ set suffixes=.exe,.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg
 set pastetoggle=<F2>
 
 " Spelling
-set spell spelllang=en_au
+:setlocal spell spelllang=en_gb
 
 " Mercury related settings
 let mercury_conceal_extra = 1
