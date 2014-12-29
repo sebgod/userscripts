@@ -241,9 +241,9 @@ syn match   mercuryOperator     /\v`[^`']+`/ " inlined operator
 syn match   mercuryImplication  "<=>\|<=\|=>"
 syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x\x+|[0-9]+)/
 syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
-syn region  mercuryAtom      start=+'+ skip=+\\'+     end=+'+  contains=mercuryStringEsc,
+syn region  mercuryAtom    start=+'+ skip=+\\'+   end=+'+ contains=mercuryStringEsc,
       \ @mercuryFormatting,mercuryEscErr
-syn region  mercuryString    start=+"+ skip=+\\"\|""+ end=+"+  contains=mercuryStringFmt,
+syn region  mercuryString  start=+"+ skip=+\\"\|""+ end=+"+ contains=mercuryStringFmt,
       \ mercuryStringEsc,@mercuryFormatting,mercuryEscErr
 syn match   mercuryStringFmt    /%[-+# *.0-9]*[dioxXucsfeEgGp]/       contained
 syn match   mercuryEscErr "\\[uUx]" contained
@@ -253,7 +253,6 @@ syn match   mercuryStringEsc    /\v\\u\x{4}/           contained
 syn match   mercuryStringEsc    /\v\\U00(10|0\x)\x{4}/ contained
 syn match   mercuryStringEsc    /\v\\x\x+\\/           contained
 syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
-syn match   mercuryStringEsc    /\v""/ contained " double escaped quote
   " first matching only a closing bracket, to catch unbalanced brackets
 syn match mercuryMisInAny       "(\|\[{\|}\|\]\|)"
 syn match mercuryMisInAny       "\v\.(\s+)@=" contained
