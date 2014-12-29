@@ -487,7 +487,7 @@ else
   syn match mercuryCopyrightSymbol "\v\([cC]\)|©" contained nextgroup=mercuryCopyrightYear
 endif
 syn match mercuryCommentInfo "\v Copyright " contained nextgroup=mercuryCopyrightSymbol
-syn cluster mercuryCommentDirectives contains=mercuryToDo,mercuryCommentInfo,@mercuryCommentTex
+syn cluster mercuryCommentDirectives contains=@Spell,mercuryToDo,mercuryCommentInfo,@mercuryCommentTex
 syn keyword mercuryStabilityLow    contained low    nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityMedium contained medium nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityHigh   contained high

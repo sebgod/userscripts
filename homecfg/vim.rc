@@ -29,6 +29,9 @@ set history=50
 set suffixes=.exe,.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg,.inx,.out,.toc,.mh,.err,.init
 set pastetoggle=<F2>
 
+" Spelling
+set spell spelllang=en_au
+
 " Mercury related settings
 let mercury_conceal_extra = 1
 if v:version >= 703
