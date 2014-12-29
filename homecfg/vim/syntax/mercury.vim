@@ -253,6 +253,7 @@ syn match   mercuryStringEsc    /\v\\u\x{4}/           contained
 syn match   mercuryStringEsc    /\v\\U00(10|0\x)\x{4}/ contained
 syn match   mercuryStringEsc    /\v\\x\x+\\/           contained
 syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
+syn match   mercuryStringEsc    /\v""/ contained " double escaped quote
   " first matching only a closing bracket, to catch unbalanced brackets
 syn match mercuryMisInAny       "(\|\[{\|}\|\]\|)"
 syn match mercuryMisInAny       "\v\.(\s+)@=" contained
