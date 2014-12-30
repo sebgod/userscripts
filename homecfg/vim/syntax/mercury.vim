@@ -62,7 +62,7 @@ endif
   "
   "   let mercury_no_highlight_tabs = 1
   "
-  " Highlighting of C,Java,C# and Erlang code is supported by default,
+  " Highlighting of C, Java, C# and Erlang code is supported by default,
   " disable (if you think loading huge files is slow) with:
   "
   "   let mercury_no_highlight_foreign = 1
@@ -343,7 +343,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match   mercuryPragmaForeign /\v^\s*:-\s+pragma\s+foreign_(code|proc|decl|type|export(_enum)?|enum|import_module)/
         \ transparent nextgroup=@mercuryForeignBlock
 
-    " C-Style syntax as a basis for C,C# and Java
+    " C-Style syntax as a basis for C, C# and Java
   syn keyword mercuryCLikeKeyword contained if else goto switch case for while
   syn keyword mercuryCLikeKeyword contained do break continue return volatile
   syn keyword mercuryCLikeKeyword contained extern typedef static default
@@ -421,7 +421,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 
     " Declaration for Java
   syn match mercuryJavaType "\v([a-z_0-9]+\.(\_\s+)?)+[A-Z][A-Z_a-z0-9]+" contained
-  syn match mercuryJavaType "\v<(String(Builder)?|Override|Object|Integer|Byte|Short|Float|Double|Void|Boolean|Character|System|Runtime|boolean)>" contained
+  syn match mercuryJavaType "\v<(String(Builder)?|Override|Object|Integer|Byte)>" contained
+  syn match mercuryJavaType "\v<(Short|Float|Double|Void|Boolean|Character|System|Runtime|boolean)>" contained
   syn match mercuryJavaType "\v<bool>\."he=e-1 contained nextgroup=mercuryJavaBool
   syn match mercuryJavaBool contained "\v<(YES|NO)>"
   syn region mercuryJavaCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+
