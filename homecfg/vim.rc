@@ -29,9 +29,6 @@ set history=50
 set suffixes=.exe,.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg,.inx,.out,.toc,.mh,.err,.init
 set pastetoggle=<F2>
 
-" Spelling
-:setlocal spell spelllang=en_gb
-
 " Mercury related settings
 let mercury_conceal_extra = 1
 if v:version >= 703
@@ -68,6 +65,9 @@ if has("multi_byte")
   " but this leads to problems with some pīnyīn characters.
   " setglobal ambiwidth=double
 endif
+
+" Spelling (comes after encoding, to reduce load time, see :help spell)
+:setlocal spell spelllang=en_gb
 
 map <F12> :vertical wincmd f<CR>
 auto BufEnter * :set title | let &titlestring = 'v:' . expand('%')

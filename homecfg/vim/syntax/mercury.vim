@@ -31,6 +31,7 @@ endif
   " The default highlighting for  Mercury comments is to only highlight the
   " initial `%' and subsequent `line' punctuation characters, likewise
   " the /* and */ from C-style comments.
+  " NOTE: If you want spell-checking for comments, you have to set this options
   " To highlight everything including the comment text, add:
   "
   "   let mercury_highlight_full_comment = 1
@@ -242,9 +243,9 @@ syn match   mercuryImplication  "<=>\|<=\|=>"
 syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x\x+|[0-9]+)/
 syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
 syn region  mercuryAtom    start=+'+ skip=+\\'+   end=+'+ contains=mercuryStringEsc,
-      \ @mercuryFormatting,mercuryEscErr
+      \ @Spell,@mercuryFormatting,mercuryEscErr
 syn region  mercuryString  start=+"+ skip=+\\"\|""+ end=+"+ contains=mercuryStringFmt,
-      \ mercuryStringEsc,@mercuryFormatting,mercuryEscErr
+      \ @Spell,mercuryStringEsc,@mercuryFormatting,mercuryEscErr
 syn match   mercuryStringFmt    /%[-+# *.0-9]*[dioxXucsfeEgGp]/       contained
 syn match   mercuryEscErr "\\[uUx]" contained
 syn match   mercuryStringEsc    /\\$/ contained " matching escaped newline
@@ -368,7 +369,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn keyword mercuryCType contained MR_bool MR_Word MR_Integer MR_Unsigned
   syn keyword mercuryCType contained MR_ArrayPtr MR_Float MR_file MercuryFile[Ptr]
   syn keyword mercuryCType contained MR_String MR_ConstString
-  syn match mercuryCType "\v<MR_((Pseudo)?TypeInfo|TypeCtor(Desc|Info)|AllocSiteInfoPtr)|MercuryLock>" contained
+  syn match mercuryCType "\v<MR_((Pseudo)?TypeInfo|Construct_Info|TypeCtor(Desc|Info)|AllocSiteInfoPtr)|MercuryLock>" contained
   syn match mercuryCType "\v<(MR_)?[u]?int(_least|_fast)?(8|16|32|64)_t>" contained
   syn match mercuryForeignIface "\v<(MR_)?[U]?INT(_LEAST|_FAST)?(8|16|32|64)_(TYPE|LENGTH_MODIFIER)>" contained
   syn keyword mercuryCKeyword contained typedef sizeof typeof offsetof
@@ -385,7 +386,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCPreProc "#\(if\(n\?def\)\?\|else\|elif\|endif\|define\|include\|error\|warning\|line\)" contained
   syn match mercuryCPreProc    "\v(\\){1,2}$" contained
   syn match mercuryCStringFmt  /%[I]\?[-+# *.0-9]*[dioxXucsfeEgGp]/ contained
-  syn region mercuryCString start=+""+ end=+""+ contained contains=mercuryCStringFmt,mercuryCLikeCharEsc
+  syn region mercuryCString start=+""+ end=+""+ contained contains=mercuryCStringFmt,mercuryCLikeCharEsc,@Spell
   syn cluster mercuryC contains=@mercuryCLike,mercuryCType,mercuryCKeyword
   syn cluster mercuryC add=mercuryCPreProc,mercuryCString,mercuryCBool,mercuryCConst,mercuryCFunc
 
@@ -498,20 +499,19 @@ syn match mercuryCommentTexDblQuote +``\|''+ contained
 syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
-  syn region  mercuryComment start="%" end=/\v(\S|\s+\S)*$?/ oneline
+  syn region  mercuryComment start=/%/ end=/\v[\n]@=/ oneline
         \ contains=@mercuryCommentDirectives,@mercuryFormatting
   syn region  mercuryCComment       matchgroup=mercuryComment start="/\*" end="\*/"
         \ fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
-  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//"  end=/\v(\S|\s+\S)*$?/
+  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//"  end=/\v[\n]@=/
         \ oneline  contained contains=@mercuryCommentDirectives,@mercuryFormatting
 else
-  syn region  mercuryComment start=+%[-=%*_]*+ matchgroup=NONE end=/\v(\S|\s+\S)*$?/he=s-1
-        \ oneline contains=@mercuryCommentDirectives,@mercuryFormatting
-  syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/"
-        \ transparent fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
-  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//" matchgroup=NONE end=/\v(\S|\s+\S)*$?/
-        \ transparent oneline contained
+  syn region  mercuryComment matchgroup=mercuryComment start=/%[-=%*_]*/ end=/\v[\n]@=/ transparent oneline
         \ contains=@mercuryCommentDirectives,@mercuryFormatting
+  syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/" transparent
+        \ contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
+  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//" end=/\v[\n]@=/ transparent oneline
+        \ contained contains=@mercuryCommentDirectives,@mercuryFormatting
 endif
 
   " Matching the output of the error command in extras
