@@ -31,7 +31,6 @@ endif
   " The default highlighting for  Mercury comments is to only highlight the
   " initial `%' and subsequent `line' punctuation characters, likewise
   " the /* and */ from C-style comments.
-  " NOTE: If you want spell-checking for comments, you have to set this options
   " To highlight everything including the comment text, add:
   "
   "   let mercury_highlight_full_comment = 1
@@ -496,17 +495,22 @@ syn keyword mercuryStabilityHigh   contained high
 syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
 
-syn match mercuryCommentTexDblQuote +``\|''+ contained
-syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote
+syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline contained
+syn region mercuryCommentTexDblQuote start="``" end="''" oneline contained contains=@Spell
+syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote,mercuryCommentTexSingleQuote
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
-  syn region  mercuryComment start=/%/ end=/\v[\n]@=/ oneline
-        \ contains=@mercuryCommentDirectives,@mercuryFormatting
-  syn region  mercuryCComment       matchgroup=mercuryComment start="/\*" end="\*/"
-        \ fold  contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
+  syn region  mercuryComment matchgroup=mercuryComment start=/%/ end=/\v[\n]@=/
+        \ online contains=@mercuryCommentDirectives,@mercuryFormatting
+  syn region  mercuryCComment matchgroup=mercuryComment start="/\*" end="\*/"
+        \ fold contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
   syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//"  end=/\v[\n]@=/
-        \ oneline  contained contains=@mercuryCommentDirectives,@mercuryFormatting
+        \ oneline contained contains=@mercuryCommentDirectives,@mercuryFormatting
 else
+  " if we have transparent comments, we have to set "syn spell",
+  " c.f. :help syn-spell
+  syn spell toplevel
+
   syn region  mercuryComment matchgroup=mercuryComment start=/%[-=%*_]*/ end=/\v[\n]@=/ transparent oneline
         \ contains=@mercuryCommentDirectives,@mercuryFormatting
   syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/" transparent
@@ -547,7 +551,8 @@ hi def link mercuryBracket          mercuryDelimiter
 hi def link mercuryBool             Special
 hi def link mercuryComment          Comment
 hi def link mercuryCommentInfo      Identifier
-hi def link mercuryCommentTexDblQuote  Special
+hi def link mercuryCommentTexDblQuote  String
+hi def link mercuryCommentTexSingleQuote  Special
 hi def link mercuryCopyrightSymbol  Operator
 hi def link mercuryCopyrightYear    Constant
 hi def link mercuryCComment         mercuryComment

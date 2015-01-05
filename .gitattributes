@@ -2,6 +2,7 @@
 * text=auto
 
 *.txt text eol=lf
+*.add text eol=lf
 *.ico binary
 *.jpg binary
 *.png binary
