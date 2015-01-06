@@ -254,9 +254,9 @@ syn match   mercuryStringEsc    /\v\\U00(10|0\x)\x{4}/ contained
 syn match   mercuryStringEsc    /\v\\x\x+\\/           contained
 syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
   " first matching only a closing bracket, to catch unbalanced brackets
-syn match mercuryMisInAny       "(\|\[{\|}\|\]\|)"
+syn match mercuryMisInAny       "(\|\[{\|}\|\]\|)" contained
 syn match mercuryMisInAny       "\v\.(\s+)@=" contained
-syn match mercuryTerminator     "\v\.(\s+)@="
+syn match mercuryTerminator     "\v\.(\s+|$)@="
 syn match mercuryOperator       "\.\."        " this comes after the mercuryTerminator
 
   " cf. https://github.com/Twinside/vim-haskellConceal
