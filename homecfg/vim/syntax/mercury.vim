@@ -66,6 +66,11 @@ endif
   "
   "   let mercury_no_highlight_foreign = 1
   "
+  " Enable highlighting of Tex specific directives used in comments,
+  " such as `' or ``'':
+  "
+  "   let mercury_highlight_tex = 1
+  "
   " If you use Vim 7.3+ with conceal enabled but do not want concealing of
   " mathematical operators, use:
   "
@@ -488,16 +493,19 @@ else
   syn match mercuryCopyrightSymbol "\v\([cC]\)|©" contained nextgroup=mercuryCopyrightYear
 endif
 syn match mercuryCommentInfo "\v Copyright " contained nextgroup=mercuryCopyrightSymbol
-syn cluster mercuryCommentDirectives contains=@Spell,mercuryToDo,mercuryCommentInfo,@mercuryCommentTex
+syn cluster mercuryCommentDirectives contains=@Spell,mercuryToDo,mercuryCommentInfo
 syn keyword mercuryStabilityLow    contained low    nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityMedium contained medium nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityHigh   contained high
 syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
 
-syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline contained
-syn region mercuryCommentTexDblQuote start="``" end="''" oneline contained contains=@Spell
-syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote,mercuryCommentTexSingleQuote
+if exists("mercury_highlight_tex") && mercury_highlight_tex
+  syn cluster mercuryCommentDirectives add=@mercuryCommentTex
+  syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline contained
+  syn region mercuryCommentTexDblQuote start="``" end="''" oneline contained contains=@Spell
+  syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote,mercuryCommentTexSingleQuote
+endif
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
   syn region  mercuryComment matchgroup=mercuryComment start=/%/ end=/\v[\n]@=/
@@ -551,8 +559,10 @@ hi def link mercuryBracket          mercuryDelimiter
 hi def link mercuryBool             Special
 hi def link mercuryComment          Comment
 hi def link mercuryCommentInfo      Identifier
-hi def link mercuryCommentTexDblQuote  String
-hi def link mercuryCommentTexSingleQuote  Special
+if exists("mercury_highlight_tex") && mercury_highlight_tex
+  hi def link mercuryCommentTexDblQuote  String
+  hi def link mercuryCommentTexSingleQuote  Special
+endif
 hi def link mercuryCopyrightSymbol  Operator
 hi def link mercuryCopyrightYear    Constant
 hi def link mercuryCComment         mercuryComment
