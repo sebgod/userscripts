@@ -27,4 +27,4 @@ $=start /b /wait cmd /c $*
 gmake=%MAKE% $*
 ag=ag --color $*
 agm=ag --color --mercury $*
-bm=%MAKE% MMC=%MERCURY_HOME:\=/%/bin/mmc $*
+make=%MAKE% MMC=%MERCURY_HOME:\=/%/bin/mmc $*
