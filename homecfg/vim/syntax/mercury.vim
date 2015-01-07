@@ -360,8 +360,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCLikeOperator "|\{1,2}\|&\{1,2}" contained
   syn match mercuryCLikeBracket  "\[\|]" contained
   syn match mercuryCLikeBracket  "\v[{}()]" contained
-  syn match mercuryCLikeCharEsc +\\\\""+ contained
   syn match mercuryCLikeCharEsc /\v\\\\([abfnrtv]|0[0-7]*|[xuU]\x+)?/ contained
+  syn match mercuryCLikeCharEsc +\\\\""+ contained
   syn region mercuryCLikeChar start=+'+ end=+'+ contained contains=mercuryCLikeCharEsc
   syn cluster mercuryCLike contains=mercuryCLikeKeyword,mercuryCLikeType,
   syn cluster mercuryCLike add=mercuryCLikeOperator,mercuryCComment,mercuryCLikeChar
