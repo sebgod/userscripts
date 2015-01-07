@@ -361,7 +361,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCLikeBracket  "\[\|]" contained
   syn match mercuryCLikeBracket  "\v[{}()]" contained
   syn match mercuryCLikeCharEsc +\\\\""+ contained
-  syn match mercuryCLikeCharEsc /\v\\\\([abfnrtv]|0[0-7]*|[xuU]\x+)/ contained
+  syn match mercuryCLikeCharEsc /\v\\\\([abfnrtv]|0[0-7]*|[xuU]\x+)?/ contained
   syn region mercuryCLikeChar start=+'+ end=+'+ contained contains=mercuryCLikeCharEsc
   syn cluster mercuryCLike contains=mercuryCLikeKeyword,mercuryCLikeType,
   syn cluster mercuryCLike add=mercuryCLikeOperator,mercuryCComment,mercuryCLikeChar
@@ -391,6 +391,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCPreProc    "\v(\\){1,2}$" contained
   syn match mercuryCStringFmt  /%[I]\?[-+# *.0-9]*[dioxXucsfeEgGp]/ contained
   syn region mercuryCString start=+""+ end=+""+ contained contains=mercuryCStringFmt,mercuryCLikeCharEsc,@Spell
+  syn region mercuryCString start=+\v\\"+ end=+\v\\"+ contained contains=mercuryCStringFmt,mercuryCLikeCharEsc,@Spell
   syn cluster mercuryC contains=@mercuryCLike,mercuryCType,mercuryCKeyword
   syn cluster mercuryC add=mercuryCPreProc,mercuryCString,mercuryCBool,mercuryCConst,mercuryCFunc
 
@@ -417,8 +418,10 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCSharpType contained "\v<mr_bool>\."he=e-1 nextgroup=mercuryCSharpBool
   syn match mercuryCSharpBool contained "\v<(YES|NO)>"
   syn match mercuryCSharpType "\v<System\.((IO|Text|Diagnostics)\.)?[A-Z][A-Za-z_0-9]+>"
-  syn region mercuryCSharpString start=+""+ end=+""+ contained contains=mercuryCLikeCharEsc,mercuryCSharpStringFmt,
-        \ mercuryCSharpStringFmtEsc
+  syn region mercuryCSharpString start=+""+ end=+""+ contained contains=mercuryCLikeCharEsc,
+        \ mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc
+  syn region mercuryCSharpString start=+\v\\"+ end=+\v\\"+ contained contains=mercuryCLikeCharEsc,
+        \ mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc
   syn cluster mercuryCSharp contains=@mercuryCppLike,mercuryCSharpString,mercuryCSharpType
   syn region mercuryCSharpCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained
         \ contains=@mercuryCSharp
@@ -445,6 +448,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryErlangOperator "\v[?]" contained
   syn match mercuryErlangLogical "\v[,;.]" contained
   syn region mercuryErlangString start=+""+ end=+""+ contained
+  syn region mercuryErlangString start=+\v\\"+ end=+\v\\"+ contained
   syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
         \ mercuryCLikeChar,mercuryNumCode,mercuryErlangExtNumLiteral,mercuryFloat,mercuryComment,mercuryKeyword,
         \ mercuryErlangKeyword, mercuryErlangOperator, mercuryCComment,mercuryErlangBool,
