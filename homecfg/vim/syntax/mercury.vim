@@ -531,9 +531,9 @@ else
     " NOTE: the regions itself are not highlighted, just their start/end
     " tokens, this is needed in order to fake "transparent", which could be used
     " instead but does not support @Spell as a side-effect
-  hi def link mercuryComment        NONE
-  hi def link mercuryCComment       NONE
-  hi def link mercuryCppLikeComment NONE
+  hi def link mercuryComment        Normal
+  hi def link mercuryCComment       Normal
+  hi def link mercuryCppLikeComment Normal
   hi def link mercuryLeadTrailStar  Comment
 
   syn match mercuryLeadTrailStar contained "^\v[ \t]*[*]+|[*]+$"
