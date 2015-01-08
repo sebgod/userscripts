@@ -1,8 +1,8 @@
-" vim: ft=vim tw=2 sw=2 et
+" vim: ft=vim ts=2 tw=78 sw=2 et
 " Language:    Modula 2
 " Maintainer:  Sebastian Godelet <sebastian.godelet+github@gmail.com>
 " Extension:   *.mod *.def
-" Last Change: 2014-07-19
+" Last Change: 2015-01-08
 "
 
 if version < 600
@@ -137,6 +137,3 @@ hi def link modula2Warning         ToDo
 
 syn sync fromstart
 let b:current_syntax = "modula2ex"
-
-" vim: ts=8 sw=2
-
