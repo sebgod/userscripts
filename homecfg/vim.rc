@@ -39,6 +39,9 @@ if v:version >= 703
   set fo+=q " enable tq feature
 endif
 
+" Markdown related settings using mkd.vim
+let g:vim_markdown_initial_foldlevel=1
+
 " disable that annoying visual/audible bell
 set noerrorbells
 set novisualbell
