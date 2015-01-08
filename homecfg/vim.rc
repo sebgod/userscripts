@@ -30,7 +30,9 @@ set suffixes=.exe,.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg
 set pastetoggle=<F2>
 
 " Mercury related settings
-let mercury_conceal_extra = 1
+let g:mercury_conceal_extra = 1
+let g:mercury_highlight_tex = 1
+
 if v:version >= 703
   set colorcolumn=+1
   set fo-=t " do not automatically wrap text
