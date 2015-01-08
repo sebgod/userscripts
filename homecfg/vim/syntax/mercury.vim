@@ -335,7 +335,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
   syn cluster mercuryForeign contains=mercuryForeignModList,mercuryCInterface,
         \ mercuryKeyword,mercuryOperator,
-        \ mercuryAtom,mercuryComment,mercuryDelimiter,mercurySingleton,
+        \ mercuryAtom,@mercuryComments,mercuryDelimiter,mercurySingleton,
         \ @mercuryFormatting,mercuryForeignId
 
   syn region  mercuryForeignCBlock       matchgroup=mercuryBracket start=/\v\(("C"|c)/rs=s+1 end=')'
@@ -425,9 +425,9 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCSharpBool contained "\v<(YES|NO)>"
   syn match mercuryCSharpType "\v<System\.((IO|Text|Diagnostics)\.)?[A-Z][A-Za-z_0-9]+>"
   syn region mercuryCSharpString start=+""+ end=+""+ contained contains=mercuryCLikeCharEsc,
-        \ mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc
+        \ mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc,@Spell
   syn region mercuryCSharpString start=+\v\\"+ end=+\v\\"+ contained contains=mercuryCLikeCharEsc,
-        \ mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc
+        \ mercuryCSharpStringFmt,mercuryCSharpStringFmtEsc,@Spell
   syn cluster mercuryCSharp contains=@mercuryCppLike,mercuryCSharpString,mercuryCSharpType
   syn region mercuryCSharpCode matchgroup=mercuryString start=+"+ skip=+""+ end=+"+ transparent fold contained
         \ contains=@mercuryCSharp
@@ -453,8 +453,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryErlangExtNumLiteral "\v([2-9]|[12][0-9]|3[0-6])#[A-Za-z0-9]+" contained
   syn match mercuryErlangOperator "\v[?]" contained
   syn match mercuryErlangLogical "\v[,;.]" contained
-  syn region mercuryErlangString start=+""+ end=+""+ contained
-  syn region mercuryErlangString start=+\v\\"+ end=+\v\\"+ contained
+  syn region mercuryErlangString start=+""+ end=+""+ contained contains=@Spell
+  syn region mercuryErlangString start=+\v\\"+ end=+\v\\"+ contained contains=@Spell
   syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
         \ mercuryCLikeChar,mercuryNumCode,mercuryErlangExtNumLiteral,mercuryFloat,mercuryComment,mercuryKeyword,
         \ mercuryErlangKeyword, mercuryErlangOperator, mercuryCComment,mercuryErlangBool,
@@ -493,7 +493,6 @@ if !exists("mercury_no_highlight_tabs") || !mercury_no_highlight_tabs
 endif
 
   " Comment handling
-syn match mercuryCCommentPrefix "\v^\s*[*]{1,2}(\s+|$)" contained
 syn match mercuryCommentInfo contained "\v ((Main |Original )?[Aa]uthor[s]?|File|Created on|Date|Source):"
 syn match mercuryCommentInfo " Stability: " contained nextgroup=@mercuryStability
 syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
@@ -518,35 +517,44 @@ if exists("mercury_highlight_tex") && mercury_highlight_tex
 endif
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
-  syn region  mercuryComment matchgroup=mercuryComment start=/%/ end=/\v[\n]@=/
-        \ online contains=@mercuryCommentDirectives,@mercuryFormatting
-  syn region  mercuryCComment matchgroup=mercuryComment start="/\*" end="\*/"
-        \ fold contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
-  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//"  end=/\v[\n]@=/
-        \ oneline contained contains=@mercuryCommentDirectives,@mercuryFormatting
-else
-  " if we have transparent comments, we have to set "syn spell",
-  " c.f. :help syn-spell
-  syn spell toplevel
+  hi def link mercuryComment        Comment
+  hi def link mercuryCComment       Comment
+  hi def link mercuryCppLikeComment Comment
 
-  syn region  mercuryComment matchgroup=mercuryComment start=/%[-=%*_]*/ end=/\v[\n]@=/ transparent oneline
+  syn region mercuryComment start=/%/ end=/\v[\n]@=/ oneline contains=
+        \ @mercuryCommentDirectives,@mercuryFormatting
+  syn region mercuryCComment start="/\*" end="\*/" fold contains=
+        \ @mercuryCommentDirectives,@mercuryFormatting
+  syn region mercuryCppLikeComment start="//" end=/\v[\n]@=/ oneline contained contains=
+        \ @mercuryCommentDirectives,@mercuryFormatting
+else
+    " NOTE: the regions itself are not highlighted, just their start/end
+    " tokens, this is needed in order to fake "transparent", which could be used
+    " instead but does not support @Spell as a side-effect
+  hi def link mercuryComment        NONE
+  hi def link mercuryCComment       NONE
+  hi def link mercuryCppLikeComment NONE
+  hi def link mercuryLeadTrailStar  Comment
+
+  syn match mercuryLeadTrailStar contained "^\v[ \t]*[*]+|[*]+$"
+  syn region mercuryComment matchgroup=mercuryCommentToken start=/%[-=%*_]*/ end=/\v[\n]@=/ oneline
         \ contains=@mercuryCommentDirectives,@mercuryFormatting
-  syn region  mercuryCComment matchgroup=mercuryComment start="\v/\*([-*]+$){0,1}" end="[-*]*\*/" transparent
-        \ contains=@mercuryCommentDirectives,mercuryCCommentPrefix,@mercuryFormatting
-  syn region  mercuryCppLikeComment matchgroup=mercuryComment start="//" end=/\v[\n]@=/ transparent oneline
+  syn region mercuryCComment matchgroup=mercuryCommentToken start="\v/\*" end="\v[*]+/" keepend fold
+        \ contains=@mercuryCommentDirectives,mercuryLeadTrailStar,@mercuryFormatting
+  syn region mercuryCppLikeComment matchgroup=mercuryCommentToken start="//" end=/\v[\n]@=/ oneline
         \ contained contains=@mercuryCommentDirectives,@mercuryFormatting
 endif
 
-  " Matching the output of the error command in extras
+" Matching the output of the error command in extras
 syn region  mercuryCComment  matchgroup=mercuryError start="/\* ###" end="\v[^*]+\*/" oneline
 
   " Matching Vim modeline
 syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\=" contained
 syn match mercuryModelineParam "\vet|expandtab" contained
 syn match mercuryModelineValue "\<\(mercury\|unix\)\>" contained
-syn region mercuryModeline matchgroup=mercuryComment  start="% vim:" end=+$+
+syn region mercuryModeline matchgroup=mercuryCommentToken  start="% vim:" end=+$+
       \ oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
-syn region mercuryShebang matchgroup=mercuryComment  start="^\%1l#!/" end=/\v.+$/     oneline
+syn region mercuryShebang matchgroup=mercuryCommentToken  start="^\%1l#!/" end=/\v.+$/ oneline
 
   " Matching overlong lines
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
@@ -567,7 +575,7 @@ hi def link mercurySingleton        Identifier
 hi def link mercuryAtom             Constant
 hi def link mercuryBracket          mercuryDelimiter
 hi def link mercuryBool             Special
-hi def link mercuryComment          Comment
+hi def link mercuryCommentToken     Comment
 hi def link mercuryCommentInfo      Identifier
 if exists("mercury_highlight_tex") && mercury_highlight_tex
   hi def link mercuryCommentTexDblQuote  String
@@ -575,8 +583,6 @@ if exists("mercury_highlight_tex") && mercury_highlight_tex
 endif
 hi def link mercuryCopyrightSymbol  Operator
 hi def link mercuryCopyrightYear    Constant
-hi def link mercuryCComment         mercuryComment
-hi def link mercuryCCommentPrefix   mercuryComment
 hi def link mercuryCInterface       mercuryPragma
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   hi def link mercuryForeignId        Identifier
