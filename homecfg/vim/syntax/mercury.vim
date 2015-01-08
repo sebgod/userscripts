@@ -71,8 +71,8 @@ endif
   "
   "   let mercury_highlight_tex = 1
   "
-  " If you use Vim 7.3+ with conceal enabled but do not want concealing of
-  " mathematical operators, use:
+  " If you use Vim 7.3+ with conceal enabled but do not want any concealing
+  " of operators, use:
   "
   "   let mercury_no_coneal = 1
   "
@@ -82,7 +82,7 @@ endif
   "   let mercury_conceal_extra = 1
   "
   " If concealing of extra characters is enabled, one can additionally
-  " enable concealing for logical operators, such as <=> => <= some inf
+  " enable concealing for logical operators, such as <=> => <= some all
   " by setting:
   "
   "   let mercury_conceal_logical = 1
@@ -272,10 +272,10 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   hi clear Conceal
   hi def link Conceal mercuryOperator
   set conceallevel=2
+
+    " A crude but simple "solution" to the compose operator problem
   syn match mercuryOperator  "`compose`" conceal cchar=o
-  syn match mercuryOperator  ">="        conceal cchar=≥
-  syn match mercuryOperator  "=<"        conceal cchar=≤
-  syn match mercuryOperator  "\\="       conceal cchar=≠
+
   if exists("mercury_conceal_extra") && mercury_conceal_extra
       " these characters only display properly on some machines if
       " setglobal ambiw=double
@@ -293,6 +293,10 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
       syn match mercuryOperator  "`subset`"     conceal cchar=⊆
       syn match mercuryOperator  "`superset`"   conceal cchar=⊇
     endif
+      " This avoids confusion of =< and =>
+    syn match mercuryOperator  ">="        conceal cchar=≥
+    syn match mercuryOperator  "=<"        conceal cchar=≤
+    syn match mercuryOperator  "\\="       conceal cchar=≠
     syn match mercuryOperator  "`x`"       conceal cchar=×
     syn match mercuryOperator  "//"        conceal cchar=÷
 
