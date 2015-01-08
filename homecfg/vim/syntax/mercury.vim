@@ -2,7 +2,7 @@
 " Language:     Mercury
 " Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
 " Extensions:   *.m *.moo
-" Last Change:  2014-12-28
+" Last Change:  2015-01-08
 
 if exists("b:current_syntax")
   finish
@@ -46,7 +46,7 @@ endif
   "
   "    let mercury_no_folding = 1
   "
-  " If you want to force the folding setting to indent (despite a different 
+  " If you want to force the folding setting to indent (despite a different
   " setting in the vimrc file), you can enforce it:
   "
   "    let mercury_folding_force = 1
