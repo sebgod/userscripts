@@ -246,11 +246,12 @@ syn match   mercuryOperator     /\v`[^`']+`/ " inlined operator
 syn match   mercuryImplication  "<=>\|<=\|=>"
 syn match   mercuryNumCode /\v<(0'.|0b[01]+|0o[0-7]+|0x\x+|[0-9]+)/
 syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
-syn region  mercuryAtom    start=+'+ skip=+\\'+   end=+'+ contains=mercuryStringEsc,
-      \ @Spell,@mercuryFormatting,mercuryEscErr
+syn region  mercuryAtom    start=+'+ skip=+\\'+   end=+'+ contains=
+      \ mercuryStringEsc,@mercuryFormatting,mercuryEscErr,@Spell
 syn match   mercuryStringEsc    /""/ contained " must come before mercuryString
-syn region  mercuryString  start=+"+ skip=+\\"\|""+ end=+"+ keepend contains=mercuryStringFmt,
-      \ @Spell,mercuryStringEsc,@mercuryFormatting,mercuryEscErr,mercuryStringEsc
+syn region  mercuryString  start=+"+ skip=+\\"\|""+ end=+"+ keepend contains=
+      \ mercuryStringFmt,mercuryStringEsc,@mercuryFormatting,
+      \ mercuryEscErr,mercuryStringEsc,@Spell
 syn match   mercuryString       /""/  " matches the empty string (instead of escape)
 syn match   mercuryStringFmt    /%[-+# *.0-9]*[dioxXucsfeEgGp]/       contained
 syn match   mercuryEscErr       "\\[uUx]" contained " must come before \\u\x{4}
