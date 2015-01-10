@@ -565,7 +565,7 @@ endif
 
   " Clear all syntax (this is maybe not needed for newer versions of Vim
 syn sync clear
-  " sync on a comment start, this assumes that no line comment is withing a
+  " sync on a comment start, this assumes that no line comment is within a
   " C-style comment
 syn sync match mercurySync grouphere NONE "\v^[%]"
 
