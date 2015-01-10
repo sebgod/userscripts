@@ -563,13 +563,11 @@ if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn cluster mercuryFormatting add=mercuryTooLong
 endif
 
-   " XXX: syn sync fromstart is the safest operation, which can cover
-   " arbitrary large string literals, but it is also the slowest option for
-   " huge source files, e.g. library/io.m.
-   " One could use a comment line for synchronization
-   " using "syn sync match"-magic
+  " Clear all syntax (this is maybe not needed for newer versions of Vim
 syn sync clear
-syn sync fromstart
+  " sync on a comment start, this assumes that no line comment is withing a
+  " C-style comment
+syn sync match mercurySync grouphere NONE "\v^[%]"
 
 hi def link mercuryAccess           Identifier
 hi def link mercurySingleton        Identifier
