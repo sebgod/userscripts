@@ -18,6 +18,7 @@ set mouse=a
 set modeline
 if exists('+relativenumber')
    set rnu
+   set nuw=1
    if v:version > 703
      set number
    endif
