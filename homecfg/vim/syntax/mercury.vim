@@ -237,6 +237,7 @@ syn match   mercuryOperator     "![:.]\?"    " State variable accessors
 syn match   mercuryImplication  ";"          " Disjunction
 syn match   mercuryOperator     "+"          " addition operator or unary plus
 syn match   mercuryOperator     "++"         " concatenation
+syn match   mercuryOperator     ":"
 syn match   mercuryOperator     "::"         " Type/Mode specifier
 syn match   mercuryOperator     "&"          " Parallel conjuction
 syn match   mercuryOperator     "?-"         " Prolog compatability
