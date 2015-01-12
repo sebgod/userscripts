@@ -263,9 +263,9 @@ syn match   mercuryStringEsc    /\v\\U00(10|0\x)\x{4}/ contained
 syn match   mercuryStringEsc    /\v\\x\x+\\/           contained
 syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
   " first matching only a closing bracket, to catch unbalanced brackets
-syn match mercuryMisInAny       "(\|\[{\|}\|\]\|)" contained
-syn match mercuryMisInAny       "\v\.(\s+)@=" contained
-syn match mercuryTerminator     "\v\.(\s+|$)@="
+syn match mercuryMissInAny       "(\|\[{\|}\|\]\|)" contained
+syn match mercuryMissInAny      "\v\.(\s+|$)@=" contained
+syn match mercuryTerminator     "\v\.(\s+|$)@=" " comes after mercuryMissInAny
 syn match mercuryOperator       "\.\."        " this comes after the mercuryTerminator
 
   " cf. https://github.com/Twinside/vim-haskellConceal
@@ -324,7 +324,7 @@ syn cluster mercuryComments contains=mercuryComment,mercuryCComment
   " for matching of parens, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
       \ mercuryAtom,mercuryNumCode,mercuryFloat,@mercuryComments,mercuryKeyword,mercuryImplKeyword,
-      \ @mercuryFormatting,mercuryMisInAny,mercuryBool,mercuryOperator,
+      \ @mercuryFormatting,mercuryMissInAny,mercuryBool,mercuryOperator,
       \ mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical,mercuryPurity
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction
@@ -639,7 +639,7 @@ hi def link mercuryForeignIface     Identifier
 hi def link mercuryImplication      Special
 hi def link mercuryLogical          Special
 hi def link mercuryEscErr           ErrorMsg
-hi def link mercuryMisInAny         ErrorMsg
+hi def link mercuryMissInAny        ErrorMsg
 hi def link mercuryOperator         Operator
 hi def link mercuryInlined          Operator
 hi mercuryStabilityLow     ctermfg=red        guifg=red
