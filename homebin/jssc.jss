@@ -49,8 +49,9 @@ function Compile(file : FileInfo) {
 
             var target : String;
             var jsscNamePattern : String = "_jssc_{0}.exe";
+            var jsscWildcard : String = String.Format(jsscNamePattern, "*");
             var jsscAll : String =
-                '"' + Path.Combine("%TEMP%", String.Format(jsscNamePattern, "*")) + '"';
+                '"' + Path.Combine("%TEMP%", jsscWildcard) + '"';
             if (isSelf) {
                 target = Path.Combine("%TEMP%",
                         String.Format(jsscNamePattern, "%ID%"));
