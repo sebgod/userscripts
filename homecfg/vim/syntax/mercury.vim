@@ -505,12 +505,17 @@ else
   syn match mercuryCopyrightSymbol "\v\([cC]\)|©" contained nextgroup=mercuryCopyrightYear
 endif
 syn match mercuryCommentInfo "\v Copyright " contained nextgroup=mercuryCopyrightSymbol
-syn cluster mercuryCommentDirectives contains=@Spell,mercuryToDo,mercuryCommentInfo
+  " Highlights the output of the Mercury error command (in extras)
+syn match mercuryCommentErr "\v(\* )@<=###[ ]@=" contained
+
+  " Indicates stability of the module with colours (red -> green)
 syn keyword mercuryStabilityLow    contained low    nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityMedium contained medium nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityHigh   contained high
 syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
+
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
+syn cluster mercuryCommentDirectives contains=@Spell,mercuryToDo,mercuryCommentInfo
 
 if exists("mercury_highlight_tex") && mercury_highlight_tex
   syn cluster mercuryCommentDirectives add=@mercuryCommentTex
@@ -527,7 +532,7 @@ if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
   syn region mercuryComment start=/%/ end=/\v[\n]@=/ oneline contains=
         \ @mercuryCommentDirectives,@mercuryFormatting
   syn region mercuryCComment start="/\*" end="\*/" fold contains=
-        \ @mercuryCommentDirectives,@mercuryFormatting
+        \ @mercuryCommentDirectives,@mercuryFormatting,mercuryCommentErr
   syn region mercuryCppLikeComment start="//" end=/\v[\n]@=/ oneline contained contains=
         \ @mercuryCommentDirectives,@mercuryFormatting
 else
@@ -543,7 +548,8 @@ else
   syn region mercuryComment matchgroup=mercuryCommentToken start=/%[-=%*_]*/ end=/\v[\n]@=/ oneline
         \ contains=@mercuryCommentDirectives,@mercuryFormatting
   syn region mercuryCComment matchgroup=mercuryCommentToken start="\v/\*" end="\v[*]+/" keepend fold
-        \ contains=@mercuryCommentDirectives,mercuryLeadTrailStar,@mercuryFormatting
+        \ contains=@mercuryCommentDirectives,mercuryLeadTrailStar,@mercuryFormatting,
+        \ mercuryCommentErr
   syn region mercuryCppLikeComment matchgroup=mercuryCommentToken start="//" end=/\v[\n]@=/ oneline
         \ contained contains=@mercuryCommentDirectives,@mercuryFormatting
 endif
@@ -573,6 +579,7 @@ hi def link mercurySingleton        Identifier
 hi def link mercuryAtom             Constant
 hi def link mercuryBracket          Delimiter
 hi def link mercuryBool             Special
+hi def link mercuryCommentErr       ErrorMsg
 hi def link mercuryCommentToken     Comment
 hi def link mercuryCommentInfo      Identifier
 if exists("mercury_highlight_tex") && mercury_highlight_tex
