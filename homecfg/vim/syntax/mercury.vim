@@ -250,26 +250,27 @@ syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
 syn region  mercuryAtom    start=+'+ skip=+\\'+   end=+'+ contains=
       \ mercuryStringEsc,@mercuryFormatting,mercuryEscErr,@Spell
 syn match   mercuryStringEsc    /""/ contained " must come before mercuryString
-syn region  mercuryString  start=+"+ skip=+\\"\|""+ end=+"+ keepend contains=
+syn region  mercuryString  start=+"+ skip=/\v(\\x?\x+)@<!\\"|""/ end=+"+ keepend contains=
       \ mercuryStringFmt,mercuryStringEsc,@mercuryFormatting,
       \ mercuryEscErr,mercuryStringEsc,@Spell
 syn match   mercuryString       /""/  " matches the empty string (instead of escape)
 syn match   mercuryStringFmt    /%[-+# *.0-9]*[dioxXucsfeEgGp]/       contained
-syn match   mercuryEscErr       "\\[uUx]" contained " must come before \\u\x{4}
-syn match   mercuryStringEsc    /\\$/ contained " matching escaped newline
+  " mercury*Esc are common to "mercuryAtom" and "mercuryString"
+syn match   mercuryEscErr       /\v\\[uUx]/ contained " must come before \\u\x{4}
+syn match   mercuryEscErr       /\v\\0/     contained " \0 literals are not allowed
+syn match   mercuryStringEsc    /\\$/       contained " matching escaped newline
 syn match   mercuryStringEsc    /\v\\[abfnrtv\\"]/     contained
 syn match   mercuryStringEsc    /\v\\u\x{4}/           contained
 syn match   mercuryStringEsc    /\v\\U00(10|0\x)\x{4}/ contained
 syn match   mercuryStringEsc    /\v\\x\x+\\/           contained
 syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
-  " first matching only a closing bracket, to catch unbalanced brackets
-syn match mercuryMissInAny       "(\|\[{\|}\|\]\|)" contained
-syn match mercuryMissInAny      "\v\.(\s+|$)@=" contained
-syn match mercuryTerminator     "\v\.(\s+|$)@=" " comes after mercuryMissInAny
-syn match mercuryOperator       "\.\."        " this comes after the mercuryTerminator
+  " matching unbalanced brackets (before "mercuryTerm", "mercuryBlock", ...)
+syn match mercuryErrInAny       "(\|\[{\|}\|\]\|)"     contained
+syn match mercuryTerminator     "\v\.(\s+|$)@=" " after mercuryErrInAny
+syn match mercuryOperator       "\.\."          " after mercuryTerminator
 
-  " cf. https://github.com/Twinside/vim-haskellConceal
-  " cf. http://rapidtables.com/math/symbols/Basic_Math_Symbols.htm
+  " see "https://github.com/Twinside/vim-haskellConceal"
+  " see "http://rapidtables.com/math/symbols/Basic_Math_Symbols.htm"
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   hi clear Conceal
   hi def link Conceal mercuryOperator
@@ -324,7 +325,7 @@ syn cluster mercuryComments contains=mercuryComment,mercuryCComment
   " for matching of parens, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
       \ mercuryAtom,mercuryNumCode,mercuryFloat,@mercuryComments,mercuryKeyword,mercuryImplKeyword,
-      \ @mercuryFormatting,mercuryMissInAny,mercuryBool,mercuryOperator,
+      \ @mercuryFormatting,mercuryErrInAny,mercuryBool,mercuryOperator,
       \ mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical,mercuryPurity
 syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms
 syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction
@@ -547,9 +548,6 @@ else
         \ contained contains=@mercuryCommentDirectives,@mercuryFormatting
 endif
 
-" Matching the output of the error command in extras
-syn region  mercuryCComment  matchgroup=mercuryError start="/\* ###" end="\v[^*]+\*/" oneline
-
   " Matching Vim modeline
 syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\=" contained
 syn match mercuryModelineParam "\vet|expandtab" contained
@@ -568,12 +566,12 @@ endif
 syn sync clear
   " sync on a comment start, this assumes that no line comment is within a
   " C-style comment
-syn sync match mercurySync grouphere NONE "\v^[%]"
+syn sync match mercurySync grouphere NONE "\v^[%]------"
 
 hi def link mercuryAccess           Identifier
 hi def link mercurySingleton        Identifier
 hi def link mercuryAtom             Constant
-hi def link mercuryBracket          mercuryDelimiter
+hi def link mercuryBracket          Delimiter
 hi def link mercuryBool             Special
 hi def link mercuryCommentToken     Comment
 hi def link mercuryCommentInfo      Identifier
@@ -592,7 +590,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   hi def link mercuryCLikeCharEsc     mercuryStringEsc
   hi def link mercuryCLikeDelimiter   mercuryDelimiter
   hi def link mercuryCLikeKeyword     Keyword
-  hi def link mercuryCLikeString      mercuryString
+  hi def link mercuryCLikeString      String
   hi def link mercuryCppLikeType      Type
   hi def link mercuryCLikeType        Type
   hi def link mercuryCBool            mercuryBool
@@ -607,11 +605,11 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   hi def link mercuryCppLikeKeyword   Keyword
   hi def link mercuryCppLikeMod       mercuryAccess
   hi def link mercuryCppLikeOperator  mercuryOperator
-  hi def link mercuryCString          mercuryString
+  hi def link mercuryCString          String
   hi def link mercuryCSharpBool       mercuryBool
-  hi def link mercuryCSharpString     mercuryString
+  hi def link mercuryCSharpString     String
   hi def link mercuryCSharpStringFmt  mercuryStringFmt
-  hi def link mercuryCSharpStringFmtEsc Identifier
+  hi def link mercuryCSharpStringFmtEsc mercuryStringEsc
   hi def link mercuryCSharpType       Type
   hi def link mercuryJavaBool         mercuryBool
   hi def link mercuryJavaType         Type
@@ -620,11 +618,10 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   hi def link mercuryErlangOperator   Operator
   hi def link mercuryErlangBool       mercuryBool
   hi def link mercuryErlangExtNumLiteral Number
-  hi def link mercuryErlangString     mercuryString
+  hi def link mercuryErlangString     String
   hi def link mercuryErlangLogical    mercuryLogical
 endif
 hi def link mercuryDelimiter        Delimiter
-hi def link mercuryError            ErrorMsg
 hi def link mercuryPurity           Special
 hi def link mercuryImplKeyword      Identifier
 hi def link mercuryKeyword          Keyword
@@ -634,12 +631,12 @@ hi def link mercuryNumCode          Number
 hi def link mercuryFloat            Float
 hi def link mercuryPragma           PreProc
 hi def link mercuryForeignMod       mercuryForeignIface
-hi def link mercuryForeignOperator  mercuryOperator
+hi def link mercuryForeignOperator  Operator
 hi def link mercuryForeignIface     Identifier
 hi def link mercuryImplication      Special
 hi def link mercuryLogical          Special
 hi def link mercuryEscErr           ErrorMsg
-hi def link mercuryMissInAny        ErrorMsg
+hi def link mercuryErrInAny         ErrorMsg
 hi def link mercuryOperator         Operator
 hi def link mercuryInlined          Operator
 hi mercuryStabilityLow     ctermfg=red        guifg=red
@@ -650,7 +647,7 @@ hi def link mercuryString           String
 hi def link mercuryStringEsc        Identifier
 hi def link mercuryStringFmt        Special
 hi def link mercuryToDo             Todo
-hi def link mercuryTooLong          mercuryError
+hi def link mercuryTooLong          ErrorMsg
 hi def link mercuryWhitespace       mercuryTodo
 hi def link mercuryTerminator       Delimiter
 hi def link mercuryType             Type
