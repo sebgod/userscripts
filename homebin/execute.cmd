@@ -8,4 +8,3 @@
 ::Call powershell
 :CallPS
 @powershell -Command Start-Process -Verb \"%~1\" -FilePath \"%~2\"
-@exit /b 0
