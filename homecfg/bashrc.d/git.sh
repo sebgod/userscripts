@@ -1,5 +1,5 @@
 export GIT_AUTHOR_NAME="Sebastian Godelet"
-export GIT_AUTHOR_EMAIL="sebastian.godelet+github@gmail.com"
+export GIT_AUTHOR_EMAIL="sebastian.godelet@outlook"
 export GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 export GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
