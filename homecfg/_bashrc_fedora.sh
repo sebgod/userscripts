@@ -13,9 +13,11 @@ tput setaf 1>&/dev/null
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUPSTREAM=verbose
 export GIT_PS1_SHOWCOLORHINTS=true
-. /usr/share/git-core/contrib/completion/git-prompt.sh
+if [ -r /user/share/git-core/contrib/completion/git-prompt.sh ]; then
+    . /usr/share/git-core/contrib/completion/git-prompt.sh
+    PROMPT_COMMAND='__git_ps1 "${PS1_PRE}" "\\\$ "'
+fi
 PS1_PRE='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]'
-PROMPT_COMMAND='__git_ps1 "${PS1_PRE}" "\\\$ "'
 
 # PS1='\033[01;32m\u@\h \033[01;34m\w$(__git_ps1 " (%s)")\033[00m\\$ '
 
