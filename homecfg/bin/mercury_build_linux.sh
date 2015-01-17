@@ -43,13 +43,13 @@
 #	   `parallel=-j3' line below.
 
 pushd ~/github/mercury/mercury-dev
-parallel=-j8
+parallel=-j4
 
-sudo mmake realclean
+mmake realclean
 aclocal -I m4 &&
 autoconf &&
-./configure --enable-libgrades=asm_fast.gc,java,csharp,erlang && \
-    --enable-new-mercuryfile-struct
+./configure --prefix=$HOME --enable-libgrades=asm_fast.gc,java,csharp,erlang \
+    --enable-new-mercuryfile-struct &&
 touch Mmake.params &&
 touch Mercury.options &&
 mmake depend &&
@@ -57,7 +57,7 @@ mmake MMAKEFLAGS=$parallel &&
 #tools/bootcheck $parallel &&
 #cd stage2 &&
 #mmake tags
-sudo mmake install MMAKEFLAGS=$parallel &&
+mmake install MMAKEFLAGS=$parallel &&
 true
 
 popd
