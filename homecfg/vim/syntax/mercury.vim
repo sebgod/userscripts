@@ -69,7 +69,7 @@ endif
   " Enable highlighting of Tex specific directives used in comments,
   " such as `' or ``'':
   "
-  "   let mercury_highlight_tex = 1
+  "   let mercury_highlight_comment_special = 1
   "
   " If you use Vim 7.3+ with conceal enabled but do not want any concealing
   " of operators, use:
@@ -322,7 +322,7 @@ syn match mercuryOperator "\v[*]{2}"
   " All valid Mercury comments
 syn cluster mercuryComments contains=mercuryComment,mercuryCComment
   " The clusters contain all valid Mercury code. The nesting is done to allow
-  " for matching of parens, DCG terms and lists
+  " for matching of parenthesis, DCG terms and lists
 syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
       \ mercuryAtom,mercuryNumCode,mercuryFloat,@mercuryComments,mercuryKeyword,mercuryImplKeyword,
       \ @mercuryFormatting,mercuryErrInAny,mercuryBool,mercuryOperator,
@@ -508,7 +508,7 @@ syn match mercuryCommentInfo "\v Copyright " contained nextgroup=mercuryCopyrigh
   " Highlights the output of the Mercury error command (in extras)
 syn match mercuryCommentErr "\v(\* )@<=###[ ]@=" contained
 
-  " Indicates stability of the module with colours (red -> green)
+  " Indicates stability of the module with colours (red, yellow, green)
 syn keyword mercuryStabilityLow    contained low    nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityMedium contained medium nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityHigh   contained high
@@ -517,8 +517,9 @@ syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
 syn cluster mercuryCommentDirectives contains=@Spell,mercuryToDo,mercuryCommentInfo
 
-if exists("mercury_highlight_tex") && mercury_highlight_tex
-  syn cluster mercuryCommentDirectives add=@mercuryCommentTex
+if exists("mercury_highlight_comment_special") && mercury_highlight_comment_special
+  syn cluster mercuryCommentDirectives add=mercuryCommentSingleQuote,@mercuryCommentTex
+  syn match mercuryCommentSingleQuote /\v'[a-z._]+'/ contained
   syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline contained
   syn region mercuryCommentTexDblQuote start="``" end="''" oneline contained contains=@Spell
   syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote,mercuryCommentTexSingleQuote
@@ -582,7 +583,8 @@ hi def link mercuryBool             Special
 hi def link mercuryCommentErr       ErrorMsg
 hi def link mercuryCommentToken     Comment
 hi def link mercuryCommentInfo      Identifier
-if exists("mercury_highlight_tex") && mercury_highlight_tex
+if exists("mercury_highlight_comment_special") && mercury_highlight_comment_special
+  hi def link mercuryCommentSingleQuote  Special
   hi def link mercuryCommentTexDblQuote  String
   hi def link mercuryCommentTexSingleQuote  Special
 endif
