@@ -1,5 +1,5 @@
 export GIT_AUTHOR_NAME="Sebastian Godelet"
-export GIT_AUTHOR_EMAIL="sebastian.godelet@outlook"
+export GIT_AUTHOR_EMAIL="sebastian.godelet@outlook.com"
 export GIT_COMMITTER_NAME=$GIT_AUTHOR_NAME
 export GIT_COMMITTER_EMAIL=$GIT_AUTHOR_EMAIL
 
@@ -35,6 +35,7 @@ alias gu="git up"
 alias git-gr="git gr"
 alias git-bv="git bv"
 alias git-ff="git ff"
+alias gumm="git up && git checkout master && git merge upstream/master"
 
 # useful functions
 function git-sego()
