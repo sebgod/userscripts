@@ -21,6 +21,7 @@ gumm=git up && git checkout master && git merge upstream/master
 gs=git status $*
 gd=git diff $*
 gd1=git diff @~1 @
+gdm=git diff master
 hs=hg status $*
 gll=git gr
 git-sego=cd /d %GITHUB_DOCS%$Tgit clone https://github.com/sebgod/$*
@@ -29,4 +30,8 @@ $=start /b /wait cmd /c $*
 gmake=%MAKE% $*
 ag=ag --nogroup --column --color $*
 agm=ag --nogroup --column --color --mercury $*
+qm=ag --nogroup --column --color --mercury $*
+qmf=ag --nogroup --column --color --mercury "^:- func $*"
+qmp=ag --nogroup --column --color --mercury "^:- pred $*"
+qmi=ag --nogroup --column --color --mercury "^:- (import|include|use)_module $*"
 make=%MAKE% MMC=%MERCURY_HOME:\=/%/bin/mmc $*
