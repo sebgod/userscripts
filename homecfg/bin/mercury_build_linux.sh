@@ -42,10 +42,12 @@
 #	   If you don't want to do a parallel make, comment out the
 #	   `parallel=-j3' line below.
 
-pushd ~/github/mercury/mercury-dev
+pushd ~/github/sebgod/mercury
 parallel=-j4
 
-mmake realclean
+git checkout build &&
+git rebase master &&
+mmake realclean &&
 aclocal -I m4 &&
 autoconf &&
 ./configure --prefix=$HOME --enable-libgrades=asm_fast.gc,java,csharp,erlang \
