@@ -568,7 +568,7 @@ syn region mercuryModeline matchgroup=mercuryCommentToken  start="% vim:" end=+$
       \ oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
 syn region mercuryShebang matchgroup=mercuryCommentToken  start="^\%1l#!/" end=/\v.+$/ oneline
 
-  " Matching overlong lines
+  " Matching over-long lines
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
   syn match mercuryTooLong /\%80v[^")}\]%]*/
   syn cluster mercuryFormatting add=mercuryTooLong
@@ -657,7 +657,7 @@ hi def link mercuryOperator         Operator
 hi def link mercuryInlined          Operator
 hi mercuryStabilityLow     ctermfg=red        guifg=red
 hi mercuryStabilityMedium  ctermfg=darkyellow guifg=darkyellow
-hi mercuryStabilityHigh    ctermfg=darkgreen  guifg=darkgreen
+hi mercuryStabilityHigh    ctermfg=darkgreen  guifg=darkgreen gui=bold
 hi def link mercuryStabilityTo      Delimiter
 hi def link mercuryString           String
 hi def link mercuryStringEsc        Identifier
