@@ -2,7 +2,7 @@
 " Language:     Mercury
 " Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
 " Extensions:   *.m *.moo
-" Last Change:  2015-01-08
+" Last Change:  2015-01-20
 
 if exists("b:current_syntax")
   finish
@@ -299,7 +299,7 @@ if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
       " This avoids confusion of =< and =>
     syn match mercuryOperator  ">="        conceal cchar=≥
     syn match mercuryOperator  "=<"        conceal cchar=≤
-    syn match mercuryOperator  "\\="       conceal cchar=≠
+    syn match mercuryOperator  "\\=[=]\@!" conceal cchar=≠
     syn match mercuryOperator  "`x`"       conceal cchar=×
     syn match mercuryOperator  "//"        conceal cchar=÷
 
@@ -518,10 +518,15 @@ syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium
 syn cluster mercuryCommentDirectives contains=@Spell,mercuryToDo,mercuryCommentInfo
 
 if exists("mercury_highlight_comment_special") && mercury_highlight_comment_special
-  syn cluster mercuryCommentDirectives add=mercuryCommentSingleQuote,@mercuryCommentTex
-  syn match mercuryCommentSingleQuote /\v'[a-z._]+'/ contained
-  syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline contained
+  syn match mercuryCommentSlash "/" contained nextgroup=mercuryCommentArity
+  syn match mercuryCommentArity "\v\d+" contained
+  syn match mercuryCommentSingleQuote /\v'[a-z._]+'/ contained nextgroup=mercuryCommentSlash
+
+  syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline
+        \ contained nextgroup=mercuryCommentSlash
   syn region mercuryCommentTexDblQuote start="``" end="''" oneline contained contains=@Spell
+
+  syn cluster mercuryCommentDirectives add=mercuryCommentSingleQuote,@mercuryCommentTex
   syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote,mercuryCommentTexSingleQuote
 endif
 
@@ -584,6 +589,8 @@ hi def link mercuryCommentErr       ErrorMsg
 hi def link mercuryCommentToken     Comment
 hi def link mercuryCommentInfo      Identifier
 if exists("mercury_highlight_comment_special") && mercury_highlight_comment_special
+  hi def link mercuryCommentSlash   Operator
+  hi def link mercuryCommentArity   Number
   hi def link mercuryCommentSingleQuote  Special
   hi def link mercuryCommentTexDblQuote  String
   hi def link mercuryCommentTexSingleQuote  Special
