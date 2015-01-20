@@ -1,4 +1,4 @@
 #!/bin/sh
 
-exec git rebase master
-exec git diff master >/media/run/$user/Support/$(git-branch-current).diff
+git rebase master && \
+    git diff master >/run/media/$USER/Support/Diffs/$(git-branch-current).diff
