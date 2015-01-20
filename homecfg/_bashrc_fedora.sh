@@ -13,7 +13,7 @@ tput setaf 1>&/dev/null
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUPSTREAM=verbose
 export GIT_PS1_SHOWCOLORHINTS=true
-if [ -r /user/share/git-core/contrib/completion/git-prompt.sh ]; then
+if [ -r /usr/share/git-core/contrib/completion/git-prompt.sh ]; then
     . /usr/share/git-core/contrib/completion/git-prompt.sh
     PROMPT_COMMAND='__git_ps1 "${PS1_PRE}" "\\\$ "'
 fi
