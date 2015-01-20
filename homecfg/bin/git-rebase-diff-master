@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec git rebase master
+exec git diff master >/media/run/$user/Support/$(git-branch-current).diff
