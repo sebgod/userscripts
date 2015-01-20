@@ -27,6 +27,6 @@ git-sego=cd /d %GITHUB_DOCS%$Tgit clone https://github.com/sebgod/$*
 vs=cd /d %home%\Documents\Visual Studio 2012\Projects\$*
 $=start /b /wait cmd /c $*
 gmake=%MAKE% $*
-ag=ag --color $*
-agm=ag --color --mercury $*
+ag=ag --nogroup --column --color $*
+agm=ag --nogroup --column --color --mercury $*
 make=%MAKE% MMC=%MERCURY_HOME:\=/%/bin/mmc $*
