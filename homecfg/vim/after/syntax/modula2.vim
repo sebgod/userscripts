@@ -2,7 +2,7 @@
 " Language:    Modula 2
 " Maintainer:  Sebastian Godelet <sebastian.godelet+github@gmail.com>
 " Extension:   *.mod *.def
-" Last Change: 2015-01-08
+" Last Change: 2015-01-22
 "
 
 if version < 600
@@ -16,7 +16,7 @@ if !exists("foldminlines")
   set foldminlines=10
 endif
 
-" syn case match " case sensitiv match is default
+" syn case match " case sensitive match is default
 syn case match
 
 " A bunch of keywords
