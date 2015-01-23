@@ -566,7 +566,9 @@ syn match mercuryModelineParam "\vet|expandtab" contained
 syn match mercuryModelineValue "\<\(mercury\|unix\)\>" contained
 syn region mercuryModeline matchgroup=mercuryCommentToken  start="% vim:" end=+$+
       \ oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
-syn region mercuryShebang matchgroup=mercuryCommentToken  start="^\%1l#!/" end=/\v.+$/ oneline
+  " Matching the Unix shebang
+syn region mercuryShebang matchgroup=mercuryCommentToken  start="^\%1l#!/" end=/\v.+$/
+      \ oneline
 
   " Matching over-long lines
 if !exists("mercury_no_highlight_overlong") || !mercury_no_highlight_overlong
