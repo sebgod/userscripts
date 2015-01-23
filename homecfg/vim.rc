@@ -14,7 +14,9 @@ set incsearch
 set autowrite
 set hidden
 set showcmd
-set mouse=a
+if has("mouse")
+   set mouse=a
+endif
 set modeline
 if exists('+relativenumber')
    set rnu
