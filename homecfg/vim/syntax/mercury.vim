@@ -520,7 +520,7 @@ syn cluster mercuryCommentDirectives contains=@Spell,mercuryToDo,mercuryCommentI
 if exists("mercury_highlight_comment_special") && mercury_highlight_comment_special
   syn match mercuryCommentSlash "/" contained nextgroup=mercuryCommentArity
   syn match mercuryCommentArity "\v\d+" contained
-  syn match mercuryCommentSingleQuote /\v'[a-z._]+'/ contained nextgroup=mercuryCommentSlash
+  syn match mercuryCommentSingleQuote /\v'[A-Za-z._0-9]+'/ contained nextgroup=mercuryCommentSlash
 
   syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline
         \ contained nextgroup=mercuryCommentSlash
