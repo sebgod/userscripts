@@ -523,9 +523,15 @@ syn keyword mercuryStabilityMedium contained medium nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityHigh   contained high
 syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
 
+  " Matches email http addresses (on a best effort basis). This avoids spell checking on those,
+  " and could also be used for plug-in development to open a browser, etc.
+syn match mercuryCommentUri contained "\v<[-0-9a-zA-Z.+_]+[@][-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,10}>"
+syn match mercuryCommentUri contained "\v<http[s]?://[^ ><]+>"
+
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
 syn cluster mercuryCommentSpecialLines contains=mercuryCommentInfo,mercuryModeLine
 syn cluster mercuryCommentDirectives contains=@Spell,mercuryToDo,mercuryCommentFirstSpace
+syn cluster mercuryCommentDirectives add=mercuryCommentUri
 
 if exists("mercury_highlight_comment_special") && mercury_highlight_comment_special
   syn match mercuryCommentSlash "/" contained nextgroup=mercuryCommentArity
@@ -550,6 +556,7 @@ endif
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
   hi def link mercuryComment        Comment
+  hi def link mercuryCommentUri     Underlined
   hi def link mercuryCComment       Comment
   hi def link mercuryCppLikeComment Comment
 
@@ -565,6 +572,7 @@ else
     " instead but does not support @Spell as a side-effect
   hi def link mercuryComment        Normal
   hi def link mercuryCComment       Normal
+  hi def mercuryCommentUri     term=underline gui=underline
   hi def link mercuryCppLikeComment Normal
   hi def link mercuryLeadTrailStar  Comment
 
@@ -669,9 +677,9 @@ hi def link mercuryEscErr           ErrorMsg
 hi def link mercuryErrInAny         ErrorMsg
 hi def link mercuryOperator         Operator
 hi def link mercuryInlined          Operator
-hi mercuryStabilityLow     ctermfg=red        guifg=red
-hi mercuryStabilityMedium  ctermfg=darkyellow guifg=darkyellow
-hi mercuryStabilityHigh    ctermfg=darkgreen  guifg=darkgreen gui=bold
+hi def mercuryStabilityLow     ctermfg=red        guifg=red
+hi def mercuryStabilityMedium  ctermfg=darkyellow guifg=darkyellow
+hi def mercuryStabilityHigh    ctermfg=darkgreen  guifg=darkgreen term=bold gui=bold
 hi def link mercuryStabilityTo      Delimiter
 hi def link mercuryString           String
 hi def link mercuryStringEsc        Identifier
