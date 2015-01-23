@@ -496,15 +496,24 @@ if !exists("mercury_no_highlight_tabs") || !mercury_no_highlight_tabs
 endif
 
   " Comment handling
-syn match mercuryCommentInfo contained "\v ((Main |Original )?[Aa]uthor[s]?|File|Created on|Date|Source):"
-syn match mercuryCommentInfo " Stability: " contained nextgroup=@mercuryStability
+syn match mercuryCommentFirstSpace contained "\v[%*]@<=[ ]{1}" nextgroup=@mercuryCommentSpecialLines
+syn match mercuryCommentInfo contained "\v((Main |Original )?[Aa]uthor[s]?|File|Created on|Date|Source):"
+syn match mercuryCommentInfo "Stability: " contained nextgroup=@mercuryStability
 syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   syn match mercuryCopyrightSymbol "\v\([cC]\)|©" conceal cchar=© contained nextgroup=mercuryCopyrightYear
 else
   syn match mercuryCopyrightSymbol "\v\([cC]\)|©" contained nextgroup=mercuryCopyrightYear
 endif
-syn match mercuryCommentInfo "\v Copyright " contained nextgroup=mercuryCopyrightSymbol
+syn match mercuryCommentInfo "\vCopyright " contained nextgroup=mercuryCopyrightSymbol
+
+  " Matching Vim modeline
+syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\=" contained
+syn match mercuryModelineParam "\vet|expandtab" contained
+syn match mercuryModelineValue "\<\(mercury\|unix\)\>" contained
+syn region mercuryModeline contained matchgroup=mercuryCommentToken start="vim:" end="\v[\n]@="
+      \ oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
+
   " Highlights the output of the Mercury error command (in extras)
 syn match mercuryCommentErr "\v(\* )@<=###[ ]@=" contained
 
@@ -515,17 +524,26 @@ syn keyword mercuryStabilityHigh   contained high
 syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
 
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
-syn cluster mercuryCommentDirectives contains=@Spell,mercuryToDo,mercuryCommentInfo
+syn cluster mercuryCommentSpecialLines contains=mercuryCommentInfo,mercuryModeLine
+syn cluster mercuryCommentDirectives contains=@Spell,mercuryToDo,mercuryCommentFirstSpace
 
 if exists("mercury_highlight_comment_special") && mercury_highlight_comment_special
   syn match mercuryCommentSlash "/" contained nextgroup=mercuryCommentArity
   syn match mercuryCommentArity "\v\d+" contained
   syn match mercuryCommentSingleQuote /\v'[A-Za-z._0-9]+'/ contained nextgroup=mercuryCommentSlash
 
+    " Header means the line describing the Arguments of a predicate or function,
+    " terminated with a colon. This also stops spell check on the argument names,
+    " which Vim is not good at dealing with.
+  syn region mercuryCommentHeader contained matchgroup=Special oneline
+        \ start="\v[A-Za-z._0-9]+[(]@=" end="\v:(\s+\[Java\])?[\n]@="
+        \ contains=mercuryOperator,mercuryBlock
+
   syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline
         \ contained nextgroup=mercuryCommentSlash
   syn region mercuryCommentTexDblQuote start="``" end="''" oneline contained contains=@Spell
 
+  syn cluster mercuryCommentSpecialLines add=mercuryCommentHeader
   syn cluster mercuryCommentDirectives add=mercuryCommentSingleQuote,@mercuryCommentTex
   syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote,mercuryCommentTexSingleQuote
 endif
@@ -550,7 +568,7 @@ else
   hi def link mercuryCppLikeComment Normal
   hi def link mercuryLeadTrailStar  Comment
 
-  syn match mercuryLeadTrailStar contained "^\v[ \t]*[*]+|[*]+$"
+  syn match mercuryLeadTrailStar contained "^\v[ \t]*[*]+|[*]+$" nextgroup=mercuryCommentFirstSpace
   syn region mercuryComment matchgroup=mercuryCommentToken start=/%[-=%*_]*/ end=/\v[\n]@=/ oneline
         \ contains=@mercuryCommentDirectives,@mercuryFormatting
   syn region mercuryCComment matchgroup=mercuryCommentToken start="\v/\*" end="\v[*]+/" keepend fold
@@ -560,12 +578,6 @@ else
         \ contained contains=@mercuryCommentDirectives,@mercuryFormatting
 endif
 
-  " Matching Vim modeline
-syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\=" contained
-syn match mercuryModelineParam "\vet|expandtab" contained
-syn match mercuryModelineValue "\<\(mercury\|unix\)\>" contained
-syn region mercuryModeline matchgroup=mercuryCommentToken  start="% vim:" end=+$+
-      \ oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
   " Matching the Unix shebang
 syn region mercuryShebang matchgroup=mercuryCommentToken  start="^\%1l#!/" end=/\v.+$/
       \ oneline
