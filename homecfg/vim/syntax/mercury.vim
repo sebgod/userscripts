@@ -572,7 +572,7 @@ else
     " instead but does not support @Spell as a side-effect
   hi def link mercuryComment        Normal
   hi def link mercuryCComment       Normal
-  hi def mercuryCommentUri     term=underline gui=underline
+  hi def mercuryCommentUri     term=underline cterm=underline gui=underline
   hi def link mercuryCppLikeComment Normal
   hi def link mercuryLeadTrailStar  Comment
 
@@ -679,7 +679,8 @@ hi def link mercuryOperator         Operator
 hi def link mercuryInlined          Operator
 hi def mercuryStabilityLow     ctermfg=red        guifg=red
 hi def mercuryStabilityMedium  ctermfg=darkyellow guifg=darkyellow
-hi def mercuryStabilityHigh    ctermfg=darkgreen  guifg=darkgreen term=bold gui=bold
+hi def mercuryStabilityHigh    ctermfg=darkgreen  guifg=darkgreen term=bold
+      \ cterm=bold gui=bold
 hi def link mercuryStabilityTo      Delimiter
 hi def link mercuryString           String
 hi def link mercuryStringEsc        Identifier
