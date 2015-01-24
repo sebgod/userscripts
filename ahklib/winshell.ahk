@@ -28,6 +28,7 @@ winshell_init() {
     }
     ; create user specific IPC folder (with clipboard folder)
     FileCreateDir, % winshell_UserIPCFolder() . "\Clipboard"
+    Run, change_display_resolution,,hide
 }
 
 winshell_active_loop() {
