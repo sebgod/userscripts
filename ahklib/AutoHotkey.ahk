@@ -179,7 +179,6 @@ return
 <^>!p::£        ; Pound
 <^>!w::₩        ; Korean Won
 <^>!i::¤        ; generic currency sign
-:c?:tögrög$::₮  ; Mongolian Tögrög
 
 ; COMBINING DOUBLE ACUTE ACCENT (U+030B)
 :c?B0*:^2aa::
@@ -191,7 +190,7 @@ return
 Send, {BS 4}{U+0338}
 return
 
-; COMBINING LONG SOLIDUS OVERLAY (U+0338), precomposed
+; COMBINING LONG SOLIDUS OVERLAY (U+0338), pre-composed
 :c?B0*:O^/::
 Send, {BS 3}Ø
 return
