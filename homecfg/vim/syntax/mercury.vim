@@ -379,7 +379,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
 
     " C-Language formatting with Mercury types MR_*
   syn keyword mercuryCType contained const size_t pid_t offset_t union
-  syn keyword mercuryCType contained MR_bool MR_Word MR_Integer MR_Unsigned
+  syn keyword mercuryCType contained MR_bool MR_Bool
+  syn keyword mercuryCType contained MR_Word MR_Integer MR_Unsigned
   syn keyword mercuryCType contained MR_ArrayPtr MR_Float MR_file MercuryFile[Ptr]
   syn keyword mercuryCType contained MR_String MR_ConstString
   syn match mercuryCType "\v<MR_((Pseudo)?TypeInfo|Construct_Info|TypeCtor(Desc|Info)|AllocSiteInfoPtr)|MercuryLock>" contained
@@ -394,6 +395,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn keyword mercuryCConst contained INT_MAX UINT_MAX INT_MIN
   syn keyword mercuryCConst contained SHRT_MAX USHRT_MAX SHRT_MIN
   syn keyword mercuryCBool  contained MR_TRUE MR_FALSE
+  syn keyword mercuryCBool  contained MR_YES MR_NO
   syn match mercuryForeignIface "\v<MR_[A-Z]+_LENGTH_MODIFIER>" contained
   syn match mercuryCFunc "\v<MR_(list_(empty|head|tail)|incr_hp((_atomic)?|((_type)?_msg))|assert|fatal_error|make_aligned_string)>" contained
   syn match mercuryCPreProc "#\(if\(n\?def\)\?\|else\|elif\|endif\|define\|include\|error\|warning\|line\)" contained
