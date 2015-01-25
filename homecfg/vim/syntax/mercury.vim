@@ -323,15 +323,22 @@ syn match mercuryOperator "\v[*]{2}"
 syn cluster mercuryComments contains=mercuryComment,mercuryCComment
   " The clusters contain all valid Mercury code. The nesting is done to allow
   " for matching of parenthesis, DCG terms and lists
-syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,mercuryDelimiter,
-      \ mercuryAtom,mercuryNumCode,mercuryFloat,@mercuryComments,mercuryKeyword,mercuryImplKeyword,
+syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,
+      \ mercuryDelimiter,mercuryAtom,mercuryNumCode,mercuryFloat,
+      \ @mercuryComments,mercuryKeyword,mercuryImplKeyword,
       \ @mercuryFormatting,mercuryErrInAny,mercuryBool,mercuryOperator,
-      \ mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical,mercuryPurity
-syn region  mercuryList      matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contains=@mercuryTerms
-syn region  mercuryBlock     matchgroup=mercuryBracket   start='(' end=')'  transparent fold  contains=@mercuryTerms,mercuryDCGAction
-syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'  transparent fold  contains=@mercuryTerms
-syn region  mercuryForeignModList matchgroup=mercuryBracket   start='\[' end=']' transparent fold  contained contains=
-      \ mercuryForeignMod,mercuryDelimiter,@mercuryComments,@mercuryFormatting,
+      \ mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical,
+      \ mercuryPurity
+
+syn region  mercuryList       matchgroup=mercuryBracket   start='\[' end=']'
+      \ transparent fold  contains=@mercuryTerms
+syn region  mercuryBlock      matchgroup=mercuryBracket   start='(' end=')'
+      \ transparent fold  contains=@mercuryTerms,mercuryDCGAction
+syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'
+      \ transparent fold  contains=@mercuryTerms
+syn region  mercuryForeignModList matchgroup=mercuryBracket start='\[' end=']'
+      \ transparent fold  contained contains=mercuryForeignMod,
+      \ mercuryDelimiter,@mercuryComments,@mercuryFormatting,
       \ mercuryString,mercuryOperator,mercuryBlock
 
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
@@ -341,18 +348,29 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
         \ mercuryAtom,@mercuryComments,mercuryDelimiter,mercurySingleton,
         \ @mercuryFormatting,mercuryForeignId
 
-  syn region  mercuryForeignCBlock       matchgroup=mercuryBracket start=/\v\(("C"|c)/rs=s+1 end=')'
-        \ transparent fold contained contains=@mercuryForeign,mercuryCCode,mercuryBlock
-  syn region  mercuryForeignCSharpBlock  matchgroup=mercuryBracket start=/\v\(("C#"|csharp)/rs=s+1 end=')'
-        \ transparent fold contained contains=@mercuryForeign,mercuryCSharpCode,mercuryBlock
-  syn region  mercuryForeignJavaBlock    matchgroup=mercuryBracket start=/\v\(("Java"|java)/rs=s+1 end=')'
-        \ transparent fold contained contains=@mercuryForeign,mercuryJavaCode,mercuryBlock
-  syn region  mercuryForeignILBlock      matchgroup=mercuryBracket start=/\v\(("IL"|il)/rs=s+1 end=')'
-        \ transparent fold contained contains=@mercuryForeign,mercuryILCode,mercuryBlock
-  syn region  mercuryForeignErlangBlock  matchgroup=mercuryBracket start=/\v\(("Erlang"|erlang)/rs=s+1 end=')'
-        \ transparent fold contained contains=@mercuryForeign,mercuryErlangCode,mercuryBlock
-  syn cluster mercuryForeignBlock contains=mercuryForeignCBlock,mercuryForeignCSharpBlock,
-        \ mercuryForeignJavaBlock,mercuryForeignErlangBlock,mercuryForeignILBlock
+  syn region  mercuryForeignCBlock       matchgroup=mercuryBracket
+        \ start=/\v\(("C"|c)/rs=s+1 end=')'
+        \ transparent fold contained contains=@mercuryForeign,
+        \ mercuryCCode,mercuryBlock
+  syn region  mercuryForeignCSharpBlock  matchgroup=mercuryBracket
+        \ start=/\v\(("C#"|csharp)/rs=s+1 end=')'
+        \ transparent fold contained contains=@mercuryForeign,
+        \ mercuryCSharpCode,mercuryBlock
+  syn region  mercuryForeignJavaBlock    matchgroup=mercuryBracket
+        \ start=/\v\(("Java"|java)/rs=s+1 end=')'
+        \ transparent fold contained contains=@mercuryForeign,
+        \ mercuryJavaCode,mercuryBlock
+  syn region  mercuryForeignILBlock      matchgroup=mercuryBracket
+        \ start=/\v\(("IL"|il)/rs=s+1 end=')'
+        \ transparent fold contained contains=@mercuryForeign,
+        \ mercuryILCode,mercuryBlock
+  syn region  mercuryForeignErlangBlock  matchgroup=mercuryBracket
+        \ start=/\v\(("Erlang"|erlang)/rs=s+1 end=')'
+        \ transparent fold contained contains=@mercuryForeign,
+        \ mercuryErlangCode,mercuryBlock
+  syn cluster mercuryForeignBlock contains=mercuryForeignCBlock,
+        \ mercuryForeignCSharpBlock,mercuryForeignJavaBlock,
+        \ mercuryForeignErlangBlock,mercuryForeignILBlock
   syn match   mercuryPragmaForeign /\v^\s*:-\s+pragma\s+foreign_(code|proc|decl|type|export(_enum)?|enum|import_module)/
         \ transparent nextgroup=@mercuryForeignBlock
 
