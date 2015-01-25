@@ -331,10 +331,10 @@ syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,
       \ mercuryPurity
 
 syn region  mercuryList       matchgroup=mercuryBracket   start='\[' end=']'
-      \ transparent fold  contains=@mercuryTerms
+      \ transparent fold  contains=@mercuryTerms,mercuryDCGOrTuple
 syn region  mercuryBlock      matchgroup=mercuryBracket   start='(' end=')'
-      \ transparent fold  contains=@mercuryTerms,mercuryDCGAction
-syn region  mercuryDCGAction matchgroup=mercuryBracket   start='{' end='}'
+      \ transparent fold  contains=@mercuryTerms,mercuryDCGOrTuple
+syn region  mercuryDCGOrTuple matchgroup=mercuryBracket   start='{' end='}'
       \ transparent fold  contains=@mercuryTerms
 syn region  mercuryForeignModList matchgroup=mercuryBracket start='\[' end=']'
       \ transparent fold  contained contains=mercuryForeignMod,
