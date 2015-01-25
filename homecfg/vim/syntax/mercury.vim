@@ -348,24 +348,19 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
         \ mercuryAtom,@mercuryComments,mercuryDelimiter,mercurySingleton,
         \ @mercuryFormatting,mercuryForeignId
 
-  syn region  mercuryForeignCBlock       matchgroup=mercuryBracket
-        \ start=/\v\(("C"|c)/rs=s+1 end=')'
+  syn region  mercuryForeignCBlock       matchgroup=mercuryBracket start=/\v\(("C"|c)/rs=s+1 end=')'
         \ transparent fold contained contains=@mercuryForeign,
         \ mercuryCCode,mercuryBlock
-  syn region  mercuryForeignCSharpBlock  matchgroup=mercuryBracket
-        \ start=/\v\(("C#"|csharp)/rs=s+1 end=')'
+  syn region  mercuryForeignCSharpBlock  matchgroup=mercuryBracket start=/\v\(("C#"|csharp)/rs=s+1 end=')'
         \ transparent fold contained contains=@mercuryForeign,
         \ mercuryCSharpCode,mercuryBlock
-  syn region  mercuryForeignJavaBlock    matchgroup=mercuryBracket
-        \ start=/\v\(("Java"|java)/rs=s+1 end=')'
+  syn region  mercuryForeignJavaBlock    matchgroup=mercuryBracket start=/\v\(("Java"|java)/rs=s+1 end=')'
         \ transparent fold contained contains=@mercuryForeign,
         \ mercuryJavaCode,mercuryBlock
-  syn region  mercuryForeignILBlock      matchgroup=mercuryBracket
-        \ start=/\v\(("IL"|il)/rs=s+1 end=')'
+  syn region  mercuryForeignILBlock      matchgroup=mercuryBracket start=/\v\(("IL"|il)/rs=s+1 end=')'
         \ transparent fold contained contains=@mercuryForeign,
         \ mercuryILCode,mercuryBlock
-  syn region  mercuryForeignErlangBlock  matchgroup=mercuryBracket
-        \ start=/\v\(("Erlang"|erlang)/rs=s+1 end=')'
+  syn region  mercuryForeignErlangBlock  matchgroup=mercuryBracket start=/\v\(("Erlang"|erlang)/rs=s+1 end=')'
         \ transparent fold contained contains=@mercuryForeign,
         \ mercuryErlangCode,mercuryBlock
   syn cluster mercuryForeignBlock contains=mercuryForeignCBlock,
@@ -565,7 +560,7 @@ if exists("mercury_highlight_comment_special") && mercury_highlight_comment_spec
     " terminated with a colon. This also stops spell check on the argument names,
     " which Vim is not good at dealing with.
   syn region mercuryCommentHeader contained matchgroup=Special oneline
-        \ start="\v[A-Za-z._0-9]+[(]@=" end="\v:(\s+\[Java\])?[\n]@="
+        \ start="\v[A-Za-z._0-9]+([(]|\s*[=])@=" end="\v:(\s+\[Java\])?[\n]@="
         \ contains=mercuryOperator,mercuryBlock
 
   syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline
