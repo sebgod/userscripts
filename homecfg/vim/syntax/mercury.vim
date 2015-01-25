@@ -516,7 +516,8 @@ if !exists("mercury_no_highlight_tabs") || !mercury_no_highlight_tabs
 endif
 
   " Comment handling
-syn match mercuryCommentFirstSpace contained "\v[%*]@<=[ ]{1}" nextgroup=@mercuryCommentSpecialLines
+syn match mercuryCommentFirstSpace contained "\v[%*]@<=[ ]{1}([\t ]*[\n])@!"
+      \ nextgroup=@mercuryCommentSpecialLines
 syn match mercuryCommentInfo contained "\v((Main |Original )?[Aa]uthor[s]?|File|Created on|Date|Source):"
 syn match mercuryCommentInfo "Stability: " contained nextgroup=@mercuryStability
 syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
