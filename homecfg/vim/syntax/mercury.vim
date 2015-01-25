@@ -697,9 +697,11 @@ hi def link mercuryEscErr           ErrorMsg
 hi def link mercuryErrInAny         ErrorMsg
 hi def link mercuryOperator         Operator
 hi def link mercuryInlined          Operator
-hi def mercuryStabilityLow     ctermfg=red        guifg=red
-hi def mercuryStabilityMedium  ctermfg=darkyellow guifg=darkyellow
-hi def mercuryStabilityHigh    ctermfg=darkgreen  guifg=darkgreen term=bold
+hi def mercuryStabilityLow     ctermfg=red        guifg=red        term=bold
+      \ cterm=bold gui=bold
+hi def mercuryStabilityMedium  ctermfg=darkyellow guifg=darkyellow term=bold
+      \ cterm=bold gui=bold
+hi def mercuryStabilityHigh    ctermfg=darkgreen  guifg=darkgreen  term=bold
       \ cterm=bold gui=bold
 hi def link mercuryStabilityTo      Delimiter
 hi def link mercuryString           String
