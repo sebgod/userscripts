@@ -543,10 +543,12 @@ syn keyword mercuryStabilityMedium contained medium nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityHigh   contained high
 syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
 
-  " Matches email http addresses (on a best effort basis). This avoids spell checking on those,
+  " Matches file names, email and http addresses (on a best effort basis).
+  " This avoids spell checking on those,
   " and could also be used for plug-in development to open a browser, etc.
 syn match mercuryCommentUri contained "\v<[-0-9a-zA-Z.+_]+[@][-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,10}>"
 syn match mercuryCommentUri contained "\v<http[s]?://[^ ><]+>"
+syn match mercuryCommentUri contained "\v<([a-z][a-z0-9._]+[/])*[a-z][a-z0-9._]+[.]m>"
 
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
 syn cluster mercuryCommentSpecialLines contains=mercuryCommentInfo,mercuryModeLine
