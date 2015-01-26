@@ -265,7 +265,8 @@ syn match   mercuryStringEsc    /\v\\U00(10|0\x)\x{4}/ contained
 syn match   mercuryStringEsc    /\v\\x\x+\\/           contained
 syn match   mercuryStringEsc    /\v\\[0-7][0-7]+\\/    contained
   " matching unbalanced brackets (before "mercuryTerm", "mercuryBlock", ...)
-syn match mercuryErrInAny       "(\|\[{\|}\|\]\|)"     contained
+  " TODO: Verify if contained is required
+syn match mercuryErrInAny       "(\|\[{\|}\|\]\|)"  " contained
 syn match mercuryTerminator     "\v\.(\s+|$)@=" " after mercuryErrInAny
 syn match mercuryOperator       "\.\."          " after mercuryTerminator
 
@@ -328,12 +329,12 @@ syn cluster mercuryTerms     contains=mercuryBlock,mercuryList,mercuryString,
       \ @mercuryComments,mercuryKeyword,mercuryImplKeyword,
       \ @mercuryFormatting,mercuryErrInAny,mercuryBool,mercuryOperator,
       \ mercurySingleton,mercuryImplication,mercuryInlined,mercuryLogical,
-      \ mercuryPurity
+      \ mercuryPurity,mercuryDCGOrTuple
 
 syn region  mercuryList       matchgroup=mercuryBracket   start='\[' end=']'
-      \ transparent fold  contains=@mercuryTerms,mercuryDCGOrTuple
+      \ transparent fold  contains=@mercuryTerms
 syn region  mercuryBlock      matchgroup=mercuryBracket   start='(' end=')'
-      \ transparent fold  contains=@mercuryTerms,mercuryDCGOrTuple
+      \ transparent fold  contains=@mercuryTerms
 syn region  mercuryDCGOrTuple matchgroup=mercuryBracket   start='{' end='}'
       \ transparent fold  contains=@mercuryTerms
 syn region  mercuryForeignModList matchgroup=mercuryBracket start='\[' end=']'
@@ -409,7 +410,8 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn keyword mercuryCConst contained SHRT_MAX USHRT_MAX SHRT_MIN
   syn keyword mercuryCBool  contained MR_TRUE MR_FALSE
   syn keyword mercuryCBool  contained MR_YES MR_NO
-  syn match mercuryForeignIface "\v<MR_[A-Z]+_LENGTH_MODIFIER>" contained
+  syn match mercuryForeignIface contained "\v<MR_[A-Z]+_LENGTH_MODIFIER>"
+  syn match mercuryForeignIface contained "\v<MR_THREAD_SAFE>"
   syn match mercuryCFunc "\v<MR_(list_(empty|head|tail)|incr_hp((_atomic)?|((_type)?_msg))|assert|fatal_error|make_aligned_string)>" contained
   syn match mercuryCPreProc "#\(if\(n\?def\)\?\|else\|elif\|endif\|define\|include\|error\|warning\|line\)" contained
   syn match mercuryCPreProc    "\v(\\){1,2}$" contained
@@ -513,8 +515,14 @@ endif
   " Comment handling
 syn match mercuryCommentFirstSpace contained "\v[%*]@<=[ ]{1}([\t ]*[\n])@!"
       \ nextgroup=@mercuryCommentSpecialLines
-syn match mercuryCommentInfo contained "\v((Main |Original )?[Aa]uthor[s]?|File|Created on|Date|Source):"
-syn match mercuryCommentInfo "Stability: " contained nextgroup=@mercuryStability
+syn match mercuryCommentInfo contained "\v(Main |Original )?[Aa]uthor[s]?[^\n:]*[:]@="
+      \ nextgroup=mercuryCommentOp
+syn match mercuryCommentInfo contained "\v(File|Created on|Date|Source|Stability)[:]@="
+      \ nextgroup=mercuryCommentOp
+
+  " End of special file markers
+syn match mercuryCommentOp contained ": " nextgroup=@mercuryStability
+
 syn match mercuryCopyrightYear "\v (19|20)[0-9][0-9]([, -]+(19|20)[0-9][0-9])*" contained
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   syn match mercuryCopyrightSymbol "\v\([cC]\)|©" conceal cchar=© contained nextgroup=mercuryCopyrightYear
@@ -524,11 +532,11 @@ endif
 syn match mercuryCommentInfo "\vCopyright " contained nextgroup=mercuryCopyrightSymbol
 
   " Matching Vim modeline
-syn match mercuryModelineParam "\v(sw|ts|tw|wm|ff|ft)\=" contained
-syn match mercuryModelineParam "\vet|expandtab" contained
-syn match mercuryModelineValue "\<\(mercury\|unix\)\>" contained
+syn match mercuryModelineParam contained "\v<(sw|ts|tw|wm|ff|ft|et|expandtab)>"
+syn match mercuryModelineValue contained "\v<(mercury|unix)>"
 syn region mercuryModeline contained matchgroup=mercuryCommentToken start="vim:" end="\v[\n]@="
-      \ oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode
+      \ oneline contains=mercuryModelineParam,mercuryModelineValue,mercuryNumCode,
+      \ mercuryOperator
 
   " Highlights the output of the Mercury error command (in extras)
 syn match mercuryCommentErr "\v(\* )@<=###[ ]@=" contained
@@ -554,13 +562,13 @@ syn cluster mercuryCommentDirectives add=mercuryCommentUri
 if exists("mercury_highlight_comment_special") && mercury_highlight_comment_special
   syn match mercuryCommentSlash "/" contained nextgroup=mercuryCommentArity
   syn match mercuryCommentArity "\v\d+" contained
-  syn match mercuryCommentSingleQuote /\v'[A-Za-z._0-9]+'/ contained nextgroup=mercuryCommentSlash
+  syn match mercuryCommentSingleQuote /\v'[A-Za-z._0-9()]+'/ contained nextgroup=mercuryCommentSlash
 
     " Header means the line describing the Arguments of a predicate or function,
     " terminated with a colon. This also stops spell check on the argument names,
     " which Vim is not good at dealing with.
   syn region mercuryCommentHeader contained matchgroup=Special oneline
-        \ start="\v[A-Za-z._0-9]+([(]|\s*[=])@=" end="\v:(\s+\[Java\])?[\n]@="
+        \ start="\v[A-Za-z._0-9]+([(][^)]|\s*[=])@=" end="\v[:.](\s+\[Java\])?[\n]@="
         \ contains=mercuryOperator,mercuryBlock
 
   syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline
@@ -635,6 +643,7 @@ if exists("mercury_highlight_comment_special") && mercury_highlight_comment_spec
   hi def link mercuryCommentTexDblQuote  String
   hi def link mercuryCommentTexSingleQuote  Special
 endif
+hi def link mercuryCommentOp        Operator
 hi def link mercuryCopyrightSymbol  Operator
 hi def link mercuryCopyrightYear    Constant
 hi def link mercuryCInterface       mercuryPragma
