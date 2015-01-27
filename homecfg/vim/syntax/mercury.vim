@@ -569,7 +569,8 @@ if exists("mercury_highlight_comment_special") && mercury_highlight_comment_spec
     " which Vim is not good at dealing with.
   syn region mercuryCommentHeader contained matchgroup=Special oneline
         \ start="\v[A-Za-z._0-9]+([(][^)]|\s*[=])@=" end="\v[:.](\s+\[Java\])?[\n]@="
-        \ contains=mercuryOperator,mercuryBlock
+        \ contains=mercuryOperator,mercuryBlock,mercuryList,mercuryDCGOrTuple,
+        \ mercuryErrInAny
 
   syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline
         \ contained nextgroup=mercuryCommentSlash
