@@ -186,8 +186,6 @@ syn keyword mercuryPurity       promise_pure
 syn keyword mercuryPurity       promise_semipure
 syn keyword mercuryPurity       semipure
 
-syn keyword mercuryToDo         XXX TODO NOTE MISSING HACK HINT WARNING
-
 syn keyword mercuryLogical      fail false true
 syn keyword mercuryLogical      if then else
 syn keyword mercuryLogical      impure_true
@@ -518,6 +516,9 @@ syn match mercuryCommentFirstSpace contained "\v[%*]@<=[ ]{1}([\t ]*[\n])@!"
 syn match mercuryCommentInfo contained "\v(Main |Original )?[Aa]uthor[s]?[^\n:]*[:]@="
       \ nextgroup=mercuryCommentOp
 syn match mercuryCommentInfo contained "\v(File|Created on|Date|Source|Stability)[:]@="
+      \ nextgroup=mercuryCommentOp
+
+syn keyword mercuryToDo contained XXX TODO NOTE MISSING HACK HINT WARNING
       \ nextgroup=mercuryCommentOp
 
   " End of special file markers
