@@ -248,7 +248,7 @@ syn match   mercuryFloat   /\v<([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/
 syn region  mercuryAtom    start=+'+ skip=+\\'+   end=+'+ contains=
       \ mercuryStringEsc,@mercuryFormatting,mercuryEscErr,@Spell
 syn match   mercuryStringEsc    /""/ contained " must come before mercuryString
-syn region  mercuryString  start=+"+ skip=/\v(\\x?\x+)@<!\\"|""/ end=+"+ keepend contains=
+syn region  mercuryString  start=+"+ skip=/\v(\\x?\x+|\\)@<!\\"|""/ end=+"+ keepend contains=
       \ mercuryStringFmt,mercuryStringEsc,@mercuryFormatting,
       \ mercuryEscErr,mercuryStringEsc,@Spell
 syn match   mercuryString       /""/  " matches the empty string (instead of escape)
