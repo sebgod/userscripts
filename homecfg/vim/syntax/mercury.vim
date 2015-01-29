@@ -420,8 +420,9 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn cluster mercuryC add=mercuryCPreProc,mercuryCString,mercuryCBool,mercuryCConst,mercuryCFunc
 
     " C++-Style for Java and C# (bool, // comments, exception handling etc)
-  syn keyword mercuryCppLikeKeyword contained class new delete try catch finally instanceof abstract
-        \ throw[s] extends this super base synchronize[d] override foreach in using import ref
+  syn keyword mercuryCppLikeKeyword contained class new delete try catch finally
+        \ instanceof abstract throw[s] extends this super base synchronize[d]
+        \ override foreach in using import ref implements
   syn keyword mercuryCppLikeBool contained true false
   syn keyword mercuryCppLikeConst contained null[ptr]
   syn match mercuryCppLikeOperator "@" contained
@@ -451,7 +452,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
         \ contains=@mercuryCSharp
 
     " Declaration for Java
-  syn match mercuryJavaType "\v([a-z_0-9]+\.(\_\s+)?)+[A-Z][A-Z_a-z0-9]+" contained
+  syn match mercuryJavaType "\v<([a-z_][A-Za-z0-9_]*\.(\_\s+)?)+[A-Z][A-Z_a-z0-9]+>" contained
   syn match mercuryJavaType "\v<(String(Builder)?|Override|Object|Integer|Byte)>" contained
   syn match mercuryJavaType "\v<(Short|Float|Double|Void|Boolean|Character|System|Runtime|boolean)>" contained
   syn match mercuryJavaType "\v<bool>\."he=e-1 contained nextgroup=mercuryJavaBool
