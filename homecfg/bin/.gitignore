@@ -1,7 +1,8 @@
-rake
 byebug
 coderay
+mpm
 pry
+rake
 # mercury executables
 c2init
 canonical_grade
