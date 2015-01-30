@@ -30,7 +30,7 @@ set laststatus=2
 set backspace=indent,eol,start
 set nocompatible
 set history=50
-set suffixes=.exe,.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg,.inx,.out,.toc,.mh,.err,.init
+set suffixes=.exe,.dll,.jar,.so,.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg,.inx,.out,.toc,.mh,.err,.init
 set pastetoggle=<F2>
 
 " Mercury related settings
