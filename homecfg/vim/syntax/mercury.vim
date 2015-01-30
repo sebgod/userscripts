@@ -572,7 +572,7 @@ if exists("mercury_highlight_comment_special") && mercury_highlight_comment_spec
   syn region mercuryCommentHeader contained matchgroup=Special
         \ start='\v[A-Za-z._0-9]+([(]([)]|[\[][a-z"])@!|\s*[=])@='
         \ matchgroup=NONE keepend
-        \ end="\v([.])|([:][-]@!)|(<[a-z]@=)|[)][\n]@="
+        \ end="\v([.])|([:][-]@!)|(<[a-z]@=)|[)%][ \t]*[\n]@="
         \ contains=mercuryOperator,mercuryBlock,mercuryList,mercuryDCGOrTuple,
         \ mercuryErrInAny,mercuryCommentHeaderCont,@mercuryFormatting
   syn match mercuryCommentHeaderCont contained "\v^[ \t]*[%]"
