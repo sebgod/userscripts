@@ -569,10 +569,13 @@ if exists("mercury_highlight_comment_special") && mercury_highlight_comment_spec
     " Header means the line describing the Arguments of a predicate or function,
     " terminated with a colon. This also stops spell check on the argument names,
     " which Vim is not good at dealing with.
-  syn region mercuryCommentHeader contained matchgroup=Special oneline
-        \ start="\v[A-Za-z._0-9]+([(][^)]|\s*[=])@=" end="\v[:.](\s+\[Java\])?[\n]@="
+  syn region mercuryCommentHeader contained matchgroup=Special
+        \ start='\v[A-Za-z._0-9]+([(]([)]|[\[][a-z"])@!|\s*[=])@='
+        \ matchgroup=NONE keepend
+        \ end="\v([.])|([:][-]@!)|(<[a-z]@=)|[)][\n]@="
         \ contains=mercuryOperator,mercuryBlock,mercuryList,mercuryDCGOrTuple,
-        \ mercuryErrInAny
+        \ mercuryErrInAny,mercuryCommentHeaderCont,@mercuryFormatting
+  syn match mercuryCommentHeaderCont contained "\v^[ \t]*[%]"
 
   syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline
         \ contained nextgroup=mercuryCommentSlash
@@ -642,6 +645,7 @@ hi def link mercuryCommentInfo      Identifier
 if exists("mercury_highlight_comment_special") && mercury_highlight_comment_special
   hi def link mercuryCommentSlash   Operator
   hi def link mercuryCommentArity   Number
+  hi def link mercuryCommentHeaderCont Comment
   hi def link mercuryCommentSingleQuote  Special
   hi def link mercuryCommentTexDblQuote  String
   hi def link mercuryCommentTexSingleQuote  Special
