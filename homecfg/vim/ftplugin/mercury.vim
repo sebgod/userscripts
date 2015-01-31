@@ -14,7 +14,7 @@ let b:did_mercury_ftplugin = 1
   " I find it handy to run `mtags' over the Mercury library .m files
   " and move the resulting tags file to `$HOME/mercury/tags.library'.
   "
-setlocal tags+=$HOME/dev/mercury/tags.library,$HOME/dev/mercury/tags.compiler
+setlocal tags+=$HOME/github/mercury/tags.library,$HOME/github/mercury/tags.compiler
 
   " Handy if you use `:make'.
   "
@@ -23,7 +23,7 @@ setlocal makeprg="mmc -m"
   " Don't wrap over-long lines.
   "
 setlocal wrapmargin=0
-setlocal textwidth=0
+setlocal textwidth=78
 
   " These settings allow for neater coding styles, but
   " should not be imposed on existing files that use,
