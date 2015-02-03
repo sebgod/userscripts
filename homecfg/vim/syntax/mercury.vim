@@ -519,7 +519,7 @@ syn match mercuryCommentInfo contained "\v(Main |Original )?[Aa]uthor[s]?[^\n:]*
 syn match mercuryCommentInfo contained "\v(File|Created on|Date|Source|Stability)[:]@="
       \ nextgroup=mercuryCommentOp
 
-syn keyword mercuryToDo contained XXX TODO NOTE MISSING HACK HINT WARNING
+syn keyword mercuryToDo contained XXX TODO NOTE[_TO_IMPLEMENTORS] MISSING HACK HINT WARNING
       \ nextgroup=mercuryCommentOp
 
   " End of special file markers
