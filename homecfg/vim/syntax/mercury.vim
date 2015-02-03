@@ -394,7 +394,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn keyword mercuryCType contained MR_bool MR_Bool
   syn keyword mercuryCType contained MR_Word MR_Integer MR_Unsigned
   syn keyword mercuryCType contained MR_ArrayPtr MR_Float MR_file MercuryFile[Ptr]
-  syn keyword mercuryCType contained MR_String MR_ConstString
+  syn keyword mercuryCType contained MR_String MR_ConstString MR_Char
   syn match mercuryCType "\v<MR_((Pseudo)?TypeInfo|Construct_Info|TypeCtor(Desc|Info)|AllocSiteInfoPtr)|MercuryLock>" contained
   syn match mercuryCType "\v<(MR_)?[u]?int(_least|_fast)?(8|16|32|64)_t>" contained
   syn match mercuryForeignIface "\v<(MR_)?[U]?INT(_LEAST|_FAST)?(8|16|32|64)_(TYPE|LENGTH_MODIFIER)>" contained
