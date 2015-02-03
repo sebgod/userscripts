@@ -45,9 +45,9 @@
 pushd ~/github/sebgod/mercury
 parallel=-j4
 
+mmake realclean &&
 git checkout build &&
 git rebase master &&
-mmake realclean &&
 aclocal -I m4 &&
 autoconf &&
 ./configure --prefix=$HOME --enable-libgrades=asm_fast.gc,java,csharp,erlang \
