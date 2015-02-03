@@ -394,7 +394,7 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn keyword mercuryCType contained MR_bool MR_Bool
   syn keyword mercuryCType contained MR_Word MR_Integer MR_Unsigned
   syn keyword mercuryCType contained MR_ArrayPtr MR_Float MR_file MercuryFile[Ptr]
-  syn keyword mercuryCType contained MR_String MR_ConstString
+  syn keyword mercuryCType contained MR_String MR_ConstString MR_Char
   syn match mercuryCType "\v<MR_((Pseudo)?TypeInfo|Construct_Info|TypeCtor(Desc|Info)|AllocSiteInfoPtr)|MercuryLock>" contained
   syn match mercuryCType "\v<(MR_)?[u]?int(_least|_fast)?(8|16|32|64)_t>" contained
   syn match mercuryForeignIface "\v<(MR_)?[U]?INT(_LEAST|_FAST)?(8|16|32|64)_(TYPE|LENGTH_MODIFIER)>" contained
@@ -519,7 +519,7 @@ syn match mercuryCommentInfo contained "\v(Main |Original )?[Aa]uthor[s]?[^\n:]*
 syn match mercuryCommentInfo contained "\v(File|Created on|Date|Source|Stability)[:]@="
       \ nextgroup=mercuryCommentOp
 
-syn keyword mercuryToDo contained XXX TODO NOTE MISSING HACK HINT WARNING
+syn keyword mercuryToDo contained XXX TODO NOTE[_TO_IMPLEMENTORS] MISSING HACK HINT WARNING
       \ nextgroup=mercuryCommentOp
 
   " End of special file markers
@@ -549,11 +549,11 @@ syn keyword mercuryStabilityMedium contained medium nextgroup=mercuryStabilityTo
 syn keyword mercuryStabilityHigh   contained high
 syn match mercuryStabilityTo "\v-| to " contained nextgroup=@mercuryStability
 
-  " Matches file names, email and http addresses (on a best effort basis).
+  " Matches file names, email, file and http addresses (on a best effort basis).
   " This avoids spell checking on those,
   " and could also be used for plug-in development to open a browser, etc.
 syn match mercuryCommentUri contained "\v<[-0-9a-zA-Z.+_]+[@][-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,10}>"
-syn match mercuryCommentUri contained "\v<http[s]?://[^ ><]+>"
+syn match mercuryCommentUri contained "\v<(http[s]?|file)://[^ ><]+>"
 syn match mercuryCommentUri contained "\v<([a-z][a-z0-9._]+[/])*[a-z][a-z0-9._]+[.]m>"
 
 syn cluster mercuryStability contains=mercuryStabilityLow,mercuryStabilityMedium,mercuryStabilityHigh
