@@ -3,6 +3,7 @@ coderay
 mpm
 pry
 rake
+tidy5
 # mercury executables
 c2init
 canonical_grade
