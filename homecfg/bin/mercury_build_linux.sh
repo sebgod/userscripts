@@ -45,7 +45,6 @@
 pushd ~/github/sebgod/mercury
 parallel=-j4
 
-mmake realclean &&
 git checkout build &&
 git rebase master &&
 aclocal -I m4 &&
@@ -60,6 +59,7 @@ mmake MMAKEFLAGS=$parallel &&
 #cd stage2 &&
 #mmake tags
 mmake install MMAKEFLAGS=$parallel &&
+mmake realclean &&
 true
 
 popd
