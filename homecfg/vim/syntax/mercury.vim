@@ -11,7 +11,7 @@ let b:current_syntax = "mercury"
 
   " Mercury is case sensitive.
 syn case match
-set synmaxcol=90
+set synmaxcol=100
 
 if has("folding") && (!exists("mercury_no_folding") || !mercury_no_folding)
     " folding is only changed (if not forced) if the Vim default (manual) is active,
