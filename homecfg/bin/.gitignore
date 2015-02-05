@@ -44,3 +44,10 @@ mtc_union
 prepare_install_dir
 vpath_find
 # end mercury executables
+
+# swipl executables
+swipl
+swipl-ld
+swipl-rc
+xpce-client
+# end of swipl executables
