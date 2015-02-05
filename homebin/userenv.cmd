@@ -24,7 +24,7 @@
 @if defined ConEmuANSI @if /i "%ConEmuANSI%" EQU "ON" set GNUWIN32_COLOR=always
 
 @if /i "%GNUWIN32_COLOR%" NEQ "no" (
-    @prompt $E[4;32m%USERNAME%@%COMPUTERNAME%$E[0m:$E[1;35m$M$E[1;34m$P$S$E[1;36m$+$E[0m$_$G
+    @prompt %USERNAME%@%COMPUTERNAME%:$E[1;35m$M$E[1;34m$P$S$E[1;36m$+$E[0m$_$G
 ) else (
     @prompt %USERNAME%@%COMPUTERNAME%:$M$P$S$+$_$G
 )
