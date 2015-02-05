@@ -1,6 +1,6 @@
 byebug
 coderay
-mpm
+mpm*
 pry
 rake
 tidy5
