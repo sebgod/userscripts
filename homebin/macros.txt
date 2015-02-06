@@ -11,20 +11,24 @@ csc=cscu $*
 gogit=cd /d %GITHUB_DOCS%\$*
 sego=cd /d %GITHUB_DOCS%\$*
 mdev=cd /d %GITHUB_DOCS%\mercury
+gompm=cd /d %GITHUB_DOCS%\mpm
 goextra=cd /d %GITHUB_DOCS%\mercury\extras
 goucd=cd /d %GITHUB_DOCS%\mercury-unicode
 gosr=cd /d %GITHUB_DOCS%\shift-reduce
 homecfg=cd /d %GITHUB_DOCS%\userscripts
 ls=ls --color $*
 gm=git checkout master $*
+guf=git up && git ff
 gumm=git up && git checkout master && git merge upstream/master
 gs=git status $*
 gd=git diff $*
 gd1=git diff @~1 @
+gd2=git diff @~2 @
+gd3=git diff @~3 @
 gdm=git diff master
 hs=hg status $*
 gll=git gr
-git-sego=cd /d %GITHUB_DOCS%$Tgit clone https://github.com/sebgod/$*
+git-sego=cd /d %GITHUB_DOCS && git clone https://github.com/sebgod/$*
 vs=cd /d %home%\Documents\Visual Studio 2012\Projects\$*
 $=start /b /wait cmd /c $*
 gmake=%MAKE% $*
@@ -35,3 +39,8 @@ qmf=ag --nogroup --column --color --mercury "^:- func $*"
 qmp=ag --nogroup --column --color --mercury "^:- pred $*"
 qmi=ag --nogroup --column --color --mercury "^:- (import|include|use)_module $*"
 make=%MAKE% MMC=%MERCURY_HOME:\=/%/bin/mmc $*
+mmc=sh %MERCURY_HOME:\=/%/bin/mmc $*
+mm=sh %MERCURY_HOME:\=/%/bin/mmc --use-grade-subdirs --no-detect-libgrades -s asm_fast.gc -m $*
+mmj=sh %MERCURY_HOME:\=/%/bin/mmc --use-grade-subdirs --no-detect-libgrades -s java -m $*
+mmcs=chcp 850 >nul && sh %MERCURY_HOME:\=/%/bin/mmc --use-grade-subdirs --no-detect-libgrades -s csharp -m $* && chcp 65001 >nul
+mme=sh %MERCURY_HOME:\=/%/bin/mmc --use-grade-subdirs --no-detect-libgrades -s erlang -m $*

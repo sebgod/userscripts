@@ -1,2 +1,2 @@
 @echo Copy gitconfig to %%userprofile%%
-@copy /y "%~dp0..\homecfg\git.config" "%userprofile%\.gitconfig"
+@call cp -f -l "%~dp0..\homecfg\git.config" "%userprofile%\.gitconfig"
