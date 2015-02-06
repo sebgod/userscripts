@@ -253,6 +253,7 @@ syn region  mercuryString matchgroup=mercuryString
       \ mercuryEscErr,mercuryStringEsc,@Spell
 syn match   mercuryStringFmt    /%[-+# *.0-9]*[dioxXucsfeEgGp]/       contained
   " mercury*Esc are common to "mercuryAtom" and "mercuryString"
+syn match   mercuryEscErr       /\v\\([ \t]+$)@=/ contained " matching escaped newline
 syn match   mercuryEscErr       /\v\\[uUx]/ contained " must come before \\u\x{4}
 syn match   mercuryEscErr       /\v\\0/     contained " \0 literals are not allowed
 syn match   mercuryStringEsc    /\\$/       contained " matching escaped newline
