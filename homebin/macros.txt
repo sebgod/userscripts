@@ -38,9 +38,9 @@ qm=ag --nogroup --column --color --mercury $*
 qmf=ag --nogroup --column --color --mercury "^:- func $*"
 qmp=ag --nogroup --column --color --mercury "^:- pred $*"
 qmi=ag --nogroup --column --color --mercury "^:- (import|include|use)_module $*"
-make=%MAKE% MMC=%MERCURY_HOME:\=/%/bin/mmc $*
+make=chcp 850 >nul && %MAKE% MMC=%MERCURY_HOME:\=/%/bin/mmc $* & chcp 65001 >nul
 mmc=sh %MERCURY_HOME:\=/%/bin/mmc $*
 mm=sh %MERCURY_HOME:\=/%/bin/mmc --use-grade-subdirs --no-detect-libgrades -s asm_fast.gc -m $*
 mmj=sh %MERCURY_HOME:\=/%/bin/mmc --use-grade-subdirs --no-detect-libgrades -s java -m $*
-mmcs=chcp 850 >nul && sh %MERCURY_HOME:\=/%/bin/mmc --use-grade-subdirs --no-detect-libgrades -s csharp -m $* && chcp 65001 >nul
+mmcs=chcp 850 >nul && sh %MERCURY_HOME:\=/%/bin/mmc --use-grade-subdirs --no-detect-libgrades -s csharp -m $* & chcp 65001 >nul
 mme=sh %MERCURY_HOME:\=/%/bin/mmc --use-grade-subdirs --no-detect-libgrades -s erlang -m $*
