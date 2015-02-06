@@ -18,7 +18,7 @@ ifeq ($(OS),Windows_NT)
 	# as it creates the bash shell script instead of the Windows batch file
     MCFLAGS += --target-env-type windows
     SUDO:=
-    SORT:=gsort
+    SORT:=sort
 else
     SUDO:=sudo
     SORT:=sort
