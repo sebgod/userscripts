@@ -1,6 +1,6 @@
 " Vim color file
 " Maintainer:	Sebastian Godelet <sebastian.godelet+github@gmail.com>
-" Last Change:	2014-06-17
+" Last Change:	2015-02-15
 " grey on black
 " optimized for TFT panels
 
@@ -20,7 +20,7 @@ highlight Normal     guifg=Grey80	guibg=Black
 highlight Search     guifg=Black	guibg=Red	gui=bold
 highlight Visual     guifg=#404040			gui=bold
 highlight Cursor     guifg=Black	guibg=Green	gui=bold
-highlight Special    guifg=Orange
+highlight Special    guifg=LightMagenta gui=bold
 highlight Comment    guifg=#80a0ff
 highlight StatusLine guifg=blue		guibg=white
 highlight Statement  guifg=Yellow			gui=NONE
@@ -34,7 +34,7 @@ highlight Normal     ctermfg=LightGrey	ctermbg=Black
 highlight Search     ctermfg=Black	ctermbg=Red	cterm=NONE
 highlight Visual					cterm=reverse
 highlight Cursor     ctermfg=Black	ctermbg=Green	cterm=bold
-highlight Special    ctermfg=Brown
+highlight Special    ctermfg=LightMagenta cterm=bold
 highlight Comment    ctermfg=Blue
 highlight StatusLine ctermfg=blue	ctermbg=white
 highlight Statement  ctermfg=Yellow			cterm=NONE
