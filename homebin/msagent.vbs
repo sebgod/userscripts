@@ -1,4 +1,4 @@
-'A VBScript that load's an MSAgent Character on the screen 
+'A VBScript that loads an MSAgent Character on the screen
 ' and make it say the current time and date
 
 'Compiled by Pramod S Nair
