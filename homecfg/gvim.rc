@@ -7,7 +7,8 @@ set bs=2
 set ff=unix
 set ffs=unix,dos
 
-if (strftime("%H", localtime()) >= 17)
+let s:cur_hour=strftime("%H", localtime())
+if (s:cur_hour >= 17 || s:cur_hour < 9)
   colorscheme sebgod
 else
   colorscheme sebgod_bright
