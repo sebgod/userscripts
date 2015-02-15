@@ -570,7 +570,7 @@ if exists("mercury_highlight_comment_special") && mercury_highlight_comment_spec
     " Header means the line describing the Arguments of a predicate or function,
     " terminated with a colon. This also stops spell check on the argument names,
     " which Vim is not good at dealing with.
-  syn region mercuryCommentHeader contained matchgroup=Special
+  syn region mercuryCommentHeader contained matchgroup=mercuryString
         \ start='\v[A-Za-z._0-9]+([(]([)]|[\[][a-z"])@!|\s*[=])@='
         \ matchgroup=NONE keepend
         \ end="\v([.])|([:][-]@!)|(<[a-z]@=)|[)%][ \t]*[\n]@="
@@ -647,9 +647,9 @@ if exists("mercury_highlight_comment_special") && mercury_highlight_comment_spec
   hi def link mercuryCommentSlash   Operator
   hi def link mercuryCommentArity   Number
   hi def link mercuryCommentHeaderCont Comment
-  hi def link mercuryCommentSingleQuote  Special
+  hi def link mercuryCommentSingleQuote  String
   hi def link mercuryCommentTexDblQuote  String
-  hi def link mercuryCommentTexSingleQuote  Special
+  hi def link mercuryCommentTexSingleQuote  String
 endif
 hi def link mercuryCommentOp        Operator
 hi def link mercuryCopyrightSymbol  Operator
