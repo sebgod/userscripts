@@ -574,17 +574,29 @@ if exists("mercury_highlight_comment_special") && mercury_highlight_comment_spec
         \ start='\v[a-z0-9][A-Za-z._0-9]*([(]([)]|[\[][a-z"])@!|\s*[=])@='
         \ matchgroup=NONE keepend
         \ end="\v([.])|([:][-]@!)|(<[a-z]@=)|[)%][ \t]*[\n]@="
-        \ contains=mercuryOperator,mercuryBlock,mercuryList,mercuryDCGOrTuple,
+        \ contains=mercuryOperator,mercuryCommentHeaderBlock,
+        \ mercuryCommentHeaderList,mercuryCommentHeaderTuple,
         \ mercuryErrInAny,mercuryCommentHeaderCont,@mercuryFormatting
   syn match mercuryCommentHeaderCont contained "\v^[ \t]*[%]"
-
-  syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline
-        \ contained nextgroup=mercuryCommentSlash
-  syn region mercuryCommentTexDblQuote start="``" end="''" oneline contained contains=@Spell
+  syn region mercuryCommentHeaderList contained matchgroup=mercuryBracket
+        \ start='\[' end=']' transparent fold
+        \ contains=@mercuryTerms,mercuryCommentHeaderCont
+  syn region mercuryCommentHeaderBlock contained matchgroup=mercuryBracket
+        \ start='(' end=')' transparent fold
+        \ contains=@mercuryTerms,mercuryCommentHeaderCont
+  syn region  mercuryCommentHeaderTuple contained matchgroup=mercuryBracket
+        \ start='{' end='}' transparent fold
+        \ contains=@mercuryTerms,mercuryCommentHeaderCont
+  syn region mercuryCommentTexSingleQuote contained oneline
+        \ start="\v`[^`]@=" end="\v'" nextgroup=mercuryCommentSlash
+  syn region mercuryCommentTexDblQuote start="``" end="''" oneline contained
+        \ contains=@Spell
 
   syn cluster mercuryCommentSpecialLines add=mercuryCommentHeader
-  syn cluster mercuryCommentDirectives add=mercuryCommentSingleQuote,@mercuryCommentTex
-  syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote,mercuryCommentTexSingleQuote
+  syn cluster mercuryCommentDirectives add=mercuryCommentSingleQuote
+  syn cluster mercuryCommentDirectives add=@mercuryCommentTex
+  syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote
+  syn cluster mercuryCommentTex contains=mercuryCommentTexSingleQuote
 endif
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
