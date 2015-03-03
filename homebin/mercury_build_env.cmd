@@ -9,14 +9,17 @@
 )
 
 @if defined MERCURY_BIN goto :EXEC_SHELL
-@echo Cannot determine existing Mercury installation for bootstrapping
-@echo Env: MERCURY_HOME=%MERCURY_HOME%
+@echo Cannot determine existing Mercury installation for bootstrapping 1>&2
+@echo Env: MERCURY_HOME=%MERCURY_HOME% 1>&2
 @exit /b 1
 
 :EXEC_SHELL
 @set PATH=%MERCURY_BIN%;%PATH%
-@echo Env: PATH=%PATH%
-@sh --login -i
+@if "%1" EQU "" (
+    call sh --login -i
+) else (
+    call sh %*
+)
 @exit /b 0
 
 :SET_HOME
