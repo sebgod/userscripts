@@ -573,7 +573,7 @@ if exists("mercury_highlight_comment_special") && mercury_highlight_comment_spec
     " terminated with a colon. This also stops spell check on the argument names,
     " which Vim is not good at dealing with.
   syn region mercuryCommentHeader contained matchgroup=mercuryString
-        \ start='\v[a-z0-9][A-Za-z._0-9]*([(]([)]|[\[][a-z"])@!|\s*[=])@='
+        \ start='\v[a-z][A-Za-z._0-9]*([(]([)]|[\[][a-z"])@!|\s*[=])@='
         \ matchgroup=NONE keepend
         \ end="\v([.])|([:][-]@!)|(<[a-z]@=)|[)%][ \t]*[\n]@="
         \ contains=mercuryOperator,mercuryCommentHeaderBlock,
