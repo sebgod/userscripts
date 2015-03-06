@@ -18,7 +18,8 @@
 @if "%1" EQU "" (
     call sh --login -i
 ) else (
-    call sh %*
+    set MERCURY_DEV=%~dp1
+    call sh --login %*
 )
 @exit /b 0
 
