@@ -520,7 +520,9 @@ syn match mercuryCommentInfo contained "\v(Main |Original )?[Aa]uthor[s]?[^\n:]*
 syn match mercuryCommentInfo contained "\v(File|Created on|Date|Source|Stability)[:]@="
       \ nextgroup=mercuryCommentOp
 
-syn keyword mercuryToDo contained XXX TODO NOTE[_TO_IMPLEMENTORS] MISSING HACK HINT WARNING
+syn keyword mercuryToDo contained XXX TODO NOTE[_TO_IMPLEMENTORS] MISSING HACK
+      \ nextgroup=mercuryCommentOp
+syn keyword mercuryToDo contained HINT WARNING IMPORTANT
       \ nextgroup=mercuryCommentOp
 
   " End of special file markers
@@ -571,20 +573,32 @@ if exists("mercury_highlight_comment_special") && mercury_highlight_comment_spec
     " terminated with a colon. This also stops spell check on the argument names,
     " which Vim is not good at dealing with.
   syn region mercuryCommentHeader contained matchgroup=mercuryString
-        \ start='\v[a-z0-9][A-Za-z._0-9]*([(]([)]|[\[][a-z"])@!|\s*[=])@='
+        \ start='\v[a-z][A-Za-z._0-9]*([(]([)]|[\[][a-z"])@!|\s*[=])@='
         \ matchgroup=NONE keepend
         \ end="\v([.])|([:][-]@!)|(<[a-z]@=)|[)%][ \t]*[\n]@="
-        \ contains=mercuryOperator,mercuryBlock,mercuryList,mercuryDCGOrTuple,
+        \ contains=mercuryOperator,mercuryCommentHeaderBlock,
+        \ mercuryCommentHeaderList,mercuryCommentHeaderTuple,
         \ mercuryErrInAny,mercuryCommentHeaderCont,@mercuryFormatting
   syn match mercuryCommentHeaderCont contained "\v^[ \t]*[%]"
-
-  syn region mercuryCommentTexSingleQuote start="\v`[^`]@=" end="\v'" oneline
-        \ contained nextgroup=mercuryCommentSlash
-  syn region mercuryCommentTexDblQuote start="``" end="''" oneline contained contains=@Spell
+  syn region mercuryCommentHeaderList contained matchgroup=mercuryBracket
+        \ start='\[' end=']' transparent fold
+        \ contains=@mercuryTerms,mercuryCommentHeaderCont
+  syn region mercuryCommentHeaderBlock contained matchgroup=mercuryBracket
+        \ start='(' end=')' transparent fold
+        \ contains=@mercuryTerms,mercuryCommentHeaderCont
+  syn region  mercuryCommentHeaderTuple contained matchgroup=mercuryBracket
+        \ start='{' end='}' transparent fold
+        \ contains=@mercuryTerms,mercuryCommentHeaderCont
+  syn region mercuryCommentTexSingleQuote contained oneline
+        \ start="\v`[^`]@=" end="\v'" nextgroup=mercuryCommentSlash
+  syn region mercuryCommentTexDblQuote start="``" end="''" oneline contained
+        \ contains=@Spell
 
   syn cluster mercuryCommentSpecialLines add=mercuryCommentHeader
-  syn cluster mercuryCommentDirectives add=mercuryCommentSingleQuote,@mercuryCommentTex
-  syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote,mercuryCommentTexSingleQuote
+  syn cluster mercuryCommentDirectives add=mercuryCommentSingleQuote
+  syn cluster mercuryCommentDirectives add=@mercuryCommentTex
+  syn cluster mercuryCommentTex contains=mercuryCommentTexDblQuote
+  syn cluster mercuryCommentTex contains=mercuryCommentTexSingleQuote
 endif
 
 if exists("mercury_highlight_full_comment") && mercury_highlight_full_comment
