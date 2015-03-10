@@ -385,10 +385,11 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryCLikeCharEsc /\v\\\\([abfnrtv]|0[0-7]*|[xuU]\x+)?/ contained
   syn match mercuryCLikeCharEsc +\\\\""+ contained
   syn region mercuryCLikeChar start=+'+ end=+'+ contained contains=mercuryCLikeCharEsc
-  syn cluster mercuryCLike contains=mercuryCLikeKeyword,mercuryCLikeType,
+  syn cluster mercuryCLike contains=mercuryCLikeKeyword,mercuryCLikeType
   syn cluster mercuryCLike add=mercuryCLikeOperator,mercuryCComment,mercuryCLikeChar
   syn cluster mercuryCLike add=mercuryNumCode,mercuryFloat,mercuryCLikeBracket
   syn cluster mercuryCLike add=mercuryCLikeDelimiter,mercuryForeignIface
+  syn cluster mercuryCLike add=@mercuryFormatting
 
     " C-Language formatting with Mercury types MR_*
   syn keyword mercuryCType contained const size_t pid_t offset_t union
@@ -475,18 +476,22 @@ if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
   syn match mercuryErlangLogical "\v[,;.]" contained
   syn region mercuryErlangString start=+""+ end=+""+ contained contains=@Spell
   syn region mercuryErlangString start=+\v\\"+ end=+\v\\"+ contained contains=@Spell
-  syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,mercuryErlangString,
-        \ mercuryCLikeChar,mercuryNumCode,mercuryErlangExtNumLiteral,mercuryFloat,mercuryComment,mercuryKeyword,
-        \ mercuryErlangKeyword, mercuryErlangOperator, mercuryCComment,mercuryErlangBool,
-        \ mercuryOperator,mercurySingleton,mercuryImplication,
-        \ mercuryErlangDCGAction,mercuryErlangLogical
+  syn cluster mercuryErlangTerms contains=mercuryErlangBlock,mercuryErlangList,
+        \ mercuryErlangString,mercuryCLikeChar,mercuryNumCode,
+        \ mercuryErlangExtNumLiteral,mercuryFloat,mercuryComment,mercuryKeyword,
+        \ mercuryErlangKeyword, mercuryErlangOperator, mercuryCComment,
+        \ mercuryErlangBool,mercuryOperator,mercurySingleton,mercuryImplication,
+        \ mercuryErlangDCGAction,mercuryErlangLogical,@mercuryFormatting
   syn region  mercuryErlangList contained matchgroup=mercuryBracket
         \ start='\[' end=']' transparent fold  contains=@mercuryErlangTerms
   syn region  mercuryErlangBlock    contained matchgroup=mercuryBracket
         \ start='(' end=')'  transparent fold  contains=@mercuryErlangTerms
   syn region  mercuryErlangDCGAction contained matchgroup=mercuryBracket
         \ start='{' end='}'  transparent fold  contains=@mercuryErlangTerms
-  syn cluster mercuryErlang    contains=@mercuryErlangTerms,mercuryErlangDCGAction,mercuryForeignIface
+
+  syn cluster mercuryErlang contains=@mercuryErlangTerms,mercuryErlangDCGAction,
+        \ mercuryForeignIface
+
   syn region mercuryErlangCode   matchgroup=mercuryString start=+"+ skip=+""+ end=+"+
         \ transparent fold contained contains=@mercuryErlang
 
