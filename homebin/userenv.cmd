@@ -76,6 +76,13 @@
 @if not exist "%MS_VS_HOME%" (
     set MS_VS_HOME=
 )
-@if defined MS_VS_HOME call "%MS_VS_HOME%\Common7\Tools\VsDevCmd"
+
+@set MS_VS_CROSS_X86_AMD64=%MS_VS_HOME%\VC\bin\x86_amd64
+@if exist "%MS_VS_CROSS_X86_AMD64%" (
+    call "%MS_VS_CROSS_X86_AMD64%\vcvarsx86_amd64"
+) else (
+    if defined MS_VS_HOME call "%MS_VS_HOME%\Common7\Tools\VsDevCmd"
+)
+::
 @if defined MERCURY_HOME path %path%;%MERCURY_HOME%\bin
 @doskey /MACROFILE="%~dp0macros.txt"
