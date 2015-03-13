@@ -35,11 +35,11 @@ alias gcb="git checkout -b"
 alias gl="git log"
 alias gll="git gr"
 alias gu="git up"
-alias guf="git up && git ff"
+alias guf="git checkout master && git up && git ff"
 alias git-gr="git gr"
 alias git-bv="git bv"
 alias git-ff="git ff"
-alias gumm="git up && git ff && git checkout master && git merge upstream/master"
+alias gumm="git checkout master && git up && git ff && git merge upstream/master"
 
 # useful functions
 function git-sego()
