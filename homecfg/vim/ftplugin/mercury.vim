@@ -23,23 +23,30 @@ setlocal makeprg="mmc -m"
   " Don't wrap over-long lines.
   "
 setlocal wrapmargin=0
-setlocal textwidth=0
 
-  " These settings allow for neater coding styles, but
-  " should not be imposed on existing files that use,
-  " say, the default `tabstop=8, shiftwidth=8, noexpandtab'.
+  " if you want to follow the Mercury coding standard of 78 wide columns,
+  " enable following option in your ~/.vimrc:
   "
+  "     let g:mercury_coding_standard = 1
+  "
+if exists("mercury_coding_standard") && mercury_coding_standard
+  setlocal textwidth=78
+  if v:version >= 703
+    setlocal colorcolumn=+1
+    " Controls how autoindenting works.  See the Vim help pages for details.
+    set fo-=t " do not automatically wrap text
+    set fo+=c " auto wrap comments, using comment leader
+    set fo+=r " automatically insert the comment leader after <CR>
+    set fo+=q " enable tq feature
+  endif
+  setlocal tabstop=4
+  setlocal shiftwidth=4
+  setlocal expandtab
+endif
+
   " It is a good idea to have a modeline comment at the top
   " of your Mercury source files containing
   " ` vim: ft=mercury ff=unix ts=4 sw=4 et '
-  "
-" setlocal tabstop=8
-" setlocal shiftwidth=8
-" setlocal expandtab   
-
-  " Controls how autoindenting works.  See the Vim help pages for details.
-  "
-setlocal formatoptions=trcq
 
   " <C-X>l inserts a comment line.
   "
@@ -104,7 +111,8 @@ fu! s:HighlightMatchingVariables()
   let l:lineL1PredStart = search("^[:a-z']", 'nWb')
   let l:posEnd = searchpos('\v[.]($|\s+)', 'nW')
 
-  while s:CurrentSynIsTransparent(l:posEnd) > 0
+    " We do not want to match a dot within strings or lists, etc.
+  while s:CurrentSynIsInRegion(l:posEnd) > 0
     let l:posEnd = searchpos('\v[.]($|\s+)%>' . l:posEnd[0] . 'l', 'nW')
   endwhile
 
@@ -145,9 +153,10 @@ fu! s:CreateVariableMatch(variable, start, end)
         \ '%<' . (a:end   + 1) . 'l' . '/'
 endfu
 
-fu! s:CurrentSynIsTransparent(pos)
+fu! s:CurrentSynIsRegion(pos)
   if a:pos[0] == 0|return 0|endif
   let l:id = synID(a:pos[0], a:pos[1], 0)
+  " TODO: Also check for mercuryString
   return l:id == synIDtrans(l:id) ? 1 : 0
 endfu
 

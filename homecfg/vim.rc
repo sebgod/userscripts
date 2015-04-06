@@ -36,6 +36,7 @@ set pastetoggle=<F2>
 " Mercury related settings
 let g:mercury_conceal_extra = 1
 let g:mercury_highlight_comment_special = 1
+let g:mercury_coding_standard = 1
 
 if v:version >= 703
   set colorcolumn=+1
