@@ -65,12 +65,12 @@ if has("autocmd")
 endif
 
 if has("multi_byte")
-  set encoding=utf-8                     " better default than latin1
-  setglobal fileencoding=utf-8           " change default file encoding when writing new files
+  set encoding=utf-8            " better default than latin1
+  setglobal fileencoding=utf-8  " change default file encoding when writing new files
   if &termencoding == ""
     let &termencoding = &encoding
   endif
-  " for some mathematical characters, it is better to have double with,
+  " XXX for some mathematical characters, it is better to have double with,
   " but this leads to problems with some pīnyīn characters.
   " setglobal ambiwidth=double
 endif

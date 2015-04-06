@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:     Mercury
-" Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
-" Last Change:  2014-07-07
+" Maintainer:   Sebastian Godelet <sebastian.godelet@outlook.com>
+" Last Change:  2015-04-06
 " vim: ts=2 sw=2 et
 
 if exists("b:did_mercury_ftplugin")
@@ -14,7 +14,7 @@ let b:did_mercury_ftplugin = 1
   " I find it handy to run `mtags' over the Mercury library .m files
   " and move the resulting tags file to `$HOME/mercury/tags.library'.
   "
-setlocal tags+=$HOME/github/mercury/tags.library,$HOME/github/mercury/tags.compiler
+setlocal tags+=$HOME/mercury/tags.library,$HOME/mercury/tags.compiler
 
   " Handy if you use `:make'.
   "
@@ -23,7 +23,7 @@ setlocal makeprg="mmc -m"
   " Don't wrap over-long lines.
   "
 setlocal wrapmargin=0
-setlocal textwidth=78
+setlocal textwidth=0
 
   " These settings allow for neater coding styles, but
   " should not be imposed on existing files that use,
@@ -43,8 +43,8 @@ setlocal formatoptions=trcq
 
   " <C-X>l inserts a comment line.
   "
-nnoremap <C-X>l o0<C-D>%----------------------------------------------------------------------------%<CR><ESC>x
-inoremap <C-X>l ------------------------------------------------------------------------------<ESC>80<BAR>C%<CR>
+nnoremap <C-X>l o0<C-D>%--------------------------------------------------------------------------%<CR><ESC>x
+inoremap <C-X>l ----------------------------------------------------------------------------<ESC>78<BAR>C%<CR>
 
   " <F6> attempts to wrap a call up with { } braces for DCG escapes.
   "
@@ -82,16 +82,16 @@ endif
   " Go to the bottom window and rerun the last mmake command.
   " Reload any .err buffers that have changed.
   "
-nnoremap ,m <C-W>b:!mmake<UP><CR>
+nnoremap ,m <C-W>b:!make<UP><CR>
 autocmd! FileChangedShell *.err vi!
 
   " Match all the occurances of the variable under the cursor
   "
 augroup mercuryMatchVar
-  autocmd! CursorMoved,CursorMovedI,WinEnter <buffer> call s:Highlight_Matching_Variables()
+  autocmd! CursorMoved,CursorMovedI,WinEnter <buffer> call s:HighlightMatchingVariables()
 augroup END
 
-fu! s:Highlight_Matching_Variables()
+fu! s:HighlightMatchingVariables()
     " Avoid that we remove the popup menu.
     " Return when there are no colors (looks like the cursor jumps).
   if pumvisible() || (&t_Co < 8 && !has("gui_running"))
@@ -123,9 +123,9 @@ fu! s:Highlight_Matching_Variables()
     let w:variable_hl_on = 0
   endif
 
-  let w:variable        = l:variable
-  let w:lineL1PredStart = l:lineL1PredStart
-  let w:lineL1PredEnd   = l:lineL1PredEnd
+  let w:variable         = l:variable
+  let w:lineL1PredStart  = l:lineL1PredStart
+  let w:lineL1PredEnd    = l:lineL1PredEnd
   let w:lineL1PredEndCol = l:posEnd[1]
 
     " Abort if there is no variable under the cursor

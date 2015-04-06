@@ -1,8 +1,8 @@
 " vim: ft=vim ts=2 sw=2 et
 " Language:     Mercury
-" Maintainer:   Sebastian Godelet <sebastian.godelet+github@gmail.com>
+" Maintainer:   Sebastian Godelet <sebastian.godelet@outlook.com>
 " Extensions:   *.m *.moo
-" Last Change:  2015-01-20
+" Last Change:  2015-04-06
 
 if exists("b:current_syntax")
   finish
@@ -25,68 +25,6 @@ if has("folding") && (!exists("mercury_no_folding") || !mercury_no_folding)
     set foldminlines=10
   endif
 endif
-
-  " In your .vimrc file, you can specify following options:
-  "
-  " The default highlighting for  Mercury comments is to only highlight the
-  " initial `%' and subsequent `line' punctuation characters, likewise
-  " the /* and */ from C-style comments.
-  " To highlight everything including the comment text, add:
-  "
-  "   let mercury_highlight_full_comment = 1
-  "
-  " By default, parts of lines that extend over 78 characters will be
-  " highlighted.  To avoid this behaviour, add:
-  "
-  "   let mercury_no_highlight_overlong = 1
-  "
-  " If folding is supported by the running Vim version, the setting of the
-  " preferred folding mode for Mercury (currently indent, as it is the fastest)
-  " can be disabled by
-  "
-  "    let mercury_no_folding = 1
-  "
-  " If you want to force the folding setting to indent (despite a different
-  " setting in the vimrc file), you can enforce it:
-  "
-  "    let mercury_folding_force = 1
-  "
-  " To facilitate better git patch management,
-  " spurious whitespace is marked as a warning, to suppress these, use:
-  "
-  "   let mercury_no_highlight_trailing_whitespace = 1
-  "
-  " For the same reasons, tabs are marked as a warning,
-  " if you are on the tab side of the "tabs vs spaces" war, please use:
-  "
-  "   let mercury_no_highlight_tabs = 1
-  "
-  " Highlighting of C, Java, C# and Erlang code is supported by default,
-  " disable (if you think loading huge files is slow) with:
-  "
-  "   let mercury_no_highlight_foreign = 1
-  "
-  " Enable highlighting of Tex specific directives used in comments,
-  " such as `' or ``'':
-  "
-  "   let mercury_highlight_comment_special = 1
-  "
-  " If you use Vim 7.3+ with conceal enabled but do not want any concealing
-  " of operators, use:
-  "
-  "   let mercury_no_coneal = 1
-  "
-  " To enable concealing for characters which require a good Unicode font
-  " and might be "too much" for some users, define:
-  "
-  "   let mercury_conceal_extra = 1
-  "
-  " If concealing of extra characters is enabled, one can additionally
-  " enable concealing for logical operators, such as <=> => <= some all
-  " by setting:
-  "
-  "   let mercury_conceal_logical = 1
-  "
 
 syn match mercurySingleton      "\v<_([A-Z][a-z_A-Z0-9]*)?>"
 syn keyword mercuryKeyword      any_func
@@ -274,7 +212,7 @@ syn match mercuryOperator       "\.\."          " after mercuryTerminator
 if has("conceal") && (!exists("mercury_no_conceal") || !mercury_no_conceal)
   hi clear Conceal
   hi def link Conceal mercuryOperator
-  set conceallevel=2
+  setlocal conceallevel=2
 
     " A crude but simple "solution" to the compose operator problem
   syn match mercuryOperator  "`compose`" conceal cchar=o
