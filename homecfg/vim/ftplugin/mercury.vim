@@ -112,7 +112,7 @@ fu! s:HighlightMatchingVariables()
   let l:posEnd = searchpos('\v[.]($|\s+)', 'nW')
 
     " We do not want to match a dot within strings or lists, etc.
-  while s:CurrentSynIsInRegion(l:posEnd) > 0
+  while s:CurrentSynIsRegion(l:posEnd) > 0
     let l:posEnd = searchpos('\v[.]($|\s+)%>' . l:posEnd[0] . 'l', 'nW')
   endwhile
 
