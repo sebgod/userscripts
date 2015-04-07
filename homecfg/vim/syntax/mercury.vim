@@ -2,7 +2,7 @@
 " Language:     Mercury
 " Maintainer:   Sebastian Godelet <sebastian.godelet@outlook.com>
 " Extensions:   *.m *.moo
-" Last Change:  2015-04-06
+" Last Change:  2015-04-07
 
 if exists("b:current_syntax")
   finish
@@ -278,6 +278,8 @@ syn region  mercuryForeignModList matchgroup=mercuryBracket start='\[' end=']'
       \ transparent fold  contained contains=mercuryForeignMod,
       \ mercuryDelimiter,@mercuryComments,@mercuryFormatting,
       \ mercuryString,mercuryOperator,mercuryBlock
+
+syn match mercuryClauseHead /\v^[a-zA-Z_]+[(]@=/
 
 if !exists("mercury_no_highlight_foreign") || !mercury_no_highlight_foreign
     " Basic syntax highlighting for foreign code
@@ -597,6 +599,7 @@ hi def link mercurySingleton        Identifier
 hi def link mercuryAtom             Constant
 hi def link mercuryBracket          Delimiter
 hi def link mercuryBool             Special
+hi def link mercuryClauseHead       Statement
 hi def link mercuryCommentErr       ErrorMsg
 hi def link mercuryCommentToken     Comment
 hi def link mercuryCommentInfo      Identifier
