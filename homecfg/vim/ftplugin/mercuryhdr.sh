@@ -1,20 +1,6 @@
 #!/bin/sh
 # vim: ft=sh ff=unix ts=4 sw=4 tw=78 et
-DIR=$( cd "$( dirname "$1" )" && pwd )
 MODULE=$(echo $(basename "$1" ) | sed 's/\.m$//')
-PARENT=$(basename $(echo $DIR | sed 's/src$//' | sed 's/-/_/g' ))
-case "$MODULE" in
-    *\.*)
-        unset PARENT
-        ;;
-    *)
-        if [ "$PARENT" = "$MODULE" ] ; then
-            unset PARENT
-        else
-            PARENT="${PARENT}."
-        fi
-        ;;
-esac
 FILE="${MODULE}.m"
 cat <<EOF
 %----------------------------------------------------------------------------%
@@ -29,15 +15,15 @@ cat <<EOF
 % TODO: module documentation
 %----------------------------------------------------------------------------%
 
-:- module $PARENT$MODULE.
+:- module $MODULE.
 
 :- interface.
 
-% TODO: include/import/use modules
+% TODO: insert predicates & functions
 
 %----------------------------------------------------------------------------%
 
-% TODO: insert predicates & functions
+% TODO: declare predicates & functions
 
 %----------------------------------------------------------------------------%
 %----------------------------------------------------------------------------%
@@ -51,6 +37,6 @@ cat <<EOF
 % TODO: implement predicates & functions
 
 %----------------------------------------------------------------------------%
-:- end_module $PARENT$MODULE.
+:- end_module $MODULE.
 %----------------------------------------------------------------------------%
 EOF
