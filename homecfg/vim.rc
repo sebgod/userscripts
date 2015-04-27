@@ -34,6 +34,7 @@ set suffixes=.exe,.dll,.jar,.so,.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf
 set pastetoggle=<F2>
 
 " Mercury related settings
+let g:mercury_conceal = 1
 let g:mercury_conceal_extra = 1
 let g:mercury_highlight_extra = 1
 let g:mercury_highlight_comment_special = 1
