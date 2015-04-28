@@ -44,6 +44,9 @@
 :: Home of the mainly used Mercury distribution (usually bootstrapped)
 @set MERCURY_HOME=C:\mercury-dev
 @if not exist "%MERCURY_HOME%" (
+    set MERCURY_HOME=C:\mercury\dev-gcc
+)
+@if not exist "%MERCURY_HOME%" (
     set MERCURY_HOME=
 )
 

@@ -15,12 +15,15 @@
 
 :EXEC_SHELL
 @set PATH=%MERCURY_BIN%;%PATH%
+@set MERCURY_DEV=B:\temp\mercury
+@set SOURCE=%~dp1
+@robocopy %SOURCE% %MERCURY_DEV% /MIR /DCOPY:DAT /SL /NP /NJH /NJS /NFL /NDL
 @if "%1" EQU "" (
-    call sh --login -i
+    set PARAM=-i
 ) else (
-    set MERCURY_DEV=%~dp1
-    call sh --login %*
+    set PARAM="%MERCURY_DEV%\%~nx1"
 )
+@call sh --login %PARAM%
 @exit /b 0
 
 :SET_HOME
