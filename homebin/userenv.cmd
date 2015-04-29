@@ -1,5 +1,12 @@
 @if defined ProgramNative exit /b 0
 
+:: Use a ramdisk for temp
+@set MAYBE_TEMP=b:\%username%\Temp
+@if exist "%MAYBE_TEMP%" (
+    set TEMP=%MAYBE_TEMP%
+    set TMP=%MAYBE_TEMP%
+)
+
 :: HOME variable is used by various GNU based scripts
 @set HOME=%SystemDrive%\Users\%username%
 @if not exist "%HOME%" set HOME=%userprofile%
@@ -43,12 +50,8 @@
 
 :: Home of the mainly used Mercury distribution (usually bootstrapped)
 @set MERCURY_HOME=C:\mercury-dev
-@if not exist "%MERCURY_HOME%" (
-    set MERCURY_HOME=C:\mercury\dev-gcc
-)
-@if not exist "%MERCURY_HOME%" (
-    set MERCURY_HOME=
-)
+@if not exist "%MERCURY_HOME%" set MERCURY_HOME=C:\mercury\dev-gcc
+@if not exist "%MERCURY_HOME%" set MERCURY_HOME=
 
 :: (GNU) Make detection. On Systems with Borland Delphi installed, that will be
 :: in the path first, hence we need to detect if we use the proper one,
@@ -76,9 +79,7 @@
 :: HACK update this when/if updating Visual Studio.
 :: This SHOULD actually use the registry to detect the main VS version
 @set MS_VS_HOME=%ProgramFiles32%\Microsoft Visual Studio 11.0
-@if not exist "%MS_VS_HOME%" (
-    set MS_VS_HOME=
-)
+@if not exist "%MS_VS_HOME%" set MS_VS_HOME=
 
 @set MS_VS_CROSS_X86_AMD64=%MS_VS_HOME%\VC\bin\x86_amd64
 @if exist "%MS_VS_CROSS_X86_AMD64%" (
@@ -86,6 +87,9 @@
 ) else (
     if defined MS_VS_HOME call "%MS_VS_HOME%\Common7\Tools\VsDevCmd"
 )
-::
+
 @if defined MERCURY_HOME path %path%;%MERCURY_HOME%\bin
+@if exist "%GITHUB_DOCS%\jssc\jssc.cmd" path %path%;%GITHUB_DOCS%\jssc
+
+:: Doskey macros
 @doskey /MACROFILE="%~dp0macros.txt"

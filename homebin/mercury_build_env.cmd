@@ -15,14 +15,16 @@
 
 :EXEC_SHELL
     @set PATH=%MERCURY_BIN%;%PATH%
-    @if not defined MERCURY_GIT set MERCURY_GIT=B:\temp\mercury
+    @set TEMP=B:\sebastian\temp
+    @set TMP=%TEMP%
     @if not defined MERCURY_CC  set MERCURY_CC=gcc
+    @if not defined MERCURY_GIT set MERCURY_GIT=B:\mercury-%MERCURY_CC%
     @if not defined MERCURY_LIBGRADES set MERCURY_LIBGRADES=asm_fast.gc,csharp,java,erlang
     @set SOURCE=%~dp1
     @if "%1" EQU "" (
         set PARAM=-i
     ) else (
-        robocopy %SOURCE% %MERCURY_GIT% /MIR /DCOPY:DAT /SL /NP /NJH /NJS /NFL /NDL 1>nul
+        robocopy %SOURCE% %MERCURY_GIT% /MIR /DCOPY:DAT /SL /NP /NJH /NJS /NFL /NDL
         set PARAM="%MERCURY_GIT%\%~nx1"
     )
     @call sh --login %PARAM%

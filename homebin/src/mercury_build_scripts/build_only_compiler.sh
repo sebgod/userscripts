@@ -6,6 +6,10 @@ TARGET_DRIVE=c
 TARGET_DIR=/mercury/dev-$MERCURY_CC
 PREFIX=${TARGET_DRIVE}:${TARGET_DIR}
 
+echo ./configure --with-cc=$MERCURY_CC --prefix=$PREFIX \
+    --enable-libgrades=$MERCURY_LIBGRADES \
+    --enable-new-mercuryfile-struct
+
 git checkout build &&
 git rebase master &&
 aclocal -I m4 &&

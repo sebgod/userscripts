@@ -2,7 +2,11 @@
 #
 pushd $MERCURY_GIT
 PARALLEL=-j2
-TARGET=c:/mercury/dev-$MERCURY_CC
+PREFIX=c:/mercury/dev-$MERCURY_CC
+
+echo ./configure --with-cc=$MERCURY_CC --prefix=$PREFIX \
+    --enable-libgrades=$MERCURY_LIBGRADES \
+    --enable-new-mercuryfile-struct
 
 git checkout build &&
 git rebase master &&
