@@ -56,3 +56,8 @@ swipl-ld
 swipl-rc
 xpce-client
 # end of swipl executables
+
+# swig executables
+ccache-swig
+swig
+# end of swig executables
