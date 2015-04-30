@@ -1,68 +1,58 @@
-#!/bin/bash
+#!/usr/bin/env sh
 #
-# INSTALL_GIT - installation instructions and installation script.
-#
-# This version is for use by Mercury developers after you have just
-# checked the files out from the Git archive. 
-# Note: you need a previous version of Mercury already installed, since
-# the Git archive doesn't have all the necessary files for bootstrapping.
-#
-# You also need autoconf (version 2.58 or later) (and hence GNU m4) installed.
-#
-# Step 0.  aclocal -I m4
-#
-# Step 1.  autoconf
-#
-# Step 2.  ./configure
-#
-# Step 3.  mmake depend
-#
-# Step 4.  mmake
-#
-# Step 5.  tools/bootcheck
-#
-# Step 6.  cd stage2 
-#
-# Step 7.  mmake install
-#
-#	   If you just want to do a `make' rather than a `make install',
-#	   then comment out the `mmake install' line below.
-#
-#	   If you want to install without doing a boot check, then comment
-#	   out the `tools/bootcheck' and `cd stage2' lines below.  If the
-#	   version of the compiler you checked out is buggy and you don't
-#	   perform a boot check first, you risk installing a version of the
-#	   compiler incapable of compiling itself.  Make sure you have a
-#	   fall-back plan if you do this.
-#	   Note also that occasionally changes made to the compiler mean
-#	   that installing from a stage 1 build will fail, even when the
-#	   compiler is fine.  In such cases the only way to install the
-#	   compiler is from the stage 2 directory.
-#
-#	   If you don't want to do a parallel make, comment out the
-#	   `parallel=-j3' line below.
 
 SOURCE=${MERCURY_GIT-~/github/sebgod/mercury}
-pushd $SOURCE
-parallel=-j4
-LIBGRADES=${MERCUR_LIBGRADES-asm_fast.gc,java,csharp,erlang}
+CC=${MERCURY_CC-gcc}
+TARGET_WITH_CC=$HOME/mercury/dev-${CC//[[:blank:]]/}
+CONFIGURE=configure
+CONFIGURE_EXTRA=
+LAST_COMMAND=true
+case $CC in
+    gcc)
+        TARGET=$HOME
+        ;;
+    mingw*)
+        TARGET=$TARGET_WITH_CC
+        CONFIGURE=tools/configure_mingw_cross
+        LAST_COMMAND=ln -s $HOME/bin/mercury_compile $TARGET/bin
+        case $CC in
+            mingw32)
+                CONFIGURE_EXTRA="--host=i686-pc-mingw32"
+                ;;
+            mingw64)
+                CONFIGURE_EXTRA="--host=x86_64-w64-mingw32"
+                ;;
+            *)
+                echo "WARN: $CC is not supported!"
+                ;;
+        )
+        ;;
+    *)
+        TARGET=$TARGET_WITH_CC
+        CONFIGURE_EXTRA="--with-cc=$CC"
+        ;;
+esac
+PARALLEL=-j4
+LIBGRADES=${MERCURY_LIBGRADES-asm_fast.gc,java,csharp,erlang}
 
+pushd $SOURCE
 git checkout build &&
 git rebase master &&
 aclocal -I m4 &&
 autoconf &&
-./configure --prefix=$HOME \
+./$CONFIGURE --prefix=$TARGET \
+    $CONFIGURE_EXTRA \
     --enable-libgrades=$LIBGRADES \
     --enable-new-mercuryfile-struct &&
 touch Mmake.params &&
 touch Mercury.options &&
 mmake depend &&
-mmake MMAKEFLAGS=$parallel &&
-#tools/bootcheck $parallel &&
+mmake MMAKEFLAGS=$PARALLEL &&
+# this does not work on Fedora currently
+#tools/bootcheck $PARALLEL &&
 #cd stage2 &&
-#mmake tags
-mmake install MMAKEFLAGS=$parallel &&
+mmake install MMAKEFLAGS=$PARALLEL &&
 mmake realclean &&
-true
+$LAST_COMMAND
 
 popd
