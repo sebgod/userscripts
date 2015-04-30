@@ -42,14 +42,17 @@
 #	   If you don't want to do a parallel make, comment out the
 #	   `parallel=-j3' line below.
 
-pushd ~/github/sebgod/mercury
+SOURCE=${MERCURY_GIT-~/github/sebgod/mercury}
+pushd $SOURCE
 parallel=-j4
+LIBGRADES=${MERCUR_LIBGRADES-asm_fast.gc,java,csharp,erlang}
 
 git checkout build &&
 git rebase master &&
 aclocal -I m4 &&
 autoconf &&
-./configure --prefix=$HOME --enable-libgrades=asm_fast.gc,java,csharp,erlang \
+./configure --prefix=$HOME \
+    --enable-libgrades=$LIBGRADES \
     --enable-new-mercuryfile-struct &&
 touch Mmake.params &&
 touch Mercury.options &&
