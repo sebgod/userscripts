@@ -1,9 +1,9 @@
 #!/bin/bash
 
-alias docker-img="sudo docker images"
-alias docker-rmi="sudo docker rmi"
-alias docker-info="sudo docker info"
-alias docker-cleanup="sudo docker rm \`sudo docker ps --no-trunc -a -q\`"
-alias docker-attach="sudo docker attach -sig-proxy=false"
-alias docker-ps="sudo docker ps"
-alias docker-unused="sudo docker rmi \`docker-img | grep \"<none>\" | sed -e 's/\s\+/ /g' | cut -d ' ' -f 3\`"
+alias docker-img="docker images"
+alias docker-rmi="docker rmi"
+alias docker-info="docker info"
+alias docker-cleanup="docker rm \`docker ps --no-trunc -a -q\`"
+alias docker-attach="docker attach -sig-proxy=false"
+alias docker-ps="docker ps"
+alias docker-unused="docker rmi \`docker-img | grep \"<none>\" | sed -e 's/\s\+/ /g' | cut -d ' ' -f 3\`"
