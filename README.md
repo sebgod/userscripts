@@ -2,13 +2,13 @@ userscripts
 -----------
 
 ##Windows
- - AHK Scripts
+  - AHK Scripts
  - Windows Batch scripts in /bin
  - ConEmu XML settings
- - JScript.NET compiler (jssc)
 
 ##Linux
  - `~/bin/*.sh`
 
 ##Common
  - `.vim/*`
+ - Script files for Mercury development

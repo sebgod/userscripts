@@ -38,6 +38,7 @@ let g:mercury_conceal = 1
 let g:mercury_conceal_extra = 1
 let g:mercury_highlight_extra = 1
 let g:mercury_highlight_comment_special = 1
+let g:mercury_highlight_full_comment = 0
 let g:mercury_coding_standard = 1
 
 if v:version >= 703
@@ -81,6 +82,5 @@ endif
 " Spelling (comes after encoding, to reduce load time, see :help spell)
 :setlocal spell spelllang=en_gb
 
-map <F12> :vertical wincmd f<CR>
 auto BufEnter * :set title | let &titlestring = 'v:' . expand('%')
 auto VimLeave * :set t_ts=k\
