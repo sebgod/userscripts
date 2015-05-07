@@ -1,0 +1,3 @@
+#!/bin/sh
+exec docker run -u $(id -u) -it -v $PWD:/tmp/mercury:rw --read-only=true \
+		sebgod/mercury-stable:latest $*
