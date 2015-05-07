@@ -1,4 +1,5 @@
 import System;
+import System.Diagnostics;
 import System.IO;
 
 package Utils {
@@ -49,6 +50,26 @@ package Utils {
                 }
             }
             return null;
+        }
+    }
+
+    public class MakeUtils {
+        static function MakeIsGNU(exe : String) {
+            var proc : Process = RunMake(exe, ["-v"], 0);
+            var makeVersion : String = proc.StandardOutput.ReadToEnd();
+            proc.WaitForExit();
+            return makeVersion.Contains("GNU Make");
+        }
+
+        static function RunMake(exe : String, args : String[], startIndex : Int32) : Process
+        {
+            var startInfo = new ProcessStartInfo(exe,
+                String.Join(" ", args, startIndex, args.Length - startIndex));
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+            return Process.Start(startInfo);
         }
     }
 }
