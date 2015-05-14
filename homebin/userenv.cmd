@@ -6,12 +6,13 @@
     set TEMP=%MAYBE_TEMP%
     set TMP=%MAYBE_TEMP%
 )
+@set MAYBE_TEMP=
 
 :: HOME variable is used by various GNU based scripts
 @set HOME=%SystemDrive%\Users\%username%
 @if not exist "%HOME%" set HOME=%userprofile%
 
-:: This block defines OS Bitness invariant path variables
+:: This block defines OS bitness invariant path variables
 :: And the OS_ARCH_BITNESS variable with the bitness of the
 :: executing OS
 @set ProgramFiles32=%ProgramFiles(x86)%
@@ -52,6 +53,8 @@
 @set MERCURY_HOME=C:\mercury-dev
 @if not exist "%MERCURY_HOME%" set MERCURY_HOME=C:\mercury\dev-gcc
 @if not exist "%MERCURY_HOME%" set MERCURY_HOME=
+:: Ensure that the ramdisk is used for temporary files if available
+@set MERCURY_TMP=%TEMP%
 
 :: (GNU) Make detection. On Systems with Borland Delphi installed, that will be
 :: in the path first, hence we need to detect if we use the proper one,
@@ -89,7 +92,6 @@
 )
 
 @if defined MERCURY_HOME path %path%;%MERCURY_HOME%\bin
-@if exist "%GITHUB_DOCS%\jssc\jssc.cmd" path %path%;%GITHUB_DOCS%\jssc
 
 :: Doskey macros
 @doskey /MACROFILE="%~dp0macros.txt"
