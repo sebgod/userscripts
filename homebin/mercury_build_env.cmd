@@ -1,3 +1,4 @@
+:: vim: ft=dosbatch ff=unix sw=4 ts=4 tw=78 et
 @setlocal enabledelayedexpansion
 @call "%~dp0mercury_dev_env""
 @chcp 850
@@ -15,19 +16,22 @@
 
 :EXEC_SHELL
     @set PATH=%MERCURY_BIN%;%PATH%
-    @set TEMP=B:\sebastian\temp
-    @set TMP=%TEMP%
-    @if not defined MERCURY_CC  set MERCURY_CC=gcc
-    @if not defined MERCURY_GIT set MERCURY_GIT=B:\mercury-%MERCURY_CC%
+    @if not defined MERCURY_CC set MERCURY_CC=gcc
+    @set CC_NO_BLANKS=%MERCURY_CC: =%
+    @set CC_NO_BLANKS=%CC_NO_BLANKS::=%
+    @if not defined MERCURY_GIT for %%T in ("%TEMP%") do @(
+        set MERCURY_GIT=%%~dT/Temp/mercury-%CC_NO_BLANKS%
+    )
     @if not defined MERCURY_LIBGRADES set MERCURY_LIBGRADES=asm_fast.gc,csharp,java,erlang
     @set SOURCE=%~dp1
     @if "%1" EQU "" (
-        set PARAM=-i
+        @echo sh --login -i
+        @call sh --login -i
     ) else (
         robocopy %SOURCE% %MERCURY_GIT% /MIR /DCOPY:DAT /SL /NP /NJH /NJS /NFL /NDL
-        set PARAM="%MERCURY_GIT%\%~nx1"
+        @echo sh --login "%MERCURY_GIT%\%~nx1" %*
+        @call sh --login "%MERCURY_GIT%\%~nx1" %*
     )
-    @call sh --login %PARAM%
     @exit /b 0
 
 :SET_HOME

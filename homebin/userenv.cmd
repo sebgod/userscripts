@@ -50,11 +50,11 @@
 @set GIT_EDITOR=gvim
 
 :: Home of the mainly used Mercury distribution (usually bootstrapped)
-@set MERCURY_HOME=C:\mercury-dev
+@if not defined MERCURY_HOME set MERCURY_HOME=C:\mercury-dev
 @if not exist "%MERCURY_HOME%" set MERCURY_HOME=C:\mercury\dev-gcc
 @if not exist "%MERCURY_HOME%" set MERCURY_HOME=
 :: Ensure that the ramdisk is used for temporary files if available
-@set MERCURY_TMP=%TEMP%
+@if not defined MERCURY_TMP set MERCURY_TMP=%TEMP%
 
 :: (GNU) Make detection. On Systems with Borland Delphi installed, that will be
 :: in the path first, hence we need to detect if we use the proper one,
@@ -84,14 +84,14 @@
 @set MS_VS_HOME=%ProgramFiles32%\Microsoft Visual Studio 11.0
 @if not exist "%MS_VS_HOME%" set MS_VS_HOME=
 
-@set MS_VS_CROSS_X86_AMD64=%MS_VS_HOME%\VC\bin\x86_amd64
-@if exist "%MS_VS_CROSS_X86_AMD64%" (
-    call "%MS_VS_CROSS_X86_AMD64%\vcvarsx86_amd64"
-) else (
-    if defined MS_VS_HOME call "%MS_VS_HOME%\Common7\Tools\VsDevCmd"
-)
+@if defined MS_VS_HOME call "%MS_VS_HOME%\Common7\Tools\VsDevCmd"
 
-@if defined MERCURY_HOME path %path%;%MERCURY_HOME%\bin
+:: add adb toolkit path
+@set ADB_HOME=%LOCALAPPDATA%\Android\sdk\tools\lib
+@if exist "%ADB_HOME%" path %path%;%ADB_HOME%
+
+:: add native compiled Mercury to path
+@if exist "%MERCURY_HOME%\bin\mmc" path %path%;%MERCURY_HOME%\bin
 
 :: Doskey macros
 @doskey /MACROFILE="%~dp0macros.txt"

@@ -4,6 +4,7 @@
 SOURCE=${MERCURY_GIT-~/github/sebgod/mercury}
 CC=${MERCURY_CC-gcc}
 CC_NO_BLANKS=${CC//[[:blank:]]/}
+CC_NO_BLANKS=${CC_NO_BLANKS//:/}
 TARGET_WITH_CC=$HOME/mercury/dev-${CC_NO_BLANKS}
 CONFIGURE=configure
 CONFIGURE_EXTRA=
