@@ -62,3 +62,5 @@ xpce-client
 ccache-swig
 swig
 # end of swig executables
+
+yaws
