@@ -7,6 +7,7 @@ OWN_REPOS := \
 	grmc \
 	userscripts \
 	mercury-mongoose \
+	mercury-slre \
 	mpm \
 	shift-reduce \
 	skat \
