@@ -85,6 +85,9 @@
 @if not exist "%MS_VS_HOME%" set MS_VS_HOME=
 
 @if defined MS_VS_HOME call "%MS_VS_HOME%\Common7\Tools\VsDevCmd"
+@if defined LIB set LIB=%LIB%%AWE_DIR%build\lib
+@if defined INCLUDE set INCLUDE=%INCLUDE%%AWE_DIR%include
+@path %path%;%AWE_DIR%build\bin
 
 :: add adb toolkit path
 @set ADB_HOME=%LOCALAPPDATA%\Android\sdk\tools\lib
