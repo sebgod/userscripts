@@ -20,11 +20,13 @@
     @set ProgramFiles64=%ProgramW6432%
     @set ProgramNative=%ProgramW6432%
     @set OS_ARCH_BITNESS=64
+    @set MS_VSVC_ARCH=x86_amd64
 ) else (
     @set ProgramFiles64=
     @set ProgramFiles32=%ProgramFiles%
     @set ProgramNative=%ProgramFiles%
     @set OS_ARCH_BITNESS=32
+    @set MS_VSVC_ARCH=x86
 )
 
 :: ANSI Colour detection
@@ -79,15 +81,9 @@
 @path %path%;%~dp0api\svnportable\SVN
 @path %path%;%CURL_HOME%\bin
 @path %path%;%~dp0api
-:: HACK update this when/if updating Visual Studio.
-:: This SHOULD actually use the registry to detect the main VS version
-@set MS_VS_HOME=%ProgramFiles32%\Microsoft Visual Studio 11.0
-@if not exist "%MS_VS_HOME%" set MS_VS_HOME=
 
-@if defined MS_VS_HOME call "%MS_VS_HOME%\Common7\Tools\VsDevCmd"
-@if defined LIB set LIB=%LIB%%AWE_DIR%build\lib
-@if defined INCLUDE set INCLUDE=%INCLUDE%%AWE_DIR%include
-@path %path%;%AWE_DIR%build\bin
+:: Awesomium webbrowser library
+@if exist "%AWE_DIR%" @path %path%;%AWE_DIR%build\bin
 
 :: add adb toolkit path
 @set ADB_HOME=%LOCALAPPDATA%\Android\sdk\tools\lib
