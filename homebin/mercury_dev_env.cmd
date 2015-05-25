@@ -1,4 +1,5 @@
 @call "%~dp0userenv"
+@call "%~dp0vsenv" x86
 
 @set INCLUDE_ORIG=%INCLUDE%
 @call :FIND_IN_INCLUDE Win32.Mak
