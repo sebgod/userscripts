@@ -12,6 +12,7 @@ LAST_COMMAND=true
 case $CC in
     gcc)
         TARGET=$HOME
+        CONFIGURE_EXTRA="--with-default-grade=asm_fast.gc"
         ;;
     mingw*)
         TARGET=$TARGET_WITH_CC
@@ -37,7 +38,7 @@ esac
 PARALLEL=-j4
 LIBGRADES=${MERCURY_LIBGRADES-asm_fast.gc,java,csharp,erlang}
 
-echo -ne "\033]0;build mmc cc:${CC} grades:${LIBGRADES}\007"
+echo -ne "\033]0;build mmc ${CC} ${LIBGRADES} ${CONFIGURE_EXTRA}\007"
 
 TMP_BUILD_DIR=/tmp/mercury-${CC_NO_BLANKS}
 mkdir -p $TMP_BUILD_DIR
