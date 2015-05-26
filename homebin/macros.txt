@@ -1,5 +1,7 @@
 home=cd /d %home%
 desk=cd /d %home%\Desktop
+down=cd /d %home%\Downloads
+docker-container-gc=for /F "usebackq" %C in (`docker ps --no-trunc -a -q`) do @docker rm %C
 gist=cd /d %home%\Desktop\share
 bin=cd /d %GITHUB_DOCS%\userscripts\homebin
 $dm=doskey /macros
