@@ -17,7 +17,7 @@
 ::   upgrade             Upgrade the Boot2Docker ISO image (restart if running).
 ::   version             Display version information.
 
-@echo %1 | findstr "start up boot shellinit" >nul && (
+@echo %1 | findstr "start up boot" >nul && (
     call boot2docker init
     for /F "usebackq tokens=1,2,* delims== " %%A in (`boot2docker start 2^>^&1`) do @(
         if "%%~A" EQU "set" set %%B=%%C
@@ -30,5 +30,6 @@
         echo DOCKER_%%V=!DOCKER_%%V!
     )
 ) || (
+    @echo %~1 | findstr "ssh shellinit" > nul && call b2d start
     call boot2docker %*
 )
