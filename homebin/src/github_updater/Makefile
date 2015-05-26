@@ -18,6 +18,7 @@ FORKS := \
 	mercury-json \
 	mongoose \
 	node-java \
+	slre \
 	swig \
 	the_silver_searcher \
 	tidy-html5
