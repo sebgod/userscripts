@@ -4,6 +4,7 @@ byebug
 coderay
 mmc-*
 mpm*
+grmc*
 pry
 rake
 tidy5
