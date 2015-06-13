@@ -1,4 +1,5 @@
 OWN_REPOS := \
+	diffs \
 	docker-mercury \
 	docker-mercury-bootstrap \
 	docker-mercury-depend \
