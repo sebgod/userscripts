@@ -34,6 +34,7 @@ return
 #Include <composeKey>
 #Include <diablo2>
 
+; Clipping for computer games
 ^!F1::clip_ActiveWindow()
 ^!F2::clip_Release()
 
@@ -41,7 +42,7 @@ return
 Esc::send, !{F4}
 #IfWinActive
 
-#IfWinActive QQ ahk_class TXGuiFoundation
+#IfWinActive ahk_class TXGuiFoundation
 Esc::send, !{F4}
 #IfWinActive
 
@@ -79,10 +80,8 @@ Esc::
 return
 #IfWinActive
 
-##::
-    winshell_setPressedWinHash()
-    Send, ^c
-return
+##::send, ^+!c
+#v::send, ^+!t
    
 !Pause::
     winshell_activateAndLockQQ()
@@ -91,6 +90,8 @@ return
 
 ; language switching
 ~#Space::tsf_winSpaceHandler()
+
+#Delete::winshell_fix_display_resolution()
 
 ; ---------------------------------- HOOK START -------------------------------
 #UseHook ON
@@ -208,7 +209,6 @@ Send, {BS 3}≠
 return
 
 ; COMBINING DOT ABOVE (U+0307)
-
 :c?B0*:^.::
 Send, {BS 2}{U+0307}
 return
@@ -239,10 +239,6 @@ return
 ; Start X11 Desktop
 #+x::Run config.xlaunch
 
-; Start VirtualBox control window
-#v::Run VirtualBox
-return
-
 ; Within the Explorer CTRL+h toggles hidden files
 #IfWinActive ahk_class CabinetWClass
 ^h::winshell_toggle_hidden_files()
@@ -260,12 +256,6 @@ CapsLock & Right::Send, {Browser_Forward}
 
 ; Window shell script
 #a::winshell_toggle_alwaysOnTop()
-
-#PgUp::Send, #+{Right}
-#WheelUp::Send, #+{Right}
-
-#PgDn::Send, #+{Left}
-#WheelDown::Send #+{Left}
 
 ~#t::
     WinGetPos, taskBarX, taskbarY, taskbarW, taskbarH, ahk_class Shell_TrayWnd

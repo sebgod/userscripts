@@ -10,9 +10,9 @@ Return
 clip_ActiveWindow() {
     WinGetPos, VarX, VarY, Width, Height, A
     VarX := VarX + 10
-    VarY := VarY + 30
+    VarY := VarY + 31
     VarX2 := VarX + Width - 20    ;10 + 10
-    VarY2 := VarY + Height - 40   ;30 + 10
+    VarY2 := VarY + Height - 41   ;31 + 10
     clip_Rect( True, VarX, VarY, VarX2, VarY2)
 }
 
