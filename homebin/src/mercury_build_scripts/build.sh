@@ -5,7 +5,7 @@ PARALLEL=-j2
 CC=${MERCURY_CC-gcc}
 CC_NO_BLANKS=${CC//[[:blank:]]/}
 CC_NO_BLANKS=${CC_NO_BLANKS//:/}
-PREFIX=c:/mercury/dev-${CC_NO_BLANKS}
+PREFIX=c:/mercury/dev-${CC_NO_BLANKS}${MERCURY_SUFFIX}
 
 # the mercury_build_env.cmd script passes the directory
 shift
