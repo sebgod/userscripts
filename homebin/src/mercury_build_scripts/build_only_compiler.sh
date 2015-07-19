@@ -17,7 +17,7 @@ autoconf &&
 ./configure --with-cc=$MERCURY_CC --prefix=$PREFIX \
     --enable-libgrades=$MERCURY_LIBGRADES \
     --enable-new-mercuryfile-struct &&
-mmake &&
+make &&
 cp compiler/mercury_compile.exe /$TARGET_DRIVE$TARGET_DIR/bin &&
 true
 

@@ -17,18 +17,22 @@
 :EXEC_SHELL
     @set PATH=%MERCURY_BIN%;%PATH%
     @if not defined MERCURY_CC set MERCURY_CC=gcc
-    @set CC_NO_BLANKS=%MERCURY_CC: =%
+    @for /F "usebackq delims=" %%C in (`basename "%MERCURY_CC%"`) do @(
+        set CC_NO_BLANKS=%%C
+    )
+    @set CC_NO_BLANKS=%CC_NO_BLANKS: =%
     @set CC_NO_BLANKS=%CC_NO_BLANKS::=%
     @if not defined MERCURY_GIT for %%T in ("%TEMP%") do @(
-        set MERCURY_GIT=%%~dT/Temp/mercury-%CC_NO_BLANKS%
+        set MERCURY_GIT=%%~dT/Temp/mercury-%CC_NO_BLANKS%%MERCURY_SUFFIX%
     )
     @if not defined MERCURY_LIBGRADES set MERCURY_LIBGRADES=asm_fast.gc,csharp,java,erlang
+    @if not defined MERCURY_COPYMODE set MERCURY_COPYMODE=/MIR
     @set SOURCE=%~dp1
     @if "%1" EQU "" (
         @echo sh --login -i
         @call sh --login -i
     ) else (
-        robocopy %SOURCE% %MERCURY_GIT% /MIR /DCOPY:DAT /SL /NP /NJH /NJS /NFL /NDL
+        robocopy %SOURCE% %MERCURY_GIT% %MERCURY_COPYMODE% /DCOPY:DAT /SL /NP /NJH /NJS /NFL /NDL
         @echo sh --login "%MERCURY_GIT%\%~nx1" %*
         @call sh --login "%MERCURY_GIT%\%~nx1" %*
     )

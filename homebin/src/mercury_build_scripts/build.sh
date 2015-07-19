@@ -3,7 +3,8 @@
 pushd $MERCURY_GIT
 PARALLEL=-j2
 CC=${MERCURY_CC-gcc}
-CC_NO_BLANKS=${CC//[[:blank:]]/}
+CC_NO_BLANKS=`basename $CC`
+CC_NO_BLANKS=${CC_NO_BLANKS//[[:blank:]]/}
 CC_NO_BLANKS=${CC_NO_BLANKS//:/}
 PREFIX=c:/mercury/dev-${CC_NO_BLANKS}${MERCURY_SUFFIX}
 
@@ -25,9 +26,9 @@ autoconf &&
     --enable-new-mercuryfile-struct $* &&
 touch Mmake.params &&
 touch Mercury.options &&
-mmake depend &&
-mmake MMAKEFLAGS=$parallel &&
-mmake install MMAKEFLAGS=$parallel &&
+make depend &&
+make MMAKEFLAGS=$parallel &&
+make install MMAKEFLAGS=$parallel &&
 true
 
 # popd $MERCURY_GIT
