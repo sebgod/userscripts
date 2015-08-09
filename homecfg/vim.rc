@@ -1,4 +1,7 @@
 " vim: ft=vim ts=2 sw=2 et wm=0 tw=0
+set nocompatible
+let $TMP="$LocalAppData/Temp"
+source $VIMRUNTIME/mswin.vim
 syntax on
 filetype plugin indent on
 set ar
@@ -28,7 +31,6 @@ if exists('+relativenumber')
 endif
 set laststatus=2
 set backspace=indent,eol,start
-set nocompatible
 set history=50
 set suffixes=.exe,.dll,.jar,.so,.bak,~,.swp,.o,.info.aux.log,.dvi,.bbl,.blg,.brf,.cb,.idx,.ilg,.inx,.out,.toc,.mh,.err,.init
 set pastetoggle=<F2>
@@ -84,3 +86,11 @@ endif
 
 auto BufEnter * :set title | let &titlestring = 'v:' . expand('%')
 auto VimLeave * :set t_ts=k\
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+endif
