@@ -17,7 +17,7 @@ echo ./configure --with-cc=$CC \
     --enable-new-mercuryfile-struct $*
 
 git checkout build &&
-git rebase master &&
+# git rebase master &&
 aclocal -I m4 &&
 autoconf &&
 ./configure --with-cc="$CC" \
@@ -26,7 +26,6 @@ autoconf &&
     --enable-new-mercuryfile-struct $* &&
 touch Mmake.params &&
 touch Mercury.options &&
-make depend &&
 make MMAKEFLAGS=$parallel &&
 make install MMAKEFLAGS=$parallel &&
 true
