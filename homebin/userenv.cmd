@@ -52,7 +52,7 @@
 @set GIT_EDITOR=gvim
 
 :: Home of the mainly used Mercury distribution (usually bootstrapped)
-@if not defined MERCURY_HOME set MERCURY_HOME=C:\mercury-dev
+@if not defined MERCURY_HOME set MERCURY_HOME=C:\mercury\rotd
 @if not exist "%MERCURY_HOME%" set MERCURY_HOME=C:\mercury\dev-gcc
 @if not exist "%MERCURY_HOME%" set MERCURY_HOME=
 :: Ensure that the ramdisk is used for temporary files if available
