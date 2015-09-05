@@ -63,9 +63,7 @@
 :: if not delegate the work to the gmake script in this directory
 @set MAKE_IS_GNU=0
 @if not defined MAKE @set MAKE=make
-@for /F "usebackq" %%C in (`%MAKE% -v ^| find /c "GNU" 2^>nul`) do @(
-    set MAKE_IS_GNU=%%C
-)
+@for /F "usebackq" %%C in (`%MAKE% -v ^| find /c "GNU" 2^>nul`) do @set MAKE_IS_GNU=%%C
 
 @if %MAKE_IS_GNU% EQU 0 @(
     @call Utils

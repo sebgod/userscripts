@@ -39,7 +39,7 @@ set pastetoggle=<F2>
 let g:mercury_conceal = 1
 let g:mercury_conceal_extra = 1
 let g:mercury_highlight_extra = 1
-let g:mercury_highlight_comment_special = 1
+let g:mercury_highlight_comment_special = 0
 let g:mercury_highlight_full_comment = 0
 let g:mercury_coding_standard = 1
 
